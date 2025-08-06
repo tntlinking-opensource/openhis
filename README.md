@@ -58,7 +58,9 @@ OpenHIS医院系统（通用版）是一款适用于公立二级以下医院、�
 
 ## 目录结构介绍
 his-dll-common                      公共ddl包
+
 JSViewer_MVC_Core                   报表模块
+
 Newtouch.HIS.Base                   后台管理模块
 Newtouch.HIS.CIS                    医护协同模块
 Newtouch.HIS.EMR                    电子病例模块
