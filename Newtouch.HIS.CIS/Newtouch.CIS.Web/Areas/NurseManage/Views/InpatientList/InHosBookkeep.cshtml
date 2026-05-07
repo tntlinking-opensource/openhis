@@ -1,0 +1,72 @@
+﻿@using Newtouch.Infrastructure;
+@{
+    ViewBag.Title = "护士站患者中心-住院记账";
+}
+
+<div id="linkzyjz" role="tabpanel" class="tab-pane" style="width:100%;margin-right: 5px; border:solid 1px #ddd; margin-top: 3px;">
+    <iframe src="" class="Newtouch_iframe"  id="iframezyjz" style="width:100%"></iframe>
+</div>
+ <script>
+     var uaAddr = "";
+     var dataUrl = "";
+     var zyjzzyh="";
+     $("#iframezyjz").css("height", $(window).height() - 65);
+     //var fistload = true;
+     var iframeinit = document.getElementById('iframezyjz');
+     iframeinit.onload = function () {
+         $('#iframezyjz').contents().find('#zy_btnsyy').hide();
+         // 获取iframe元素
+         var iframe = document.getElementById('iframezyjz');
+         // 访问iframe中的window对象
+         var iframeWindow = iframe.contentWindow;
+         iframeWindow.getPatInfoAjax({ zyh: zyjzzyh });
+         $("#PatTreeList_" + zyjzzyh).attr('class', 'bbit-tree-node-el bbit-tree-node-leaf bbit-tree-selected');//选中
+     }
+     function init_zyjz(zyh)
+     {
+         if (!zyjzzyh)
+             zyjzzyh = zyh;
+         getZyjzTreeList();
+         document.getElementById('iframezyjz').contentWindow.location.reload(true);
+         //if (fistload) {
+         //    $.ajax({
+         //        url: '/Login/GetUALoginAddres',
+         //        data: { appId: "SETT" },
+         //        type: "post",
+         //        async: false,
+         //        dataType: "json",
+         //        success: function (ajaxResp) {
+         //            if (ajaxResp && ajaxResp.data) {
+         //                debugger
+         //                uaAddr = ajaxResp.data;
+         //                dataUrl = uaAddr + "&returnUrl=" + encodeURIComponent("/HospitalizationManage/BookkeepInHos/Index");
+         //            }
+         //        }
+         //    });
+         //    $('#iframezyjz').attr("src", dataUrl);
+         //    fistload = false;
+         //}
+         $("#PatTreeList_" + zyjzzyh).attr('class', 'bbit-tree-node-el bbit-tree-node-leaf bbit-tree-selected');//选中
+     }
+     function getZyjzTreeList() {
+         $("#PatTreeList").treeview({
+             height: $(window).height(),
+             slimscroll: false,
+             url: "/NurseManage/InpatientList/GetPatWardTree?zyzt=" + $('#zyzt').val() + "&keyword=" + $('#keyword').val(),
+             onnodeclick: function (item) {
+                 if (item.value && item.Ex1 == "c") {
+                     debugger;
+                     zyjzzyh = item.value;
+                     // 获取iframe元素
+                     var iframe = document.getElementById('iframezyjz');
+                     // 访问iframe中的window对象
+                     var iframeWindow = iframe.contentWindow;
+                     iframeWindow.getPatInfoAjax({ zyh: item.value });
+                     //$('#iframezyjz').contents().find('#pane1').hide();
+                     //$('#iframezyjz').contents().find('#zy_btnsyy').hide();
+                 }
+             }
+         });
+     }
+
+ </script>  

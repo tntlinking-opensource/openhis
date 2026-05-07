@@ -1,0 +1,197 @@
+﻿@{
+    Layout = "~/Views/Shared/_Index.cshtml";
+    var EmrEdiForUrl = Newtouch.Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("KyEmrEdiForUrl");
+}
+<style>
+    .design-template-wrapper {
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        z-index: 100;
+        height: 800px;
+    }
+</style>
+<script src="@EmrEdiForUrl/iframe/HmEditorIfame.js"></script>
+<div class="design-template-wrapper" id="editorContainer">
+</div>
+<div id="RecordistDiv">
+    @Html.Action("RecordList", "MedicalRecord")
+</div>
+<div id="treeDiv">
+    @Html.Action("CTGLList", "Blctgl")
+</div>
+
+<script>
+    var editorInstance;
+    var id = "Editor_" + new Date().getTime();
+    var templateId;
+    var templateName;
+    var blxtmc_yj = $.request('blxtmc_yj');
+    var zyh = $.request('zyh');
+    var mzh = $.request('mzh');
+    var blid = $.request('blid');
+    var bllx = $.request('bllx');
+    var doctype = $.request('doctype');
+    var bllj = "";
+    var justshow = $.request('justshow');
+    $(function () {
+        $.each(top.$('a.menuTab'), function () {
+            if ($(this).attr("data-id").indexOf(blid) > 0) {
+                $(this).find("i").hide();
+                $(this).find("span").show();
+            }
+        });
+        //top.$("a.menuTab span").show();
+        top.$("a.menuTab span").click(function () {
+            $.modalConfirm("病历正在编辑...是否关闭页面？", function (flag) {
+                if (flag) {
+                    setTimeout(function () {
+                        HMEditorLoader.destroyEditor(id);
+                        $.najax({
+                            url: "/MedicalRecordManage/MedicalRecord/UpdateLockzt",
+                            data: { blId: blid },
+                            dataType: "json",
+                            async: false,
+                            success: function (data) {
+
+                            }
+                        });
+                        $.each(top.$('a.menuTab[data-id*=' + blid + '] '), function () {
+                            if ($(this).attr("data-id").indexOf(blid) > 0) {
+                                $(this).find("i").trigger('click');
+                                return false;
+                            }
+                        });
+                    }, 500);
+                    return true;
+                }
+            });
+        });
+
+
+        // 创建编辑器
+        HMEditorLoader.createEditorAsync({
+            container: "#editorContainer",
+            id:id,
+            style: {
+                width: '100%',
+                height: '100%',
+                border: '1px solid #ddd'
+            },
+            editorConfig: {
+                // 编辑器配置项
+            },
+            // 模式设置
+            designMode: false,  // 是否启用设计模式
+            allowModifyDatasource: true,
+            reviseMode: false,  // 是否启用修订模式
+            readOnly: false,     // 是否启用只读模式
+            customParams: {     // 自定义参数
+
+            }
+        })
+        .then(function (result) {
+            // 编辑器初始化完成
+            editorInstance = result;
+            $.ajax({
+                type: "POST",
+                url: "/MedicalRecordManage/MedicalRecord/LoadMedicalRecordHtml",
+                data: { blid: blid, bllx: bllx, zyh: zyh, mzh: mzh },
+                dataType: "json",
+                async: false,
+                success: function (respdata) {
+                    editorInstance.setDocContent({
+                        code: respdata.templateId,
+                        docTplName: respdata.templateName,
+                        docContent: respdata.xmldata
+                    });
+                    bllj = respdata.bllj;
+                    templateId = respdata.templateId;
+                    templateName = respdata.templateName;
+                }
+            })
+            editorInstance.onToolbarCommandComplete = function (command, type, data) {
+                // 根据命令类型执行不同操作
+                if (command === 'save') {
+                    let obj = editorInstance.getDocHtml();
+                    if (obj && obj.length > 0) {
+                        const base64str = htmlToBase64(obj[0]['html']);
+                        const docData = editorInstance.getDocData(templateId);
+                        if (docData[0].data.length > 0) {
+                            docData[0].data.forEach(p=> {
+                                if (typeof p.keyValue === 'object' && p.keyValue !== null) {
+                                    p.keyValue = p.keyValue.value;
+                                }
+                            })
+                        }
+                        saveBaseTemplateHtml({ id: "", html: base64str, docData: docData });
+                    }
+                }
+            };
+        })
+         .catch(function (error) {
+             console.error("编辑器初始化失败:", error);
+         });
+    });
+    function htmlToBase64(htmlString) {
+        return btoa(unescape(encodeURIComponent(htmlString)));
+    }
+    //保存病历
+    function saveBaseTemplateHtml(params) {
+        $.loading(true, "病历保存中...");
+        $.ajax({
+            type: "POST",
+            data: { docData: params.docData[0].data, blid: blid, bllx: bllx, bllj: bllj, blxtmc_yj: blxtmc_yj, zyh: zyh, mzh: mzh, submitData: params.html },
+            url: "/MedicalRecordManage/MedicalRecord/UpdatePatientBl",
+            dataType: "json",
+            async: false,
+            success: function (respdata) {
+                $.modalAlert("病历保存成功", 'success');
+            },
+            error: function (request, error, ex) {
+                $.loading(false);
+                $.modalAlert('病历保存失败:' + ex, 'error');
+            }
+        });
+        $.loading(false);
+    }
+    //加载备份历史病历
+    function loadbackBl(backValue)
+    {
+        $.ajax({
+            type: "POST",
+            url: "/MedicalRecordManage/MedicalRecord/LoadHistoryBackBl",
+            data: { backValue: backValue, zyh: zyh, doctype: doctype },
+            dataType: "json",
+            async: false,
+            success: function (respdata) {
+                if (respdata.state == "error") {
+                    $.modalAlert(respdata.message, 'error');
+                }
+                else {
+                    editorInstance.setDocContent({
+                        code: templateId,
+                        docTplName: templateName,
+                        docContent: respdata.htmldata
+                    });
+                    $.modalAlert('加载完成', 'success');
+                }
+               
+            }
+        })
+    }
+    //医嘱插入文书
+    function insertDataAtCursor(data)
+    {
+        editorInstance.insertDataAtCursor(data);
+    }
+    
+    function getDocTextValue()
+    {
+        let obj = editorInstance.getSelectedHtml(true);
+    }
+</script>

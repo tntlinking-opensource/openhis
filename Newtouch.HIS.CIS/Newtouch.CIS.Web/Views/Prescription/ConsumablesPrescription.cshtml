@@ -1,0 +1,784 @@
+﻿@using Newtouch.Infrastructure
+@{
+    //物资耗材
+    ViewBag.Title = "ConsumablesPrescription";
+    Layout = null;
+}
+<div id="linkwzhccf" role="tabpanel" class="tab-pane" style="width:96.5%; float:right; margin-right: 10px; border:solid 1px #ddd; margin-top: 3px;">
+    <div class="contentPanel">
+        <div style="background-color: #fff;">
+            <table id="gridwzhccf"></table>
+            <div id="gridwzhccfPager"></div>
+        </div>
+    </div>
+    <div id="bottom" class="clearfix" style="border-top: solid 1px #ddd; height: 80px;margin-bottom:1px;">
+        <table class="form" id="tableConsumablesPresAmount" style="float:left; width:50%;border-right: solid 1px #ddd;"></table>
+        <div class="lowerrightcorner" style="margin-left: 50%;width: 50%;height: 100%;">
+            <table class="form" style="position: relative; top: 25%;">
+                <tr>
+                    <th class="formTitle">总金额：</th>
+                    <td class="formValue" id="tdConsumablesTotalAmount"></td>
+                    <td style="width: 90px;"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="formValue">
+                        <input type="button" class="btn btn-primary" value="返回病历" style="margin-left:48%; display:table-cell" onclick="SaveConsumablesPres()" />
+                    </td>
+                    <td class="formValue">
+                        <input type="button" class="btn btn-primary" value="另存为模板" style="display:table-cell;" onclick="saveAsConsumablesTemplate()" />
+                    </td>
+                    <td class="formValue">
+                        <input type="button" class="btn btn-primary" value="F3：保存处方" style="display:table-cell;" onclick="SaveConsumablesPres('1')" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    var wzhccfflag = 0;
+    var wzhclocaldata = new Array();
+
+    function init_ConsumablesPrescription() {
+
+        //仅尚未保存到数据库的处方需要初始化在grid中
+        wzhclocaldata = new Array();
+        if (window.alldataArray.wzhccf) {
+            wzhclocaldata = $.jsonWhere($.deepClone.clone(window.alldataArray.wzhccf), function(icf){
+                return !!!icf.cfId;
+            });
+            $.each(wzhclocaldata, function () {
+                if(!this.cfh){
+                    alert('处方异常');
+                    location.href = location.href;
+                }
+                this.action = getConsumablesActionStr()
+            });
+        }
+        else{
+            window.alldataArray.wzhccf = new Array(); //方便后面使用$.each()
+        }
+
+        if (wzhccfflag == 0) {   //该页面初始化
+            gridwzhccf();
+            wzhccfflag = 1;
+        }
+        else {
+            $("#gridwzhccf").clearGridData(); //先清
+            //再次打开该页面
+            $("#gridwzhccf").jqGrid('setGridParam', {
+                datatype: 'local',
+                data: wzhclocaldata
+            }).trigger("reloadGrid");
+
+            ////启用行内编辑
+            //EnableConsumablesInlineEditBox();
+        }
+
+        //立刻触发编辑其中一个本次就诊的已提交处方（未提交到库中的肯定会在编辑列表中）
+        var triggereditcfh = sessionStorage.getItem("triggereditcfh");
+        if(!!triggereditcfh){
+            sessionStorage.removeItem("triggereditcfh");
+            $("#floatLeftMostPartDiv div[data-href='lscf']").trigger('click');
+            //未提交到数据库的处方，这里length 0 也没问题
+            $('span.bbit-tree-node-text[data-value="' + triggereditcfh + '"]').trigger('click');
+        }
+    }
+
+    //处方列表
+    function gridwzhccf() {
+        var $gridwzhccf = $("#gridwzhccf");
+        $gridwzhccf.jqGrid({
+            datatype: 'local',
+            data: wzhclocaldata,
+            height: $(window).height() - 230,
+            //altRows: true,//隔行换色
+            shrinkToFit: true,   //true:按比例初始化列宽度 false:使用colModel指定的宽度
+            autowidth: true,
+            rownumbers: true,  //是否显示序号
+            multiselect: true,
+            editurl: "clientArray",  //行编辑不向服务器提交数据
+            unwritten: false,
+            colModel: [
+                { label: 'cfId', name: 'cfId', hidden: true },
+                { label: 'ybwym', name: 'ybwym', hidden: true },
+                { label: 'xzsybz', name: 'xzsybz', hidden: true },
+                { label: 'cfmxId', name: 'cfmxId', hidden: true },
+                { label: '<span class="required">*</span>处方号', name: 'cfh', width: 180, align: 'center' },
+                {
+                    label: 'xmCode', name: 'xmCode', width: 120, editwidth: '100%', align: 'center', editable: true, hidden: true
+                },
+                {
+                    label: '<span class="required">*</span>项目名称', name: 'xmmc', width: 380, editwidth: '100%', align: 'center', editable: true,editoptions:{
+                        dataEvents:[{
+                            type:'keydown',
+                            fn:function(e){
+                                if (e.keyCode == 13){
+                                    var rowid=$(e.target).closest('tr.jqgrow').attr('id');
+                                    $("#"+rowid+"_zxksmc").focus();
+                                }
+                            }
+                        }]
+                    }
+                },
+                {
+                    label: 'zxks', name: 'zxks', editwidth: '100%', align: 'center', editable: true, hidden: true
+                },
+                {
+                    label: '<span class="required">*</span>执行科室', name: 'zxksmc', width: 180, editwidth: '100%', align: 'center', editable: true,editoptions:{
+                        dataEvents:[{
+                            type:'keydown',
+                            fn:function(e){
+                                if (e.keyCode == 13){
+                                    var rowid=$(e.target).closest('tr.jqgrow').attr('id');
+                                    $("#"+rowid+"_bw").focus();
+                                }
+                            }
+                        }]
+                    }
+                },
+                {
+                    label: '<span class="required">*</span>单价', name: 'dj', width: 80, editwidth: '100%', align: 'center', editable: true
+                },
+                { label: '<span class="required">*</span>单位', name: 'dw', width: 80, editwidth: '100%', align: 'center', editable: true },
+                { label: '部位', name: 'bw', width: 160, editwidth: '100%', align: "center", editable: true ,hidden: true,editoptions:{
+                    dataEvents:[{
+                        type:'keydown',
+                        fn:function(e){
+                            if (e.keyCode == 13){
+                                var rowid=$(e.target).closest('tr.jqgrow').attr('id');
+                                $("#"+rowid+"_sl").focus();
+                            }
+                        }
+                    }]
+                }},
+                {
+                    label: '转自费', name: 'iszzf', width: 80, editwidth: '100%', align: 'center', edittype: "select", editable: true, editoptions: {
+                        dataEvents: [
+                            {
+                                type: 'change',
+                                fn: function (e) {
+                                    var row = $(e.target).closest('tr.jqgrow');
+                                    var rowid = row.attr('id');
+                                    $("#" + rowid + "_zzfbz").val($(this).val());
+                                }
+                            }
+                        ]
+
+                    }
+                },
+                { label: 'zzfbz', name: 'zzfbz', editwidth: '', align: 'center', editable: true, hidden: true },
+                {
+                    label: '<span class="required">*</span>数量', name: 'sl', width: 80, editwidth: '100%', align: 'center', editable: true, editrules: { integer: true, minValue: 1 }, editoptions: {
+                        dataEvents: [
+                                {
+                                    type: 'change',
+                                    fn: function (e) {
+                                        var cellval = $(this).val();
+                                        if(cellval.replace(/(^\s*)|(\s*$)/g, "") == ""){
+                                            $.modalAlert("数量为空，请确认。", 'warning');
+                                            return;
+                                        }
+                                        if(isNaN(cellval)){
+                                            $.modalAlert("数量：请填写数字", 'warning');
+                                            $(this).val('')
+                                            return;
+                                        }
+                                        var row = $(e.target).closest('tr.jqgrow');
+                                        var rowid = row.attr('id');
+
+                                        CalculateConsumablesEachLineSlAndJe(rowid);   //计算 明细总量、明细金额和处方金额
+                                    }
+                            }, {
+                                type: 'keydown',
+                                fn: function (e) {
+                                    if (e.keyCode == 13) {
+                                        var row = $(e.target).closest('tr.jqgrow');
+                                        var rowid = row.attr('id');
+                                       
+                                        addConsumablesRowData(rowid);   //新增一条明细
+                                    }
+                                }
+                            }
+                                //,
+                                //{
+                                //    type: 'keyup',
+                                //    fn: function (e) {
+                                //        var cellval = $(this).val();
+                                //        if(cellval.replace(/(^\s*)|(\s*$)/g, "") == ""){
+                                //            $.modalAlert("数量为空，请确认。", 'warning');
+                                //            return;
+                                //        }
+                                //        if(isNaN(cellval)){
+                                //            $.modalAlert("数量：请填写数字", 'warning');
+                                //            $(this).val('')
+                                //            return;
+                                //        }
+                                //        var row = $(e.target).closest('tr.jqgrow');
+                                //        var rowid = row.attr('id');
+
+                                //        CalculateConsumablesEachLineSlAndJe(rowid);   //计算 明细总量、明细金额和处方金额
+                                //    }
+                                //}
+                        ]
+                    }
+                },
+                { label: '<span class="required">*</span>金额', name: 'je', width: 100, editwidth: '100%', align: 'center', editable: true },
+                { label: 'zfxz', name: 'zfxz', editwidth: '', align: 'center', editable: true, hidden: true },
+				{ label: 'xzyysm', name: 'xzyysm', editwidth: '', align: 'center', editable: true, hidden: true },
+				{ label: 'kcsl', name: 'kcsl', editwidth: '', width: 35, align: 'center', editable: true, hidden: true },
+				{ label: 'sfdlcode', name: 'sfdlcode', editwidth: '', width: 35, align: 'center', editable: true, hidden: true },
+                { label: '组套', name: 'yfztmc', width: 65, editwidth: '100%', align: 'center', editable: true,hidden:true},
+				{ label: '组套编码', name: 'yfztbm', width: 65, editwidth: '100%', align: 'center', editable: true,hidden:true},
+                { label: '操作', name: 'action', width: 120, align: 'center' }
+            ],
+            editinputwidthborder: false,    //是否需要边框 默认为true
+            editinputborderradius: false,   //是否需要边框圆角 默认true（有圆角）
+            pager: "#gridwzhccfPager",
+            loadComplete: function () {
+                ////自动触发新处方
+                //if (wzhclocaldata && wzhclocaldata.length == 0) {
+                //    newConsumablesPresData();
+                //}
+            },
+            gridComplete: function () {
+                EnableConsumablesInlineEditBox();
+            }
+        });
+
+        //二级菜单
+        $gridwzhccf.jqGrid('setGroupHeaders', {
+            useColSpanStyle: true,
+            groupHeaders: [
+            {
+                startColumnName: 'xmmc',
+                numberOfColumns: 5,
+                titleText: '基本信息'
+            }]
+        });
+
+        //自定义按钮
+        $gridwzhccf
+            .navGrid('#gridwzhccfPager', { edit: false, add: false, del: false, search: false, refresh: false, view: false, position: "left", cloneToTop: false })
+            .navButtonAdd('#gridwzhccfPager', {
+                buttonicon: "glyphicon glyphicon-remove",
+                title: "删除明细",
+                caption: "删除明细",
+                position: "last",
+                onClickButton: function () {
+                    var selRowData = $("#gridwzhccf").jqGrid('getRowData_AllLine', true);
+                    if(selRowData.length == 0){
+                        $.modalAlert("尚未选中任何明细", 'warning');
+                        return;
+                    }
+                    else{
+                        $.each(selRowData, function () {   //1.删除行
+                            var selRowId = $(this.xmmc).attr('rowid');
+                            deleteConsumablesRowData(selRowId, false);
+                        });
+                        CalculateConsumablesPresAmount();  //2.计算处方的金额
+                    }
+                },
+            })
+            .navSeparatorAdd("#gridwzhccfPager", { sepclass: "ui-separator", sepcontent: '' })
+            .navButtonAdd('#gridwzhccfPager', {
+                buttonicon: "glyphicon glyphicon-new-window",
+                title: "新处方",
+                caption: "新处方",
+                position: "last",
+                onClickButton: function () {
+                    newConsumablesPresData();
+                },
+            });
+    }
+
+    //启用行内编辑
+    function EnableConsumablesInlineEditBox(){
+        var ids = $("#gridwzhccf").getDataIDs();
+        $.each(ids, function () {
+            //打开编辑模式
+            $("#gridwzhccf").jqGrid('editRow', String(this), false, initConsumablesInlineFunc);
+
+            //标识处方颜色
+            var cfh = $("#gridwzhccf").getRowData(String(this)).cfh;
+            var cfColor = getCfColor(@Html.Raw(((int)EnumCflx.Yyhc).ToString()),cfh);
+            $('#gridwzhccf tr[id="' +  String(this) + '"]').css('border-left-color',cfColor);
+            $('#gridwzhccf tr[id="' +  String(this) + '"]').css('border-left-style','solid');
+            $('#gridwzhccf tr[id="' +  String(this) + '"]').css('border-left-width','5px');
+
+            CalculateConsumablesEachLineSlAndJe(String(this), false);
+        });
+
+        CalculateConsumablesPresAmount();  //计算处方的金额
+    }
+
+    //初始化 浮层
+    function initConsumablesInlineFunc(rowid) {
+        //部分列只读
+        $("#" + rowid + "_dj").css('background-color','#f6f7fb').attr('readonly','true');
+        $("#" + rowid + "_dw").css('background-color','#f6f7fb').attr('readonly','true');
+        $("#" + rowid + "_je").css('background-color','#f6f7fb').attr('readonly','true');
+        $("#" + rowid + "_xmmc").attr('autocomplete', 'off'); 
+        $("#" + rowid + "_zxksmc").attr('autocomplete', 'off'); 
+        $("#" + rowid + "_bw").parent().next().children('select').html('');
+        $("#" + rowid + "_bw").parent().next().children('select').append('<option value="1">是</option><option value="0">否</option>');
+
+        var iszzfval = $("#" + rowid + "_zzfbz").val();
+        if (!!iszzfval) {
+            $("#" + rowid + "_bw").parent().next().children('select').val(iszzfval).trigger("change");
+        } else {
+            $("#" + rowid + "_bw").parent().next().children('select').val(0).trigger("change");
+        }
+		$("#" + rowid + "_xmmc").click(function () {
+			if ($("#" + rowid + "_xmmc") != "") {
+				$("#" + rowid + "_xmmc").select();
+			}
+		});
+		var currlineCfh = $("#gridwzhccf").getRowData(rowid).cfh;
+        //项目浮层
+        $("#" + rowid + "_xmmc").sfxmFloatingSelector({
+            djDecimalPlaces: 4,
+            searchType : 'yyhc',
+            ajaxparameters: function ($thisinput) {
+                 var flag = false;
+                //限制用药的话，flag=true
+                if (window.currPatientInfo.brxzCode != "" &&'@ViewBag.ControlbrxzCode'.indexOf(window.currPatientInfo.brxzCode) > -1) {
+                    flag = true;
+                }
+                return "onlyybflag=" + flag + "&mzzybz=1&dllb=2&sfdllx=cl&keyword=" + $.trim($thisinput.val())+"&ypyfbmCode="+currPatientInfo.jzks;
+            },
+            itemdbclickhandler: function ($this) {
+                //检查重复
+                var isRepeatedAdd = false;
+                //收费组套暂用xzyysm存放项目明细编码
+				var addzfxz = $this.attr('data-zfxz');// debugger;
+                var addxmCode =addzfxz=='9'? $this.attr('data-xzyysm'):$this.attr('data-sfxmCode');
+                $.each($("#gridwzhccf").getDataIDs(), function () {
+                    var cfh = $("#gridwzhccf").getRowData(String(this)).cfh;
+                    var zfxz=  $('#' + $($("#gridwzhccf").getRowData(String(this)).zfxz).attr('id')).val();
+                    var xmCode = zfxz=='9'? $('#' + $($("#gridwzhccf").getRowData(String(this)).xzyysm).attr('id')).val() 
+                        : $('#' + $($("#gridwzhccf").getRowData(String(this)).xmCode).attr('id')).val();
+                    if((addzfxz=='9'||zfxz=='9')&& String(this) != rowid && cfh == currlineCfh)
+                    {
+                        var addmxarr=addxmCode.split(',')
+                        var mxarr=xmCode.split(',')
+                        for(var i=0;i<addmxarr.length;i++)
+                        {
+                            if(isRepeatedAdd)break;
+                            if(xmCode.indexOf(addmxarr[i].toString()) > -1)
+                            {
+                                for (var j = 0; j < mxarr.length; j++) {
+                                    if (addmxarr[i] == mxarr[j]) {
+                                        isRepeatedAdd = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else if (addxmCode == xmCode && String(this) != rowid && cfh == currlineCfh) {
+                        isRepeatedAdd = true;
+                        return;
+                    }
+                });
+                if (isRepeatedAdd) {
+                    $.modalAlert("单张处方下明细或组套内明细不能重复", 'warning');
+                    return;
+                }
+                if(addzfxz=='9')
+                {
+                    $("#" + rowid + "_yfztbm").val($this.attr('data-sfxmCode'));
+                    $("#" + rowid + "_yfztmc").val($this.attr('data-sfxmmc'));
+                }
+                $("#" + rowid + "_xmmc").val($this.attr('data-sfxmmc'))
+                $("#" + rowid + "_xmCode").val($this.attr('data-sfxmCode'));
+                $("#" + rowid + "_dj").val($this.attr('data-dj'));
+                $("#" + rowid + "_dw").val($this.attr('data-dw'));
+                $("#" + rowid + "_zxks").val($this.attr('data-yfbmCode'));
+                $("#" + rowid + "_zxksmc").val($this.attr('data-yfbmmc'));
+                $("#" + rowid + "_zfxz").val($this.attr('data-zfxz'));
+                $("#" + rowid + "_xzyysm").val($this.attr('data-xzyysm'));
+                //初始化为1
+				$("#" + rowid + "_sl").val(1);
+				//$("#" + rowid + "_xmmc").css('background-color','#f6f7fb').attr('readonly','true');
+
+				$("#" + rowid + "_kcsl").val($this.attr('data-kcsl'));
+				$("#" + rowid + "_sfdlcode").val($this.attr('data-sfdlCode'));
+                //库存数量
+				var kcsl = parseInt($this.attr('data-kcsl'));
+				var cls = parseInt($this.attr('data-cls'));
+				var mzkcsl = !!kcsl && !!cls ? (parseInt(kcsl / cls)) : 0;
+				ypkcrem($this.attr('data-yfbmCode'), $this.attr('data-sfxmCode'), mzkcsl);
+				CalculateConsumablesEachLineSlAndJe(rowid);   //计算 明细总量、明细金额和处方金额
+            },
+        });
+        //执行科室
+        $("#" + rowid + "_zxksmc").newtouchBatchFloatingSelector({
+            height: 170,
+            width: 300,
+            caption: "选择科室",
+            url: '/Prescription/GetSfxmZxksSelectJson',
+            clickautotrigger: true,
+            ajaxparameters: function ($thisinput) {
+                return 'sfxmCode=' + $("#" + rowid + "_xmCode").val() + "&keyword=" + $thisinput.val();
+            },
+            colModel: [
+                { label: '编号', name: 'Code', widthratio: 40 },
+                { label: '名称', name: 'Name', widthratio: 60 },
+                { label: '拼音', name: 'py', hidden: true }
+            ],
+            itemdbclickhandler: function ($thistr) {
+                $("#" + rowid + "_zxks").val($thistr.find("td:eq(0)").html());
+                $("#" + rowid + "_zxksmc").val($thistr.find('td:eq(1)').html());
+                return;
+            },
+        });
+        //部位浮层
+        $("#" + rowid + "_bw").bwFloatingSelector({
+            showtext: 'bwmc',
+            attrcols: ['bwmc', 'bwCode'],
+            checkItemActivity: checkItemActivity,
+            ajaxparameters: function ($thisinput) {
+                return "keyword=" + $thisinput.val();
+            },
+            itemdbclickhandler: function ($this) {
+                var mcval = "";
+                if (typeof ($this) !== "undefined") {
+                    $.each($this, function () {
+                        mcval += this.attr('data-bwmc') + ",";
+
+                    });
+                    if (mcval.length > 0) {
+                        mcval = mcval.substring(0, mcval.length - 1);
+                    };
+                }
+                $("#" + rowid + "_bw").val(mcval);
+            },
+        });
+
+    }
+
+    //计算明细里的数量和金额
+    function CalculateConsumablesEachLineSlAndJe(rowid, recalc) {
+        var obj = new Object();
+
+        var currRowSl = $('#' + rowid + '_sl').val();
+        var currRowDj = $('#' + rowid + '_dj').val();
+
+        if (currRowSl > 0 && currRowDj > 0) {
+            obj.currRowZe = roundingBy4she6ru5chengshuang(parseFloat(currRowSl) * parseFloat(currRowDj),2);
+        }
+
+        $('#' + rowid + '_je').val(obj.currRowZe)   //赋值
+
+        if(!(recalc === false)){
+            CalculateConsumablesPresAmount()  //计算处方金额
+        }
+    }
+
+    //计算处方金额
+    function CalculateConsumablesPresAmount() {
+        var presClassificationArr = new Array();   //处方分类
+        var allData = $("#gridwzhccf").jqGrid('getRowData_AllLine', null, true);
+        $.each(allData, function () {
+            var cfh = this.cfh;
+            var rowid = this.jqRowId;
+
+            var xmmc = $("#" + rowid + "_xmmc").val();
+            var sl = $("#" + rowid + "_sl").val();
+            var dj = $("#" + rowid + "_dj").val();
+
+            if (!xmmc && !sl && !dj) {
+                return;
+            }
+            var cfje = roundingBy4she6ru5chengshuang(parseFloat($.undefinedwith0(sl) * parseFloat($.undefinedwith0(dj))), 2);   //计算这个处方的金额
+
+            var existPres = $.jsonWhere(presClassificationArr, function (v) {
+                return v && v.cfh == cfh;    //相同处方 放到一个数组中  处方号为key 金额为value
+            });
+            if (existPres && existPres.length == 1) {       //已存在处方号
+                existPres[0].cfje = roundingBy4she6ru5chengshuang((parseFloat(existPres[0].cfje) + parseFloat(cfje)), 2);
+            } else {
+                presClassificationArr.push({ cfh: cfh, cfje: cfje });    //新处方号
+            }
+        });
+
+        var totalAmount = 0.00;
+        //拼接html
+        $('#tableConsumablesPresAmount').html('');   //先清空
+        for (var i = 0; i < presClassificationArr.length; i++) {
+            totalAmount = roundingBy4she6ru5chengshuang((parseFloat(totalAmount) + parseFloat(presClassificationArr[i].cfje)), 2);  //计算总金额
+            $('#tableConsumablesPresAmount').append('<tr><th class="formTitle">处方号：</th><td class="formValue"><label style="color:red;">' + presClassificationArr[i].cfh + '</label></td><th class="formTitle">金额：</th><td class="formValue"><label style="color:red;">￥' + presClassificationArr[i].cfje + '</label></td></tr>');
+        }
+        $('#tdConsumablesTotalAmount').html('');  //先清空
+        $('#tdConsumablesTotalAmount').append('<label style="color:red;">￥' + totalAmount + '</label>');
+    }
+
+    //新处方 按钮
+    function newConsumablesPresData() {
+        var eRowIds = $("#gridwzhccf").jqGrid("getDataIDs");
+        if(eRowIds && eRowIds.length){
+            $.modalConfirm("确定要添加新处方么？", function (flag) {
+                if(flag){
+                    newConsumablesPresData_sub();
+                }
+            });
+        }
+        else{
+            newConsumablesPresData_sub();
+        }
+    }
+
+    function newConsumablesPresData_sub(){
+        var dataRow = {
+            cfId: null, //尚未保存到数据库
+            cfh: GetNewPresNo(),
+            ybwym:GetGuid(19,62),
+            action: getConsumablesActionStr()
+        };
+        $("#gridwzhccf").jqGrid("addRowData", undefined, dataRow, "last");
+        var rowIds = $("#gridwzhccf").jqGrid('getDataIDs');
+        $("#"+rowIds[rowIds.length-1]+"_xmmc").focus();
+    }
+
+    //新增明细
+    function addConsumablesRowData(selRowId) {
+        //获取当前添加的处方号
+        var selRowData = $("#gridwzhccf").getRowData(selRowId);
+
+        //新加一行
+        var dataRow = {
+            cfId: selRowData.cfId,  //同样cfId也要
+            cfh: selRowData.cfh,
+            ybwym:GetGuid(19,62),
+            action: getConsumablesActionStr()
+        };
+        $("#gridwzhccf").jqGrid("addRowData", undefined, dataRow, "after", selRowId);
+        var rowIds = $("#gridwzhccf").jqGrid('getDataIDs');
+        $("#"+rowIds[rowIds.length-1]+"_xmmc").focus();
+    }
+
+    //删除明细
+    function deleteConsumablesRowData(selRowId, recalc) {
+        if (!!selRowId) {
+            delSqtx("wzhccf",selRowId);
+            $("#gridwzhccf").jqGrid("delRowData", selRowId);
+            if(!(recalc === false)){
+                CalculateConsumablesPresAmount();
+            }
+        }
+    }
+
+
+    function getConsumablesActionStr() {
+        return "<i class='fa fa-plus-square-o' style='font-size: large; color: #09a3ea;' onclick='addConsumablesRowData($(this).parent().parent().attr(\"id\"));return false;'></i>&nbsp;&nbsp;&nbsp;<i class='fa fa-minus-square-o' style='font-size: large; color: #09a3ea;' onclick='deleteConsumablesRowData($(this).parent().parent().attr(\"id\"));return false;'></i>";
+    }
+
+    //保存
+    function SaveConsumablesPres(savetodb, justUpdateAlldataArray) {
+        debugger;
+        //获取所有行Id，遍历使编辑框处于保存状态
+        var rowIds = $("#gridwzhccf").jqGrid('getDataIDs');
+        for (var i = 0; i < rowIds.length; i++) {
+            var saveResult = $("#gridwzhccf").saveRow(rowIds[i], null, null, null, function (callbackRowId) { }, null, null);
+            var rowData = $("#gridwzhccf").getRowData(rowIds[i]);
+            var thissl = rowData.sl;
+            if(thissl){
+                if(!ypkccheck(rowData.zxks,rowData.xmCode,parseInt(thissl))){
+                    $.modalAlert(rowData.xmmc + "耗材库存不足", "error");
+                    saveResult = false;
+                }
+            }
+            if (!saveResult) {
+                EnableConsumablesInlineEditBox();    //重启启用编辑 否则下次Save时会返回false
+                return;   //保存失败，则return
+            }
+        }
+
+        var gridwzhccfData = $("#gridwzhccf").jqGrid('getRowData_AllLine', null, true);
+
+        var flag = false;
+        if (savetodb=='1') {
+            $.each(gridwzhccfData, function () {
+                var slval = this.sl;
+                if (slval.replace(/(^\s*)|(\s*$)/g, "") == "") {
+                    $.modalAlert("数量不能为空，请确认。", 'warning');
+                    flag = true;
+                    return false;
+                } else if (this.xmmc == undefined || this.xmmc == "") {
+                    $.modalAlert("缺少项目", "warning");
+                    flag = true;
+                    return false;
+                }else if(this.zxksmc==undefined||this.zxksmc==""){
+                    $.modalAlert("缺少执行科室", "warning");
+                    flag = true;
+                    return false;
+                } else if (isNaN(this.dj) || this.dj == "") {
+                    $.modalAlert("缺少单价", "warning");
+                    flag = true;
+                    return false;
+                } else if (this.dw === undefined || this.dw == "") {
+                    $.modalAlert("缺少单位", "warning");
+                    flag = true;
+                    return false;
+                } else if (isNaN(this.sl) || this.sl == "") {
+                    $.modalAlert("缺少数量", "warning");
+                    flag = true;
+                    return false;
+                } else if (isNaN(this.je) || this.je == "") {
+                    $.modalAlert("缺少金额", "warning");
+                    flag = true;
+					return false;
+				} else if (this.sfdlcode == '18' && parseFloat(this.kcsl) < parseFloat(this.sl)) {
+					$.modalAlert("[" + this.xmmc + "] 数量大于库存量，库存量为[" + this.kcsl + "]，开立数量为[" + this.sl+"]", "warning");
+					flag = true;
+					return false;
+				}
+            })
+        }
+
+        if (flag) {
+            EnableConsumablesInlineEditBox();
+            return;
+        }
+
+        $.each(gridwzhccfData, function () {
+            delete this.action;   //去掉action
+            delete this.jqRowId;   //去掉jqRowId
+
+            this.sfbz = false;  //一定是未收费才能进入编辑状态
+            var thismxCfId = this.cfId;
+            var matchedHisCf = $.jsonWhere(window.alldataArray.wzhccf, function(icfmx){
+                return !!icfmx.cfId && icfmx.cfId == thismxCfId;
+            });
+            if(matchedHisCf && matchedHisCf.length){
+                this.cfzhdysj = matchedHisCf[0].cfzhdysj;
+                this.sendtohisResult = matchedHisCf[0].sendtohisResult;
+                this.klrq = matchedHisCf[0].klrq;
+            }
+        });
+        //保存数据
+        window.alldataArray.wzhccf = $.jsonWhere(window.alldataArray.wzhccf, function(icfmx){
+            if(!!!icfmx.cfId){
+                return false;   //编辑列表里有
+            }
+            for(var iIndex = 0; iIndex < gridwzhccfData.length; iIndex++){
+                if(gridwzhccfData[iIndex].cfh == icfmx.cfh){
+                    return false;
+                }
+            }
+            return true;
+        });
+
+		var hccfmxlist = new Array();
+		$.each(gridwzhccfData, function(){
+		    window.alldataArray.wzhccf.push(this);
+
+			hccfmxlist.push(this.cfh);
+        });
+
+		hccfmxlist = Array.from(new Set(hccfmxlist));//去重
+		wzhclocaldata = new Array();
+
+        if(!(justUpdateAlldataArray == true)){
+            if (savetodb == '1') {
+                if (SaveData(false, function () {
+					window.initHistoryPresTree('@Html.Raw(((int)EnumCflx.Yyhc).ToString())');
+					WZDJSsave(hccfmxlist);//科室物资库存冻结
+                    $.modalAlert("保存成功", 'success');
+                })) {
+                    $("#gridwzhccf").clearGridData();
+                } else {
+                    EnableConsumablesInlineEditBox();    //重启启用编辑 否则下次Save时会返回false
+                }
+            }
+            else{
+                //跳回病历页
+                $('#myTab [href="#linkbl"]').trigger('click'); //初始化显示哪个tab
+                //病例页重新加载处方，处方数据发生了变更
+                triggleActive();
+            }
+        }
+        else {
+            triggleActive();
+        }
+    }
+
+	function WZDJSsave(cgcfmxlist) {
+		$.ajax({
+			type: "POST",
+			url: "/Prescription/Sumwzdj",
+			data: { cfh: cgcfmxlist},
+			dataType: "json",
+			async: true,
+			success: function (ajaxresp) {
+				//console.log("扣减物资库存情况", ajaxresp);
+			}
+		});
+
+	}
+
+    //另存为模板
+	function saveAsConsumablesTemplate(){
+        $.modalOpen({
+            id: "Form",
+            title: "存为模板",
+            url: "/MedicalRecord/Form",
+            width: "400px",
+            height: "250px",
+            callBack: function (iframeId) {
+                var mbObj = top.frames[iframeId].submitForm();
+                if (!(mbObj && mbObj.mbmc && mbObj.mblx)) {
+                    return;
+                }
+                $.modalClose("Form");
+                //模板表
+                var mbObj = {
+                    mblx: mbObj.mblx,
+                    cflx: @Html.Raw(((int)EnumCflx.Yyhc).ToString()),
+                    mbmc: mbObj.mbmc,
+                }
+                //获取所有行Id，遍历使编辑框处于保存状态
+                var rowIds = $("#gridwzhccf").jqGrid('getDataIDs');
+                for (var i = 0; i < rowIds.length; i++) {
+                    var saveResult = $("#gridwzhccf").saveRow(rowIds[i], null, null, null, function (callbackRowId) { }, null, null);
+
+                    if (!saveResult) {
+                        EnableConsumablesInlineEditBox();    //重启启用编辑 否则下次Save时会返回false
+                        return;   //保存失败，则return
+                    }
+                }
+                var gridwzhccfData = $("#gridwzhccf").jqGrid('getRowData_AllLine', null, true);
+                if(!gridwzhccfData || gridwzhccfData.length==0){
+                    EnableConsumablesInlineEditBox();    //重启启用编辑 否则下次Save时会返回false
+                    $.modalAlert("模板明细不能为空", 'warning');
+                    return;
+                }
+
+                $.each(gridwzhccfData, function () {    //去掉action
+                    for (var i = 0; i < $(this).length; i++) {
+                        delete $(this)[i].action;
+                    }
+                });
+
+                $.najax({
+                    url: "/TemplateManage/PresTemplate/SaveData",
+                    dataType: "json",
+                    data: { mbObj: mbObj, mxList: gridwzhccfData },
+                    type: "POST",
+                    success: function (data) {
+                        $.modalAlert("保存成功", 'warning');
+                        window.$('#current').trigger('click');
+                    },
+                    complete:function(){
+                        EnableConsumablesInlineEditBox();    //重启启用编辑 否则下次Save时会返回false
+                    }
+                });
+            }
+        });
+    }
+   
+</script>

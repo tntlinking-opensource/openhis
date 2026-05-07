@@ -1,0 +1,254 @@
+﻿@using Newtouch.Infrastructure
+@model dynamic
+@{
+    ViewBag.Title = "查询";
+    Layout = "~/Views/Shared/_Index.cshtml";
+    var reportUrl = Newtouch.Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("ReportUrl");
+    var reportSystemCode = Newtouch.Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("ReportSystemCode");
+}
+<style>
+    #btn_search {
+        float: left;
+        margin-left: 25px;
+        margin-right: 10px;
+        width: 45px;
+        font-weight: bolder;
+    }
+
+    #btn_print {
+        width: 45px;
+        background-color: #fff;
+        color: #00a9ea;
+        font-weight: bolder;
+        float: left;
+    }
+
+    #btn_backIndex {
+        float: left;
+    }
+</style>
+<form id="form1">
+    <div class="panel panel-default" style="margin-bottom:5px;">
+        <div class="panel-heading">查询条件</div>
+        <table class="form">
+            <tr>
+                <th class="formTitle">日期：</th>
+                <td class="formValue">
+                    <select id="ddlRQ" class="form-control"></select>
+                </td>
+                <th class="formTitle">关键字：</th>
+                <td class="formValue">
+                    <input id="txtSRM" type="text" class="form-control" placeholder="物资名称/拼音" />
+                </td>
+                <th class="formTitle">物资状态：</th>
+                <td class="formValue">
+                    @Html.DropDownList("ddlwzzt", Enumzt.Enable.ToDescSelectList(), "全部", new { @class = "form-control" })
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">物资类别：</th>
+                <td class="formValue">
+                    <select id="ddllb" class="form-control">
+                        <option value="">全部</option>
+                    </select>
+                </td>
+                <th class="formTitle">库存显示：</th>
+                <td class="formValue">
+                    @Html.DropDownList("ddlKCXS", EnumKCXS.None.ToDescSelectList(), "全部", new { @class = "form-control" })
+                </td>
+                <td class="formTitle" colspan="2">
+                    <input type="button" id="btn_search" class="btn btn-primary" value="查询" />
+                    <input type="button" id="btn_print" class="btn btn-primary" value="打印" />
+                    <input type="button" id="btn_backIndex" class="btn btn-primary" value="返回首页" style="float:right;" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="panel panel-default" style="margin-bottom: 0;">
+        <div class="panel-heading">
+            <span>库存盘点信息 | 按批次:</span>
+            <i id="i-noPc" onclick="accordingBatch(this)" class="fa fa-toggle-off" style="margin-left: 5px;font-size: 1.6rem;color: #ff9813;vertical-align: middle;"></i>
+        </div>
+    </div>
+    <div id="dv-gridKCInfoNoPc">
+        <table id="gridKCInfoNoPc"></table>
+        <div id="gridPagerNoPc" rel="form1"></div>
+    </div>
+    <div id="dv-gridKCInfo">
+        <table id="gridKCInfo"></table>
+        <div id="gridPager" rel="form1"></div>
+    </div>
+</form>
+<script>
+    var $gridKCInfo = $("#gridKCInfo");
+    var $gridKCInfoNoPc = $("#gridKCInfoNoPc");
+    $(function () {
+        $("#btn_backIndex").click(function () {//返回
+            window.location.href = "Index";
+        });
+        Initial();
+        //$("#btn_search").trigger("click");
+    });
+
+    //初始化盘点
+    function Initial() {
+        GetPdsj();
+        $("#ddllb").bindSelect({
+            url: "/NurseManage/DepartmentSupplies/GetPatientTreeSelectJson",
+            id: "id",
+            text: "text"
+        });
+        gridKCInfo();
+        gridKCInfoNoPc();
+        $("#dv-gridKCInfo").hide();
+        $("#btn_print").click(function () {
+            var pdsj = $("#ddlRQ option:selected").text();
+            if (!pdsj && !pdId) {
+                return false;
+            }
+             if ($("#i-noPc").hasClass("fa-toggle-off")) {
+                 var url = '@reportUrl' + "?tempCode=1330" + "&systemCode=" + '@reportSystemCode' + "&hospitalCode=" + '@ViewBag.OrganizeId' + "&OrganizeId=" + '@ViewBag.OrganizeId' + "&warehouseId=" + '@Constants.DeptCode';
+                url += "&pdId=" + $("#ddlRQ option:selected").val();
+                url += "&keyWord=" + ($("#txtSRM").val() === "" ? " " : $("#txtSRM").val());
+                url += "&zt=" + ($("#ddlwzzt").val() === "" ? " " : $("#ddlwzzt").val());
+                url += "&lbId=" + ($("#ddllb").val() === "" ? " " : $("#ddllb").val());
+                    url += "&kcxs=" + ($("#ddlKCXS").val() == "" || null ? "-1" : $("#ddlKCXS").val());
+                window.open(url);
+            } else {
+                 var url = '@reportUrl' + "?tempCode=1331" + "&systemCode=" + '@reportSystemCode' + "&hospitalCode=" + '@ViewBag.OrganizeId' + "&OrganizeId=" + '@ViewBag.OrganizeId' + "&warehouseId=" + '@Constants.DeptCode';
+                url += "&pdId=" + $("#ddlRQ option:selected").val();
+                url += "&keyWord=" + ($("#txtSRM").val() === "" ? " " : $("#txtSRM").val());
+                url += "&zt=" + ($("#ddlwzzt").val() === "" ? " " : $("#ddlwzzt").val());
+                url += "&lbId=" + ($("#ddllb").val() === "" ? " " : $("#ddllb").val());
+                url += "&kcxs=" + ($("#ddlKCXS").val() == "" || null ? "-1" : $("#ddlKCXS").val());
+                window.open(url);
+            }
+        });
+    }
+
+    //获取盘点时间
+    function GetPdsj() {
+        $("#ddlRQ").empty();//先清空，再填充
+        $("#ddlRQ").bindSelect({
+            url: "/NurseManage/StockInventory/GetPdsj",
+            id: "pdId",
+            text: "pdsj"
+        });
+    }
+
+    //是否按批次
+    function accordingBatch(obj) {
+        if ($(obj).hasClass("fa-toggle-off")) {
+            $(obj).removeClass("fa-toggle-off");
+            $(obj).addClass("fa-toggle-on");
+            $("#dv-gridKCInfo").show();
+            $("#dv-gridKCInfoNoPc").hide();
+        } else {
+            $(obj).removeClass("fa-toggle-on");
+            $(obj).addClass("fa-toggle-off");
+            $("#dv-gridKCInfo").hide();
+            $("#dv-gridKCInfoNoPc").show();
+        }
+        $("#btn_search").trigger("click");
+    }
+
+    //库存信息
+    function gridKCInfo() {
+        $gridKCInfo.dataGrid({
+            height: $(window).height() - 225,
+            editurl: "clientArray",  //行编辑不向服务器提交数据
+            colModel: [
+                { label: '物资名称', name: 'wzmc', width: 120, align: 'left' },
+                { label: '规格', name: 'gg', width: 80, align: 'left' },
+                { label: '理论数', name: 'llsl', width: 80, align: 'left' },
+                { label: '(实)部门数', name: 'deptSjsl', width: 70, align: 'center' },
+                { label: '单位', name: 'deptdw', width: 40, align: 'left' },
+                { label: '(实)最小数', name: 'minSjsl', width: 70, align: 'center' },
+                { label: '单位', name: 'zxdw', width: 40, align: 'center' },
+                { label: '系数', name: 'zhyz', width: 40, align: 'center' },
+                { label: '批号', name: 'ph', width: 100, align: 'center' },
+                { label: '批次', name: 'pc', width: 100, align: 'left' },
+                { label: '有效期', name: 'yxq', width: 80, align: 'left', formatter: 'date', formatoptions: { srcformat: 'y-m-d H:i', newformat: 'y-m-d H:i' } },
+                { label: '零售价', name: 'lsj', width: 60, align: 'left' },
+                { label: '零售金额(理)', name: 'lllsje', width: 70, align: 'left' },
+                { label: '零售金额(实)', name: 'sjlsje', width: 70, align: 'left' },
+                { label: '拼音', name: 'py', width: 100, align: 'left' },
+                { label: 'pdmxId', name: 'pdmxId', hidden: true },
+                { label: '物资ID', name: 'productId', hidden: true }
+            ],
+            multiselect: false,
+            pager: "#gridPager",
+            sortname: 'CreateTime desc',
+            viewrecords: true
+        });
+    }
+
+    //库存信息
+    function gridKCInfoNoPc() {
+        $gridKCInfoNoPc.dataGrid({
+            height: $(window).height() - 225,
+            postData: getSearchPostData(),
+            url: "/NurseManage/StockInventory/QueryInventoryInfoListNoPc?r=" + Math.random(),
+            colModel: [
+                { label: '物资名称', name: 'wzmc', width: 150, align: 'left' },
+                { label: '规格', name: 'gg', width: 100, align: 'left' },
+                { label: '理论数', name: 'llsl', width: 80, align: 'right' },
+                { label: '(实)部门数', name: 'deptSjsl', width: 70, align: 'right' },
+                { label: '单位', name: 'deptdw', width: 50, align: 'center' },
+                { label: '(实)最小数', name: 'minSjsl', width: 70, align: 'right' },
+                { label: '单位', name: 'zxdw', width: 50, align: 'center' },
+                { label: '系数', name: 'zhyz', width: 40, align: 'center' },
+                {
+                    label: '零售价', name: 'lsj', width: 80, align: 'right',
+                    formatter: function (val) { return val.toFixed(4); }
+                },
+                {
+                    label: '零售金额(理)', name: 'lllsje', width: 80, align: 'right',
+                    formatter: function (val) { return val.toFixed(2); }
+                },
+                {
+                    label: '零售金额(实)', name: 'sjlsje', width: 80, align: 'right',
+                    formatter: function (val) { return val.toFixed(2); }
+                },
+                { label: '拼音', name: 'py', width: 120, align: 'left' },
+                { label: '物资ID', name: 'productId', hidden: true }
+            ],
+            multiselect: false,
+            pager: "#gridPagerNoPc",
+            sortname: 'CreateTime desc',
+            viewrecords: true
+        });
+
+        $("#btn_search").click(function () {//绑定查询查询
+            if ($("#i-noPc").hasClass("fa-toggle-off")) {
+                $gridKCInfoNoPc.jqGrid('setGridParam',
+                    {
+                        postData: getSearchPostData(),
+                    }).trigger('reloadGrid');
+            } else {
+                $gridKCInfo.jqGrid('setGridParam',
+                    {
+                        postData: getSearchPostData(),
+                        url: "/NurseManage/StockInventory/QueryInventoryInfoList"
+                    }).trigger('reloadGrid');
+            }
+        });
+    }
+
+    //查询条件
+    function getSearchPostData() {
+        var pdId = $("#ddlRQ option:selected").val();
+        var pdsj = $("#ddlRQ option:selected").text();
+        var keyWord = $("#txtSRM").val();
+        var wzzt = $("#ddlwzzt").val();
+        var lb = $("#ddllb").val();
+        var kcxs = $("#ddlKCXS").val();
+        if (!pdsj && !pdId) {
+            return false;
+        }
+        if (kcxs === "" || kcxs == null) {
+            kcxs = -1;
+        }
+        return { pdsj: pdsj, pdId: pdId, keyWord: keyWord, wzzt: wzzt, lb: lb, kcxs: kcxs };
+    };
+</script>

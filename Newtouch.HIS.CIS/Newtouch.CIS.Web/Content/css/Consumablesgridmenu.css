@@ -1,0 +1,22 @@
+﻿/*表头二级菜单*/
+#linkwzhccf .ui-th-ltr, #linkwzhccf .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
+    border: solid 1px #ddd;
+}
+/*内容td分隔线*/
+#linkwzhccf .ui-jqgrid .ui-jqgrid-bdiv table.table-bordered td {
+    border: solid 1px #ddd;
+}
+/*内容td分隔线防止移位*/
+#linkwzhccf .table > tbody > tr > td, #linkwzhccf .table > tbody > tr > th, #linkwzhccf .table > tfoot > tr > td, #linkwzhccf .table > tfoot > tr > th, #linkwzhccf .table > thead > tr > td, #linkwzhccf .table > thead > tr > th {
+    padding: 0px;
+}
+/*二级菜单高度*/
+#linkwzhccf .ui-jqgrid-labels.jqg-second-row-header, #linkwzhccf .ui-jqgrid-labels.jqg-third-row-header {
+    height: 30px;
+}
+
+/*td内的编辑框*/
+#linkwzhccf #gridwzhccf td .form-control {
+    border-radius: 0px;
+    border: 0px !important;
+}

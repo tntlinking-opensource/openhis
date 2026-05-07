@@ -1,0 +1,119 @@
+﻿@{
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+<style>
+    /*html,
+    body {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }*/
+    .design-template-wrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        z-index: 100;
+    }
+
+    .wrapper {
+        flex: 1;
+        overflow: hidden;
+        background: #ffffff;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+</style>
+<script src="https://editor.huimei.com/hmEditor/iframe/HmEditorIfame.js"></script>
+@*<script src="http://127.0.0.1:3071/hmEditor/iframe/HmEditorIfame.js"></script>*@
+<!-- 编辑器窗口 -->
+<div class="design-template-wrapper" *ngIf="editorDisplay">
+    <div class="wrapper" id="editorContainer">
+
+    </div>
+
+</div>
+@*<div id="editorContainer"></div>
+    <script>
+        window.onload = function () {
+            HMEditorLoader.createEditorAsync({
+                container: "#editorContainer",
+                style: {
+                    width: "800px",
+                    height: "600px",
+                    border: "1px solid #ddd"
+                },
+                editorConfig: {
+                    contentsCss: []
+                },
+                // 模式设置
+                designMode: false,  // 是否启用设计模式
+                reviseMode: false,  // 是否启用修订模式
+                readOnly: false,     // 是否启用只读模式
+                editShowPaddingTopBottom: true,
+                customParams: { departmentCode: '0001', doctorCode: '0001' }
+                //sdkHost: "http://127.0.0.1:3071/hmEditor"
+            })
+           .then((result) => {
+               window.editor = result;
+           });
+        }
+
+
+    </script>*@
+@*<div id="editorContainer" style="width: 1050px; height: calc(100vh - 5px); border: 1px solid #ccc;"></div>*@
+
+<script>
+        //fetch("http://127.0.0.1:3071/hmEditor/demo/file/admission_record.html")
+        //.then(function (response) {
+        //    if (!response.ok) {
+        //        throw Error(response.statusText);
+        //    }
+        //    return response;
+        //}).then(function (response) {
+        //    alert("ok");
+        //}).catch(function (error) {
+        //    alert(error);
+        //});
+        //// 使用 HTTP 协议发送 GET 请求
+        //fetch('http://127.0.0.1:3071/hmEditor/demo/file/admission_record.html')
+        //  .then(response => response.text())
+        //  .then(text => console.log("HTTP 响应：", text))
+        //  .catch(error => console.error("HTTP 请求错误：", error));
+        //// 使用 HTTPS 协议发送 GET 请求
+        //fetch('https://editor.huimei.com/hmEditor/demo/file/admission_record.html')
+        //  .then(response => response.text())
+        //  .then(text => console.log("HTTPS 响应：", text))
+        //  .catch(error => console.error("HTTPS 请求错误：", error));
+
+
+        HMEditorLoader.createEditorAsync({
+            container: "#editorContainer",
+            sdkHost: "http://127.0.0.1:3071/hmEditor"
+        })
+        .then(function(editor) {
+            var editorInstance = editor;
+            mockDemoContent().then(function (demoContent) {
+                // 设置病历内容
+                editorInstance.setDocContent({
+                    code: 'doc001', // 病历ID
+                    docTplName: '测试病历名称',
+                    docContent: demoContent
+                });
+            })
+        })
+        .catch(function(error) {
+            console.error("编辑器初始化失败:", error);
+        });
+        // 获取测试用数据
+        function mockDemoContent() {
+            return fetch('https://editor.huimei.com/hmEditor/demo/file/admission_record.html')
+                .then(function (response) { debugger; var x = response.text(); return x; });
+        }
+</script>
+

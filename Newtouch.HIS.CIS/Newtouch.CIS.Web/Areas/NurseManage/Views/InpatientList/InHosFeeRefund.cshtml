@@ -1,0 +1,81 @@
+﻿@using Newtouch.Infrastructure;
+@{
+    ViewBag.Title = "护士站患者中心-住院退费";
+}
+
+<div id="linkzytf" role="tabpanel" class="tab-pane" style="width:100%;margin-right: 5px; border:solid 1px #ddd; margin-top: 3px;">
+    <iframe src="" class="Newtouch_iframe"  id="iframezytf" style="width:100%"></iframe>
+</div>
+ <script  type="text/javascript">
+     var tfuaAddr = "";
+     var tfdataUrl = "";
+     var zytfzyh = "";
+     $("#iframezytf").css("height", $(window).height() - 65);
+     //var fisttfload = true;
+     var iframezytfinit = document.getElementById('iframezytf');
+     iframezytfinit.onload = function () {
+         //$('#iframezytf').contents().find('#pane1').hide();
+         $('#iframezytf').contents().find('#btnsyy').hide();
+         // 获取iframe元素
+         var iframe = document.getElementById('iframezytf');
+         // 访问iframe中的window对象
+         var iframeWindow = iframe.contentWindow;
+         if (zytfzyh)
+             iframeWindow.getPatInfoAjax({ zyh: zytfzyh });
+         $("#PatTreeList_" + zytfzyh).attr('class', 'bbit-tree-node-el bbit-tree-node-leaf bbit-tree-selected');//选中
+     }
+     function init_zytf(zyh)
+     {
+         if (!zytfzyh)
+             zytfzyh = zyh;
+         getZytfTreeList();
+         document.getElementById('iframezytf').contentWindow.location.reload(true);
+         //if (fisttfload) {
+         //    $.ajax({
+         //        url: '/Login/GetUALoginAddres',
+         //        data: { appId: "SETT" },
+         //        type: "post",
+         //        async: false,
+         //        dataType: "json",
+         //        success: function (ajaxResp) {
+         //            if (ajaxResp && ajaxResp.data) {
+         //                debugger
+         //                tfuaAddr = ajaxResp.data;
+         //                tfdataUrl = tfuaAddr + "&returnUrl=" + encodeURIComponent("/HospitalizationManage/InpatientRefund/Index");
+         //            }
+         //        }
+         //    });
+         //    $('#iframezytf').attr("src", tfdataUrl);
+         //    fisttfload = false;
+         //} else {
+         //    // 获取iframe元素
+         //    var iframe = document.getElementById('iframezytf');
+         //    // 访问iframe中的window对象
+         //    var iframeWindow = iframe.contentWindow;
+         //    iframeWindow.$("#btn_search").trigger('click');
+         //}
+
+         $("#PatTreeList_" + zytfzyh).attr('class', 'bbit-tree-node-el bbit-tree-node-leaf bbit-tree-selected');//选中
+     }
+     function getZytfTreeList() {
+         $("#PatTreeList").treeview({
+             height: $(window).height(),
+             slimscroll: false,
+             url: "/NurseManage/InpatientList/GetPatWardTree?zyzt=" + $('#zyzt').val() + "&keyword=" + $('#keyword').val(),
+             onnodeclick: function (item) {
+                 if (item.value && item.Ex1 == "c") {
+                     debugger;
+                     zytfzyh = item.value;
+                     // 获取iframe元素
+                     var iframe = document.getElementById('iframezytf');
+                     // 访问iframe中的window对象
+                     var iframeWindow = iframe.contentWindow;
+                     iframeWindow.getPatInfoAjax({ zyh: item.value });
+                     //$('#iframezytf').contents().find('#pane1').hide();
+                     //$('#iframezytf').contents().find('#btnsyy').hide();
+                 }
+             }
+         });
+     }
+
+ </script>  

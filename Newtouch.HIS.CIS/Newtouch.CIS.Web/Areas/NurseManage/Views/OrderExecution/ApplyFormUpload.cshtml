@@ -1,0 +1,152 @@
+﻿@model Newtouch.Domain.ViewModels.FileUploadModel
+@{
+    ViewBag.Title = "医技管理-检验检查报告上传";
+    Layout = "/Views/Shared/_FileUpload.cshtml";//_FileUpload
+}
+<div class="container mt-2">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow" id="uploadId">
+                <div class="card-body">
+                    @using (Html.BeginForm("ApplyFormUpload", "OrderExecution", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        <div class="form-group mb-3">
+                            <input type="hidden" id="sqdh" name="sqdh" />
+                            <input type="file" name="Files" multiple class="form-control" accept=".jpg,.jpeg,.png,.gif,.bmp,.pdf" />
+                            <div class="form-text">支持 JPG, PNG, GIF, BMP 图片和 PDF 文件，单个文件最大10MB</div>
+                            @Html.ValidationMessageFor(m => m.Files, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-upload"></i> 上传文件
+                            </button>
+                        </div>
+                    }
+                </div>
+            </div>
+            @if (ViewBag.ErrorMessages != null && ((List<string>)ViewBag.ErrorMessages).Any())
+            {
+                <div class="card mt-4 shadow">
+                    <div class="card-header bg-danger text-white">
+                        <h5 class="mb-0">上传错误</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            @foreach (string error in ViewBag.ErrorMessages)
+                            {
+                                <li class="list-group-item list-group-item-danger">@error</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            }
+            @if (ViewBag.Success != null && ViewBag.Success)
+            {
+                <div class="card mt-2 shadow">
+                    <div class="card-header bg-success text-white" id="uploadmsg">
+                        <h5 class="mb-0">上传成功</h5>
+                    </div>
+                    <div class="card-body">
+                        <p5>以下文件已成功上传：</p5>
+                        <div class="row">
+                            @foreach (var file in ViewBag.UploadedFiles)
+                            {
+                                <div class="col-md-6 col-lg-4 mb-3" id="@file.Id">
+                                    <div class="card">
+                                        @if (file.IsImage())
+                                        {
+                                            <img src="@Url.Content(file.FileName)" class="card-img-top" alt="@file.OriginalName" style="height: 60px; object-fit: cover;">
+                                        }
+                                        else
+                                        {
+                                            <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 60px;">
+                                                <i class="fas fa-file-pdf fa-5x text-danger"></i>
+                                            </div>
+                                        }
+                                        <div class="card-body">
+                                            <h6 class="card-title text-truncate" title="@file.OriginalName">@file.OriginalName</h6>
+                                            <p class="card-text">
+                                                <small class="text-muted">@file.GetFileSize()</small>
+                                            </p>
+                                            <a href="@Url.Action("Download", "OrderExecution", new { fileName = file.FileName })"
+                                                class="btn btn-sm btn-outline-primary">
+                                                <i class="fas fa-download"> 下载</i>
+                                            </a>
+                                            @if (file.IsImage())
+                                            {
+                                                <button type="button" class="btn btn-sm btn-outline-secondary"
+                                                        onclick="previewImage('@Url.Content(file.FileName)', '@file.OriginalName')">
+                                                    <i class="fas fa-eye"></i> 预览
+                                                </button>
+                                            }
+                                            <button type="button" data-type="delId" class="btn btn-sm btn-outline-secondary"
+                                                    onclick="DeleteImage('@file.Id')">
+                                                <i class="fas fa-trash-alt"></i> 删除
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+<!-- 图片预览模态框 -->
+<div class="modal fade" id="imagePreviewModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="imagePreviewTitle">图片预览</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img id="previewImage" src="" class="img-fluid" alt="预览图片">
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        debugger;
+        var ViewSqd="@ViewBag.sqdh";
+        var sqdh=ViewSqd?ViewSqd:$.request("sqdh");
+        $("#sqdh").val(sqdh);
+        if ($.request("query") == "true") {
+            $("#uploadId").hide();
+            $('[data-type="delId"]').hide();
+            $("#uploadmsg").hide();
+        }
+    })
+    function previewImage(src, title)
+    {
+        document.getElementById('previewImage').src = src;
+        document.getElementById('imagePreviewTitle').textContent = title;
+        var myModal = new bootstrap.Modal(document.getElementById('imagePreviewModal'));
+        myModal.show();
+    }
+    function DeleteImage(Id) {
+        $.ajax({
+            type: "POST",
+            url: "/NurseManage/OrderExecution/DeleteReprot",
+            data: { reportId: Id },
+            dataType: "json",
+            success: function (ajaxresp) {
+                debugger;
+                if (ajaxresp.state === "success") {
+                    var element = document.getElementById(Id);
+                    if (element) {
+                        element.parentNode.removeChild(element);
+                    }
+                }
+                else {
+                    $.modalAlert(ajaxresp.message, 'warning');
+                }
+            }
+        });
+    }
+</script>

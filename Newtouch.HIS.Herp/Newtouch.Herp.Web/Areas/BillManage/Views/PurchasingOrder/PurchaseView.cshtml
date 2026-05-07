@@ -1,0 +1,185 @@
+﻿
+@{
+    ViewBag.Title = "采购单查询";
+    Layout = "~/Views/Shared/_Form.cshtml";
+    var from = (ViewBag.from as string) ?? "";
+}
+<style>
+    .table-responsive {
+        border: 0;
+    }
+
+    .ui-jqgrid .ui-jqgrid-pager .ui-pager-table {
+        width: 90%;
+    }
+</style>
+
+<div class="topPanel" style="border-bottom:1px solid rgb(221, 221, 221);margin-bottom: 1%;">
+    <div class="search">
+        <table class="form">
+            <tr>
+                <th class="formTitle">订单时间：</th>
+                <td class="formValue" colspan="2">
+                    <input id="kssj" type="text" class="form-control input-wdatepicker" style="width:42%; margin-top:10px;float:left;" value="@DateTime.Now.ToString("yyyy-MM-01")" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd' })" />
+                    <span style="margin-left:1%;float:left">—</span>
+                    <input id="jssj" type="text" class="form-control input-wdatepicker" style="width:43%; margin-top:10px;float:left;margin-left:1%;" value="@DateTime.Now.ToString("yyyy-MM-dd")" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd' })" />
+                </td>
+                <th class="formTitle">订单编号：</th>
+                <td class="formValue">
+                    <input id="txt_ddbh" name="txt_ddbh" type="text" class="form-control form-an" placeholder="请输入订单编号" />
+                </td>
+
+                <th class="formTitle">发票号：</th>
+                <td class="formValue">
+                    <input id="fph" name="fph" type="text" class="form-control form-an" placeholder="请输入发票号" />
+                </td>
+                <td style="padding-left: 5px;">
+                    <button type="button" id="btn_search" class="btn btn-primary btn-md">&nbsp;查询&nbsp;</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<!--患者信息 包括病历号  姓名 -->
+<form id="formPatSer" style="margin:2px;margin-top:10px;">
+    <div class="gridPanel">
+        <table id="GridList" rel="formPatSer"></table>
+        <div id="gridPager" style="padding-right:20%"></div>
+    </div>
+</form>
+
+<script>
+    //上一个window对象
+    var prevWindow;
+    if ('@(from)' !== '') {
+        prevWindow = top.top.frames['@(from)'];
+    }
+    else {
+        prevWindow = $.currentWindow();
+    }
+
+    $(function () {
+        var searInfo = new gridList();
+        //查询
+        $("#btn_search").click(function () {
+            $("#GridList").jqGrid('setGridParam', {
+                postData: {
+                    kssj: $("#kssj").val(), jssj: $("#jssj").val(), orderNo: $("#txt_ddbh").val(), fph: $("#fph").val()
+                },
+                page: 1,
+                url: "/BillManage/PurchasingOrder/SelectCgOrderView",
+            }).trigger('reloadGrid');
+        });
+    });
+
+    function gridList() {
+        var $gridList = $("#GridList");
+        $gridList.dataGrid({
+            url: "/BillManage/PurchasingOrder/SelectCgOrderView",
+            height: $(window).height() - 130,
+            postData: { kssj: $("#kssj").val(), jssj: $("#jssj").val(), orderNo: $("#txt_ddbh").val(), fph: $("#fph").val() },
+            colModel: [
+                { label: '采购时间', name: 'orderDate', width: 120, align: 'left', formatter: "date", formatoptions: { srcformat: 'Y-m-d H:m:s', newformat: 'Y-m-d H:m:s' } },
+                { label: '采购单号', name: 'orderNo', width: 150, align: 'left' },
+                { label: 'fp', name: 'fp', width: 80, align: 'center', hidden:true },
+                {
+                     label: '发票号', name: 'fph', width: 100, align: 'center',
+                     formatter: function (cellvalue, options) { return cellvalue === "" || cellvalue === null ? "<input type=\"text\" name=\"fph\" rowid=" + options.rowId + " role=\"textbox\" class=\"editable inline-edit-cell form-control\" style=\"width: 100%; height: 99%;\" onblur=\"UpdateFph(this)\">" : cellvalue; }
+                 },
+                { label: '明细记录数', name: 'cgmxs', width: 80, align: 'center' },
+                { label: '采购金额', name: 'cgje', width: 80, align: 'center' },
+                { label: '供应商', name: 'gysmc', width: 150, align: 'left' },
+                { label: '子订单号', name: 'subOrderNo', width: 120, align: 'left', hidden: true },
+                {
+                    label: "操作", name: "", align: "left", width: 10,
+                    formatter: function (cellvalue, options, rowobject) {
+                        return '<input type="button" id="btn_rpt" onclick="QueryDetail(\'' + rowobject.subOrderNo + '\')" class="btn btn-info" style="width:60px;display:inline-block;"  value="明细"/> '
+                    }
+                },
+            ],
+
+            multiselect: false,
+            pager: "#gridPager",
+            sortname: 'CreateTime',
+            viewrecords: true,
+            rowNum: 100,
+            ondblClickRow: function (rowid, iRow, iCol, e) {
+                SearchConfirm();
+            }
+        });
+    }
+
+    //jqGrid 双击选中某行
+    function btn_edit() {
+        SearchConfirm();
+    }
+
+    function PurchaseDbGrid() {
+        var $gridList = $("#GridList");
+        var subOrderNo = $gridList.jqGridRowValue().subOrderNo;
+        var obj = new Object();
+        obj.subOrderNo = subOrderNo;
+        obj.fph = $gridList.jqGridRowValue().fp;
+        if (obj.fph != "") {
+            prevWindow.GetQueryAjax(obj);
+            //关闭窗口
+            ReceiptCancle();
+        } else {
+            $.modalMsg("发票号为空,请补填发票号!", "success", 1000);
+        }
+    }
+    //确定 主页面调用
+    function SearchConfirm() {
+        PurchaseDbGrid();
+    }
+
+    //取消
+    function ReceiptCancle() {
+        $.modalClose();
+    }
+
+    //补发票号
+    function UpdateFph(obj) {
+        var fph = $(obj).val();
+        var subOrderNo = $("#GridList").getRowData($(obj).attr("rowid")).subOrderNo;
+        var rowid = $(obj).attr("rowid");
+        $("#GridList").jqGrid('setCell', rowid, 'fp', fph);
+        if (fph !== "") {
+            $.modalConfirm("您确定要将发票号改为" + fph + "吗？",
+                function (flag) {
+                    if (flag) {
+                        $.najax({
+                            url: "/BillManage/PurchasingOrder/UpdateFph",
+                            type: "POST",
+                            data: { subOrderNo: subOrderNo, fph: fph },
+                            dataType: "json",
+                            success: function (data) {
+                                if (data.state === 'success') {
+                                    $.modalMsg("发票号修改成功", "success", 1000);
+                                } else {
+                                    $.modalMsg(data.message, "warning", 1000);
+                                }
+                            }
+                        });
+                    }
+                });
+
+        }
+    }
+    function QueryDetail(subOrderNo)
+    {
+        $.modalOpen({
+            id: "CgdDetailFrom",
+            title: "采购单明细",
+            url: "/BillManage/PurchasingOrder/PurchaseDetailView?subOrderNo=" + subOrderNo,
+            width: "800px",
+            height: "500px",
+            btn: ['', '关闭'],
+            btnclass: ['', 'btn btn-danger'],
+            callBack: function (iframeId) {
+            }
+        });
+    }
+</script>
+
+

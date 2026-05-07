@@ -1,0 +1,164 @@
+﻿<XTextDocument xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EditorVersionString="1.0.0.0">
+   <EnableValueValidate>true</EnableValueValidate>
+   <XElements Count="5">
+      <Element xsi:type="XTextHeader">
+         <AcceptTab>true</AcceptTab>
+         <EnableValueValidate>true</EnableValueValidate>
+         <XElements Count="56">
+            <Element xsi:type="XInputField" StyleIndex="1">
+               <ID>B0EADC5F-D1A7-4C1D-8BFF-C30B4AB96B89</ID>
+               <ToolTip>请输入医院名称</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>yymc</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <BorderElementColor>#00000000</BorderElementColor>
+               <Name>yymc</Name>
+               <BackgroundText>医院名称</BackgroundText>
+               <EditorActiveMode>None</EditorActiveMode>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0" />
+            <Element xsi:type="XString" StyleIndex="2">
+               <Text>临时医嘱单</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0" />
+            <Element xsi:type="XString" StyleIndex="3">
+               <Text>姓名:</Text>
+            </Element>
+            <Element xsi:type="XInputField" StyleIndex="3">
+               <ID>姓名</ID>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>xm</BindingPath>
+               </ValueBinding>
+               <BorderElementColor>#00000000</BorderElementColor>
+               <EditorActiveMode>F2 MouseDblClick MouseClick</EditorActiveMode>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <Text>           科别:</Text>
+            </Element>
+            <Element xsi:type="XInputField" StyleIndex="3">
+               <ID>科别</ID>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>DeptName</BindingPath>
+               </ValueBinding>
+               <BorderElementColor>#00000000</BorderElementColor>
+               <EditorActiveMode>F2 MouseDblClick MouseClick</EditorActiveMode>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <Text>          床号:</Text>
+            </Element>
+            <Element xsi:type="XInputField" StyleIndex="3">
+               <ID>床号</ID>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>BedName</BindingPath>
+               </ValueBinding>
+               <BorderElementColor>#00000000</BorderElementColor>
+               <EditorActiveMode>F2 MouseDblClick MouseClick</EditorActiveMode>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <Text>         住院号:</Text>
+            </Element>
+            <Element xsi:type="XInputField" StyleIndex="3">
+               <ID>住院号</ID>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zyh</BindingPath>
+               </ValueBinding>
+               <BorderElementColor>#00000000</BorderElementColor>
+               <EditorActiveMode>F2 MouseDblClick MouseClick</EditorActiveMode>
+            </Element>
+            <Element xsi:type="XParagraphFlag" />
+         </XElements>
+      </Element>
+      <Element xsi:type="XTextBody">
+         <AcceptTab>true</AcceptTab>
+         <EnableValueValidate>true</EnableValueValidate>
+         <XElements Count="5">
+            <Element xsi:type="XString">
+               <Text>2323</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" />
+         </XElements>
+      </Element>
+      <Element xsi:type="XTextFooter">
+         <AcceptTab>true</AcceptTab>
+         <EnableValueValidate>true</EnableValueValidate>
+         <XElements Count="2">
+            <Element xsi:type="XPageInfo" StyleIndex="3">
+               <Width>100</Width>
+               <AutoHeight>true</AutoHeight>
+               <Height>62.73437</Height>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0" />
+         </XElements>
+      </Element>
+      <Element xsi:type="XTextHeaderForFirstPage">
+         <AcceptTab>true</AcceptTab>
+         <EnableValueValidate>true</EnableValueValidate>
+         <XElements Count="1">
+            <Element xsi:type="XParagraphFlag" StyleIndex="0">
+               <AutoCreate>true</AutoCreate>
+            </Element>
+         </XElements>
+      </Element>
+      <Element xsi:type="XTextFooterForFirstPage">
+         <AcceptTab>true</AcceptTab>
+         <EnableValueValidate>true</EnableValueValidate>
+         <XElements Count="1" />
+      </Element>
+   </XElements>
+   <SerializeParameterValue>true</SerializeParameterValue>
+   <FileName>\File\Template\医嘱单\医嘱单\临时医嘱.xml</FileName>
+   <FileFormat>XML</FileFormat>
+   <ContentStyles>
+      <Default xsi:type="DocumentContentStyle">
+         <FontName>宋体</FontName>
+         <FontSize>14</FontSize>
+      </Default>
+      <Styles>
+         <Style Index="0">
+            <FontName>宋体</FontName>
+            <FontSize>14</FontSize>
+            <Align>Center</Align>
+         </Style>
+         <Style Index="1">
+            <FontName>黑体</FontName>
+            <FontSize>18</FontSize>
+            <Bold>true</Bold>
+         </Style>
+         <Style Index="2">
+            <FontName>宋体</FontName>
+            <FontSize>15.75</FontSize>
+            <Bold>true</Bold>
+         </Style>
+         <Style Index="3">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+         </Style>
+      </Styles>
+   </ContentStyles>
+   <Info>
+      <ShowHeaderBottomLine>False</ShowHeaderBottomLine>
+      <LicenseText>未注册|Unregister</LicenseText>
+      <CreationTime>2014-03-07T13:23:28+08:00</CreationTime>
+      <LastModifiedTime>2025-10-24T10:53:10+08:00</LastModifiedTime>
+      <LastPrintTime>1980-01-01T00:00:00+08:00</LastPrintTime>
+      <Operator>DCSoft.Writer Version:1.2014.122.41929</Operator>
+      <NumOfPage>1</NumOfPage>
+   </Info>
+   <BodyText>2323</BodyText>
+   <LocalConfig />
+   <PageSettings>
+      <LeftMargin>39</LeftMargin>
+      <RightMargin>39</RightMargin>
+   </PageSettings>
+</XTextDocument>

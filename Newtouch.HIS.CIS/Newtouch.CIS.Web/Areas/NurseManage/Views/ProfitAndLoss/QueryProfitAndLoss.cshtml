@@ -1,0 +1,196 @@
+﻿@model dynamic
+@using Newtouch.Infrastructure;
+@{
+    ViewBag.Title = "损益查询";
+    Layout = "~/Views/Shared/_Index.cshtml";
+    var reportUrl = Newtouch.Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("ReportUrl");
+    var reportSystemCode = Newtouch.Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("ReportSystemCode");
+
+}
+<style>
+    #btn_search {
+        float: left;
+        margin-left: 25px;
+        margin-right: 10px;
+        width: 45px;
+        font-weight: bolder;
+    }
+
+    #btn_print {
+        width: 45px;
+        background-color: #fff;
+        color: #00a9ea;
+        font-weight: bolder;
+        float: left;
+    }
+</style>
+<form id="form1">
+    <div class="panel panel-default" style="margin-bottom:0;">
+        <div class="panel-heading">
+            筛选信息
+        </div>
+        <table class="form" style="width:98%;border:0">
+            <tr>
+                <th class="formTitle">损溢情况：</th>
+                <td style="padding-left:12px;">
+                    <div class="btn-group" id="btnLossAndProfitTypeGourp" style="margin-top:0;">
+                        <button type="button" id="btnAll" data-keywordtype="All" class="btn active btn-restore">全部</button>
+                        <button type="button" id="btnLoss" data-keywordtype="Loss" class="btn btn-default">报损</button>
+                        <button type="button" id="btnProfit" data-keywordtype="Profit" class="btn btn-default">报溢</button>
+                    </div>
+                </td>
+                <th class="formTitle">关键字：</th>
+                <td class="formValue">
+                    <input type="text" id="txtINPUTCODE" class="form-control" placeholder="拼音/名称" />
+                </td>
+                <th class="formTitle">开始日期：</th>
+                <td class="formValue">
+                    <input type="text" id="txtStartDate" class="form-control input-wdatepicker" value="@DateTime.Now.ToString("yyyy-MM-01 00:00:00")" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />
+                </td>
+                <th class="formTitle">结束日期： </th>
+                <td class="formValue">
+                    <input type="text" id="txtEndDate" class="form-control input-wdatepicker" value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />
+                </td>
+            </tr>
+            <tr>
+                <th class="formTitle">损溢原因：</th>
+                <td class="formValue">
+                    <select class="form-control" id="ddlSYYY">
+                        <option value="">全部</option>
+                    </select>
+                </td>
+                <td class="formValue" colspan="6">
+                    <input type="button" id="btn_search" class="btn btn-md btn-primary" value="查询" />
+                    <input type="button" id="btn_print" class="btn btn-primary" value="打印" />
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>
+<div class="gridPanel" style="margin-top:10px">
+    <table id="gridSYXXMXList"></table>
+    <div id="gridPager" rel="form1"></div>
+</div>
+
+<script>
+    $(function () {
+        Init();
+        GridSyxxmx();
+    });
+
+    //初始化
+    function Init() {
+        //加载损益原因
+        $("#ddlSYYY").bindSelect({
+            url: "/NurseManage/ProfitAndLoss/GetLossProfitReasonListByType",
+            id: "Id",
+            text: "syyy"
+        });
+        $('#btnLossAndProfitTypeGourp').on('click', '.btn',
+            function () {
+                if (!$(this).hasClass('active')) {
+                    $(this).siblings('.btn').removeClass('btn-restore').removeClass('active').addClass('btn-default');
+                    $(this).removeClass('btn-default').addClass('btn-restore active');
+                }
+            }
+        );
+         $("#btn_print").click(function () {
+            var syqk = ""; //全部
+            if ($('#btnLossAndProfitTypeGourp .btn.active').attr('data-keywordtype') === 'Profit') {
+                syqk = 1;  //报溢
+            } else if ($('#btnLossAndProfitTypeGourp .btn.active').attr('data-keywordtype') === 'Loss') {
+                syqk = 0;  //报损
+            }
+            var url = '@reportUrl' + "?tempCode=1328" + "&systemCode=" + '@reportSystemCode' + "&hospitalCode=" + '@ViewBag.OrganizeId' + "&OrganizeId=@ViewBag.OrganizeId&warehouseId=@Constants.DeptCode";
+            url += "&sybz=" + syqk;
+            url += "&kssj=" + $("#txtStartDate").val();
+            url += "&jssj=" + $("#txtEndDate").val();
+            url += "&keyWord=" + ($("#txtINPUTCODE").val() === "" ? "" : $("#txtINPUTCODE").val());
+            window.open(url);
+        });
+    }
+
+    //损益信息明细
+    function GridSyxxmx() {
+        var $gridSyxxmxList = $("#gridSYXXMXList");
+        $gridSyxxmxList.dataGrid({
+            postData: getSearchPostData(),
+            url: "/NurseManage/ProfitAndLoss/SelectLossAndProditInfoList",
+            height: $(window).height() - 220,
+            caption: "损益明细&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id='yeCon'>当页零价总额：" + "0.00" + "元</span>",
+            colModel: [
+                {
+                    label: "损益标志", name: "sybz", width: 55, align: "center",
+                    formatter: function (cellvalue) { return cellvalue === "1" ? "报溢" : "报损"; }
+                },
+                { label: '损益原因', name: 'syyy', width: 120, align: 'left' },
+                { label: '单据号', name: 'djh', width: 160, align: 'left' },
+                { label: '物资名称', name: 'wzmc', width: 120, align: 'left' },
+                { label: '损溢数量', name: 'syslStr', width: 55, align: 'right' },//带单位
+                {
+                    label: '进价', name: 'jj', width: 70, align: 'right',
+                    formatter: function (val) { return val.toFixed(4); }},
+                {
+                    label: '零售价', name: 'lsj', width: 70, align: 'right',
+                    formatter: function (val) { return val.toFixed(4); } },
+                {
+                    label: '零售总额', name: 'ljze', width: 70, align: 'right',
+                    formatter: function (val) { return val.toFixed(2); } },
+                { label: '报告时间', name: 'Bgsj', width: 100, align: 'center', formatter: "date", formatoptions: { srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i' }},
+                { label: '物资类别', name: 'lb', width: 80, align: 'left' },
+                { label: '规格', name: 'gg', width: 120, align: 'left' },
+                { label: '产地', name: 'cd', width: 120, align: 'left' },
+                { label: '批号', name: 'Ph', width: 80, align: 'left' },
+                { label: '有效期', name: 'Yxq', width: 70, align: 'center', formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d' } },
+                { label: '责任人', name: 'Zrr', width: 66, align: 'left' },
+                { label: 'productId', name: 'productId', hidden: true }
+            ],
+            multiselect: false,
+            pager: "#gridPager",
+            sortname: 'bgsj desc',
+            viewrecords: true,
+            loadComplete: function (data) {
+                ComputePjzeAndLjze();//计算标题栏中的批价总额和零价总额
+            }
+        });
+        $("#btn_search").click(function () {
+            $gridSyxxmxList.jqGrid('setGridParam',
+                {
+                    url: "/NurseManage/ProfitAndLoss/SelectLossAndProditInfoList?r=" + Math.random(),
+                    postData: getSearchPostData()
+                }).trigger('reloadGrid');
+        });
+    }
+
+    //查询条件
+    function getSearchPostData() {
+        var startTime = $("#txtStartDate").val();
+        var endTime = $("#txtEndDate").val();
+        var syyy = $("#ddlSYYY").val();
+        var inputCode = $("#txtINPUTCODE").val();
+        var syqk = -1; //全部
+        if ($('#btnLossAndProfitTypeGourp .btn.active').attr('data-keywordtype') === 'Profit') {
+            syqk = 1;  //报溢
+        } else if ($('#btnLossAndProfitTypeGourp .btn.active').attr('data-keywordtype') === 'Loss') {
+            syqk = 0;  //报损
+        }
+        return { startTime: startTime, endTime: endTime, syyy: syyy, inputCode: inputCode, sybz: syqk };
+    };
+
+    //计算标题栏中的批价总额和零价总额
+    function ComputePjzeAndLjze() {
+        var titleLjze = 0;
+        var count = $("#gridSYXXMXList").getGridParam('records');
+        if (count > 0) {
+            var rowIds = $("#gridSYXXMXList").getDataIDs();
+            for (var i = 0; i < rowIds.length; i++) {
+                var getRowLjze = $("#gridSYXXMXList").getRowData(rowIds[i]).ljze;
+                titleLjze = parseFloat(titleLjze) + parseFloat(getRowLjze);
+            }
+            $("#yeCon").text("当页零价总额：" + titleLjze.toFixed(2) + "元");
+        }
+    }
+
+</script>
+
+

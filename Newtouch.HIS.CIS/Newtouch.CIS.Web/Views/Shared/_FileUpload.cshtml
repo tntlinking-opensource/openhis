@@ -1,0 +1,26 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - 文件图片上传</title>
+    <link href="@SiteUrl.GetStaticResourceScriptUrl("~/css/framework-theme.css")" rel="stylesheet" id="color-skin" />
+
+    @*<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">*@
+    <link href="~/Content/css/bootstrap5.min.css.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    @*<link href="~/Content/css/all.min.css" rel="stylesheet" />*@
+    
+    <link href="@SiteUrl.GetStaticResourceScriptUrl("~/css/framework-font.css")" rel="stylesheet" />
+    @Html.Partial("_FrontReference")
+    <script src="@SiteUrl.GetStaticResourceScriptUrl("~/js/framework-ui.js")"></script>
+</head>
+<body>
+    <div class="container1">
+        @RenderBody()
+    </div>
+    @*<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>*@
+    <script src="~/Content/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

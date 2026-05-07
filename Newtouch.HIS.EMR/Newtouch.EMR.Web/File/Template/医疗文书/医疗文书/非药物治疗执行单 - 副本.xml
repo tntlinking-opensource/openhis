@@ -1,0 +1,3070 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XTextDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EditorVersionString="1.2015.12.23">
+   <Attributes />
+   <XElements>
+      <Element xsi:type="XTextHeader">
+         <Attributes />
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XImage">
+               <ID>image1</ID>
+               <PropertyExpressions />
+               <Width>156.25</Width>
+               <Height>156</Height>
+               <CompressSaveMode>false</CompressSaveMode>
+               <Image>
+                  <ImageDataBase64String> /9j/4AAQ SkZJRgAB AQEAYABg AAD/2wBD AAIBAQEB AQIBAQEC AgICAgQD AgICAgUE BAMEBgUG BgYFBgYG BwkIBgcJ BwYGCAsI CQoKCgoK BggLDAsK DAkKCgr/ 2wBDAQIC
+ AgICAgUD AwUKBwYH CgoKCgoK CgoKCgoK CgoKCgoK CgoKCgoK CgoKCgoK CgoKCgoK CgoKCgoK CgoKCgoK Cgr/wAAR CAAyADID ASIAAhEB AxEB/8QA HwAAAQUB AQEBAQEA
+ AAAAAAAA AAECAwQF BgcICQoL /8QAtRAA AgEDAwIE AwUFBAQA AAF9AQID AAQRBRIh MUEGE1Fh ByJxFDKB kaEII0Kx wRVS0fAk M2JyggkK FhcYGRol JicoKSo0 NTY3ODk6
+ Q0RFRkdI SUpTVFVW V1hZWmNk ZWZnaGlq c3R1dnd4 eXqDhIWG h4iJipKT lJWWl5iZ mqKjpKWm p6ipqrKz tLW2t7i5 usLDxMXG x8jJytLT 1NXW19jZ 2uHi4+Tl 5ufo6erx
+ 8vP09fb3 +Pn6/8QA HwEAAwEB AQEBAQEB AQAAAAAA AAECAwQF BgcICQoL /8QAtREA AgECBAQD BAcFBAQA AQJ3AAEC AxEEBSEx BhJBUQdh cRMiMoEI FEKRobHB CSMzUvAV
+ YnLRChYk NOEl8RcY GRomJygp KjU2Nzg5 OkNERUZH SElKU1RV VldYWVpj ZGVmZ2hp anN0dXZ3 eHl6goOE hYaHiImK kpOUlZaX mJmaoqOk paanqKmq srO0tba3 uLm6wsPE
+ xcbHyMnK 0tPU1dbX 2Nna4uPk 5ebn6Onq 8vP09fb3 +Pn6/9oA DAMBAAIR AxEAPwD9 9CQOSa8D +Mv7e/w0 8CfEKH4N +B7i31fx HNcG3uZ3 kIsdPkwS ElkUEvKc YES8k8Fk
+ rnv+Ck/7 V998DfAd v8OvA+rf ZfEPiOKT zL2M/Pp9 kvEko9HO QqdOSSOR XmH7BH7B OheK/D9l 8f8A4/6R 59tcD7R4 b8N3hJiW I8i6uAf9 Yz43AHgj BOQVA97C Zbh6eBeN
+ xjai9Ipb yf8Al/lr 5/m3EHE2 c4nPo5Fk MU6sbSqz l8MI6O3X 3mnvZ7pJ N3cZtN+P v7YnxU8e +JvDf/CU a7Hp9jN5 ek6j4G8J brNzsflp DFO4YHy/ l8zru5xz WVcfGz9u
+ 74OfBL/h OfGGpeL5 PEUV6vnW OreHEktF iMhH7xjb jjaAR5co OXOcba9F 8U/t6eLL G78Z+IPg p4R8K3nw 88DfY9OT WL+4ktY7 m9kkVGWK VSUMSA7c Kh5KnO1h Xlulf8Fb
+ fjFceMtU s77w14Cf T444vscc mryxopKj dibB83nt tXHTmvXo YPG1o3hh Ycq5W02k 9lo9NLpp tHw+Nx2T 4Kdq2cYj 2kvaRjJK o46ydpL3 rSUHFxg0 9V0ad17p 8OP+CgGj
+ aZeaH4X/ AGiTo+kX mt2yvaaz o9yXsmfC 7hIrZMK7 mKq+50ba SSnSvpKG aG4iWeCV XR1DI6Nk EHuDXyD+ 0/8AsP2v x5+EunfG /wCGegWm ieN10OO6 u9E02TdY 3+9PNlt1
+ X7oYszlX AAck7hlt wwP+CXH7 WepaneH9 m7x7fyOY oXk8NSXT kyQ+X/rb JieTsBDJ 32ZHGAK8 rEZdh8Tg pYrC7w+O PbzXl/wd rWPscp4n zfKs+hlG cq8KyToV f5tF7stF
+ rfuk02k+ a9z7fooo r58/UD8u f2lbmT9o 3/gpevwy 1OZmspfE 2n6KuGOR ZxKss4Hp 87k19vXP 7Q6aT8b7 /wDZ21vw Tptnpxs0 g8Pz2viG Brm9/wBE mmdPsa/v IUVYSgYj
+ GcY6ivg/ 4j6vD8EP +CtMeueJ n8iyh8f2 kzTyHC/Z 7uGMNJk9 lII/A123 wz8U+K9I /wCCmuq+ Bfibd3eo JYeNdSvN AF0xd9MZ 7V7mJISe RFPb+Yhj HyllRsZU V+kZjl0M
+ ThKVvghh +db76Xas 7XWl79+9 j8EyHMq+ W5lipaqr WxnJJ6W5 PetGV03Z 3ly2trFa 2ueZaNpm k+PNA+Id 9r/whm0O 7stR0Dwt 4W8FxavH p0mnJczy 3KqZrmJ9 1wzWqlmk
+ Xcxlk+7k AYl2/iDX NAvvFd14 f8SzWF1o 11q99cv8 VtLxLZ3N +ttPOR9h yVe7jVGw M7lzjHNe sfDPQrn4 oeNfGvx7 +Kuk+JNL a3+JWgeL b7wF4b8M y6tfwxpF ffZEuBG6
+ tDldzvle FKEgBxjz n4C+C5/i N4O1Xw9a a/8AE/Vv BFrpt74e 0S/0D4Hf bje2jzyX ODcQuXiC XZjnMRkY kjblRXsQ lT9+T+y4 X+NpXgrq LW70un1u 22z5GrlV eSpQX/Lx
+ VVF/uouX LUk4ynGS TjGzaa05 bKKitD79 1r9o/XPh F4Z+Hnw8 sfAmmz+I NVsdKXUd G1HxZbW7 2dtKDHI8 cjYF08bI RtjGWyCB Xxn+1Vbp +zZ/wUeT xH4YUWlt c6vp2vRp
+ HxtEzrHc qPQOZJen bFbP/BSD xR4p8P3v gDSvAl9q sPijVvhl ZW9zfTac 1jqXkG48 pYFjJL2z zSznzUzu xCEzgtni v269Tm+J n7eWi/Dy yuDd3mm2 ehaDcSxn dm6kkikY
+ H6bnz6FT Xk5FlsYV I1fs1IVO bfZOOru9 tbLr3Pqe Msyr4yhP Du/tMPVo ezfu6Nxl omktbK8t WrpWsfq/ azi6tY7l RxJGGH4j NFN06BrX T4LVuscK qfwAFFfm z3P3+N+V
+ XPgT/gtN +y5qeq6f Y/tS+ENP llGnWg0/ xYLaPc8V rv3w3WBy RFIfm9my cAGuM/Zk +I1l+1r4 m8B/FbSN Qt7T4xfD m+tIde0y 5kCR+MtM gBHm28rE KbpYJJOC ed5J+Ugp
+ +lup6Zp2 tadPpGr2 MVza3MTR XFvOgZJE YYKsDwQR 2r88/wBq X/gkh4y8 J6xJ4w/Z R2Xehi6+ 2R+FFufs t9o8+/eZ tPnBTzHA LhElddpY fMwCqv3e S51hcTl8 cBip8k4X
+ UJvbllo4 y8n5taWs 04q/5rn/ AA1iMJms szwdPnhO zqQW/NF3 jOO9mnro nZ3unGTt a8RfsqfF v4l+Kf2q b+6i8eaB YX0seoeH rPSLOS2X xXJFY3nl 24YxlriL zTGGjj+8
+ WCnrXnNv 4R+MHgj9 jix8JfCf wb+1Zo/x Js9Ot0hs bS11WDRY ZvtCmcJG mAqmMyEY H3jWTpn/ AAUb/wCC gH7L32Dw p8S9bFzE r28E8PxQ 8I3Ed1al 3Ct+/Q27 XCopLeaS
+ 4bafmGVq 7ef8FV/2 4Pje9p4X +G/iTwtY yX0ce9vA nhC6vbxS xiDoBM85 RgHfBMXV B0+bZ9BT wmewtdU5 U04NPmaj 7kVHX3W2 mld/cnY+ bqVeG5Xc XUjVammu WLl+8m5+
+ 77yScW7K 3q1c9Q/a 08RaJ8HP iZaftW/H 4i91bw94 WsLH4c+B ZiZLzUb+ NWLajdr1 igjuLhwN 2CzKp4bY DwP/AASa +AHjT4// ALQGoftW /EwyXdlp GpXF3JqM wyupazNn
+ dtPR0hVm 55G9/lPH Fz4Df8Ew /wBon9of xbc+Ov2m ZL/QNI1F gNS1DXrw 3XiDV4lY kAbi32QM CyncchNi iIFTI36P fDf4b+Cf hH4J074d fDvw9b6X o+lW4hsb K2TCxqP1
+ Yk5JY5JJ JJJNeJmW b4XKstlg sPNVKsko ykvhjFfZ j5u7vq9X d2aSXu5V w7ic4zeG YYqm6dGE nOMX8U5/ zS20VlbR JJJK6bb3 KKKK/Pj9 SCiiigCJ 40lQpIgZ SOQwyDRB
+ bwW6FIIE QY6IoA/S iir+wZf8 vSRegpaK Kg1Ciiig D//Z</ImageDataBase64String>
+               </Image>
+               <PageImages />
+            </Element>
+            <Element xsi:type="XString" WhiteSpaceLength="20">
+               <XElements xsi:nil="true" />
+               <Text>                    </Text>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="1">
+               <XElements xsi:nil="true" />
+               <Text>乌兰察布市德祐医院</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" />
+            <Element xsi:type="XString" StyleIndex="6" WhiteSpaceLength="28">
+               <XElements xsi:nil="true" />
+               <Text>                            </Text>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="5">
+               <XElements xsi:nil="true" />
+               <Text>非药物执行单</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" />
+            <Element xsi:type="XString">
+               <XElements xsi:nil="true" />
+               <Text>姓名:</Text>
+            </Element>
+            <Element xsi:type="XInputField">
+               <Attributes />
+               <ID>555B0059-D165-46B3-9F88-9720672296AF</ID>
+               <ToolTip>请输入姓名</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/xm</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <XElements />
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <EventExpressions />
+               <Name>xm</Name>
+               <BackgroundText>姓名</BackgroundText>
+               <LastSelectedListItems />
+            </Element>
+            <Element xsi:type="XString">
+               <XElements xsi:nil="true" />
+               <Text>性别:</Text>
+            </Element>
+            <Element xsi:type="XInputField">
+               <Attributes />
+               <ID>B4DF9EC6-B5D1-4DDA-B7A0-CF1C28E822F1</ID>
+               <ToolTip>请选择</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ContentReadonly>False</ContentReadonly>
+               <XElements />
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <EventExpressions />
+               <Name>sex</Name>
+               <BackgroundText>性别</BackgroundText>
+               <EditorActiveMode>MouseClick</EditorActiveMode>
+               <LastSelectedListItems />
+               <FieldSettings>
+                  <EditStyle>DropdownList</EditStyle>
+                  <ListSource>
+                     <Items>
+                        <Item>
+                           <Text>男性</Text>
+                           <Value>0</Value>
+                        </Item>
+                        <Item>
+                           <Text>女性</Text>
+                           <Value>1</Value>
+                        </Item>
+                        <Item>
+                           <Text>男</Text>
+                           <Value>2</Value>
+                        </Item>
+                        <Item>
+                           <Text>女</Text>
+                           <Value>3</Value>
+                        </Item>
+                     </Items>
+                  </ListSource>
+               </FieldSettings>
+            </Element>
+            <Element xsi:type="XString">
+               <XElements xsi:nil="true" />
+               <Text>年龄:</Text>
+            </Element>
+            <Element xsi:type="XInputField">
+               <Attributes />
+               <ID>294E8883-886E-4F41-B60C-AA5FCA5DC21E</ID>
+               <ToolTip>请输入年龄</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/nl</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <XElements />
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <EventExpressions />
+               <Name>nl</Name>
+               <BackgroundText>年龄</BackgroundText>
+               <LastSelectedListItems />
+            </Element>
+            <Element xsi:type="XString">
+               <XElements xsi:nil="true" />
+               <Text>床号:</Text>
+            </Element>
+            <Element xsi:type="XInputField">
+               <Attributes />
+               <ID>47C322C6-9098-4D54-9F8A-C726F1BE8CC1</ID>
+               <ToolTip>请输入床号</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/BedName</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <XElements>
+                  <Element xsi:type="XString">
+                     <XElements xsi:nil="true" />
+                     <Text>床号</Text>
+                  </Element>
+               </XElements>
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <EventExpressions />
+               <Name>BedName</Name>
+               <InnerValue>床号</InnerValue>
+               <BackgroundText>床号</BackgroundText>
+               <LastSelectedListItems />
+            </Element>
+            <Element xsi:type="XString">
+               <XElements xsi:nil="true" />
+               <Text>住院号:</Text>
+            </Element>
+            <Element xsi:type="XInputField">
+               <Attributes />
+               <ID>6C1F42F9-EB78-43E1-AF32-18795C4E2303</ID>
+               <ToolTip>请输入住院号</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/zyh</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <XElements />
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <EventExpressions />
+               <Name>zyh</Name>
+               <BackgroundText>住院号</BackgroundText>
+               <LastSelectedListItems />
+            </Element>
+            <Element xsi:type="XString">
+               <XElements xsi:nil="true" />
+               <Text>西医诊断:</Text>
+            </Element>
+            <Element xsi:type="XInputField" StyleIndex="4">
+               <Attributes />
+               <ID>field6</ID>
+               <EnableValueValidate>true</EnableValueValidate>
+               <XElements />
+               <BorderElementColor />
+               <EventExpressions />
+               <Name>xyzd</Name>
+               <BackgroundText>西医诊断</BackgroundText>
+               <LastSelectedListItems />
+            </Element>
+            <Element xsi:type="XString">
+               <XElements xsi:nil="true" />
+               <Text> 中医诊断:</Text>
+            </Element>
+            <Element xsi:type="XInputField" StyleIndex="4">
+               <Attributes />
+               <ID>field7</ID>
+               <EnableValueValidate>true</EnableValueValidate>
+               <XElements />
+               <BorderElementColor />
+               <EventExpressions />
+               <Name>zyzd</Name>
+               <BackgroundText>中医诊断</BackgroundText>
+               <LastSelectedListItems />
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0" />
+         </XElements>
+      </Element>
+      <Element xsi:type="XTextBody">
+         <Attributes />
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XTextTable" NumOfRows="20" NumOfColumns="20">
+               <Attributes />
+               <ID>table60</ID>
+               <Expressions />
+               <XElements>
+                  <Element xsi:type="XTextTableRow">
+                     <Attributes />
+                     <Expressions />
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <XElements xsi:nil="true" />
+                                 <Text>  执行日期</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                           <RowSpan>2</RowSpan>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <XElements xsi:nil="true" />
+                                 <Text>项目（已经执行的打√）</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="0" />
+                           </XElements>
+                           <ColSpan>19</ColSpan>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <Attributes />
+                     <Expressions />
+                     <XElements>
+                        <Element xsi:type="XTextTableCell">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <XElements xsi:nil="true" />
+                                 <Text>灸法</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="0" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <XElements xsi:nil="true" />
+                                 <Text>雷火灸</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="0" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <XElements xsi:nil="true" />
+                                 <Text>电针</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="0" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <XElements xsi:nil="true" />
+                                 <Text>普通针刺</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="0" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <XElements xsi:nil="true" />
+                                 <Text>火针</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="0" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <XElements xsi:nil="true" />
+                                 <Text>放血</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="0" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <XElements xsi:nil="true" />
+                                 <Text>刮痧</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="0" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <XElements xsi:nil="true" />
+                                 <Text>中频</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="0" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <XElements xsi:nil="true" />
+                                 <Text>小针刀</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="0" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <XElements xsi:nil="true" />
+                                 <Text>手指点穴</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="0" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <XElements xsi:nil="true" />
+                                 <Text>穴位贴敷</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="0" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <XElements xsi:nil="true" />
+                                 <Text>药物罐</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="0" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <XElements xsi:nil="true" />
+                                 <Text>拔罐</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="0" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <XElements xsi:nil="true" />
+                                 <Text>打火灸</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="0" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <XElements xsi:nil="true" />
+                                 <Text>烫熨烫疗</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="0" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <XElements xsi:nil="true" />
+                                 <Text>中药熏蒸</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="0" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <XElements xsi:nil="true" />
+                                 <Text>穴位注射</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="0" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <XElements xsi:nil="true" />
+                                 <Text>关节错缝术</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="0" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <XElements xsi:nil="true" />
+                                 <Text>患</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="0" />
+                              <Element xsi:type="XString">
+                                 <XElements xsi:nil="true" />
+                                 <Text>者</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="0" />
+                              <Element xsi:type="XString">
+                                 <XElements xsi:nil="true" />
+                                 <Text>签</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="0" />
+                              <Element xsi:type="XString">
+                                 <XElements xsi:nil="true" />
+                                 <Text>名</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="0" />
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <Attributes />
+                     <Expressions />
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <Attributes />
+                     <Expressions />
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <Attributes />
+                     <Expressions />
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <Attributes />
+                     <Expressions />
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <Attributes />
+                     <Expressions />
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <Attributes />
+                     <Expressions />
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <Attributes />
+                     <Expressions />
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <Attributes />
+                     <Expressions />
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <Attributes />
+                     <Expressions />
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <Attributes />
+                     <Expressions />
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <Attributes />
+                     <Expressions />
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <Attributes />
+                     <Expressions />
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <Attributes />
+                     <Expressions />
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <Attributes />
+                     <Expressions />
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <Attributes />
+                     <Expressions />
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <Attributes />
+                     <Expressions />
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <Attributes />
+                     <Expressions />
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <Attributes />
+                     <Expressions />
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+               </XElements>
+               <Columns>
+                  <Element xsi:type="XTextTableColumn">
+                     <Attributes />
+                     <Width>327.6202</Width>
+                  </Element>
+                  <Element xsi:type="XTextTableColumn">
+                     <Attributes />
+                     <Width>94.62024</Width>
+                  </Element>
+                  <Element xsi:type="XTextTableColumn">
+                     <Attributes />
+                     <Width>111.620239</Width>
+                  </Element>
+                  <Element xsi:type="XTextTableColumn">
+                     <Attributes />
+                     <Width>97.62018</Width>
+                  </Element>
+                  <Element xsi:type="XTextTableColumn">
+                     <Attributes />
+                     <Width>108.620209</Width>
+                  </Element>
+                  <Element xsi:type="XTextTableColumn">
+                     <Attributes />
+                     <Width>112.620209</Width>
+                  </Element>
+                  <Element xsi:type="XTextTableColumn">
+                     <Attributes />
+                     <Width>115.620209</Width>
+                  </Element>
+                  <Element xsi:type="XTextTableColumn">
+                     <Attributes />
+                     <Width>118.620209</Width>
+                  </Element>
+                  <Element xsi:type="XTextTableColumn">
+                     <Attributes />
+                     <Width>96.62021</Width>
+                  </Element>
+                  <Element xsi:type="XTextTableColumn">
+                     <Attributes />
+                     <Width>99.62021</Width>
+                  </Element>
+                  <Element xsi:type="XTextTableColumn">
+                     <Attributes />
+                     <Width>108.620209</Width>
+                  </Element>
+                  <Element xsi:type="XTextTableColumn">
+                     <Attributes />
+                     <Width>113.620209</Width>
+                  </Element>
+                  <Element xsi:type="XTextTableColumn">
+                     <Attributes />
+                     <Width>111.620209</Width>
+                  </Element>
+                  <Element xsi:type="XTextTableColumn">
+                     <Attributes />
+                     <Width>112.620209</Width>
+                  </Element>
+                  <Element xsi:type="XTextTableColumn">
+                     <Attributes />
+                     <Width>108.620209</Width>
+                  </Element>
+                  <Element xsi:type="XTextTableColumn">
+                     <Attributes />
+                     <Width>106.620209</Width>
+                  </Element>
+                  <Element xsi:type="XTextTableColumn">
+                     <Attributes />
+                     <Width>108.620209</Width>
+                  </Element>
+                  <Element xsi:type="XTextTableColumn">
+                     <Attributes />
+                     <Width>103.620209</Width>
+                  </Element>
+                  <Element xsi:type="XTextTableColumn">
+                     <Attributes />
+                     <Width>96.620224</Width>
+                  </Element>
+                  <Element xsi:type="XTextTableColumn">
+                     <Attributes />
+                     <Width>174.340622</Width>
+                  </Element>
+               </Columns>
+            </Element>
+            <Element xsi:type="XParagraphFlag" />
+         </XElements>
+      </Element>
+      <Element xsi:type="XTextFooter">
+         <Attributes />
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XString">
+               <XElements xsi:nil="true" />
+               <Text>医生签名：</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2" />
+            <Element xsi:type="XString">
+               <XElements xsi:nil="true" />
+               <Text>年  月  日</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2" />
+         </XElements>
+      </Element>
+   </XElements>
+   <RepeatedImages />
+   <GlobalJavaScriptReferences />
+   <Info>
+      <LicenseText>本软件未注册。</LicenseText>
+      <CreationTime>1980-01-01T00:00:00</CreationTime>
+      <LastModifiedTime>2024-06-19T09:52:50.0834879+08:00</LastModifiedTime>
+      <LastPrintTime>1980-01-01T00:00:00</LastPrintTime>
+      <Operator>DCSoft.Writer Version:1.2023.2.14</Operator>
+      <NumOfPage>1</NumOfPage>
+   </Info>
+   <BodyText>  执行日期 项目（已经执行的打√） 
+灸法 雷火灸 电针 普通针刺 火针 放血 刮痧 中频 小针刀 手指点穴 穴位贴敷 药物罐 拔罐 打火灸 烫熨烫疗 中药熏蒸 穴位注射 关节错缝术 患
+者
+签
+名 
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        </BodyText>
+   <Comments />
+   <LocalConfig />
+   <PageSettings>
+      <PaperKind>Custom</PaperKind>
+      <LeftMargin>8</LeftMargin>
+      <TopMargin>8</TopMargin>
+      <RightMargin>8</RightMargin>
+      <BottomMargin>8</BottomMargin>
+   </PageSettings>
+   <UserHistories />
+   <SerializeParameterValue>true</SerializeParameterValue>
+   <Parameters />
+   <ContentStyles>
+      <Default xsi:type="DocumentContentStyle">
+         <FontName>宋体</FontName>
+         <FontSize>12</FontSize>
+      </Default>
+      <Styles>
+         <Style Index="0">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <Align>Center</Align>
+         </Style>
+         <Style Index="1">
+            <FontName>宋体</FontName>
+            <FontSize>24</FontSize>
+            <Bold>true</Bold>
+         </Style>
+         <Style Index="2">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <Align>Right</Align>
+         </Style>
+         <Style Index="3">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <BorderWidth>1</BorderWidth>
+            <BorderLeft>true</BorderLeft>
+            <BorderBottom>true</BorderBottom>
+            <BorderTop>true</BorderTop>
+            <BorderRight>true</BorderRight>
+            <PaddingLeft>12.5</PaddingLeft>
+            <PaddingTop>9.375</PaddingTop>
+            <PaddingRight>12.5</PaddingRight>
+            <PaddingBottom>9.375</PaddingBottom>
+         </Style>
+         <Style Index="4">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+         </Style>
+         <Style Index="5">
+            <FontName>宋体</FontName>
+            <FontSize>15.75</FontSize>
+         </Style>
+         <Style Index="6">
+            <FontName>宋体</FontName>
+            <FontSize>15.75</FontSize>
+         </Style>
+      </Styles>
+   </ContentStyles>
+   <FileName>C:\Users\lf_20\Desktop\住院文书\非药物治疗执行单.xml</FileName>
+   <FileFormat>XML</FileFormat>
+</XTextDocument>

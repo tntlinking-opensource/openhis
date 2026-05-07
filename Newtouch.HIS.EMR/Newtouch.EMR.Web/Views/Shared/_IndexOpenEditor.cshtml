@@ -1,0 +1,14 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache,no-store, must-revalidate">
+    <META HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="expires" CONTENT="0">
+    <title>@ViewBag.Title</title>
+</head>
+<body data-appid="@(FrameworkBase.MultiOrg.Infrastructure.ConstantsBase.AppId)">
+    @RenderBody()
+    @Html.AntiForgeryToken()
+</body>
+</html>

@@ -1,0 +1,559 @@
+﻿@using Newtouch.Infrastructure;
+@{
+    ViewBag.Title = "护士站患者中心-执行单打印";
+    var isShowSign = SysConfigReader.String("IS_ShowSigner");
+    var reportUrl = Newtouch.Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("ReportUrl");
+    var ReportSystemCode = Newtouch.Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("ReportSystemCode");
+    var curOpr = Newtouch.Common.Operator.OperatorProvider.GetCurrent();
+    var ypbjyfpz = SysConfigReader.String("ypbjyfpz");//输液标签
+}
+
+<div id="linkzxddy" role="tabpanel" class="tab-pane" style="width:100%;margin-right: 5px; border:solid 1px #ddd; margin-top: 3px;">
+    <table class="form" style="background-color:white">
+        @*<tr>
+                <td class="formTitle">姓名：</td>
+                <td class="formValue"><label id="hzxm"></label></td>
+                <td class="formTitle">性别：</td>
+                <td class="formValue" style="width:170px"><label id="sex"></label></td>
+                <td class="formTitle">年龄：</td>
+                <td class="formValue"><label id="nl"></label></td>
+                <td class="formTitle"> </td>
+                <td class="formValue"></td>
+                <td class="formTitle"> </td>
+                <td class="formValue"></td>
+            </tr>*@
+        <tr>
+            <td class="formTitle"> 执行日期：</td>
+            <td class="formValue">
+                <input id="txt_zxdrq" type="text" class="form-control input-wdatepicker" style="width:100%;"
+                       onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd' })"
+                       onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd', onpicked: function () { RefreshdyOrder() } })" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+
+            </td>
+            <td class="formTitle endTime-show" style="width:10px"> -</td>
+            <td class="formValue endTime-show">
+                <input id="txt_zxdrqend" type="text" class="form-control input-wdatepicker" style="width:100%;"
+                       onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd' })"
+                       onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd', onpicked: function () { RefreshdyOrder() } })" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+            </td>
+            <td class="formTitle">
+                执行类别：
+            </td>
+            <td class="formValue">
+                <select class="form-control" id="zxdlb">
+                    <option value="">请选择</option>
+                    <option value="zld">领药申请单</option>
+                    @*<option value="zsz">注射证</option>*@
+                    <option value="whd">雾化单</option>
+                    <option value="jyd">检验单</option>
+                    <option value="jcd">检查单</option>
+                    <option value="kfyd_yf">口服药单</option>
+                    <option value="zsd_yf">注射单</option>
+                    <option value="syd_yf">输液单</option>
+                    @*<option value="hld_sfdl">护理单</option>*@
+                    @*<option value="zld_yzlx">治疗单</option>*@
+                    <option value="yzd">医嘱单</option>
+                    <option value="zcy_yzlx">中药处方单</option>
+                    @*<option value="syxsk">输液巡视卡</option>*@
+                    <option value="ypbj">输液标签</option>
+                    <option value="whbq">雾化标签</option>
+                    <option value="jyztdy">试管标签</option>
+                    @*<option value="wzztd">文字嘱托单</option>*@
+                </select>
+
+            </td>
+            @*<td class="formTitle">
+                </td>*@
+
+            <td class="formValue" colspan="2">
+                <div class="btn-group">
+                    <a id="btn_zxddysearch" class="btn btn-primary">
+                        查询
+                    </a>
+                </div>
+                <label><input type="radio" name="optionsRadioszxd" class="optionsRadios formClearIgnore" checked value="qb" />全部</label>
+                <label><input type="radio" name="optionsRadioszxd" class="optionsRadios formClearIgnore" value="2" />长期</label>
+                <label><input type="radio" id="radioTreating" name="optionsRadioszxd" class="optionsRadios formClearIgnore" value="1" />临时</label>
+                <a id="Zxd_ExecutionChecked" class="btn btn-primary" onclick="Zxd_ExecutionChecked()">
+                    <i class="fa fa-pencil-square-o"></i>打印
+                </a>
+                <div id="printgoon" class="ckbox" style="float:right;padding-right:5px;">
+                    <div>
+                        <input id="ck_printgoon" name="ck_printgoon" type="checkbox" onclick="reloadGrid(null)"><label for="ck_printgoon">续打</label>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <br />
+    <div class="gridPanel"  style="width: 100%;background-color: #fff;">
+        <table id="gridzxddyList"></table>
+        <div id="gridzxddyPager"></div>
+    </div>
+
+</div>
+<script type="text/javascript">
+    var lysqdURL = '@Html.Raw(reportUrl)' + "?tempCode=33&systemCode=CIS";//领药申请单
+    var whdURL = '@Html.Raw(reportUrl)' + "?tempCode=34&systemCode=CIS";//雾化单
+    ////var jydURL = '@Html.Raw(reportUrl)' + "?tempCode=35&systemCode=CIS";//检验单
+    var jydURL = '@Html.Raw(reportUrl)' + "?tempCode=30&systemCode=CIS";//检验单
+    var jcdURL = '@Html.Raw(reportUrl)' + "?tempCode=36&systemCode=CIS";//检查单
+    var kfydURL = '@Html.Raw(reportUrl)' + "?tempCode=37&systemCode=CIS";//口服单
+    var zsdURL = '@Html.Raw(reportUrl)' + "?tempCode=38&systemCode=CIS";//注射单
+    var sydURL = '@Html.Raw(reportUrl)' + "?tempCode=39&systemCode=CIS";//输液单
+    var hldURL = '@Html.Raw(reportUrl)' + "?tempCode=41&systemCode=CIS";//护理单
+    var zldURL = '@Html.Raw(reportUrl)' + "?tempCode=42&systemCode=CIS";//治疗单
+    var zcyyzdURL = '@Html.Raw(reportUrl)' + "?tempCode=44&systemCode=CIS";//中药处方单
+    var syxskURL = '@Html.Raw(reportUrl)' + "?tempCode=97&systemCode=CIS"; //输液巡视卡
+    var lsyzdURL = '@Html.Raw(reportUrl)' + "?tempCode=28&systemCode=CIS";//临时医嘱
+    var cqyzdURL = '@Html.Raw(reportUrl)' + "?tempCode=27&systemCode=CIS";//长期医嘱
+    var ypbjURL = '@Html.Raw(reportUrl)' + "?tempCode=70&systemCode=CIS";//药品标签（输液标签）
+    var whbqURL = '@Html.Raw(reportUrl)' + "?tempCode=1310&systemCode=CIS";//雾化标签
+    var jyztdyURL = '@Html.Raw(reportUrl)' + "?tempCode=32&systemCode=CIS";//检验组套标签（试管标签）
+
+    var orgId = '@curOpr.OrganizeId';
+    var zxddyzyh = "";
+
+    $(function () {
+        $("#printgoon").hide();
+        
+
+        $("#btn_zxddysearch").click(function () {
+            reloadGrid(zxddyzyh);
+
+        });
+        $("#zxdlb").change(function () {
+            reloadGrid(zxddyzyh);
+        });
+
+        $("input[name='optionsRadioszxd']").click(function () {
+            reloadGrid(zxddyzyh);
+        });
+    })
+
+    function init_zxddy(zyh) {
+        if (!zxddyzyh)
+            zxddyzyh = zyh;
+        getZxxdyTreeList(zxddyzyh);
+        gridzxddyList();
+    }
+    function getZxxdyTreeList(zyhtimes) {
+         $("#PatTreeList").treeview({
+            height: $(window).height(),
+            slimscroll: false,
+            showcheck: true,
+            url: "/NurseManage/InpatientList/GetPatWardTree?zyzt=" + $('#zyzt').val() + "&keyword=" + $('#keyword').val() + "&checkzyh=" + zxddyzyh,
+            oncheckboxclick: function (item, s) {
+                getOrderZxddyExecutionList(item, s);
+            }
+        });
+    }
+
+    function getOrderZxddyExecutionList(item, s) {
+        var patlist = $("#PatTreeList").getCheckedNodeObjArray();
+        var patlistFath = "";
+
+        var patzyh = "";
+
+        //当前选中父节点
+        var len = 0;
+        var single = 0; //是否单个子节点
+
+        if (item != null && item.Ex1 == "p") {
+            patlistFath = item.ChildNodes;
+            len = patlistFath.length;
+        }
+        else if (item != null && item.Ex1 == "c") {
+            patlistFath = item;
+            len = 1;
+            single = 1;
+        }
+
+        //选中节点
+        for (var i = 0; i < patlist.length; i++) {
+            if (patlist[i].Ex1 == "c") {
+                patzyh += patlist[i].value + ",";
+            }
+        }
+
+        if (s == 1) {
+            if (single == 0) {
+                for (var j = 0; j < len; j++) {
+                    if (patlistFath[j].Ex1 == "c") {
+                        patzyh += patlistFath[j].value + ",";
+                    }
+                }
+            }
+            else if (patlistFath.Ex1 == "c") {
+                patzyh += patlistFath.value;
+            }
+        }
+        else if (s == 0) {
+            if (single == 0) {
+                for (var j = 0; j < len; j++) {
+                    if (patlistFath[j].Ex1 == "c" && patlistFath[j].checkstate == 1) {
+                        patzyh = patzyh.replace(patlistFath[j].value + ",", "");
+                    }
+                }
+            }
+            else if (patlistFath.Ex1 == "c") {
+                patzyh = patzyh.replace(patlistFath.value + ",", "");
+            }
+
+        }
+        zxddyzyh = patzyh;
+        $('#gridzxddyList').jqGrid('setGridParam', {
+            postData: {
+                zyh: patzyh, zxsj: $('#txt_zxdrq').val(), zxsjend: $('#txt_zxdrqend').val() + ' 23:59:59', zxdlb: $('#zxdlb').val(), yzxz: $('input[name="optionsRadioszxd"]:checked').val()
+            }
+        }).trigger("reloadGrid");
+    }
+
+    function reloadGrid(zyh) {
+        var zxsj = $('#txt_zxdrq').val() + " 00:00:00";
+        var zxsjend;
+        var zxdlb = $('#zxdlb').val();
+        var yzxz = $('input[name="optionsRadioszxd"]:checked').val();
+        //根据是否长期判断zxsjend的值
+        if (yzxz === "2" || yzxz === "1") {
+            zxsjend = $('#txt_zxdrq').val() + " 23:59:59";
+        } else {
+            zxsjend = $('#txt_zxdrqend').val() + " 23:59:59";
+        }
+
+        $('#gridzxddyList').jqGrid('setGridParam', {
+            postData: {
+                zyh: zyh, zxsj: zxsj, zxsjend: zxsjend, zxdlb: zxdlb, yzxz: yzxz
+            }
+        }).trigger("reloadGrid");
+    }
+    //监听全部/长期/临时的变化
+    $('input[name="optionsRadioszxd"]').change(function () {
+        // 获取当前被选中的 radio 的值
+        var selectedValue = $('input[name="optionsRadioszxd"]:checked').val();
+
+        if (selectedValue === "2" || selectedValue === "1") {
+            $('.endTime-show').hide();
+        } else {
+            $('.endTime-show').show();
+        }
+    });
+    function getOrderListByPatId(patid) {
+        $('#gridzxddyList').jqGrid("clearGridData");
+        $('#gridzxddyList').newtouchLocalDataGrid(null, orderList);
+    }
+
+    var checkTrigger = false;
+    var list = new Array();
+    var liststu = false;
+    var j = 0;
+    function gridzxddyList(patzyh) {
+        var $gridzxddyList = $("#gridzxddyList");
+        $gridzxddyList.dataGrid({
+            multiselect: true,
+            postData: { zyh: zxddyzyh, zxsj: $('#txt_zxdrq').val(), zxsjend: $('#txt_zxdrqend').val() + ' 23:59:59', zxdlb: $('#zxdlb').val(), yzxz: $('input[name="optionsRadioszxd"]:checked').val() },
+            url: "/NurseManage/ExceReportPrint/QueryExecDetailGridJson",
+            height: $(window).height() - 185,
+            colModel: [
+                { label: '医嘱ID', name: 'yzId', align: 'center', width: 50, key: true, hidden: true },
+                { label: '姓名', name: 'hzxm', align: 'center', width: 50 },
+                { label: '长临', name: 'clbz', align: 'center', width: 50},
+                { label: '医嘱号', name: 'yzh', align: 'center', width: 135 },
+                { label: '领药序号', name: 'lyxh', align: 'center',width: 60  },
+                { label: '分组号', name: 'zh', align: 'center', width: 50 },
+                {
+                    label: '是否计费', name: 'isjf', align: 'center', width: 50, formatter: function (val) {
+                        if (val == "0") {
+                            return "否";
+                        }
+                        else {
+                            return "是";
+                        }
+                    }
+                },
+                { label: '医嘱', name: 'yznr', align: 'center', width: 270 },
+                { label: '单价', name: 'dj', align: 'center', width: 50, formatter: 'number', formatoptions: { thousandsSeparator: "", decimalPlaces: 4 } },
+                { label: '数量', name: 'sl', align: 'center', width: 50, formatter: 'number', formatoptions: { thousandsSeparator: "", decimalPlaces: 2 } },
+                { label: '金额', name: 'je', align: 'center', width: 50, formatter: 'number', formatoptions: { thousandsSeparator: "", decimalPlaces: 2 } },
+                { label: '最后执行时间', name: 'zxsj', align: 'center', width: 120, formatter: "date", formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } },
+                { label: '审核者', name: 'shz', align: 'center', width: 55 },
+                { label: '执行者', name: 'zxz', align: 'center', width: 55 },
+                { label: 'yzlx', name: 'yzlx', align: 'center', hidden: true },
+                { label: 'ypyfdm', name: 'ypyfdm', align: 'center', hidden: true },
+                { label: 'zyh', name: 'zyh', align: 'center', hidden: true }
+            ],
+            pager: "#gridzxddyPager",
+            rowNum: 100,
+            sortname: 'zxsj desc,zh desc,px',
+            viewrecords: true,
+            multiselect: true,
+            onSelectRow: function (rowIndex, s) {
+            if (!checkTrigger) {
+                var len = 0;
+                var rowData = $("#gridzxddyList").jqGrid('getRowData', rowIndex);
+                var ids = $("#gridzxddyList").jqGrid('getRowData_AllLine');
+
+                liststu = s; //同步状态
+                for (var i = 0; i < ids.length; i++) {
+                    if ("zld" == $('#zxdlb').val()) {
+                        if (ids[i].lyxh == rowData.lyxh && ids[i].lyxh != "") {
+                            if (s == true) {
+                                if (rowIndex != ids[i].yzId) {
+                                    list[len] = ids[i].yzId;
+                                    len += 1;
+                                }
+                            }
+                            else {
+                                if (rowIndex != ids[i].yzId) {
+                                    list[len] = ids[i].yzId;
+                                    len += 1;
+                                }
+                            }
+                        }
+                    } else {
+                        if (ids[i].yzh == rowData.yzh && ids[i].yzh != "") {
+                            if (s == true) {
+                                if (rowIndex != ids[i].yzId) {
+                                    list[len] = ids[i].yzId;
+                                    len += 1;
+                                }
+                            }
+                            else {
+                                if (rowIndex != ids[i].yzId) {
+                                    list[len] = ids[i].yzId;
+                                    len += 1;
+                                }
+                            }
+                        }
+                    }
+
+                }
+                checkTrigger = true;
+            }
+
+            if (list.length > 0) {
+
+                for (j = j; j < list.length; j++) {
+                    if (liststu) //同组选中
+                    {
+                        j = j + 1;
+                        $("#gridzxddyList").jqGrid("setSelection", list[j - 1], true);
+
+                    }
+                    else { //同组取消选中
+                        //j = j + 1;
+                        $("#gridzxddyList").jqGrid("setSelection", list[j], false);      //取消不触发onselectrow
+                    }
+
+                }
+            }
+
+            j = 0;
+            checkTrigger = false;
+            list = new Array();
+            liststu = false;
+        },
+        });
+    }
+    //刷新医嘱
+    function RefreshdyOrder() {
+        $('#gridzxddyList').jqGrid("clearGridData");
+        getOrderZxddyExecutionList(null, null);
+    }
+
+    //打印
+    function Zxd_ExecutionChecked() {
+        //选中的id
+        var zxdlb = $('#zxdlb').val();
+        var selRowIds = jQuery("#gridzxddyList").jqGrid("getGridParam", "selarrrow");
+        if (selRowIds == null || selRowIds.length == 0) {
+            if (zxdlb != "yzd") {
+                $.modalAlert("请先选中需打印的医嘱", 'warning');
+                return;
+            }
+        }
+        var yzxz = $('input[name="optionsRadioszxd"]:checked').val();
+        var ksrq = $('#txt_zxdrq').val().substr(0, 10);
+        var jsrq = $('#txt_zxdrqend').val().substr(0, 10);
+        if (ksrq != jsrq && zxdlb != "yzd" && yzxz == "qb")
+        {
+            $.modalAlert("打印日期请选择同一天", 'warning');
+            return;
+        }
+        //输液标签 试管标签 打印参数
+        var strlyxh = "";
+        var yzhstr = "";
+        var zhstr = "";
+        if (zxdlb == "ypbj" || zxdlb == "jyztdy" || zxdlb =='whbq') { //输液标签 试管标签
+            for (var i = 0; i < selRowIds.length; i++) {
+                var rowData = $("#gridzxddyList").jqGrid('getRowData', selRowIds[i]);
+                if (strlyxh.indexOf(rowData.lyxh) < 0) {
+                    strlyxh = strlyxh + "," + rowData.lyxh;
+                }
+
+                if (yzhstr.indexOf(rowData.yzh) < 0) {
+                    yzhstr = yzhstr + "," + rowData.yzh;
+                }
+
+                if (zhstr.indexOf(rowData.zh) < 0) {
+                    zhstr = zhstr + "," + rowData.zh;
+                }
+            }
+        }
+        var printParam = {
+            "strlyxh": strlyxh, "yzhstr": yzhstr, "zhstr": zhstr
+        }
+
+        if (!zxdlb) {
+            $.modalAlert("请先选择执行单类别", 'warning');
+            return;
+        }
+        else if (zxdlb == "kfyd_yf" || zxdlb == "zsd_yf" || zxdlb == "hld_sfdl" || zxdlb == "zld_yzlx" || zxdlb == "syd_yf" || zxdlb == "zcy_yzlx" || zxdlb == "syxsk" || zxdlb == "ypbj" || zxdlb == "jyztdy" || zxdlb == "whbq") //口服 注射单 护理单 治疗单 输液单 输液标签 试管标签
+        {
+            FlPrint(zxdlb, selRowIds, printParam);
+            return;
+        }
+        else if (zxdlb == "yzd") {
+            FlPrint(zxdlb, null, printParam);
+            return;
+        }
+        var printed = [];
+        var strlyxh = "";
+        var reportServerHOST = '@(ViewBag.ReportServerHOST)';
+        for (var i = 0; i < selRowIds.length; i++) {
+            var rowData = $("#gridzxddyList").jqGrid('getRowData', selRowIds[i]);
+            if ($.inArray(rowData.yzh, printed) < 0) {//同一批已打印过，则不再弹出
+                if (zxdlb === "jyd" || zxdlb === "jcd") {
+                    //var rpturl = zxdlb === "jyd" ? reportServerHOST + "/ReportServer/Pages/ReportViewer.aspx?%2fNewtouch.Report.1%2f%E8%B4%B5%E5%AE%89%E4%BD%8F%E9%99%A2%E6%A3%80%E9%AA%8C%E7%94%B3%E8%AF%B7%E5%8D%95&rs:Command=Render&rc:Stylesheet=MyStyleSheetBlankPage&yzdh=" + rowData.yzh + "&zyh=" + zyh + "&orgId=" + orgId + "&yzzt=2" : reportServerHOST + "/ReportServer/Pages/ReportViewer.aspx?%2fNewtouch.Report.1%2f%E4%BD%8F%E9%99%A2%E6%A3%80%E6%9F%A5%E7%94%B3%E8%AF%B7%E5%8D%95&rs:Command=Render&rc:Stylesheet=MyStyleSheetBlankPage&yzdh=" + rowData.yzh + "&zyh=" + zyh + "&orgId=" + orgId;
+                    var rpturl = zxdlb == "jyd" ? jydURL + "&yzdh=" + rowData.yzh + "&zyh=" + rowData.zyh + "&orgId=" + orgId + "&yzzt=2" : jcdURL + "&yzdh=" + rowData.yzh + "&zyh=" + rowData.zyh + "&orgId=" + orgId;
+
+                    $.ajax({
+                        url: '/MedicalRecord/GetBarCodeBycfh',
+                        async: false,
+                        data: { cfh: rowData.yzh },
+                        success: function (r) {
+                            var aaa = r.replace(/\+/g, '%2B');
+                            rpturl = rpturl + "&barcode=" + aaa;
+                            window.open(rpturl, "_blank", "height=500, width=1195,top=100, left=50, toolbar =no, menubar=no, scrollbars=yes, resizable=yes, location=no, status=no");
+                        }
+                    });
+                }  else if (zxdlb === "zsz") {//注射证
+                    window.open(reportServerHOST + "/ReportServer/Pages/ReportViewer.aspx?%2fNewtouch.Report.1%2f%E8%B4%B5%E5%AE%89%E4%BD%8F%E9%99%A2%E6%B3%A8%E5%B0%84%E5%8D%95&rs:Command=Render&rc:Stylesheet=MyStyleSheetBlankPage&yzdh=" + rowData.yzh + "&zyh=" + zxddyzyh + "&orgId=" + orgId, "_blank", "height=500, width=1195,top=100, left=50, toolbar =no, menubar=no, scrollbars=yes, resizable=yes, location=no, status=no");
+                } else if (zxdlb === "whd") {//雾化单
+                    window.open(whdURL + "&orgId=" + orgId + "&zyh=" + rowData.zyh + "&yzdh=" + rowData.yzh + "&ksrq=" + ksrq + " 00:00:01&jsrq=" + jsrq +" 23:59:59", "_blank", "height=500, width=1195,top=100, left=50, toolbar =no, menubar=no, scrollbars=yes, resizable=yes, location=no, status=no");
+
+                }
+                else if (rowData.yzlx == '@((int)EnumYzlx.Yp)' || rowData.yzlx == '@((int)EnumYzlx.Cydy)' || rowData.yzlx == '@((int)EnumYzlx.zcy)') {
+
+                }
+                printed.push(rowData.yzh);
+            }
+            if (strlyxh.indexOf(rowData.lyxh) < 0) {
+                strlyxh = strlyxh + "," + rowData.lyxh;
+            }
+        }
+        if (zxdlb === "zld") {
+            var clbz = $("input:radio[name=optionsRadioszxd]:checked").val();
+            if (clbz == "1" || clbz == "2") { } else { $.modalAlert("请选择一种医嘱类型（长期/临时）", 'warning'); return; }
+            strlyxh = strlyxh.substr(1);
+            window.open(lysqdURL + "&zxrq=" + $('#txt_zxdrq').val() + "&zxrqEnd=" + $('#txt_zxdrqend').val() + ' 23:59:59' + "&lyxh=" + strlyxh + "&orgId=" + orgId + "&zyh=" + zxddyzyh, "_blank", "height=500, width=1195,top=100, left=50, toolbar =no, menubar=no, scrollbars=yes, resizable=yes, location=no, status=no");
+        }
+    }
+
+    function FlPrint(tag, ids, printParam) {
+
+        //输液标签（药品标签）
+        if (tag == "ypbj") {
+            //window.open(ypbjURL + "&orgId=" + '@(ViewBag.OrgId)' + "&zyh=" + zyh + "&yzxz=" + clbz + "&yzhs=" + idspara + "&zxrq=" + zxrq, "_blank", "height=500, width=1195,top=100, left=50, toolbar =no, menubar=no, scrollbars=yes, resizable=yes, location=no, status=no");
+            window.open(ypbjURL + "&orgId=" + orgId + "&zxrqks=" + $('#txt_zxdrq').val() + "&zxrqjs=" + $('#txt_zxdrqend').val() + ' 23:59:59' + "&yzxz=" + clbz + "&lyxh=" + printParam.strlyxh + "&zyh=" + zxddyzyh + "&fybh=" + "@ypbjyfpz" + "&orgId=" + orgId + "&yzh=" + printParam.yzhstr + "&zh=" + printParam.zhstr, "_blank", "height=500, width=1195,top=100, left=50, toolbar =no, menubar=no, scrollbars=yes, resizable=yes, location=no, status=no");
+            return;
+        }
+        //试管标签（检验组套标签）
+        if (tag == "jyztdy") {
+            $.ajax({
+                url: '/MedicalRecord/SaveBarCodeByYzh',
+                data: { yzlist: printParam.yzhstr },
+                success: function (r) {
+                    window.open(jyztdyURL + "&orgId=" + orgId + "&zxrqks=" + $('#txt_zxdrq').val() + "&zxrqjs=" + $('#txt_zxdrqend').val() + ' 23:59:59' + "&lyxh=" + printParam.strlyxh + "&zyh=" + zxddyzyh + "&orgId=" + orgId + "&yzh=" + printParam.yzhstr, "_blank", "height=500, width=1195,top=100, left=50, toolbar =no, menubar=no, scrollbars=yes, resizable=yes, location=no, status=no");
+
+                }
+            });
+
+            return;
+        }
+        if (tag == "whbq") {
+            var ksrq = $('#txt_zxdrq').val().substr(0, 10);
+            var jsrq = $('#txt_zxdrqend').val().substr(0, 10);
+            window.open(whbqURL + "&orgId=" + orgId + "&zyh=" + zxddyzyh + "&yzdh=" + printParam.yzhstr + "&ksrq=" + ksrq + " 00:00:01&jsrq=" + jsrq + " 23:59:59", "_blank", "height=500, width=1195,top=100, left=50, toolbar =no, menubar=no, scrollbars=yes, resizable=yes, location=no, status=no");
+        }
+        //var zyh = patzyh;//多患者
+        var idspara = "";
+        var zxrq = $("#txt_zxdrq").val();
+        if (ids != null) {
+            for (var i = 0; i < ids.length; i++) {
+                idspara += ids[i] + ",";
+            }
+        }
+        var clbz = $("input:radio[name=optionsRadioszxd]:checked").val();
+        debugger;
+        if (clbz == "1" || clbz == "2") {
+            //var zyhs = zyh.split(",");
+            var selRowIds = jQuery("#gridzxddyList").jqGrid("getGridParam", "selarrrow");
+            var zyhs = [];
+            for (var i = 0; i < selRowIds.length; i++) {
+                var rowData = $("#gridzxddyList").jqGrid('getRowData', selRowIds[i]);
+                if ($.inArray(rowData.zyh, zyhs) < 0) {
+                    zyhs.push(rowData.zyh);
+                }
+            }
+            for (var i = 0; i <= zyhs.length-1 ; i++) {
+                //alert(zyhs[i]);
+                if (tag == "kfyd_yf") { //口服单
+                    window.open(kfydURL + "&orgId=" + orgId + "&zyh=" + zyhs[i] + "&clbz=" + clbz + "&yzhs=" + idspara + "&zxrq=" + zxrq, "_blank", "height=500, width=1195,top=100, left=50, toolbar =no, menubar=no, scrollbars=yes, resizable=yes, location=no, status=no");
+                }
+                    //注射单
+                else if (tag == "zsd_yf") {
+                    window.open(zsdURL + "&orgId=" + orgId + "&zyh=" + zyhs[i] + "&clbz=" + clbz + "&yzhs=" + idspara + "&zxrq=" + zxrq, "_blank", "height=500, width=1195,top=100, left=50, toolbar =no, menubar=no, scrollbars=yes, resizable=yes, location=no, status=no");
+                }
+                    //护理单
+                else if (tag == "hld_sfdl") {
+                    window.open(hldURL + "&orgId=" + orgId + "&zyh=" + zyhs[i] + "&clbz=" + clbz + "&yzhs=" + idspara + "&zxrq=" + zxrq, "_blank", "height=500, width=1195,top=100, left=50, toolbar =no, menubar=no, scrollbars=yes, resizable=yes, location=no, status=no");
+                }
+                    //治疗单
+                else if (tag == "zld_yzlx") {
+                    window.open(zldURL + "&orgId=" +orgId + "&zyh=" + zyhs[i] + "&clbz=" + clbz + "&yzhs=" + idspara + "&zxrq=" + zxrq, "_blank", "height=500, width=1195,top=100, left=50, toolbar =no, menubar=no, scrollbars=yes, resizable=yes, location=no, status=no");
+                }
+                    //输液单
+                else if (tag == "syd_yf") {
+                    window.open(sydURL + "&orgId=" + orgId + "&zyh=" + zyhs[i] + "&clbz=" + clbz + "&yzhs=" + idspara + "&zxrq=" + zxrq, "_blank", "height=500, width=1195,top=100, left=50, toolbar =no, menubar=no, scrollbars=yes, resizable=yes, location=no, status=no");
+                }
+                    //医嘱单-临时
+                else if (tag == "yzd" && clbz == "1") {
+                    top.top.$.Newtouchtab.addTabWithOutMenu({ name: zyhs[i] + "-临时医嘱", enName: "", url: "/SystemManage/YzPreView/YzPreView?zyh=" + zyhs[i] + "&orgId=" + '@curOpr.OrganizeId' + "&isSign=" + isSign + "&yzlx=" + "临时医嘱", AppId: "EMR" });
+                    //window.open(lsyzdURL + "&orgId=" + '@(ViewBag.OrgId)' + "&zyh=" + zyh + "&isSign=" + isSign + "&zxrq=" + zxrq, "_blank", "height=500, width=1195,top=100, left=50, toolbar =no, menubar=no, scrollbars=yes, resizable=yes, location=no, status=no");
+
+                    @*window.open('@(ViewBag.ReportServerHOST)' + "/ReportServer/Pages/ReportViewer.aspx?%2fNewtouch.Report.1%2f%E4%B8%B4%E6%97%B6%E5%8C%BB%E5%98%B1%E6%89%93%E5%8D%B0&rs:Command=Render&orgId=" + orgId + "&rc:Stylesheet=MyStyleSheetBlankPage&orgId=" + orgId + "&zyh=" + zyh + "&isSign=1", "_blank", "height=500, width=1195,top=100, left=50, toolbar =no, menubar=no, scrollbars=yes, resizable=yes, location=no, status=no");*@
+                    }
+                    //医嘱单-长期
+                else if (tag == "yzd" && clbz == "2") {
+                    var isSign = "0";
+                    if ('@isShowSign' && '@isShowSign' === '1') {
+                        isSign = "1";
+                    }
+                    top.top.$.Newtouchtab.addTabWithOutMenu({ name: zyhs[i] + "-长期医嘱", enName: "", url: "/SystemManage/YzPreView/YzPreView?zyh=" + zyhs[i] + "&orgId=" + '@curOpr.OrganizeId' + "&isSign=" + isSign + "&yzlx=" + "长期医嘱", AppId: "EMR" });
+                    //window.open(cqyzdURL + "&orgId=" + '@(ViewBag.OrgId)' + "&zyh=" + zyh + "&isSign=" + isSign, "_blank", "height=500, width=1195,top=100, left=50, toolbar =no, menubar=no, scrollbars=yes, resizable=yes, location=no, status=no");
+                }
+                else if (tag =="zcy_yzlx") {
+                    window.open(zcyyzdURL + "&orgId=" + orgId + "&zyh=" + zyhs[i] + "&yzhs=" + idspara + "&zxrq=" + zxrq, "_blank", "height=500, width=1195,top=100, left=50, toolbar =no, menubar=no, scrollbars=yes, resizable=yes, location=no, status=no");
+
+                }
+
+            }
+        }
+        else {
+            $.modalAlert("请选择一种医嘱类型（长期/临时）", 'warning');
+        }
+
+    }
+
+</script>

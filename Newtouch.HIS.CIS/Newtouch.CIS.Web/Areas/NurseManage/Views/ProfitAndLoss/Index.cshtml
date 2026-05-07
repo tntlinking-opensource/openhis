@@ -1,0 +1,668 @@
+﻿@using Newtouch.Infrastructure
+@using Newtouch.Tools;
+@{
+    ViewBag.Title = "报损报溢";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+<style>
+    .sp-syze {
+        float: left;
+        line-height: 25px;
+        margin: 8px 5px;
+    }
+
+    .sp-dw {
+        line-height: 25px;
+    }
+</style>
+<form id="form1">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            损益信息
+        </div>
+        <div style="padding-right:20px;">
+            <table class="form">
+                <tr>
+                    <th class="formTitle">单据号：</th>
+                    <td class="formValue">
+                        <input type="text" id="Djh" class="form-control newtouch_Readonly" />
+                    </td>
+                    <th class="formTitle">损溢情况：</th>
+                    <td style="padding-left:12px;">
+                        <div class="btn-group" id="btnLossAndProfitTypeGourp" style="margin-top:0;">
+                            <button type="button" id="btnLoss" data-keywordtype="@EnumSybz.Loss.ToString()" class="btn active btn-restore">@EnumSybz.Loss.GetDescription()</button>
+                            <button type="button" id="btnProfit" data-keywordtype="@EnumSybz.Profit.ToString()" class="btn btn-default">@EnumSybz.Profit.GetDescription()</button>
+                        </div>
+                    </td>
+                    <th class="formTitle">损溢原因：</th>
+                    <td class="formValue">
+                        <select id="syyy" class="form-control" onchange="SyyyChange()"></select>
+                    </td>
+                    <th class="formTitle">备注：</th>
+                    <td class="formValue">
+                        <input type="text" id="remark" class="form-control" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="panel-heading">物资信息</div>
+        <div style="padding-right:20px;">
+            <table class="form">
+                <tr>
+                    <th class="formTitle"><span class="required">*</span>物资名称：</th>
+                    <td class="formValue">
+                        <input type="text" id="wzmc" class="form-control" />
+                        <input type="hidden" id="productId" value="" />
+                        <input type="hidden" id="zhyz" value="" />
+                        <input type="hidden" id="editRowId" value="" />
+                    </td>
+                    <th class="formTitle"><span class="required">*</span>批次：</th>
+                    <td class="formValue">
+                        <input type="text" id="pc" class="form-control" />
+                    </td>
+                    <th class="formTitle"><span class="required">*</span>损溢数量：</th>
+                    <td class="formValue">
+                        <div class="row">
+                            <div hidden id="div_sy" class="col-md-4">
+                                <input id="bmsl" type="text" class="form-control" onkeyup="SyslChange()" />
+                            </div>
+                            <div hidden id="div_dw" class="col-md-2">
+                                <span id="bmdw" class="sp-dw"></span>
+                                <input id="UnitId" type="hidden" />
+                            </div>
+                            <div class="col-md-4">
+                                <input id="zxsl" type="text" class="form-control" onkeyup="SyslChange()" />
+                            </div>
+                            <div class="col-md-2">
+                                <span id="zxdw" class="sp-dw"></span>
+                            </div>
+                        </div>
+                    </td>
+                    <th class="formTitle"><span class="required">*</span>责任人工号：</th>
+                    <td class="formValue">
+                        <input type="text" id="zrrmc" class="form-control" />
+                        <input type="text" id="zrr" hidden />
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">有效期：</th>
+                    <td class="formValue">
+                        <input id="Yxq" type="text" class="form-control input-wdatepicker newtouch_Readonly" value="" />
+                    </td>
+                    <th class="formTitle">规格：</th>
+                    <td class="formValue">
+                        <input type="text" id="gg" class="form-control newtouch_Readonly" />
+                    </td>
+                    <th class="formTitle">现有库存：</th>
+                    <td class="formValue">
+                        <input type="text" id="slstr" class="form-control newtouch_Readonly" />
+                        <input id="Sykc" type="text" hidden="hidden" />
+                    </td>
+                    <th class="formTitle">生产厂家：</th>
+                    <td class="formValue">
+                        <input type="text" id="sccj" class="form-control newtouch_Readonly" />
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">批号：</th>
+                    <td class="formValue">
+                        <input type="text" id="Ph" class="form-control newtouch_Readonly" />
+                    </td>
+                    <th class="formTitle">进价：</th>
+                    <td class="formValue">
+                        <input type="text" id="bmjj" class="form-control newtouch_Readonly" />
+                    </td>
+                    <th class="formTitle">零售价：</th>
+                    <td class="formValue">
+                        <input type="text" id="Lsj" class="form-control newtouch_Readonly" />
+                    </td>
+                    <th class="formTitle">零售总额(元)：</th>
+                    <td class="formValue">
+                        <input type="text" id="Lsjze" class="form-control newtouch_Readonly" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</form>
+@Html.Partial("_MiddleButtonsView", new Newtouch.HIS.Web.Core.Models.BottomButtonViewModel
+{
+    ShowKeyList = new int[] { 3, 6 },
+    F3Text = "确定",
+    F6Text = "删除",
+})
+<div>
+    <table id="gridSYXX"></table>
+</div>
+@Html.Partial("_BottomButtonsView", new Newtouch.HIS.Web.Core.Models.BottomButtonViewModel
+{
+    ShowKeyList = new int[] { 7, 8 },
+    F7Text = "重置",
+    F8Text = "保存"
+})
+<span class="sp-syze">损溢总额：&nbsp;<span id="txtSYZE"></span> &nbsp;元</span>
+<script>
+    var Sysl = 0;
+    $(function () {
+        gridSYXX();//损益信息
+        GenerateDjh();//加载损益单号
+        GetSyyy();//加载损益原因
+        $(".toolbar").css("width", "70%");
+        $("#wzmc").change(function () {
+            $("#productId").val("");
+            $("#Ph").val("");
+            $("#pc").val("");
+            $("#Lsjze").val("");
+            $("#bmdw").html("");
+            $("#zxdw").html("");
+            $("#bmsl").val("");
+            $("#zxsl").val("");
+            $("#bmjj").val("");
+        });
+    });
+
+    $('#btnLossAndProfitTypeGourp').on('click', '.btn', function () {
+        if (!$(this).hasClass('active')) {
+            $(this).siblings('.btn').removeClass('btn-restore').removeClass('active').addClass('btn-default');
+            $(this).removeClass('btn-default').addClass('btn-restore active');
+        }
+        GetSyyy();
+    });
+
+    //加载损益单号
+    function GenerateDjh() {
+        $.najax({
+            url: "/NurseManage/ProfitAndLoss/GenerateDjh",
+            dataType: "text",
+            async: false,
+            success: function (data) {
+                $("#Djh").val(data);
+            }
+        });
+    }
+
+    //加载损益原因
+    function GetSyyy() {
+        var sybz = "";
+        if ($('#btnLossAndProfitTypeGourp .btn.active').attr('data-keywordtype') === '@EnumSybz.Loss.ToString()') {
+            sybz = "@((int)EnumSybz.Loss)";//0 报损，1 报溢
+        } else {
+            sybz = "@((int)EnumSybz.Profit)";
+        }
+        $("#syyy").bindSelect({
+            url: "/NurseManage/ProfitAndLoss/GetLossProfitReasonListByType?sybz=" + sybz,
+            id: "Id",
+            text: "syyy"
+        });
+    }
+
+    //物资选择 pc
+    $("#wzmc").newtouchBatchFloatingSelector({
+        clickautotrigger: true,
+        height: 300,
+        width: 910,
+        id: 'selectProduct',
+        url: '/NurseManage/DepartmentSupplies/DepartmentStockListQuery',
+        ajaxmethod: 'Get',
+        ajaxreqdata: function () {
+            var reqData = {};
+            reqData.key = $("#wzmc").val();
+            return reqData;
+        },
+        caption: "物资信息",
+        colModel: [
+            { label: '类别', name: 'lbmc', width: 120, align: "left" },
+            { label: '名称', name: 'name', width: 200, align:"left" },
+            { label: '库存', name: 'slstr', width: 100, align: "right" },
+            { label: '规格', name: 'gg', width: 120, align: "right"},
+            {
+                label: '零售价', name: 'bmlsj', width: 90, align: "right",
+                formatter: function (cellvalue) { return cellvalue.toFixed(4); }},
+            { label: '单位', name: 'bmdwmc', width: 60 },
+            { label: '生产厂家', name: 'supplierName', width: 170, align: "left" },
+            { label: 'Id', name: 'Id', hidden: true },
+            { label: 'zhyz', name: 'zhyz', hidden: true },
+            { label: 'bmdwmc', name: 'bmdwmc', hidden: true },
+            { label: 'bmdwId', name: 'bmdwId', hidden: true },
+            { label: 'mindwmc', name: 'mindwmc', hidden: true }
+        ],
+        itemdbclickhandler: function ($thistr) {
+            $("#wzmc").val($thistr.attr('data-name'));
+            $("#productId").val($thistr.attr('data-Id'));
+            $("#zhyz").val($thistr.attr('data-zhyz'));
+            $("#gg").val($thistr.attr('data-gg'));
+            $("#sccj").val($thistr.attr('data-supplierName'));
+            $("#Lsj").val(parseFloat($thistr.attr('data-bmlsj')).toFixed(4));
+            $("#bmdw").html($thistr.attr("data-bmdwmc"));
+            $("#zxdw").html($thistr.attr("data-mindwmc"));
+            $("#UnitId").val($thistr.attr("data-bmdwId"));
+            if ($thistr.attr("data-bmdwmc") === $thistr.attr("data-mindwmc")) {
+                $("#div_sy").hide();
+                $("#div_dw").hide();
+            } else {
+                $("#div_sy").show();
+                $("#div_dw").show();
+            }
+            return;
+        }
+    });
+
+    //损益原因联动
+    function SyyyChange() {
+        $("#remark").val($("#syyy").find("option:selected").text());
+    }
+
+    //损益数量keyup事件
+    function SyslChange() {
+        var zhyz = $("#zhyz").val();
+        zhyz = zhyz === '' ? 1 : zhyz;
+        zhyz = parseFloat(zhyz);
+        var sysl = CalculationSysl();
+        var lsj = parseFloat($("#Lsj").val());
+        $("#Lsjze").val((lsj / zhyz * sysl).toFixed(2));
+    }
+
+    //计算损益数量
+    function CalculationSysl() {
+        if ($("#productId").val() === "") {
+            $.modalAlert("请重新选物资", 'warning');
+            return false;
+        }
+        if ($("#Lsj").val() === "") {
+            $.modalAlert("物资零售价不能为空", 'warning');
+            return false;
+        }
+        var bmsl = $.trim($("#bmsl").val());
+        var zxsl = $.trim($("#zxsl").val());
+        var zhyz = $("#zhyz").val();
+        bmsl = bmsl === '' ? 0 : bmsl;
+        zxsl = zxsl === '' ? 0 : zxsl;
+        zhyz = zhyz === '' ? 1 : zhyz;
+        bmsl = parseFloat(bmsl);
+        zxsl = parseFloat(zxsl);
+        zhyz = parseFloat(zhyz);
+        if ($("#div_sy").is(":hidden")) {   //单价单位(当前部门的单位) sl/zhyz
+            return zxsl;
+        } else {
+            return bmsl * zhyz + zxsl;
+        }
+    }
+
+    //责任人
+    $("#zrrmc").newtouchBatchFloatingSelector({
+        clickautotrigger: true,
+        height: 200,
+        width: 300,
+        id: 'initialZRR',
+        url: '/NurseManage/ProfitAndLoss/GetZRRList',
+        ajaxmethod: 'Get',
+        ajaxreqdata: function () {
+            var reqData = {};
+            reqData.keyword = $("#zrrmc").val();
+            return reqData;
+        },
+        caption: "责任人",
+        colModel: [
+            { label: '工号', name: 'gh', widthratio: 25 },
+            { label: '名称', name: 'Name', widthratio: 25 },
+            { label: '拼音', name: 'py', widthratio: 25 }
+        ],
+        itemdbclickhandler: function ($thistr) {
+            $("#zrr").val($thistr.attr('data-gh'));
+            $("#zrrmc").val($thistr.attr('data-name'));
+            return;
+        }
+    });
+
+    //物资批次选择
+    $("#pc").newtouchBatchFloatingSelector({
+        clickautotrigger: true,
+        height: 300,
+        width: 870,
+        id: 'selectProductPcPh',
+        url: '/NurseManage/DepartmentSupplies/ProductBatchQuery',
+        ajaxmethod: 'Get',
+        ajaxreqdata: function () {
+            var reqData = {};
+            reqData.proId = $("#productId").val();
+            return reqData;
+        },
+        caption: "物资批号批次信息",
+        colModel: [
+            { label: '批号', name: 'ph', width: 120 },
+            { label: '批次', name: 'pc', width: 200 },
+            { label: '数量', name: 'slstr', width: 100 },
+            {
+                label: '进价', name: 'bmjj', width: 90,
+                formatter: function (cellvalue) { return cellvalue.toFixed(4); }
+            },
+            {
+                label: '进价总额', name: 'jjzje', width: 90,
+                formatter: function (cellvalue) { return cellvalue.toFixed(2); }
+            },
+            { label: '有效期', name: 'yxq', width: 80, formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d' } },
+            { label: '生产日期', name: 'scrq', width: 100, formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d' } },
+            { label: 'kykcsl', name: 'kykcsl', hidden: true },
+            { label: 'kcsl', name: 'kcsl', hidden: true }
+        ],
+        itemdbclickhandler: function ($thistr) {
+            $("#Yxq").val($thistr.attr('data-yxq'));
+            $("#Ph").val($thistr.attr('data-ph'));
+            $("#pc").val($thistr.attr('data-pc'));
+            $("#bmjj").val($thistr.attr('data-bmjj'));
+            $("#slstr").val($thistr.attr('data-slstr'));
+            $("#Sykc").attr('data-kcsl', $thistr.attr('data-kcsl')).val($thistr.attr('data-kykcsl'));//kykcsl
+            return;
+        }
+    });
+
+    //确定
+    function newtouch_event_f3() {
+        //检查明细
+        if (!CheckDetailData()) {
+            return false;
+        }
+        var sybz = "";
+        var syqk = "";
+        if ($('#btnLossAndProfitTypeGourp .btn.active').attr('data-keywordtype') === '@EnumSybz.Loss.ToString()') {
+            sybz ="@((int)EnumSybz.Loss)";//0 报损，1 报溢
+            syqk = "@EnumSybz.Loss.GetDescription()";
+        } else {
+            sybz = "@((int)EnumSybz.Profit)";
+            syqk = "@EnumSybz.Profit.GetDescription()";
+        }
+        var data = [{
+            sybz: sybz,
+            syqk: syqk,
+            syyy: $("#syyy").find("option:selected").text(),
+            syyyId: $("#syyy").val(),
+            Djh: $("#Djh").val(),
+            wzmc: $("#wzmc").val(),
+            Sysl: CalculationSysl(),//最后保存到损益表
+            Sykc: $("#Sykc").val(),
+            slstr: $("#slstr").val(),
+            zhyz: $("#zhyz").val(),
+            Ph: $("#Ph").val(),
+            pc: $("#pc").val(),
+            yxq: $("#txtYXQ").val(),
+            Jj: $("#bmjj").val(),
+            Lsj: $("#Lsj").val(),
+            Lsjze: $("#Lsjze").val(),
+            gg: $("#gg").val(),
+            sccj: $("#sccj").val(),
+            Yxq: $("#Yxq").val(),
+            Zrr: $("#zrr").val(),
+            productId: $("#productId").val(),
+            remark: $("#remark").val(),
+            UnitId: $("#UnitId").val(),
+            bmsl: $("#bmsl").val(),
+            zxsl: $("#zxsl").val(),
+            bmdw: $("#bmdw").text(),
+            zxdw: $("#zxdw").text(),
+            zrrmc: $("#zrrmc").val()
+        }];
+        if ($('#editRowId').val()) {            //是修改
+            $('#gridSYXX').jqGrid("delRowData", $('#editRowId').val()); //先remove掉那一行
+        }
+        //检查重复项
+        var isRepeatedAdd = false;
+        $.each($("#gridSYXX").getDataIDs(), function () {
+            var rowData = $("#gridSYXX").jqGrid('getRowData', this);
+            if (rowData.productId === data[0].productId && rowData.Ph === data[0].Ph && rowData.pc === data[0].pc) {
+                isRepeatedAdd = true;
+            }
+        });
+        if (isRepeatedAdd) {
+            $.modalAlert("不可重复添加", 'warning');
+            return false;
+        }
+        $("#gridSYXX").newtouchLocalDataGrid(null, data);
+        ComputeRKZE();//计算损益总额
+        ClearInput();
+    }
+
+    //删除
+    function newtouch_event_f6() {
+        var delRowid = $("#gridSYXX").jqGrid('getGridParam', 'selrow');
+        if (!delRowid) {
+            $.modalAlert("未选中行", 'warning');
+            return;
+        }
+        $('#gridSYXX').jqGrid('delRowData', delRowid);
+    }
+
+    //损益信息
+    function gridSYXX() {
+        var $gridSyxx = $("#gridSYXX");
+        $gridSyxx.dataGrid({
+            unwritten: false,
+            height: $(window).height() - document.getElementById('gridSYXX').offsetTop - 85,
+            colModel: [
+                { label: "损益标志", name: "syqk", width: 55, align: "center" },
+                { label: '损益原因', name: 'syyy', width: 150, align: 'left' },
+                { label: '单据号', name: 'Djh', width: 140, align: 'left' },
+                { label: '物资名称', name: 'wzmc', width: 180, align: 'left' },
+                { label: '损溢数量', name: 'Sysl', width: 55, align: 'left' },//最小单位
+                { label: '进价', name: 'Jj', width: 70, align: 'left' },
+                { label: '零售价', name: 'Lsj', width: 70, align: 'left' },
+                { label: '零售总额', name: 'Lsjze', width: 70, align: 'left' },
+                { label: '单位', name: 'zxdw', width: 55, align: 'left' },
+                { label: '现有库存', name: 'Sykc', width: 70, align: 'left' },
+                { label: '转化因子', name: 'zhyz', width: 60, align: 'left' },
+                { label: '批号', name: 'Ph', width: 80, align: 'left' },
+                { label: '批次', name: 'pc', width: 80, align: 'left' },
+                { label: '规格', name: 'gg', width: 100, align: 'left' },
+                { label: '产地', name: 'sccj', width: 150, align: 'left' },
+                { label: '有效期', name: 'Yxq', width: 70, align: 'left', formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d' } },
+                { label: '责任人', name: 'zrrmc', width: 66, align: 'left' },
+                { label: 'productId', name: 'productId', hidden: true },
+                { label: "sybz", name: "sybz", hidden: true },
+                { label: 'syyyId', name: 'syyyId', hidden: true },
+                { label: 'remark', name: 'remark', hidden: true },
+                { label: 'UnitId', name: 'UnitId', hidden: true },
+                { label: 'bmsl', name: 'bmsl', hidden: true },
+                { label: 'zxsl', name: 'zxsl', hidden: true },
+                { label: 'zxdw', name: 'zxdw', hidden: true },
+                { label: 'bmdw', name: 'bmdw', hidden: true },
+                { label: 'Zrr', name: 'Zrr', hidden: true },
+                { label: 'slstr', name: 'slstr', hidden: true }
+            ],
+            ondblClickRow: function (rowid) {
+                if (rowid) {
+                    var getRowData = $("#gridSYXX").jqGrid('getRowData', rowid);
+                    if (getRowData) {
+                        if (getRowData.sybz === "0") {  //报损
+                            if (!$("#btnLoss").hasClass('active')) {
+                                $("#btnProfit").removeClass('btn-restore').removeClass('active');
+                                $("#btnLoss").addClass('btn-restore active');
+                            }
+                        } else {   //报溢
+                            if (!$("#btnProfit").hasClass('active')) {
+                                $("#btnLoss").removeClass('btn-restore').removeClass('active');
+                                $("#btnProfit").addClass('btn-restore active');
+                            }
+                        }
+                        $("#syyy").val(getRowData.syyyId).trigger("change");
+                        $("#wzmc").val(getRowData.wzmc);
+                        $("#zxdw").text(getRowData.zxdw);
+                        $("#Sykc").val(getRowData.Sykc);
+                        $("#zhyz").val(getRowData.zhyz);
+                        $("#Ph").val(getRowData.Ph);
+                        $("#pc").val(getRowData.pc);
+                        $("#txtYXQ").val(getRowData.yxq);
+                        $("#bmjj").val(getRowData.Jj);
+                        $("#Lsj").val(getRowData.Lsj);
+                        $("#Lsjze").val(getRowData.Lsjze);
+                        $("#gg").val(getRowData.gg);
+                        $("#sccj").val(getRowData.sccj);
+                        $("#Yxq").val(getRowData.Yxq);
+                        $("#Zrr").val(getRowData.Zrr);
+                        $("#zrrmc").val(getRowData.zrrmc);
+                        $("#productId").val(getRowData.productId);
+                        $("#remark").val(getRowData.remark);
+                        $("#UnitId").val(getRowData.UnitId);
+                        $("#bmsl").val(getRowData.bmsl);
+                        $("#zxsl").val(getRowData.zxsl);
+                        $("#zxdw").text(getRowData.zxdw);
+                        $("#bmdw").text(getRowData.bmdw);
+                        if (getRowData.zxdw === getRowData.bmdw) {
+                            $("#div_sy").hide();
+                            $("#div_dw").hide();
+                        } else {
+                            $("#div_sy").show();
+                            $("#div_dw").show();
+                        }
+                        $("#zrrmc").val(getRowData.zrrmc);
+                        $("#zrr").val(getRowData.Zrr);
+                        $("#slstr").val(getRowData.slstr);
+                        $('#editRowId').val(rowid);
+                    }
+                }
+            }
+        });
+    }
+
+    //保存
+    function newtouch_event_f8() {
+        var syxx = $("#gridSYXX").jqGrid('getRowData_AllLine');
+        if (syxx == null || syxx.length <= 0) {
+            $.modalAlert("请先添加报损报溢信息", 'warning');
+            return;
+        }
+        $.najax({
+            url: "/NurseManage/ProfitAndLoss/LossAndProfitSubmit",
+            dataType: "json",
+            data: { plist: syxx },
+            type: "POST",
+            success: function (data) {
+                if (data != null && data.state === "success") {
+                    $.modalAlert("保存成功", 'success');
+                    $('#gridSYXX').jqGrid("clearGridData"); //清除明细的grid
+                    $("#gridSYXX").resetSelection();
+                    newtouch_event_f7(); //新损溢：新单据号 主数据清空 明细清空
+                } else {
+                    if (data != null) {
+                        $.modalAlert(data.message, 'warning');
+                    }
+                    else{
+                        $.modalAlert("损益提交失败", 'warning');
+                    }
+                }
+            }
+        });
+    }
+
+    //新损益
+    function newtouch_event_f7() {
+        //if ($("#gridSYXX").getGridParam('records') > 0) {
+        //    $.modalConfirm("有未完成的损益，确定要生成新损益吗？", function (flag) {
+        //        if (!flag) {
+        //            return false;
+        //        } else {
+                    $('#gridSYXX').jqGrid("clearGridData"); //清除明细的grid
+                    $("#gridSYXX").resetSelection();
+                    GenerateDjh();//换单号
+                    $("#btnLoss").removeAttr("disabled").removeAttr("style");
+                    $("#btnProfit").removeAttr("disabled").removeAttr("style");
+                    ClearInput();
+        //        }
+        //    });
+        //}
+    }
+
+    //计算损益总额
+    function ComputeRKZE() {
+        var syze = 0;
+        var count = $("#gridSYXX").getGridParam('records');
+        if (count > 0) {
+            var rowIds = $("#gridSYXX").getDataIDs();
+            for (var i = 0; i < rowIds.length; i++) {
+                var getRowLsze = $("#gridSYXX").getRowData(rowIds[i]).Lsjze;
+                syze = parseFloat(syze) + parseFloat(getRowLsze);
+            }
+            $("#txtSYZE").html(syze.toFixed(2));//损益金额
+        } else {
+            $("#txtSYZE").html('');
+        }
+    }
+
+    //校验明细
+    function CheckDetailData() {
+        if ($("#wzmc").val() === "") {
+            $.modalAlert("物资为空", 'warning');
+            return false;
+        }
+        if ($("#productId").val() === "") {
+            $.modalAlert("物资为空", 'warning');
+            return false;
+        }
+        if ($("#pc").val() === "") {
+            $.modalAlert("批次为空", 'warning');
+            return false;
+        }
+        if ($("#Ph").val() === "") {
+            $.modalAlert("批号为空", 'warning');
+            return false;
+        }
+        if ($("#bmsl").val() === "" && $("#zxsl").val() === "") {
+            $.modalAlert("损溢数量为空", 'warning');
+            return false;
+        }
+        var sysl = CalculationSysl();
+        if (sysl <= 0) {
+            $.modalAlert("损溢数量应大于0", 'warning');
+            return false;
+        }
+        if ($('#btnLossAndProfitTypeGourp .btn.active').attr('data-keywordtype') === 'Loss') {
+            if (sysl > parseFloat($("#Sykc").val())) {   //反之，直接比较数量（最小单位数量）
+                $.modalAlert("报损数量应小于现有库存", 'warning');
+                return false;
+            }
+        }
+        if ($("#syyy").val() === "") {
+            $.modalAlert("损溢原因为空", 'warning');
+            return false;
+        }
+        var syyy = $("#syyy").find("option:selected").text();
+        if (syyy === "其他") {
+            if ($("#remark").val()) {
+                $.modalAlert("备注为空", 'warning');
+                return false;
+            }
+        }
+        if ($("#zrr").val() === "") {
+            $.modalAlert("责任人工号为空", 'warning');
+            return false;
+        }
+        if ($("#zrrmc").val() === "") {
+            $.modalAlert("责任人名称为空", 'warning');
+            return false;
+        }
+        return true;
+    }
+
+    //清空物资信息
+    function ClearInput() {
+        $("#wzmc").val("");
+        $("#productId").val("");
+        $("#zhyz").val("");
+        $("#Yxq").val("");
+        $("#gg").val("");
+        $("#sccj").val("");
+        $("#Lsj").val("");
+        $("#bmdw").html("");
+        $("#zxdw").html("");
+        $("#bmsl").val("");
+        $("#zxsl").val("");
+        $("#Lsjze").val("");
+        $("#zrrmc").val("");
+        $("#zrr").val("");
+        $("#Ph").val("");
+        $("#pc").val("");
+        $("#bmjj").val("");
+        $("#Sykc").val("");
+        $("#slstr").val("");
+        $("#bmjj").val("");
+        $("#editRowId").val("");
+    }
+</script>

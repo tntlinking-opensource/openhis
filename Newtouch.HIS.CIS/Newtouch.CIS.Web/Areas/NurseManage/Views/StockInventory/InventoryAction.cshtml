@@ -1,0 +1,566 @@
+﻿
+@using Newtouch.Infrastructure
+@model dynamic
+
+@{
+    ViewBag.Title = "开始盘点";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+<style>
+    .dv-navigation {
+        height: 45px;
+        margin-bottom: 5px;
+    }
+
+    .progress_bar {
+        margin: 0 0 0 10px;
+        float: left;
+        padding: 10px 0 0;
+    }
+
+        .progress_bar li {
+            width: 180px;
+            float: left;
+            text-align: center;
+            position: relative;
+            line-height: 30px;
+            list-style: none;
+            border-top: 6px solid #f5f5f5;
+        }
+
+            .progress_bar li i {
+                position: absolute;
+                left: 50%;
+                margin-left: -10px;
+                top: -14px;
+                height: 18px;
+                width: 18px;
+                border: 2px solid white;
+                border-radius: 10px;
+                background-color: #f5f5f5;
+            }
+
+        .progress_bar .completeLi {
+            color: #ff9813;
+            border-top-color: #ff9813;
+        }
+
+        .progress_bar .completePoint {
+            background-color: #ff9813;
+        }
+
+    .dv-backIndex {
+        float: right;
+        line-height: 45px;
+        margin-right: 10px;
+    }
+
+    .dv-remark {
+        color: #ff0000;
+        float: left;
+        margin-top: 10px;
+    }
+
+    input[name=deptSjsl] {
+        padding: 2px;
+    }
+
+    input[name=minSjsl] {
+        padding: 2px;
+    }
+</style>
+<form id="form1">
+    <div class="panel panel-default dv-navigation">
+        <ol class="progress_bar">
+            <li id="dv_startPd"><i></i><label>开始盘点</label></li>
+            <li id="dv_savePd"><i></i><label>保存</label></li>
+            <li id="dv_endPd"><i></i><label>结束盘点</label></li>
+            <li id="dv_completePd"><i></i><label>完成</label></li>
+        </ol>
+        <div class="dv-backIndex"><input type="button" id="btn_backIndex" class="btn btn-primary" value="返回首页" /></div>
+    </div>
+    <div class="panel panel-default" style="margin-bottom:5px;">
+        <div class="panel-heading">查询条件</div>
+        <table class="form">
+            <tr>
+                <th class="formTitle" style="width: 45px;">日期：</th>
+                <td class="formValue" colspan="2">
+                    <select id="ddlRQ" class="form-control"></select>
+                </td>
+                <th class="formTitle" style="width: 60px;">关键字：</th>
+                <td class="formValue" style="width: 65px;">
+                    <input id="txtSRM" type="text" class="form-control" placeholder="物资名称/拼音" />
+                </td>
+                <th class="formTitle" style="width: 70px;">物资状态：</th>
+                <td class="formValue" style="width: 55px;">
+                    @Html.DropDownList("ddlwzzt", Enumzt.Enable.ToDescSelectList(), "全部", new { @class = "form-control" })
+                </td>
+                <th class="formTitle" style="width: 70px;">物资类别：</th>
+                <td class="formValue">
+                    <select id="ddllb" class="form-control">
+                        <option value="">全部</option>
+                    </select>
+                </td>
+                <th class="formTitle" style="width: 70px;">库存显示：</th>
+                <td class="formValue">
+                    @Html.DropDownList("ddlKCXS", EnumKCXS.None.ToDescSelectList(), "全部", new { @class = "form-control" })
+                </td>
+                <td class="formValue" style="width: 50px;">
+                    <input type="button" id="btn_search" class="btn btn-primary" value="查询" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="panel panel-default" style="margin-bottom: 0;">
+        <div class="panel-heading">
+            <span>盘点明细 | 按批次:</span>
+            <i id="i-noPc" onclick="accordingBatch(this)" class="fa fa-toggle-off" style="margin-left: 5px;font-size: 1.6rem;color: #ff9813;vertical-align: middle;"></i>
+        </div>
+    </div>
+    <div id="dv-gridKCInfo">
+        <table id="gridKCInfo"></table>
+        <div id="gridPager" rel="form1"></div>
+    </div>
+    <div id="dv-gridKCInfoNoPc">
+        <table id="gridKCInfoNoPc"></table>
+        <div id="gridPagerNoPc" rel="form1"></div>
+    </div>
+    <div class="dv-remark">(实)部门数：实际部门单位数；(实)最小数：实际最小单位数！请将部门数与最小数组合使用</div>
+    @Html.Partial("_BottomButtonsView", new Newtouch.HIS.Web.Core.Models.BottomButtonViewModel
+    {
+        ShowKeyList = new[] { 8, 3, 7 },
+        F8Text = "保存",
+        F3Text = "结束",
+        F7Text = "取消"
+    })
+    <div class="ckbox" style="float: right;margin-top: 10px;">
+        <input id="autoCarryDown" name="autoCarryDown" type="checkbox" checked="checked">
+        <label for="autoCarryDown"></label>
+    </div>
+    <div style="float:right;margin: 10px 5px 0 0;font-size: 14px;">自动结转：</div>
+</form>
+<script>
+    var $gridKCInfo = $("#gridKCInfo");
+    var $gridKCInfoNoPc = $("#gridKCInfoNoPc");
+    var ObjArr_Load = new Array();
+    var ObjArr_LoadNoPc = new Array();
+    $(function () {
+        $("#btn_backIndex").click(function () {//返回
+            window.location.href = "Index";
+        });
+        Initial();
+        newtouch_event_f2();
+    });
+
+    //初始化盘点
+    function Initial() {
+        $(".toolbar").css("width", 250);
+        $("#ddllb").bindSelect({
+            url: "/NurseManage/DepartmentSupplies/GetPatientTreeSelectJson",
+            id: "Id",
+            text: "text"
+        });
+        GetPdsj();
+        gridKCInfo();
+        gridKCInfoNoPc();
+        $("#btn_search").click(function () {//绑定查询查询
+            if ($("#i-noPc").hasClass("fa-toggle-off")) {
+                $gridKCInfoNoPc.jqGrid('setGridParam',
+                    {
+                        postData: getSearchPostData(),
+                        url: "/NurseManage/StockInventory/QueryInventoryInfoListNoPc"
+                    }).trigger('reloadGrid');
+            } else {
+                $gridKCInfo.jqGrid('setGridParam',
+                    {
+                        postData: getSearchPostData(),
+                        url: "/NurseManage/StockInventory/QueryInventoryInfoList"
+                    }).trigger('reloadGrid');
+            }
+        });
+        $("#dv-gridKCInfo").hide();
+    }
+
+    //开始盘点
+    function newtouch_event_f2() {
+        $.UpdateProgressbar.clean();
+        $.najax({
+            type: "POST",
+            url: "/NurseManage/StockInventory/StartInventory",
+            dataType: "json",
+            success: function (ajaxresp) {
+                if (ajaxresp != null && ajaxresp.data != null) {
+                    $("#ddlRQ").prepend('<option selected="selected" value=' + ajaxresp.data.pdId + '>' + ajaxresp.data.pdsj + '</option>');
+                }
+                $("#ddlRQ").trigger("change");
+                $.UpdateProgressbar.update(1);
+                $("#btn_search").trigger("click");
+            }
+        });
+    }
+
+    //获取盘点时间
+    function GetPdsj() {
+        $("#ddlRQ").empty();//先清空，再填充
+        $("#ddlRQ").bindSelect({
+            url: "/NurseManage/StockInventory/GetPdsj",
+            id: "pdId",
+            text: "pdsj"
+        });
+    }
+
+    //是否按批次
+    function accordingBatch(obj) {
+        if ($(obj).hasClass("fa-toggle-off")) {
+            $(obj).removeClass("fa-toggle-off");
+            $(obj).addClass("fa-toggle-on");
+            $("#dv-gridKCInfo").show();
+            $("#dv-gridKCInfoNoPc").hide();
+        } else {
+            $(obj).removeClass("fa-toggle-on");
+            $(obj).addClass("fa-toggle-off");
+            $("#dv-gridKCInfo").hide();
+            $("#dv-gridKCInfoNoPc").show();
+        }
+        $("#btn_search").trigger("click");
+    }
+
+    //库存信息
+    function gridKCInfo() {
+        $gridKCInfo.dataGrid({
+            height: $(window).height() - 280,
+            editurl: "clientArray",  //行编辑不向服务器提交数据
+            colModel: [
+                { label: '物资名称', name: 'wzmc', width: 120, align: 'left' },
+                { label: '规格', name: 'gg', width: 80, align: 'left' },
+                { label: '理论数', name: 'llsl', width: 80, align: 'right' },
+                { label: '(实)部门数', name: 'deptSjsl', width: 70, align: 'right', editable: true, editwidth: "90%" },
+                { label: '单位', name: 'deptdw', width: 40, align: 'left' },
+                { label: '(实)最小数', name: 'minSjsl', width: 70, align: 'right', editable: true, editwidth: "90%" },
+                { label: '单位', name: 'zxdw', width: 40, align: 'left' },
+                { label: '系数', name: 'zhyz', width: 40, align: 'center' },
+                { label: '批号', name: 'ph', width: 100, align: 'center' },
+                { label: '批次', name: 'pc', width: 100, align: 'left' },
+                { label: '有效期', name: 'yxq', width: 80, align: 'center', formatter: 'date', formatoptions: { srcformat: 'y-m-d H:i', newformat: 'y-m-d H:i' } },
+                {
+                    label: '零售价', name: 'lsj', width: 80, align: 'right',
+                    formatter: function (val) {
+                        return val.toFixed(4);
+                    }
+                },
+                {
+                    label: '零售金额(理)', name: 'lllsje', width: 80, align: 'right',
+                    formatter: function (val) {
+                        return val.toFixed(2);
+                    }
+                },
+                {
+                    label: '零售金额(实)', name: 'sjlsje', width: 80, align: 'right',
+                    formatter: function (val) {
+                        return val.toFixed(2);
+                    }
+                },
+                { label: '拼音', name: 'py', width: 120, align: 'left' },
+                { label: 'pdmxId', name: 'pdmxId', hidden: true },
+                { label: '物资ID', name: 'productId', hidden: true }
+            ],
+            multiselect: false,
+            pager: "#gridPager",
+            sortname: 'CreateTime desc',
+            viewrecords: true,
+            gridComplete: function () {
+                afterCompleteFunction();
+            },
+            onSelectRow: function (rowid) {
+                $("#" + $.jgrid.jqID(rowid) + "_sjsl").focus();
+            }
+        });
+    }
+
+    //库存信息
+    function gridKCInfoNoPc() {
+        $gridKCInfoNoPc.dataGrid({
+            height: $(window).height() - 280,
+            editurl: "clientArray",  //行编辑不向服务器提交数据
+            colModel: [
+                { label: '物资名称', name: 'wzmc', width: 120, align: 'left' },
+                { label: '规格', name: 'gg', width: 80, align: 'left' },
+                { label: '理论数', name: 'llsl', width: 80, align: 'right' },
+                { label: '(实)部门数', name: 'deptSjsl', width: 70, align: 'right', editable: true, editwidth: "90%" },
+                { label: '单位', name: 'deptdw', width: 40, align: 'left' },
+                { label: '(实)最小数', name: 'minSjsl', width: 70, align: 'right', editable: true, editwidth: "90%" },
+                { label: '单位', name: 'zxdw', width: 40, align: 'left' },
+                { label: '系数', name: 'zhyz', width: 40, align: 'center' },
+                {
+                    label: '零售价', name: 'lsj', width: 80, align: 'right',
+                    formatter: function (val) {
+                        return val.toFixed(4);
+                    }
+                },
+                {
+                    label: '零售金额(理)', name: 'lllsje', width: 80, align: 'right',
+                    formatter: function (val) {
+                        return val.toFixed(2);
+                    }
+                },
+                {
+                    label: '零售金额(实)', name: 'sjlsje', width: 80, align: 'right',
+                    formatter: function (val) {
+                        return val.toFixed(2);
+                    }
+                },
+                { label: '拼音', name: 'py', width: 120, align: 'left' },
+                { label: '物资ID', name: 'productId', hidden: true }
+            ],
+            multiselect: false,
+            pager: "#gridPagerNoPc",
+            sortname: 'CreateTime desc',
+            viewrecords: true,
+            gridComplete: function () {
+                afterCompleteFunctionNoPc();
+            },
+            onSelectRow: function (rowid) {
+                $("#" + $.jgrid.jqID(rowid) + "_sjsl").focus();
+            }
+        });
+    }
+
+    //查询条件
+    function getSearchPostData() {
+        var pdId = $("#ddlRQ option:selected").val();
+        var pdsj = $("#ddlRQ option:selected").text();
+        var keyWord = $("#txtSRM").val();
+        var wzzt = $("#ddlwzzt").val();
+        var lb = $("#ddllb").val();
+        var kcxs = $("#ddlKCXS").val();
+        if (!pdsj && !pdId) {
+            return false;
+        }
+        if (kcxs === "" || kcxs == null) {
+            kcxs = -1;
+        }
+        return { pdsj: pdsj, pdId: pdId, keyWord: keyWord, wzzt: wzzt, lb: lb, kcxs: kcxs };
+    };
+
+    //加载第一次查询数据
+    function afterCompleteFunction() {
+        var rowIds = $gridKCInfo.jqGrid('getDataIDs');//Grid加载完成开启行内编辑   1.先获取所有行Id  2.遍历调用editRow方法
+        ObjArr_Load = [];
+        for (var i = 0; i < rowIds.length; i++) {
+            ObjArr_Load.push($gridKCInfo.jqGrid('getRowData', rowIds[i]));
+            $gridKCInfo.jqGrid('editRow', rowIds[i], true, null, null, null, null, function (callbackRowId) {     //true: when set to true we can use [Enter] key to save the row and [Esc] to cancel editing.
+            });
+        }
+    }
+
+    //加载第一次查询数据
+    function afterCompleteFunctionNoPc() {
+        var rowIds = $gridKCInfoNoPc.jqGrid('getDataIDs');//Grid加载完成开启行内编辑   1.先获取所有行Id  2.遍历调用editRow方法
+        ObjArr_LoadNoPc = [];
+        for (var i = 0; i < rowIds.length; i++) {
+            ObjArr_LoadNoPc.push($gridKCInfoNoPc.jqGrid('getRowData', rowIds[i]));
+            $gridKCInfoNoPc.jqGrid('editRow', rowIds[i], true, null, null, null, null, function (callbackRowId) {     //true: when set to true we can use [Enter] key to save the row and [Esc] to cancel editing.
+            });
+        }
+    }
+
+    //保存
+    function newtouch_event_f8() {
+        var $targetJqg;
+        var noPc = "0";
+        if ($("#i-noPc").hasClass("fa-toggle-off")) {
+            $targetJqg = $gridKCInfoNoPc;//获取所有行Id，遍历使编辑框处于保存状态
+            noPc = "1";
+        } else {
+            $targetJqg = $gridKCInfo;//获取所有行Id，遍历使编辑框处于保存状态
+            noPc = "0";
+        }
+        var rowIds = $targetJqg.jqGrid('getDataIDs');//获取所有行Id，遍历使编辑框处于保存状态
+
+        //判断退数量
+        for (var i = 0; i < rowIds.length; i++) {
+            $targetJqg.saveRow(rowIds[i], null, null, null, function (callbackRowId) { }, null, null);
+            var rowData = $targetJqg.jqGrid('getRowData', rowIds[i]);
+            if (!rowData) {
+                return false;
+            }
+            if ((rowData.deptSjsl.replace(/(^\s*)|(\s*$)/g, "") === "" && rowData.minSjsl.replace(/(^\s*)|(\s*$)/g, "") === "") ||
+                (rowData.deptSjsl < 0 && rowData.minSjsl < 0) ||
+                (isNaN(rowData.deptSjsl) && isNaN(rowData.minSjsl)) ||
+                (rowData.deptSjsl === "" && rowData.minSjsl === "")) {
+                $.modalAlert("项目（" + rowData.ypmc + "）实际数量应为自然数，请确认。", "warning");
+                EnableInlineEditBox($targetJqg);//启用行内编辑框
+                return false;
+            }
+        }
+        var kcInfoJsonSave = $targetJqg.jqGrid('getRowData_AllLine');
+        var objArrSave = new Array();
+        $.each(kcInfoJsonSave, function () {//保存时将Grid的数据行放在新的数组中
+            objArrSave.push(this);
+        });
+
+        //与页面加载的数组进行比对，将修改过的数据行放在resultObjArr中，传给后台
+        var resultObjArr = new Array();
+        if ($("#i-noPc").hasClass("fa-toggle-off")) {
+            for (var i = 0; i < objArrSave.length; i++) {
+                if (objArrSave[i].deptSjsl !== ObjArr_LoadNoPc[i].deptSjsl || objArrSave[i].minSjsl !== ObjArr_LoadNoPc[i].minSjsl) {
+                    resultObjArr.push({ productId: objArrSave[i].productId, sjsl: CalculationMinUnitNum(objArrSave[i].deptSjsl - ObjArr_LoadNoPc[i].deptSjsl, objArrSave[i].minSjsl - ObjArr_LoadNoPc[i].minSjsl, objArrSave[i].zhyz) });
+                }
+            }
+        } else {
+            for (var i = 0; i < objArrSave.length; i++) {
+                if (objArrSave[i].deptSjsl !== ObjArr_Load[i].deptSjsl || objArrSave[i].minSjsl !== ObjArr_Load[i].minSjsl) {
+                    resultObjArr.push({ pdmxId: objArrSave[i].pdmxId, sjsl: CalculationMinUnitNum(objArrSave[i].deptSjsl, objArrSave[i].minSjsl, objArrSave[i].zhyz) });
+                }
+            }
+        }
+
+        if (resultObjArr.length === 0) {
+            $.modalAlert("没有需要保存的数据", 'warning');
+            $("#btn_search").trigger("click");
+            $.UpdateProgressbar.update(2);
+            return false;
+        }
+        $.najax({
+            type: "POST",
+            url: "/NurseManage/StockInventory/SaveInventory",
+            dataType: "json",
+            data: { resultObjArr: JSON.stringify(resultObjArr), pdId: $("#ddlRQ option:selected").val(), noPc: noPc },
+            success: function (ajaxresp) {
+                $.modalMsg("保存成功", 'success', 1500);
+                $("#btn_search").trigger("click");
+                $.UpdateProgressbar.update(2);
+                $("#btn_search").trigger("click");
+            },
+            error: function (ajaxresp) {
+                $.modalAlert(ajaxresp.message, Error);
+            }
+        });
+    }
+
+    //启用行内编辑框
+    function EnableInlineEditBox($obj) {
+        var rowIds = $obj.jqGrid('getDataIDs');//Grid加载完成开启行内编辑   1.先获取所有行Id  2.遍历调用editRow方法
+        for (var i = 0; i < rowIds.length; i++) {
+            $obj.jqGrid('editRow', rowIds[i], true, null, null, null, null, function (callbackRowId) {     //true: when set to true we can use [Enter] key to save the row and [Esc] to cancel editing.
+            });
+        }
+    }
+
+    //将库存换算成最小单位数  拆零
+    function CalculationMinUnitNum(deptNum, minNum, zhyz) {
+        return parseInt(deptNum) * parseInt(zhyz) + parseInt(minNum);
+    }
+
+    //取消盘点
+    function newtouch_event_f7() {
+        $.najax({
+            type: "POST",
+            url: "/NurseManage/StockInventory/CancelInventory",
+            dataType: "json",
+            data: { pdId: $("#ddlRQ option:selected").val() },
+            success: function (ajaxresp) {
+                $.modalMsg("取消成功", 'success', 1500);
+                GetPdsj();
+                $("#btn_search").trigger("click");
+            }
+        });
+    }
+
+    //结束盘点
+    function newtouch_event_f3() {
+        if ($("#autoCarryDown").is(":checked")) {
+            $.modalConfirm("确定自动生成结转？",
+                function (flag) {
+                    if (flag) {
+                        InventorySubmit();
+                    }
+                });
+        } else {
+            InventorySubmit();
+        }
+    }
+
+    //submit inventory
+    function InventorySubmit() {
+        $.najax({
+            type: "POST",
+            url: "/NurseManage/StockInventory/EndInventory",
+            dataType: "json",
+            data: { pdId: $("#ddlRQ option:selected").val(), autoCarryDown: $("#autoCarryDown").is(":checked") ? "1" : "0" },
+            success: function (ajaxresp) {
+                $.modalMsg("盘点完成", 'success');
+                GetPdsj();//刷新盘点时间及药品信息
+                $.UpdateProgressbar.update(4);
+                $("#btn_search").trigger("click");
+            },
+            error: function (ajaxresp) {
+                $.modalAlert(ajaxresp.message, Error);
+            }
+        });
+    }
+
+    
+
+    //进度调更新
+    $.UpdateProgressbar = {
+        startPd: function () {
+            if (!$("#dv_startPd").hasClass("completeLi")) {
+                $("#dv_startPd").addClass("completeLi");
+            }
+            if (!$("#dv_startPd").find("i").hasClass("completePoint")) {
+                $("#dv_startPd").find("i").addClass("completePoint");
+            }
+        },
+        savePd: function () {
+            if (!$("#dv_savePd").hasClass("completeLi")) {
+                $("#dv_savePd").addClass("completeLi");
+            }
+            if (!$("#dv_savePd").find("i").hasClass("completePoint")) {
+                $("#dv_savePd").find("i").addClass("completePoint");
+            }
+        },
+        endPd: function () {
+            if (!$("#dv_endPd").hasClass("completeLi")) {
+                $("#dv_endPd").addClass("completeLi");
+            }
+            if (!$("#dv_endPd").find("i").hasClass("completePoint")) {
+                $("#dv_endPd").find("i").addClass("completePoint");
+            }
+        },
+        completePd: function () {
+            if (!$("#dv_completePd").hasClass("completeLi")) {
+                $("#dv_completePd").addClass("completeLi");
+            }
+            if (!$("#dv_completePd").find("i").hasClass("completePoint")) {
+                $("#dv_completePd").find("i").addClass("completePoint");
+            }
+        },
+        update: function (step) {
+            switch (step) {
+                case 1:
+                    $.UpdateProgressbar.startPd();
+                    break;
+                case 2:
+                    $.UpdateProgressbar.startPd();
+                    $.UpdateProgressbar.savePd();
+                    break;
+                case 3:
+                    $.UpdateProgressbar.startPd();
+                    $.UpdateProgressbar.savePd();
+                    $.UpdateProgressbar.endPd();
+                    break;
+                case 4:
+                    $.UpdateProgressbar.startPd();
+                    $.UpdateProgressbar.savePd();
+                    $.UpdateProgressbar.endPd();
+                    $.UpdateProgressbar.completePd();
+                    break;
+            }
+        },
+        clean: function () {//初始化进度条 归零
+            $("li").removeClass("completeLi");
+            $("i").removeClass("completePoint");
+        }
+    };
+</script>

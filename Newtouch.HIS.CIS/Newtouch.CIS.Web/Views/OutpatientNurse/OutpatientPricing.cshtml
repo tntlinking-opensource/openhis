@@ -1,0 +1,103 @@
+﻿
+@{
+    ViewBag.Title = "门诊划价";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+
+<div class="dv-body">
+    <div class="panel panel-default">
+        <div class="panel-heading navb-bg">
+            筛选条件
+        </div>
+
+        <table class="form" style="width:95%">
+            <tbody>
+                <tr>
+                    <th class="formTitle">登记日期：</th>
+                    <td class="formValue" colspan="2">
+                        <input id="kssj" type="text" class="form-control input-wdatepicker" style="width:42%; float:left;" value="@DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd 00:00:00")" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />
+                        <span style="margin-left:1%;float:left">—</span>
+                        <input id="jssj" type="text" class="form-control input-wdatepicker" style="width:43%; float:left;margin-left:1%;" value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />
+                    </td>
+                    <th class="formTitle">姓名/门诊号：</th>
+                    <td class="formValue">
+                        <input id="keyword" type="text" class="form-control">
+                    </td>
+                    <td class="formValue">
+                        <a id="btn_refresh" class="btn btn-primary" onclick="RefreshOrder()" style="width:80px;">
+                            <i class="fa fa-refresh"></i>查询
+                        </a>
+                    </td>
+                    
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="gridPanel">
+        <table id="gridList"></table>
+        <div id="gridPager"></div>
+    </div>
+
+</div>
+
+<script>
+    $(".dv-body").height($(window).height());
+    $(".dv-body").width($(window).width());
+    $(function () {
+        $(window).resize(function () {//浏览器窗口调整大小时重新计算宽高
+            $(".dv-body").height($(window).height());
+        });
+
+
+        gridList();
+    });
+
+    function RefreshOrder() {
+
+        var keyword = $("#keyword").val();
+        var kssj = $("#kssj").val();
+        var jssj = $("#jssj").val();
+        $('#gridList').jqGrid('setGridParam', {
+            postData: {
+                keyword: keyword, kssj: kssj, jssj: jssj
+            }
+        }).trigger("reloadGrid");
+    }
+
+    function gridList() {
+        var $gridList = $("#gridList");
+        var keyword = $("#keyword").val();
+        var kssj = $("#kssj").val();
+        var jssj = $("#jssj").val();
+        $gridList.dataGrid({
+            postData: { keyword: keyword, kssj: kssj, jssj: jssj },
+            url: "/OutpatientNurse/observationfrom",
+            height: $(window).height() - 130,
+            shrinkToFit: true,   //true:按比例初始化列宽度 false:使用colModel指定的宽度
+            autowidth: true,
+            colModel: [
+                { label: 'lgjlid', name: 'lgjlid', align: 'center', hidden: true, key: true },
+                { label: '门诊号', name: 'mzh', align: 'center', width: 100 },
+                { label: '患者姓名', name: 'xm', align: 'center', width: 50 },
+                { label: '性别', name: 'xb', align: 'left', width: 30 },
+                { label: '处方号', name: 'cfh', align: 'center', width: 100, formatter: function (val) { if (val != null) return val; else return ""; } },
+                { label: '处方内容', name: 'cfmxnr', align: 'left', width: 100 },
+                { label: '开始时间', name: 'lgksrq', align: 'center', width: 120, formatter: function (val) { return $.getTime({ date: val }); } },
+                { label: '结束时间', name: 'lgjsrq', align: 'center', width: 120, formatter: function (val) { return $.getTime({ date: val }); } },
+                { label: '登记原因', name: 'miaoshu', align: 'center', width: 200 },
+                { label: '登记人员', name: 'djrymc', align: 'center', width: 50 },
+                { label: '登记时间', name: 'djrq', align: 'center', width: 120, formatter: function (val) { return $.getTime({ date: val }); } },
+            ],
+            pager: "#gridPager",
+            sortname: 'djrq Desc',
+            viewrecords: true,
+            multiselect: true,
+            //onSelectRow: function (rowIndex, s) {
+            //    InputResult();
+            //} 
+        });
+    }
+
+</script>

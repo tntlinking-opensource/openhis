@@ -1,0 +1,391 @@
+﻿@{
+    Layout = "~/Views/Shared/_Index.cshtml";
+    var EmrEdiForUrl = Newtouch.Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("KyEmrEdiForUrl");
+}
+<script src="~/Content/js/BootstrapMenu.min.js"></script>
+<script src="@EmrEdiForUrl/iframe/HmEditorIfame.js"></script>
+<style>
+
+    .design-template-wrapper {
+        top: 0;
+        /*left: 0;
+        right: 0;*/
+        bottom: 0;
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        z-index: 100;
+        width: 72%;
+        float: left;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        height: 800px;
+    }
+</style>
+
+<div style="width:15%; height:800px; float:left; overflow: hidden;border-radius: 4px;background: white;">
+    <div class="topPanel">
+        <div class="search">
+            <table>
+                <tr>
+                    <td>
+                        <a class="btn btn-primary" onclick="btn_add()"><i class="fa fa-plus"></i>新建</a>
+                    </td>
+                    <td class="formValue formDdlSelectorTd">
+                        <select class="form-control" style="width:45px;height:17px;" id="mbqx" onchange="mbqxquery()">
+                            <option value="0" selected="selected">通用</option>
+                            <option value="1">个人</option>
+                            <option value="2">科室</option>
+                        </select>
+                    </td>
+                    <td class="formValue">
+                        <input id="txt_keyword" type="text" class="form-control" onblur="mbqxquery()" onkeypress="leftkeypress()" placeholder="模板名称" style="width:80px;height:17px;">
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div id="dv_Medlist" class="gridPanel" style="height:100%;overflow-y: hidden;" frameborder="0" scrolling="auto">
+        <table id="gridList"></table>
+    </div>
+    @*<iframe id="mainIframeleft" style="height:100%;" name="mainIframe" src="/MedicalRecordManage/MedRecordTemplate/LeftMedicalTemplate" frameborder="0" scrolling="auto"></iframe>*@
+
+</div>
+<div class="design-template-wrapper" id="editorContainer">
+
+</div>
+<div style="width:13%;height:800px;float:right; overflow: hidden;border-radius: 4px;background: white;">
+    @*<iframe id="mainIframeright" style="height:100%;" name="mainIframe" src="/MedicalRecordManage/MedRecordTemplate/RightMedicalTemplate" frameborder="0" scrolling="auto" overflow: hidden;"></iframe>*@
+    <div class="topPanel">
+        <div class="search">
+            <table>
+                <tr>
+                    <td class="formValue">
+                        <input id="txt_yskeyword" type="text" class="form-control" onblur="yssx()" onkeypress="rightkeypress()" placeholder="元素名称" style="width:100%;height:17px;">
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div id="dv_Yslist" class="gridPanel" style="width:100%;position:absolute;">
+        <table id="gridListYs"></table>
+    </div>
+</div>
+
+<script>
+    var editorInstance;
+    var mburl = "";//"\\File\\Template\\出院病历\\测试出院病历模板1.xml";
+    //******************left侧病历模板 BEGIN**************//
+    $(function () {
+        gridList();
+        gridListYs();
+    })
+    //模板类型查询
+    function mbqxquery() {
+        mbmxquery();
+    }
+    //回车搜索
+    function leftkeypress() {
+        if (event.keyCode == 13)
+            mbmxquery();
+    }
+    //模板类型
+    function mbmxquery() {
+        $("#gridList").jqGrid('setGridParam', {
+            postData: { keyValue: $("#txt_keyword").val(), mbqx: $("#mbqx").val() },
+        }).trigger('reloadGrid');
+    }
+    //模板列表
+    function gridList() {
+        var $gridList = $("#gridList");
+        $gridList.dataGrid({
+            treeGrid: true,
+            treeGridModel: "adjacency",
+            ExpandColumn: "expanded",
+            url: "/SystemManage/Common/GetBlmbTreeList",
+            postData: { keyValue: $("#txt_keyword").val(), mbqx: "0" },
+            height: $(window).height() - 100,
+            width: $(window).width() - 20,
+            colModel: [
+                { label: "病历模板Id", name: "Id", key: true, hidden: true },
+                { label: "Turl", name: "Turl", hidden: true },
+                { label: "病历模板", name: "mbmc", width: 30 },
+            ],
+            onSelectRow: function (rowid, status) {
+                if (status == true) {
+                    var rowData = $("#gridList").jqGrid('getRowData', rowid);
+                    if (rowData.isLeaf == false || rowData.isLeaf == "false") {//禁用条件
+                    } else {
+                        var param = { 'mbmc': rowData.mbmc, 'Turl': rowData.Turl, 'Id': rowData.Id };
+                        mburl = rowData.Turl.replace(/\\/g, "\\");
+                        LoadMedTemplate(param);
+                    }
+                }
+            },
+            onRightClickRow: function (rowid, irow, icol, e) {
+                var rowData = $("#gridList").jqGrid('getRowData', rowid);
+                if (rowData.isLeaf == false || rowData.isLeaf == "false") {//禁用条件
+                } else {
+                    initrightMenu(rowData);
+                }
+            }
+        });
+    }
+    //文书模板右键菜单
+    function initrightMenu(rowData) {
+        var p = '.gridPanel tr[id=' + rowData.Id + ']';
+        var menu = new BootstrapMenu(p, {
+            //fetchElementData获取元数据
+            fetchElementData: function ($rowElem) {
+                var data = rowData;
+                return data;    //return的目的是给下面的onClick传递参数
+            },
+            actions: [{
+                name: '<span class="glyphicon glyphicon-remove" style="color: rgb(28, 179, 173); font-size: 13px;"></span> 删除模板',
+                width: 300,
+                onClick: function (obj) {
+                    $.deleteForm({
+                        url: "/MedicalRecordManage/MedRecordTemplate/DeleteForm",
+                        param: { keyValue: rowData.Id },
+                        success: function (data) {
+                            if (data.state == "success") {
+                                $.modalAlert('删除成功', 'success');
+                            }
+                            else {
+                                $.modalAlert(data.message, 'error');
+                            }
+                            mbmxquery();
+                        }
+                    })
+                }
+            }
+            ]
+        });
+    }
+    //新建模板操作
+    function btn_add() {
+        $.modalOpen({
+            id: "Form",
+            title: "新建病历模板",
+            url: "/MedicalRecordManage/MedRecordTemplate/Form?ly=" + "Newtemplate",
+            width: "700px",
+            height: "650px",
+            btn: null,
+            callBack: function (iframeId) {
+                top.frames[iframeId].submitForm();
+            }
+        });
+    }
+    //保存病历模板
+    function saveBaseTemplateHtml(params) {
+        $.ajax({
+            type: "POST",
+            url: "/MedRecordTemplate/SaveTemplateHtml",
+            data: { templateUrl: mburl, templateData: params.html },
+            dataType: "json",
+            async: false,
+            success: function (respdata) {
+                if (respdata.state == "error")
+                    $.modalAlert("病历模板保存失败:" + respdata.message,'error');
+                else
+                    $.modalAlert("病历模板保存成功", 'success');
+            },
+            error: function (request, error, ex) {
+                $.modalAlert('保存失败:' + ex, 'error');
+            }
+        });
+    }
+
+    //******************left侧病历模板  END **************//
+
+    //******************right右侧元素list Begin***********//
+    function rightkeypress() {
+        if (event.keyCode == 13)
+            yssx();
+    }
+
+    function yssx() {
+        $("#gridListYs").jqGrid('setGridParam', {
+            postData: { keyword: $("#txt_yskeyword").val() },
+        }).trigger('reloadGrid');
+    }
+    function gridListYs() {
+        var $gridList = $("#gridListYs");
+        $gridList.dataGrid({
+            treeGrid: true,
+            treeGridModel: "adjacency",
+            ExpandColumn: "Readonly",
+            url: "/SystemManage/Common/GetYsTreeList",
+            postData: { keyword: $("#txt_yskeyword").val() },
+            height: $(window).height() - 96,
+            colModel: [
+                { label: "Id", name: "Id", key: true, hidden: true },
+                { label: "Name", name: "BindingPath", hidden: true },
+                { label: "DataSource", name: "DataSource", hidden: true },
+                { label: "BindingPath", name: "BindingPath", hidden: true },
+                { label: "TypeName", name: "TypeName", hidden: true },
+                { label: "yslx", name: "yslx", hidden: true },
+                { label: "元素控件", name: "ysmc" },
+                { label: "元素code", name: "yscode", hidden: true },
+            ],
+            onSelectRow: function (rowid, status) {
+                if (status == true) {
+                    var rowData = $("#gridListYs").jqGrid('getRowData', rowid);
+                    if (rowData.isLeaf == "true") {
+                        var mxlist = null;
+                        $.ajax({
+                            type: "POST",
+                            url: "/SystemManage/Common/GetYsMXList",
+                            dataType: "json",
+                            data: { YsId: rowData.Id },
+                            async: false,
+                            success: function (ajaxresp) {
+                                if (ajaxresp != null) {
+                                    mxlist = ajaxresp;
+                                }
+                            }
+                        });
+                        var param = { 'ysdata': rowData, 'mxlist': mxlist };
+                        InsertYsData(param);
+                    }
+                }
+            }
+
+
+        });
+    }
+    //******************right右侧元素list END**********//
+
+    // 创建编辑器
+    HMEditorLoader.createEditorAsync({
+        container: "#editorContainer",
+        style: {
+            width: '100%',
+            height: '100%',
+            border: '1px solid #ddd'
+        },
+        editorConfig: {
+            // 编辑器配置项
+        },
+        // 模式设置
+        designMode: true,  // 是否启用设计模式
+        allowModifyDatasource: true,
+        reviseMode: false,  // 是否启用修订模式
+        readOnly: false,     // 是否启用只读模式
+        customParams: {     // 自定义参数
+
+        }
+    })
+     .then(function (result) {
+         // 编辑器初始化完成
+         editorInstance = result;
+         editorInstance.onToolbarCommandComplete = function (command, type, data) {
+             debugger;
+             // 根据命令类型执行不同操作
+             if (command === 'save') {
+                 //alert('保存命令执行完成');
+                 let obj = editorInstance.getDocHtml();
+                 if (obj && obj.length > 0) {
+                     const base64str = htmlToBase64(obj[0]['html']);
+                     saveBaseTemplateHtml({ id: "", html: base64str });
+                 }
+             }
+         };
+         // 设置默认内容
+         //editorInstance.editor.setData(`<p style='height:300px;position:relative;'>开始制作模板内容</p>`);
+     })
+     .catch(function (error) {
+         console.error("编辑器初始化失败:", error);
+     });
+
+    function htmlToBase64(htmlString) {
+        // 对于现代浏览器
+        return btoa(unescape(encodeURIComponent(htmlString)));
+    }
+
+    //var doc = {
+    //    "doc_type": "入院记录",
+    //    "datasource": [
+    //      {
+    //          "code": "DE08.10.052.001",
+    //          "name": "组织机构代码",
+    //      },
+    //      {
+    //          "code": "DE02.01.040.00",
+    //          "name": "性别",
+    //      }
+    //    ]
+    //};
+    //加载文书模板
+    function LoadMedTemplate(param)
+    {
+        $.ajax({
+            type: "POST",
+            url: "/MedRecordTemplate/GetTemplateHtml",
+            data: { templateUrl: param.Turl },
+            dataType: "json",
+            async: false,
+            success: function (respdata) {
+                var jsonData = JSON.stringify(respdata);
+                data = JSON.parse(jsonData);
+                editorInstance.setDocContent({
+                    code: param.Id,
+                    docTplName: param.mbmc,
+                    docContent: data.xmldata
+                });
+                //editorInstance.setTemplateDatasource(doc);
+            },
+            error: function (request, error, ex) {
+                $.modalAlert('病历加载失败:' + ex, 'error');
+            }
+        });
+    }
+
+    function InsertYsData(param)
+    {
+        debugger;
+        if (param.ysdata)
+        {
+            if (param.mxlist.length >0) {
+                for (var i = 0; i < param.mxlist.length; i++) {
+                    param.mxlist[i].code = param.mxlist[i].YsmxCode;
+                    param.mxlist[i].val = param.mxlist[i].YsmxName;
+                }
+            }
+            var datasource = {
+                name: param.ysdata.ysmc,
+                code: param.ysdata.yscode,
+                nodeName: '纯文本',         // 节点类型
+                autoLable: false            // 是否自动添加数据元标题
+            };
+            switch (param.ysdata.yslx) {
+                case '1'://下拉
+                    datasource.nodeName = '下拉';
+                    datasource.dictList = param.mxlist;
+                    break;
+                case '2'://下拉多选
+                    datasource.nodeName = '下拉多选';
+                    datasource.dictList = param.mxlist;
+                    break;
+                case '3':
+                case '4':
+                case '5'://日期
+                    datasource.nodeName = '时间';
+                    break;
+                case '6'://数值
+                    datasource.nodeName = '数字文本';
+                    break;
+                case '7'://数值
+                    datasource.dictList = param.mxlist;
+                    datasource.nodeName = '单选';
+                    break;
+                case '8'://数值
+                    datasource.dictList = param.mxlist;
+                    datasource.nodeName = '多选';
+                    break;
+            }
+            editorInstance.insertDataSource(datasource);
+        }
+       
+    }
+</script>
+

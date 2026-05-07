@@ -1,0 +1,521 @@
+<XTextDocument xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EditorVersionString="1.2023.2.14">
+   <InnerID>868</InnerID>
+   <XElements>
+      <Element xsi:type="XTextHeader">
+         <InnerID>905</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XInputField" StyleIndex="1">
+               <InnerID>891</InnerID>
+               <ID>B0EADC5F-D1A7-4C1D-8BFF-C30B4AB96B89</ID>
+               <ToolTip>请输入医院名称</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/yymc</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <Name>yymc</Name>
+               <BackgroundText>医院名称</BackgroundText>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0">
+               <InnerID>892</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="2">
+               <InnerID>1548</InnerID>
+               <Text>医患双方不收和不送 "红包" 协议书</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0">
+               <InnerID>912</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>1549</InnerID>
+               <Text>姓名:</Text>
+            </Element>
+            <Element xsi:type="XInputField">
+               <InnerID>917</InnerID>
+               <ID>555B0059-D165-46B3-9F88-9720672296AF</ID>
+               <ToolTip>请输入姓名</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/xm</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <Name>xm</Name>
+               <BackgroundText>姓名</BackgroundText>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>1550</InnerID>
+               <Text>       </Text>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>1551</InnerID>
+               <Text>  住院号:</Text>
+            </Element>
+            <Element xsi:type="XInputField" StyleIndex="3">
+               <InnerID>931</InnerID>
+               <ID>6C1F42F9-EB78-43E1-AF32-18795C4E2303</ID>
+               <ToolTip>请输入住院号</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/zyh</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <Name>zyh</Name>
+               <BackgroundText>住院号</BackgroundText>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>1552</InnerID>
+               <Text>  </Text>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>1553</InnerID>
+               <Text>       科别:</Text>
+            </Element>
+            <Element xsi:type="XInputField">
+               <InnerID>944</InnerID>
+               <ID>05851fea-e7a2-4ada-969c-76b7d0403c10</ID>
+               <ToolTip>请输入科室名称</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/DeptName</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <Name>DeptName</Name>
+               <BackgroundText>科室名称</BackgroundText>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>1554</InnerID>
+               <Text>               </Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0">
+               <InnerID>960</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+      <Element xsi:type="XTextBody">
+         <InnerID>906</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XTextTable" NumOfRows="1" NumOfColumns="2">
+               <InnerID>965</InnerID>
+               <ID>table98</ID>
+               <XElements>
+                  <Element xsi:type="XTextTableRow">
+                     <InnerID>968</InnerID>
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="4">
+                           <XElements>
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <InnerID>1555</InnerID>
+                                 <Text>尊敬的患者及家属：</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>980</InnerID>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <InnerID>1556</InnerID>
+                                 <Text>    </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <InnerID>1557</InnerID>
+                                 <Text>衷心感谢你们的信任，选择到我们</Text>
+                              </Element>
+                              <Element xsi:type="XInputField" StyleIndex="6">
+                                 <InnerID>1001</InnerID>
+                                 <ID>file22</ID>
+                                 <EnableValueValidate>true</EnableValueValidate>
+                                 <ValueBinding>
+                                    <DataSource>zy_brjbxx</DataSource>
+                                    <BindingPath>zy_brjbxx/yymc</BindingPath>
+                                 </ValueBinding>
+                                 <ContentReadonly>False</ContentReadonly>
+                                 <BorderElementColor />
+                                 <Name>yymc</Name>
+                                 <BackgroundText>医院名称</BackgroundText>
+                                 <EditorActiveMode>None</EditorActiveMode>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <InnerID>1558</InnerID>
+                                 <Text>就医。在接下来的一段时间里，我们将共同面对疾病的挑战。在此，我们郑重承诺：</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1039</InnerID>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <InnerID>1559</InnerID>
+                                 <Text>    </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <InnerID>1560</InnerID>
+                                 <Text>一、 秉持平等、仁爱、诚信的职业精神，以患者为中心，尽心尽责为患者治疗疾病。</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1083</InnerID>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <InnerID>1561</InnerID>
+                                 <Text>    </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <InnerID>1562</InnerID>
+                                 <Text>二、 充分履行告知义务，尊重患者的知情同意权、隐私权等各项权利</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1120</InnerID>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <InnerID>1563</InnerID>
+                                 <Text>    </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <InnerID>1564</InnerID>
+                                 <Text>三、 廉洁行医，不接受患者及其家属的“红包”、贵重礼品。</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1154</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <InnerID>1565</InnerID>
+                                 <Text>衷心祝您早日康复！</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1165</InnerID>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1168</InnerID>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <InnerID>1566</InnerID>
+                                 <Text> </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="6">
+                                 <InnerID>1567</InnerID>
+                                 <Text>   主管医师：</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1179</InnerID>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1182</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="6">
+                                 <InnerID>1568</InnerID>
+                                 <Text>                  </Text>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <InnerID>1569</InnerID>
+                                 <Text>   </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="6">
+                                 <InnerID>1570</InnerID>
+                                 <Text> 年    月   日</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1216</InnerID>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1219</InnerID>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1222</InnerID>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1225</InnerID>
+                              </Element>
+                           </XElements>
+                           <GridLine>
+                              <GridSpanInCM>1</GridSpanInCM>
+                           </GridLine>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="4">
+                           <InnerID>1</InnerID>
+                           <XElements>
+                              <Element xsi:type="XInputField" StyleIndex="6">
+                                 <InnerID>1228</InnerID>
+                                 <ID>file21</ID>
+                                 <EnableValueValidate>true</EnableValueValidate>
+                                 <ValueBinding>
+                                    <DataSource>zy_brjbxx</DataSource>
+                                    <BindingPath>zy_brjbxx/yymc</BindingPath>
+                                 </ValueBinding>
+                                 <ContentReadonly>False</ContentReadonly>
+                                 <BorderElementColor />
+                                 <Name>yymc</Name>
+                                 <BackgroundText>医院名称</BackgroundText>
+                                 <EditorActiveMode>None</EditorActiveMode>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="7">
+                                 <InnerID>1571</InnerID>
+                                 <Text>：</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1230</InnerID>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <InnerID>1572</InnerID>
+                                 <Text>     </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <InnerID>1573</InnerID>
+                                 <Text>我们收到了贵单位的承诺书，认真阅读并理解了相关内容。在此，我们也郑重承</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="8">
+                                 <InnerID>1574</InnerID>
+                                 <Text>诺：</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1274</InnerID>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <InnerID>1575</InnerID>
+                                 <Text>     </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="8">
+                                 <InnerID>1576</InnerID>
+                                 <Text>一、 积极配合诊疗活动，如实提供病</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="9">
+                                 <InnerID>1577</InnerID>
+                                 <Text>史等信息，尊重科学，对疾病诊断治疗中客观存在的危险</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="8">
+                                 <InnerID>1578</InnerID>
+                                 <Text>作出慎重</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="9">
+                                 <InnerID>1579</InnerID>
+                                 <Text>理智的决定。</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1333</InnerID>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <InnerID>1580</InnerID>
+                                 <Text>     </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="6">
+                                 <InnerID>1581</InnerID>
+                                 <Text>二、 尊重医务人员，爱护公共设</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="9">
+                                 <InnerID>1582</InnerID>
+                                 <Text>施，服从管理和安排。患者本人或患方代表要有效沟通协调好本方人员，共同履行好本承诺书。</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1397</InnerID>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <InnerID>1583</InnerID>
+                                 <Text>     </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="6">
+                                 <InnerID>1584</InnerID>
+                                 <Text>三、 不向医务人员送“红包”、贵</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="9">
+                                 <InnerID>1585</InnerID>
+                                 <Text>重礼品，共创廉洁和谐的医疗环境。</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1436</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="9">
+                                 <InnerID>1586</InnerID>
+                                 <Text>患者或患方代表：</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1446</InnerID>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1449</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="8">
+                                 <InnerID>1587</InnerID>
+                                 <Text>患者或患方代表：</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1459</InnerID>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1462</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="8">
+                                 <InnerID>1588</InnerID>
+                                 <Text>                       </Text>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <InnerID>1589</InnerID>
+                                 <Text> </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="6">
+                                 <InnerID>1590</InnerID>
+                                 <Text>年    月   日</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1498</InnerID>
+                              </Element>
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+               </XElements>
+               <Columns>
+                  <Element xsi:type="XTextTableColumn">
+                     <InnerID>966</InnerID>
+                     <Width>940.625</Width>
+                  </Element>
+                  <Element xsi:type="XTextTableColumn">
+                     <InnerID>967</InnerID>
+                     <Width>940.625</Width>
+                  </Element>
+               </Columns>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>1500</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+      <Element xsi:type="XTextFooter">
+         <InnerID>907</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XPageInfo" StyleIndex="10">
+               <InnerID>962</InnerID>
+               <ID>pageinfo1</ID>
+               <Width>400</Width>
+               <AutoHeight>true</AutoHeight>
+               <Height>62.73437</Height>
+               <FormatString>第[%PageIndex%]页 共[%NumOfPages%]页</FormatString>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0">
+               <InnerID>963</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+   </XElements>
+   <SerializeParameterValue>true</SerializeParameterValue>
+   <FileName>\File\Template\医疗文书\医患协议书\医患协议书.xml</FileName>
+   <FileFormat>xml</FileFormat>
+   <ContentStyles>
+      <Default xsi:type="DocumentContentStyle">
+         <FontName>宋体</FontName>
+         <FontSize>12</FontSize>
+      </Default>
+      <Styles>
+         <Style Index="0">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <Align>Center</Align>
+         </Style>
+         <Style Index="1">
+            <FontName>宋体</FontName>
+            <FontSize>18</FontSize>
+            <Bold>true</Bold>
+         </Style>
+         <Style Index="2">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <Bold>true</Bold>
+         </Style>
+         <Style Index="3">
+            <BackgroundColor>#FFFFFF</BackgroundColor>
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+         </Style>
+         <Style Index="4">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <BorderWidth>1</BorderWidth>
+            <BorderLeft>true</BorderLeft>
+            <BorderBottom>true</BorderBottom>
+            <BorderTop>true</BorderTop>
+            <BorderRight>true</BorderRight>
+            <PaddingLeft>12.5</PaddingLeft>
+            <PaddingTop>9.375</PaddingTop>
+            <PaddingRight>12.5</PaddingRight>
+            <PaddingBottom>9.375</PaddingBottom>
+         </Style>
+         <Style Index="5">
+            <BackgroundColor>#F5F5F5</BackgroundColor>
+            <Color>#242424</Color>
+            <FontName>宋体</FontName>
+            <FontSize>11.00003</FontSize>
+         </Style>
+         <Style Index="6">
+            <FontName>宋体</FontName>
+            <FontSize>10.5</FontSize>
+         </Style>
+         <Style Index="7">
+            <BackgroundColor>#F5F5F5</BackgroundColor>
+            <Color>#242424</Color>
+            <FontName>宋体</FontName>
+            <FontSize>11</FontSize>
+         </Style>
+         <Style Index="8">
+            <Color>#242424</Color>
+            <FontName>宋体</FontName>
+            <FontSize>10.5</FontSize>
+         </Style>
+         <Style Index="9">
+            <BackgroundColor>#F5F5F5</BackgroundColor>
+            <Color>#242424</Color>
+            <FontName>宋体</FontName>
+            <FontSize>10.5</FontSize>
+         </Style>
+         <Style Index="10">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+         </Style>
+      </Styles>
+   </ContentStyles>
+   <Info>
+      <LicenseText>未注册|Unregister</LicenseText>
+      <CreationTime>1980-01-01T00:00:00</CreationTime>
+      <LastModifiedTime>2025-02-13T16:07:08.4233662+08:00</LastModifiedTime>
+      <LastPrintTime>1980-01-01T00:00:00</LastPrintTime>
+      <Operator>DCSoft.Writer Version:1.2023.2.14</Operator>
+      <NumOfPage>1</NumOfPage>
+   </Info>
+   <BodyText>尊敬的患者及家属：
+    衷心感谢你们的信任，选择到我们就医。在接下来的一段时间里，我们将共同面对疾病的挑战。在此，我们郑重承诺：
+    一、 秉持平等、仁爱、诚信的职业精神，以患者为中心，尽心尽责为患者治疗疾病。
+    二、 充分履行告知义务，尊重患者的知情同意权、隐私权等各项权利
+    三、 廉洁行医，不接受患者及其家属的“红包”、贵重礼品。
+衷心祝您早日康复！
+
+    主管医师：
+
+                      年    月   日
+
+
+ ：
+     我们收到了贵单位的承诺书，认真阅读并理解了相关内容。在此，我们也郑重承诺：
+     一、 积极配合诊疗活动，如实提供病史等信息，尊重科学，对疾病诊断治疗中客观存在的危险作出慎重理智的决定。
+     二、 尊重医务人员，爱护公共设施，服从管理和安排。患者本人或患方代表要有效沟通协调好本方人员，共同履行好本承诺书。
+     三、 不向医务人员送“红包”、贵重礼品，共创廉洁和谐的医疗环境。
+患者或患方代表：
+
+患者或患方代表：
+
+                        年    月   日 </BodyText>
+   <LocalConfig />
+   <PageSettings>
+      <StrictUsePageSize>false</StrictUsePageSize>
+   </PageSettings>
+</XTextDocument>

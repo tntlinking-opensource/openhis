@@ -1,0 +1,1802 @@
+<XTextDocument xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EditorVersionString="1.2023.2.14">
+   <XElements>
+      <Element xsi:type="XTextHeader">
+         <InnerID>1</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XInputField" StyleIndex="1">
+               <InnerID>23</InnerID>
+               <ID>B0EADC5F-D1A7-4C1D-8BFF-C30B4AB96B89</ID>
+               <ToolTip>请输入医院名称</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/yymc</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <Name>yymc</Name>
+               <BackgroundText>医院名称</BackgroundText>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0">
+               <InnerID>24</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="2">
+               <InnerID>1459</InnerID>
+               <Text>入院病人病情评估单</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0">
+               <InnerID>35</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>1460</InnerID>
+               <Text>姓名:</Text>
+            </Element>
+            <Element xsi:type="XInputField">
+               <InnerID>40</InnerID>
+               <ID>555B0059-D165-46B3-9F88-9720672296AF</ID>
+               <ToolTip>请输入姓名</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/xm</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <Name>xm</Name>
+               <BackgroundText>姓名</BackgroundText>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>1461</InnerID>
+               <Text>     科别:</Text>
+            </Element>
+            <Element xsi:type="XInputField">
+               <InnerID>49</InnerID>
+               <ID>05851fea-e7a2-4ada-969c-76b7d0403c10</ID>
+               <ToolTip>请输入科室名称</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/DeptName</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <Name>DeptName</Name>
+               <BackgroundText>科室名称</BackgroundText>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>1462</InnerID>
+               <Text>      床号:</Text>
+            </Element>
+            <Element xsi:type="XInputField">
+               <InnerID>59</InnerID>
+               <ID>47C322C6-9098-4D54-9F8A-C726F1BE8CC1</ID>
+               <ToolTip>请输入床号</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/BedName</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <Name>BedName</Name>
+               <BackgroundText>床号</BackgroundText>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>1463</InnerID>
+               <Text>      住院号:</Text>
+            </Element>
+            <Element xsi:type="XInputField">
+               <InnerID>70</InnerID>
+               <ID>6C1F42F9-EB78-43E1-AF32-18795C4E2303</ID>
+               <ToolTip>请输入住院号</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/zyh</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <Name>zyh</Name>
+               <BackgroundText>住院号</BackgroundText>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>1464</InnerID>
+               <Text>  </Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0">
+               <InnerID>73</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+      <Element xsi:type="XTextBody">
+         <InnerID>2</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XTextTable" NumOfRows="7" NumOfColumns="2">
+               <InnerID>78</InnerID>
+               <ID>table60</ID>
+               <XElements>
+                  <Element xsi:type="XTextTableRow">
+                     <InnerID>81</InnerID>
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <XElements>
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <InnerID>1465</InnerID>
+                                 <Text>                   </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <InnerID>1466</InnerID>
+                                 <Text>一般资料</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="4">
+                                 <InnerID>107</InnerID>
+                              </Element>
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>1</InnerID>
+                           <XElements>
+                              <Element xsi:type="XString" StyleIndex="6">
+                                 <InnerID>1467</InnerID>
+                                 <Text>姓名:</Text>
+                              </Element>
+                              <Element xsi:type="XInputField" StyleIndex="6">
+                                 <InnerID>113</InnerID>
+                                 <ID>field11</ID>
+                                 <ToolTip>姓名</ToolTip>
+                                 <EnableValueValidate>true</EnableValueValidate>
+                                 <ValueBinding>
+                                    <DataSource>zy_brjbxx</DataSource>
+                                    <BindingPath>zy_brjbxx/xm</BindingPath>
+                                    <AutoUpdate>true</AutoUpdate>
+                                 </ValueBinding>
+                                 <BorderElementColor />
+                                 <BackgroundText>姓名</BackgroundText>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="6">
+                                 <InnerID>1468</InnerID>
+                                 <Text>性别:</Text>
+                              </Element>
+                              <Element xsi:type="XInputField" StyleIndex="7">
+                                 <InnerID>117</InnerID>
+                                 <ID>F8D8D127-729E-4113-9BD4-A0C7918C331D</ID>
+                                 <ToolTip>请输入性别</ToolTip>
+                                 <EnableValueValidate>true</EnableValueValidate>
+                                 <ValueBinding>
+                                    <DataSource>zy_brjbxx</DataSource>
+                                    <BindingPath>zy_brjbxx/sex</BindingPath>
+                                 </ValueBinding>
+                                 <ContentReadonly>False</ContentReadonly>
+                                 <StartBorderText>[</StartBorderText>
+                                 <EndBorderText>]</EndBorderText>
+                                 <BorderElementColor />
+                                 <Name>sex</Name>
+                                 <BackgroundText>性别</BackgroundText>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="6">
+                                 <InnerID>1469</InnerID>
+                                 <Text> 年龄:</Text>
+                              </Element>
+                              <Element xsi:type="XInputField" StyleIndex="7">
+                                 <InnerID>122</InnerID>
+                                 <ID>294E8883-886E-4F41-B60C-AA5FCA5DC21E</ID>
+                                 <ToolTip>请输入年龄</ToolTip>
+                                 <EnableValueValidate>true</EnableValueValidate>
+                                 <ValueBinding>
+                                    <DataSource>zy_brjbxx</DataSource>
+                                    <BindingPath>zy_brjbxx/nl</BindingPath>
+                                 </ValueBinding>
+                                 <ContentReadonly>False</ContentReadonly>
+                                 <StartBorderText>[</StartBorderText>
+                                 <EndBorderText>]</EndBorderText>
+                                 <BorderElementColor />
+                                 <Name>nl</Name>
+                                 <BackgroundText>年龄</BackgroundText>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="6">
+                                 <InnerID>1470</InnerID>
+                                 <Text> </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="8">
+                                 <InnerID>1471</InnerID>
+                                 <Text>职业:</Text>
+                              </Element>
+                              <Element xsi:type="XInputField" StyleIndex="9">
+                                 <InnerID>127</InnerID>
+                                 <ID>fa891797-ee53-411d-9834-4f0b49e31dfd</ID>
+                                 <ToolTip>请输入职业</ToolTip>
+                                 <EnableValueValidate>true</EnableValueValidate>
+                                 <ValueBinding>
+                                    <DataSource>zy_brjbxx</DataSource>
+                                    <BindingPath>zy_brjbxx/zy</BindingPath>
+                                 </ValueBinding>
+                                 <ContentReadonly>False</ContentReadonly>
+                                 <StartBorderText>[</StartBorderText>
+                                 <EndBorderText>]</EndBorderText>
+                                 <BorderElementColor />
+                                 <Name>zy</Name>
+                                 <BackgroundText>职业</BackgroundText>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="8">
+                                 <InnerID>1472</InnerID>
+                                 <Text> </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="6">
+                                 <InnerID>1473</InnerID>
+                                 <Text>  民族:</Text>
+                              </Element>
+                              <Element xsi:type="XInputField" StyleIndex="7">
+                                 <InnerID>134</InnerID>
+                                 <ID>7154762a-e06e-46a5-83f6-53138cac66e5</ID>
+                                 <ToolTip>请输入民族</ToolTip>
+                                 <EnableValueValidate>true</EnableValueValidate>
+                                 <ValueBinding>
+                                    <DataSource>zy_brjbxx</DataSource>
+                                    <BindingPath>zy_brjbxx/mz</BindingPath>
+                                 </ValueBinding>
+                                 <ContentReadonly>False</ContentReadonly>
+                                 <StartBorderText>[</StartBorderText>
+                                 <EndBorderText>]</EndBorderText>
+                                 <BorderElementColor />
+                                 <Name>mz</Name>
+                                 <BackgroundText>民族</BackgroundText>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="10">
+                                 <InnerID>135</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="6">
+                                 <InnerID>1474</InnerID>
+                                 <Text>初步诊断:</Text>
+                              </Element>
+                              <Element xsi:type="XInputField" StyleIndex="7">
+                                 <InnerID>142</InnerID>
+                                 <ID>C2F93F70-B187-4748-8F02-4164208C5697</ID>
+                                 <ToolTip>请输入住院入院诊断</ToolTip>
+                                 <EnableValueValidate>true</EnableValueValidate>
+                                 <ValueBinding>
+                                    <DataSource>zy_brjbxx</DataSource>
+                                    <BindingPath>zy_brjbxx/zdmc</BindingPath>
+                                 </ValueBinding>
+                                 <ContentReadonly>False</ContentReadonly>
+                                 <StartBorderText>[</StartBorderText>
+                                 <EndBorderText>]</EndBorderText>
+                                 <BorderElementColor />
+                                 <Name>zdmc</Name>
+                                 <BackgroundText>住院入院诊断</BackgroundText>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="10">
+                                 <InnerID>143</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="6">
+                                 <InnerID>1475</InnerID>
+                                 <Text>入院时间:</Text>
+                              </Element>
+                              <Element xsi:type="XInputField" StyleIndex="7">
+                                 <InnerID>150</InnerID>
+                                 <ID>712DBF5F-E853-4459-851B-30C61A6F1AD1</ID>
+                                 <ToolTip>请输入入院日期</ToolTip>
+                                 <EnableValueValidate>true</EnableValueValidate>
+                                 <ValueBinding>
+                                    <DataSource>zy_brjbxx</DataSource>
+                                    <BindingPath>zy_brjbxx/ryrq</BindingPath>
+                                 </ValueBinding>
+                                 <ContentReadonly>False</ContentReadonly>
+                                 <StartBorderText>[</StartBorderText>
+                                 <EndBorderText>]</EndBorderText>
+                                 <BorderElementColor />
+                                 <Name>ryrq</Name>
+                                 <BackgroundText>入院日期</BackgroundText>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="10">
+                                 <InnerID>151</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="6">
+                                 <InnerID>1476</InnerID>
+                                 <Text>入院方式: </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="6">
+                                 <InnerID>159</InnerID>
+                                 <ID>name001-2</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>步行</Caption>
+                                 <Width>147</Width>
+                                 <Height>50</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="6">
+                                 <InnerID>1477</InnerID>
+                                 <Text> </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="6">
+                                 <InnerID>161</InnerID>
+                                 <ID>name001-3</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>轮椅</Caption>
+                                 <Width>147</Width>
+                                 <Height>50</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值3</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="6">
+                                 <InnerID>1478</InnerID>
+                                 <Text> </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="6">
+                                 <InnerID>163</InnerID>
+                                 <ID>name001-2</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>平车</Caption>
+                                 <Width>147</Width>
+                                 <Height>50</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="6">
+                                 <InnerID>1479</InnerID>
+                                 <Text>      第 </Text>
+                              </Element>
+                              <Element xsi:type="XInputField" StyleIndex="6">
+                                 <InnerID>172</InnerID>
+                                 <ID>99B325F6-A785-438D-A536-DBDAF5371D73</ID>
+                                 <ToolTip>请输入住院次数</ToolTip>
+                                 <EnableValueValidate>true</EnableValueValidate>
+                                 <ValueBinding>
+                                    <DataSource>zy_brjbxx</DataSource>
+                                    <BindingPath>zy_brjbxx/zycs</BindingPath>
+                                 </ValueBinding>
+                                 <ContentReadonly>False</ContentReadonly>
+                                 <StartBorderText>[</StartBorderText>
+                                 <EndBorderText>]</EndBorderText>
+                                 <BorderElementColor />
+                                 <Name>zycs</Name>
+                                 <BackgroundText>住院次数</BackgroundText>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="6">
+                                 <InnerID>1480</InnerID>
+                                 <Text> 入院</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="10">
+                                 <InnerID>176</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1481</InnerID>
+                                 <Text>病史釆集、体检</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="12">
+                                 <InnerID>1482</InnerID>
+                                 <Text>：</Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>186</InnerID>
+                                 <ID>name001-2</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>经管医师</Caption>
+                                 <Width>222.000015</Width>
+                                 <Height>50</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1483</InnerID>
+                                 <Text> </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>188</InnerID>
+                                 <ID>name001-3</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>值班医师</Caption>
+                                 <Width>222.000015</Width>
+                                 <Height>50</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值3</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1484</InnerID>
+                                 <Text> </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>190</InnerID>
+                                 <ID>name001-2</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>进修医师</Caption>
+                                 <Width>222.000015</Width>
+                                 <Height>50</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="12">
+                                 <InnerID>1485</InnerID>
+                                 <Text> </Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="10">
+                                 <InnerID>192</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1486</InnerID>
+                                 <Text>联络人： </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="13">
+                                 <InnerID>1487</InnerID>
+                                 <Text>              </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1488</InnerID>
+                                 <Text>  电话：</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="13">
+                                 <InnerID>1489</InnerID>
+                                 <Text>              </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1490</InnerID>
+                                 <Text>与患者关系：</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="13">
+                                 <InnerID>1491</InnerID>
+                                 <Text>                 </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1492</InnerID>
+                                 <Text>  态度：</Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>260</InnerID>
+                                 <ID>name001-2</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>关心</Caption>
+                                 <Width>147</Width>
+                                 <Height>50</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1493</InnerID>
+                                 <Text>   </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>264</InnerID>
+                                 <ID>name001-3</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>不关心</Caption>
+                                 <Width>184.500015</Width>
+                                 <Height>50</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值3</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1494</InnerID>
+                                 <Text>   </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>268</InnerID>
+                                 <ID>name001-2</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>过于关心</Caption>
+                                 <Width>222.000015</Width>
+                                 <Height>50</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1495</InnerID>
+                                 <Text>   </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>272</InnerID>
+                                 <ID>name001-3</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>无人照顾</Caption>
+                                 <Width>222.000015</Width>
+                                 <Height>50</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值3</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1496</InnerID>
+                                 <Text> </Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="10">
+                                 <InnerID>274</InnerID>
+                              </Element>
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <InnerID>275</InnerID>
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>2</InnerID>
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <InnerID>1497</InnerID>
+                                 <Text>                   </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <InnerID>1498</InnerID>
+                                 <Text>基本情况评估</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>303</InnerID>
+                              </Element>
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>3</InnerID>
+                           <XElements>
+                              <Element xsi:type="XString" StyleIndex="12">
+                                 <InnerID>1499</InnerID>
+                                 <Text>病情简介：</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="13">
+                                 <InnerID>1500</InnerID>
+                                 <Text>                                      </Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>349</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="12">
+                                 <InnerID>1501</InnerID>
+                                 <Text>过敏药物或食物：</Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="6">
+                                 <InnerID>359</InnerID>
+                                 <ID>name001-1</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>无</Caption>
+                                 <Width>122.000008</Width>
+                                 <Height>57.03125</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值1</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="6">
+                                 <InnerID>1502</InnerID>
+                                 <Text>  </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="6">
+                                 <InnerID>362</InnerID>
+                                 <ID>name001-2</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>有</Caption>
+                                 <Width>122.000008</Width>
+                                 <Height>57.03125</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="13">
+                                 <InnerID>1503</InnerID>
+                                 <Text>                </Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>379</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="12">
+                                 <InnerID>1504</InnerID>
+                                 <Text>手术病史：</Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="6">
+                                 <InnerID>386</InnerID>
+                                 <ID>name001-1</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>无</Caption>
+                                 <Width>122.000008</Width>
+                                 <Height>57.03125</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值1</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="6">
+                                 <InnerID>1505</InnerID>
+                                 <Text>  </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="6">
+                                 <InnerID>389</InnerID>
+                                 <ID>name001-2</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>有</Caption>
+                                 <Width>122.000008</Width>
+                                 <Height>57.03125</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="13">
+                                 <InnerID>1506</InnerID>
+                                 <Text>                </Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>406</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="12">
+                                 <InnerID>1507</InnerID>
+                                 <Text>个人特殊嗜好：</Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="6">
+                                 <InnerID>415</InnerID>
+                                 <ID>name001-1</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>无</Caption>
+                                 <Width>122.000008</Width>
+                                 <Height>57.03125</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值1</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="6">
+                                 <InnerID>1508</InnerID>
+                                 <Text>  </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="6">
+                                 <InnerID>418</InnerID>
+                                 <ID>name001-2</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>有</Caption>
+                                 <Width>122.000008</Width>
+                                 <Height>57.03125</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="13">
+                                 <InnerID>1509</InnerID>
+                                 <Text>                </Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>435</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="12">
+                                 <InnerID>1510</InnerID>
+                                 <Text>家族遗传及传染病史：</Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>447</InnerID>
+                                 <ID>name001-1</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>无</Caption>
+                                 <Width>122.000008</Width>
+                                 <Height>57.03125</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值1</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1511</InnerID>
+                                 <Text>  </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>450</InnerID>
+                                 <ID>name001-2</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>有</Caption>
+                                 <Width>122.000008</Width>
+                                 <Height>57.03125</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="13">
+                                 <InnerID>1512</InnerID>
+                                 <Text>                </Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>467</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="12">
+                                 <InnerID>1513</InnerID>
+                                 <Text>大小便：</Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>473</InnerID>
+                                 <ID>name001-1</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>正常</Caption>
+                                 <Width>172.000015</Width>
+                                 <Height>57.03125</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值1</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1514</InnerID>
+                                 <Text>  </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>476</InnerID>
+                                 <ID>name001-2</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>异常</Caption>
+                                 <Width>172.000015</Width>
+                                 <Height>57.03125</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="13">
+                                 <InnerID>1515</InnerID>
+                                 <Text>                </Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>493</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="12">
+                                 <InnerID>1516</InnerID>
+                                 <Text>意识状态：</Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>500</InnerID>
+                                 <ID>name001-1</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>清楚</Caption>
+                                 <Width>172.000015</Width>
+                                 <Height>57.03125</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值1</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1517</InnerID>
+                                 <Text>  </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>503</InnerID>
+                                 <ID>name001-2</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>嗜睡</Caption>
+                                 <Width>172.000015</Width>
+                                 <Height>57.03125</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1518</InnerID>
+                                 <Text>   </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>507</InnerID>
+                                 <ID>name001-1</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>烦躁</Caption>
+                                 <Width>172.000015</Width>
+                                 <Height>57.03125</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值1</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1519</InnerID>
+                                 <Text>   </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>511</InnerID>
+                                 <ID>name001-2</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>昏迷</Caption>
+                                 <Width>172.000015</Width>
+                                 <Height>57.03125</Height>
+                                 <GroupName>name001</GroupName>
+                                 <Checked>true</Checked>
+                                 <CheckedValue>值2</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1520</InnerID>
+                                 <Text>     </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>517</InnerID>
+                                 <ID>name001-2</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name0021</Name>
+                                 <Caption>其他</Caption>
+                                 <Width>172.000015</Width>
+                                 <Height>57.03125</Height>
+                                 <GroupName>name0021</GroupName>
+                                 <CheckedValue>qt</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="6">
+                                 <InnerID>1521</InnerID>
+                                 <Text> </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="13">
+                                 <InnerID>1522</InnerID>
+                                 <Text> </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="7">
+                                 <InnerID>1523</InnerID>
+                                 <Text>       </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="6">
+                                 <InnerID>1524</InnerID>
+                                 <Text> </Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>528</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="12">
+                                 <InnerID>1525</InnerID>
+                                 <Text>自主能力：</Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>535</InnerID>
+                                 <ID>name001-2</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>正常</Caption>
+                                 <Width>172.000015</Width>
+                                 <Height>57.03125</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1526</InnerID>
+                                 <Text>  </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>538</InnerID>
+                                 <ID>name001-1</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>全瘫</Caption>
+                                 <Width>172.000015</Width>
+                                 <Height>57.03125</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值1</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1527</InnerID>
+                                 <Text>   </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>542</InnerID>
+                                 <ID>name001-2</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>截瘫</Caption>
+                                 <Width>172.000015</Width>
+                                 <Height>57.03125</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1528</InnerID>
+                                 <Text>   </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>546</InnerID>
+                                 <ID>name001-2</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name0021</Name>
+                                 <Caption>其他</Caption>
+                                 <Width>172.000015</Width>
+                                 <Height>57.03125</Height>
+                                 <GroupName>name0021</GroupName>
+                                 <CheckedValue>qt</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="6">
+                                 <InnerID>1529</InnerID>
+                                 <Text> </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="13">
+                                 <InnerID>1530</InnerID>
+                                 <Text> </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="7">
+                                 <InnerID>1531</InnerID>
+                                 <Text>       </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="6">
+                                 <InnerID>1532</InnerID>
+                                 <Text> </Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>557</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="12">
+                                 <InnerID>1533</InnerID>
+                                 <Text>体格检査：</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1534</InnerID>
+                                 <Text>T</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="13">
+                                 <InnerID>1535</InnerID>
+                                 <Text>      </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="14">
+                                 <InnerID>1536</InnerID>
+                                 <Text>℃</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="13">
+                                 <InnerID>1537</InnerID>
+                                 <Text> </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1538</InnerID>
+                                 <Text> P</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="13">
+                                 <InnerID>1539</InnerID>
+                                 <Text>     次/分  </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1540</InnerID>
+                                 <Text>R</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="13">
+                                 <InnerID>1541</InnerID>
+                                 <Text>      </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1542</InnerID>
+                                 <Text>次/分 BP</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="13">
+                                 <InnerID>1543</InnerID>
+                                 <Text>        mmHg</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="12">
+                                 <InnerID>1544</InnerID>
+                                 <Text> </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1545</InnerID>
+                                 <Text>体重</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="13">
+                                 <InnerID>1546</InnerID>
+                                 <Text>      Kg</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>621</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="12">
+                                 <InnerID>1547</InnerID>
+                                 <Text>阳性特征：</Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>628</InnerID>
+                                 <ID>name001-1</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>无</Caption>
+                                 <Width>122.000008</Width>
+                                 <Height>57.03125</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值1</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1548</InnerID>
+                                 <Text>  </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>631</InnerID>
+                                 <ID>name001-2</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>有</Caption>
+                                 <Width>122.000008</Width>
+                                 <Height>57.03125</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="13">
+                                 <InnerID>1549</InnerID>
+                                 <Text>                                   </Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>667</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="12">
+                                 <InnerID>1550</InnerID>
+                                 <Text>重要的辅助检査：</Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>677</InnerID>
+                                 <ID>name001-1</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>无</Caption>
+                                 <Width>122.000008</Width>
+                                 <Height>57.03125</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值1</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1551</InnerID>
+                                 <Text>  </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>680</InnerID>
+                                 <ID>name001-2</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>有</Caption>
+                                 <Width>122.000008</Width>
+                                 <Height>57.03125</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="13">
+                                 <InnerID>1552</InnerID>
+                                 <Text>                                   </Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>716</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="12">
+                                 <InnerID>1553</InnerID>
+                                 <Text>特殊的阴性体征：</Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>726</InnerID>
+                                 <ID>name001-1</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>无</Caption>
+                                 <Width>122.000008</Width>
+                                 <Height>57.03125</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值1</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1554</InnerID>
+                                 <Text>  </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>729</InnerID>
+                                 <ID>name001-2</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>有</Caption>
+                                 <Width>122.000008</Width>
+                                 <Height>57.03125</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="13">
+                                 <InnerID>1555</InnerID>
+                                 <Text>                                   </Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>765</InnerID>
+                              </Element>
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <InnerID>766</InnerID>
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>4</InnerID>
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <InnerID>1556</InnerID>
+                                 <Text>    </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <InnerID>1557</InnerID>
+                                 <Text>风险因素评估</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>779</InnerID>
+                              </Element>
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>5</InnerID>
+                           <XElements>
+                              <Element xsi:type="XString" StyleIndex="12">
+                                 <InnerID>1558</InnerID>
+                                 <Text>心脑血管：</Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>787</InnerID>
+                                 <ID>name001-1</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>无</Caption>
+                                 <Width>122.000008</Width>
+                                 <Height>57.03125</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值1</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1559</InnerID>
+                                 <Text>  </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>790</InnerID>
+                                 <ID>name001-2</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>有</Caption>
+                                 <Width>122.000008</Width>
+                                 <Height>57.03125</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="13">
+                                 <InnerID>1560</InnerID>
+                                 <Text>                  </Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>809</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="12">
+                                 <InnerID>1561</InnerID>
+                                 <Text>呼吸系统：</Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>816</InnerID>
+                                 <ID>name001-1</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>无</Caption>
+                                 <Width>122.000008</Width>
+                                 <Height>57.03125</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值1</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1562</InnerID>
+                                 <Text>  </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>819</InnerID>
+                                 <ID>name001-2</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>有</Caption>
+                                 <Width>122.000008</Width>
+                                 <Height>57.03125</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="13">
+                                 <InnerID>1563</InnerID>
+                                 <Text>                  </Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>838</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="12">
+                                 <InnerID>1564</InnerID>
+                                 <Text>消化系统：</Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>845</InnerID>
+                                 <ID>name001-1</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>无</Caption>
+                                 <Width>122.000008</Width>
+                                 <Height>57.03125</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值1</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1565</InnerID>
+                                 <Text>  </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>848</InnerID>
+                                 <ID>name001-2</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>有</Caption>
+                                 <Width>122.000008</Width>
+                                 <Height>57.03125</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="13">
+                                 <InnerID>1566</InnerID>
+                                 <Text>                  </Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>867</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="12">
+                                 <InnerID>1567</InnerID>
+                                 <Text>神经系统：</Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>874</InnerID>
+                                 <ID>name001-1</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>无</Caption>
+                                 <Width>122.000008</Width>
+                                 <Height>57.03125</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值1</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1568</InnerID>
+                                 <Text>  </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>877</InnerID>
+                                 <ID>name001-2</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>有</Caption>
+                                 <Width>122.000008</Width>
+                                 <Height>57.03125</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="13">
+                                 <InnerID>1569</InnerID>
+                                 <Text>                  </Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>896</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="12">
+                                 <InnerID>1570</InnerID>
+                                 <Text>其    他：</Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>905</InnerID>
+                                 <ID>name001-1</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>无</Caption>
+                                 <Width>122.000008</Width>
+                                 <Height>57.03125</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值1</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1571</InnerID>
+                                 <Text>  </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>908</InnerID>
+                                 <ID>name001-2</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>有</Caption>
+                                 <Width>122.000008</Width>
+                                 <Height>57.03125</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="13">
+                                 <InnerID>1572</InnerID>
+                                 <Text>                  </Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>927</InnerID>
+                              </Element>
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <InnerID>928</InnerID>
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>6</InnerID>
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <InnerID>1573</InnerID>
+                                 <Text>              </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <InnerID>1574</InnerID>
+                                 <Text>其他</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>947</InnerID>
+                              </Element>
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>7</InnerID>
+                           <XElements>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1575</InnerID>
+                                 <Text>不良后果及预后：</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="15">
+                                 <InnerID>1576</InnerID>
+                                 <Text>预后尚可，可反复发作。</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>969</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1577</InnerID>
+                                 <Text>患者及家属注意事项：</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="15">
+                                 <InnerID>1578</InnerID>
+                                 <Text>1.宜食用易消化食物，保持大便通畅。2.如出现不适症状及时告知值班医生3.配合治疗，遵医嘱按时服药，加强护理，避免摔伤，坠床等意外事故发生。4.必须遵守医院管理规定不得擅自离院，擅自离院后导致不良后果均由患者及家属自负。</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1091</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1579</InnerID>
+                                 <Text>诊疗计划：</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="15">
+                                 <InnerID>1580</InnerID>
+                                 <Text>完善相关检査，根据病情给予改善循环、营养神经、止痛、降糖及对症治疗。</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1132</InnerID>
+                              </Element>
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <InnerID>1133</InnerID>
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>8</InnerID>
+                           <XElements>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1581</InnerID>
+                                 <Text>评估等级：</Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>1141</InnerID>
+                                 <ID>name001-2</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>一般</Caption>
+                                 <Width>147</Width>
+                                 <Height>50</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1582</InnerID>
+                                 <Text> </Text>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <InnerID>1583</InnerID>
+                                 <Text>    </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>1147</InnerID>
+                                 <ID>name001-3</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>病重</Caption>
+                                 <Width>147</Width>
+                                 <Height>50</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值3</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1584</InnerID>
+                                 <Text> </Text>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <InnerID>1585</InnerID>
+                                 <Text>  </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>1151</InnerID>
+                                 <ID>name001-2</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>病危</Caption>
+                                 <Width>147</Width>
+                                 <Height>50</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1586</InnerID>
+                                 <Text>     处置结果：</Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>1162</InnerID>
+                                 <ID>name001-2</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>收治</Caption>
+                                 <Width>147</Width>
+                                 <Height>50</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1587</InnerID>
+                                 <Text> </Text>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <InnerID>1588</InnerID>
+                                 <Text>    </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>1168</InnerID>
+                                 <ID>name001-3</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>转院</Caption>
+                                 <Width>147</Width>
+                                 <Height>50</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值3</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1589</InnerID>
+                                 <Text> </Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1170</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1590</InnerID>
+                                 <Text>护理等级：</Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>1177</InnerID>
+                                 <ID>name001-2</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>特级护理</Caption>
+                                 <Width>147</Width>
+                                 <Height>50</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <InnerID>1591</InnerID>
+                                 <Text>  </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1592</InnerID>
+                                 <Text> </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>1181</InnerID>
+                                 <ID>name001-3</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>一级护理</Caption>
+                                 <Width>147</Width>
+                                 <Height>50</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值3</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <InnerID>1593</InnerID>
+                                 <Text>    </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1594</InnerID>
+                                 <Text> </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>1187</InnerID>
+                                 <ID>name001-2</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>二级护理</Caption>
+                                 <Width>147</Width>
+                                 <Height>50</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <InnerID>1595</InnerID>
+                                 <Text>    </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1596</InnerID>
+                                 <Text> </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="11">
+                                 <InnerID>1193</InnerID>
+                                 <ID>name001-2</ID>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Name>name001</Name>
+                                 <Caption>三级护理</Caption>
+                                 <Width>147</Width>
+                                 <Height>50</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <InnerID>1597</InnerID>
+                                 <Text>  </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1598</InnerID>
+                                 <Text>        </Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1204</InnerID>
+                              </Element>
+                           </XElements>
+                           <ColSpan>2</ColSpan>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>1303</InnerID>
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1456</InnerID>
+                                 <AutoCreate>true</AutoCreate>
+                              </Element>
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <InnerID>1205</InnerID>
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>10</InnerID>
+                           <XElements>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1599</InnerID>
+                                 <Text>收集资料时间： 2024-05-23                   提供资料这签名：</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1253</InnerID>
+                              </Element>
+                           </XElements>
+                           <ColSpan>2</ColSpan>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>1304</InnerID>
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1457</InnerID>
+                                 <AutoCreate>true</AutoCreate>
+                              </Element>
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <InnerID>1254</InnerID>
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>12</InnerID>
+                           <XElements>
+                              <Element xsi:type="XString" StyleIndex="11">
+                                 <InnerID>1600</InnerID>
+                                 <Text>评估医师签名：                              上级医师签名：</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1301</InnerID>
+                              </Element>
+                           </XElements>
+                           <ColSpan>2</ColSpan>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>1305</InnerID>
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1458</InnerID>
+                                 <AutoCreate>true</AutoCreate>
+                              </Element>
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+               </XElements>
+               <Columns>
+                  <Element xsi:type="XTextTableColumn">
+                     <InnerID>79</InnerID>
+                     <Width>159.375</Width>
+                  </Element>
+                  <Element xsi:type="XTextTableColumn">
+                     <InnerID>80</InnerID>
+                     <Width>1721.875</Width>
+                  </Element>
+               </Columns>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>1306</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+      <Element xsi:type="XTextFooter">
+         <InnerID>3</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XPageInfo" StyleIndex="16">
+               <InnerID>75</InnerID>
+               <ID>pageinfo1</ID>
+               <Width>400</Width>
+               <AutoHeight>true</AutoHeight>
+               <Height>62.73437</Height>
+               <FormatString>第[%PageIndex%]页 共[%NumOfPages%]页</FormatString>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0">
+               <InnerID>76</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+   </XElements>
+   <SerializeParameterValue>true</SerializeParameterValue>
+   <FileName>\File\Template\护理文书\患者入院护理评估单\入院病人病情评估单.xml</FileName>
+   <FileFormat>xml</FileFormat>
+   <ContentStyles>
+      <Default xsi:type="DocumentContentStyle">
+         <FontName>宋体</FontName>
+         <FontSize>12</FontSize>
+      </Default>
+      <Styles>
+         <Style Index="0">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <Align>Center</Align>
+         </Style>
+         <Style Index="1">
+            <FontName>宋体</FontName>
+            <FontSize>18</FontSize>
+            <Bold>true</Bold>
+         </Style>
+         <Style Index="2">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <Bold>true</Bold>
+         </Style>
+         <Style Index="3">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <BorderWidth>1</BorderWidth>
+            <BorderLeft>true</BorderLeft>
+            <BorderBottom>true</BorderBottom>
+            <BorderTop>true</BorderTop>
+            <BorderRight>true</BorderRight>
+            <PaddingLeft>12.5</PaddingLeft>
+            <PaddingTop>9.375</PaddingTop>
+            <PaddingRight>12.5</PaddingRight>
+            <PaddingBottom>9.375</PaddingBottom>
+         </Style>
+         <Style Index="4">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <Align>Right</Align>
+         </Style>
+         <Style Index="5">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <Bold>true</Bold>
+            <Align>Right</Align>
+         </Style>
+         <Style Index="6">
+            <FontName>宋体</FontName>
+            <FontSize>10.5</FontSize>
+         </Style>
+         <Style Index="7">
+            <FontName>宋体</FontName>
+            <FontSize>10.5</FontSize>
+            <Underline>true</Underline>
+         </Style>
+         <Style Index="8">
+            <BackgroundColor>#FFFFFF</BackgroundColor>
+            <FontName>宋体</FontName>
+            <FontSize>10.5</FontSize>
+         </Style>
+         <Style Index="9">
+            <BackgroundColor>#FFFFFF</BackgroundColor>
+            <FontName>宋体</FontName>
+            <FontSize>10.5</FontSize>
+            <Underline>true</Underline>
+         </Style>
+         <Style Index="10">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <LineSpacingStyle>SpaceDouble</LineSpacingStyle>
+         </Style>
+         <Style Index="11">
+            <Color>#242424</Color>
+            <FontName>宋体</FontName>
+            <FontSize>10.5</FontSize>
+         </Style>
+         <Style Index="12">
+            <BackgroundColor>#F5F5F5</BackgroundColor>
+            <Color>#242424</Color>
+            <FontName>宋体</FontName>
+            <FontSize>10.5</FontSize>
+         </Style>
+         <Style Index="13">
+            <Color>#242424</Color>
+            <FontName>宋体</FontName>
+            <FontSize>10.5</FontSize>
+            <Underline>true</Underline>
+         </Style>
+         <Style Index="14">
+            <BackgroundColor>#F5F5F5</BackgroundColor>
+            <Color>#242424</Color>
+            <FontName>宋体</FontName>
+            <FontSize>10.5</FontSize>
+            <Underline>true</Underline>
+         </Style>
+         <Style Index="15">
+            <BackgroundColor>#F5F5F5</BackgroundColor>
+            <Color>#242424</Color>
+            <FontName>宋体</FontName>
+            <FontSize>11.0000257</FontSize>
+            <Underline>true</Underline>
+         </Style>
+         <Style Index="16">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+         </Style>
+      </Styles>
+   </ContentStyles>
+   <Info>
+      <LicenseText>未注册|Unregister</LicenseText>
+      <CreationTime>1980-01-01T00:00:00</CreationTime>
+      <LastModifiedTime>2025-02-12T16:09:18.5811334+08:00</LastModifiedTime>
+      <LastPrintTime>1980-01-01T00:00:00</LastPrintTime>
+      <Operator>DCSoft.Writer Version:1.2023.2.14</Operator>
+      <NumOfPage>1</NumOfPage>
+   </Info>
+   <BodyText>                   一般资料 姓名:性别:[] 年龄:[] 职业:[]   民族:[]
+初步诊断:[]
+入院时间:[]
+入院方式: □步行 □轮椅 □平车      第 [] 入院
+病史釆集、体检：□经管医师 □值班医师 □进修医师 
+联络人：                 电话：              与患者关系：                   态度：□关心   □不关心   □过于关心   □无人照顾  
+                   基本情况评估 病情简介：                                      
+过敏药物或食物：□无  □有                
+手术病史：□无  □有                
+个人特殊嗜好：□无  □有                
+家族遗传及传染病史：□无  □有                
+大小便：□正常  □异常                
+意识状态：□清楚  □嗜睡   □烦躁   ■昏迷     □其他          
+自主能力：□正常  □全瘫   □截瘫   □其他          
+体格检査：T      ℃  P     次/分  R      次/分 BP        mmHg 体重      Kg
+阳性特征：□无  □有                                   
+重要的辅助检査：□无  □有                                   
+特殊的阴性体征：□无  □有                                    
+    风险因素评估 心脑血管：□无  □有                  
+呼吸系统：□无  □有                  
+消化系统：□无  □有                  
+神经系统：□无  □有                  
+其    他：□无  □有                   
+              其他 不良后果及预后：预后尚可，可反复发作。
+患者及家属注意事项：1.宜食用易消化食物，保持大便通畅。2.如出现不适症状及时告知值班医生3.配合治疗，遵医嘱按时服药，加强护理，避免摔伤，坠床等意外事故发生。4.必须遵守医院管理规定不得擅自离院，擅自离院后导致不良后果均由患者及家属自负。
+诊疗计划：完善相关检査，根据病情给予改善循环、营养神经、止痛、降糖及对症治疗。 
+评估等级：□一般     □病重   □病危     处置结果：□收治     □转院 
+护理等级：□特级护理   □一级护理     □二级护理     □三级护理           
+收集资料时间： 2024-05-23                   提供资料这签名： 
+评估医师签名：                              上级医师签名： </BodyText>
+   <LocalConfig />
+   <PageSettings>
+      <StrictUsePageSize>false</StrictUsePageSize>
+   </PageSettings>
+</XTextDocument>

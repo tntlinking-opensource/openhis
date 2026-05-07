@@ -1,0 +1,295 @@
+<XTextDocument xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EditorVersionString="1.2023.2.14">
+   <InnerID>648</InnerID>
+   <XElements>
+      <Element xsi:type="XTextHeader">
+         <InnerID>649</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XInputField" StyleIndex="1">
+               <InnerID>671</InnerID>
+               <ID>B0EADC5F-D1A7-4C1D-8BFF-C30B4AB96B89</ID>
+               <ToolTip>请输入医院名称</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/yymc</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <Name>yymc</Name>
+               <BackgroundText>医院名称</BackgroundText>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0">
+               <InnerID>672</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="2">
+               <InnerID>1335</InnerID>
+               <Text>入院三天医患沟通</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0">
+               <InnerID>682</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>1336</InnerID>
+               <Text>姓名:</Text>
+            </Element>
+            <Element xsi:type="XInputField">
+               <InnerID>687</InnerID>
+               <ID>555B0059-D165-46B3-9F88-9720672296AF</ID>
+               <ToolTip>请输入姓名</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/xm</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <Name>xm</Name>
+               <BackgroundText>姓名</BackgroundText>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>1337</InnerID>
+               <Text>     科别:</Text>
+            </Element>
+            <Element xsi:type="XInputField">
+               <InnerID>696</InnerID>
+               <ID>05851fea-e7a2-4ada-969c-76b7d0403c10</ID>
+               <ToolTip>请输入科室名称</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/DeptName</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <Name>DeptName</Name>
+               <BackgroundText>科室名称</BackgroundText>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>1338</InnerID>
+               <Text>      床号:</Text>
+            </Element>
+            <Element xsi:type="XInputField">
+               <InnerID>706</InnerID>
+               <ID>47C322C6-9098-4D54-9F8A-C726F1BE8CC1</ID>
+               <ToolTip>请输入床号</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/BedName</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <Name>BedName</Name>
+               <BackgroundText>床号</BackgroundText>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>1339</InnerID>
+               <Text>      住院号:</Text>
+            </Element>
+            <Element xsi:type="XInputField">
+               <InnerID>717</InnerID>
+               <ID>6C1F42F9-EB78-43E1-AF32-18795C4E2303</ID>
+               <ToolTip>请输入住院号</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/zyh</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <Name>zyh</Name>
+               <BackgroundText>住院号</BackgroundText>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>1340</InnerID>
+               <Text>  </Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0">
+               <InnerID>720</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+      <Element xsi:type="XTextBody">
+         <InnerID>650</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>1341</InnerID>
+               <Text>确诊結果：1.颈椎间盘突出伴有神经樑病N稳定型心姣廂&amp;心功龍口级玄冠状动腺粥桦硬化性心脏病5、2型齬尿病6、髙齟固薛血症</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>785</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>788</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>1342</InnerID>
+               <Text>进一步检査及治疗方案：患眷入随后完善相关检査，頸檢间盘CT示；C3/4C4/5C3/5椎间盘突出2.颈椎骨质增生3、脚椎骨園増生。脚部DR示:两肺纹理增强，姑合临床。心脏彩超示：左室舒张功能减低。心电图示：夷性心动过缓，大致正常心电图。尿常规！葡蔔糖2+tnwl/L,生化苗葡糖10、47mdo1/L,低密度脂蚩白胆阖薛4,94minol/L,白球比2.&amp;总胆固醉7,92wnnol/L.根据病情给予改善緡环，抗血小板聚集、稳定斑块、降糖、降脂及对症治疗头晕、颈肩部困痛症状媛解，雄牍当前治疗。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>1037</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>1040</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>1343</InnerID>
+               <Text>需要患者及其家厲配合的事宜及注恵事项：</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>1061</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>1344</InnerID>
+               <Text>1. 糖尿病饮食饮食，宜食用屈消化食轲，保持大便通畅。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>1090</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>1345</InnerID>
+               <Text>2. 如出现不适症状及时告知值班医生。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>1111</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>1346</InnerID>
+               <Text>3. 配合治疗，遵医嘱按时服药，加强护理，避免摔伤，坠床等意外事故发生。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>1149</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>1347</InnerID>
+               <Text>4. 必须遵守医院管理規定不得擅自离院，擅自离院后导致不良后杲均由患者及家属自负。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>1192</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>1195</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>1348</InnerID>
+               <Text>其他（用药不良反应等）：所有药物均存在不同程度的不良反应，并可能存在目前尚未发现的不良反应，对此患者及家属应正确认识。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>1256</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>1259</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>1349</InnerID>
+               <Text>患者（或其代理人）签字:</Text>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>1350</InnerID>
+               <Text>                           </Text>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>1351</InnerID>
+               <Text>沟通医师签名:</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>1307</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>1310</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>1313</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+      <Element xsi:type="XTextFooter">
+         <InnerID>651</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XPageInfo">
+               <InnerID>722</InnerID>
+               <ID>pageinfo1</ID>
+               <Width>400</Width>
+               <AutoHeight>true</AutoHeight>
+               <Height>65</Height>
+               <FormatString>第[%PageIndex%]页 共[%NumOfPages%]页</FormatString>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0">
+               <InnerID>723</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+   </XElements>
+   <SerializeParameterValue>true</SerializeParameterValue>
+   <FileName>\File\Template\医疗文书\医患沟通\入院三天医患沟通.xml</FileName>
+   <FileFormat>xml</FileFormat>
+   <ContentStyles>
+      <Default xsi:type="DocumentContentStyle">
+         <FontName>宋体</FontName>
+         <FontSize>12</FontSize>
+      </Default>
+      <Styles>
+         <Style Index="0">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <Align>Center</Align>
+         </Style>
+         <Style Index="1">
+            <FontName>宋体</FontName>
+            <FontSize>18</FontSize>
+            <Bold>true</Bold>
+         </Style>
+         <Style Index="2">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <Bold>true</Bold>
+         </Style>
+         <Style Index="3">
+            <BackgroundColor>#F5F5F5</BackgroundColor>
+            <Color>#242424</Color>
+            <FontName>宋体</FontName>
+            <FontSize>11.0000257</FontSize>
+         </Style>
+      </Styles>
+   </ContentStyles>
+   <Info>
+      <LicenseText>未注册|Unregister</LicenseText>
+      <CreationTime>1980-01-01T00:00:00</CreationTime>
+      <LastModifiedTime>2025-02-12T14:27:34.4719149+08:00</LastModifiedTime>
+      <LastPrintTime>1980-01-01T00:00:00</LastPrintTime>
+      <Operator>DCSoft.Writer Version:1.2023.2.14</Operator>
+      <NumOfPage>1</NumOfPage>
+   </Info>
+   <BodyText>确诊結果：1.颈椎间盘突出伴有神经樑病N稳定型心姣廂&amp;心功龍口级玄冠状动腺粥桦硬化性心脏病5、2型齬尿病6、髙齟固薛血症
+
+进一步检査及治疗方案：患眷入随后完善相关检査，頸檢间盘CT示；C3/4C4/5C3/5椎间盘突出2.颈椎骨质增生3、脚椎骨園増生。脚部DR示:两肺纹理增强，姑合临床。心脏彩超示：左室舒张功能减低。心电图示：夷性心动过缓，大致正常心电图。尿常规！葡蔔糖2+tnwl/L,生化苗葡糖10、47mdo1/L,低密度脂蚩白胆阖薛4,94minol/L,白球比2.&amp;总胆固醉7,92wnnol/L.根据病情给予改善緡环，抗血小板聚集、稳定斑块、降糖、降脂及对症治疗头晕、颈肩部困痛症状媛解，雄牍当前治疗。
+
+需要患者及其家厲配合的事宜及注恵事项：
+1. 糖尿病饮食饮食，宜食用屈消化食轲，保持大便通畅。
+2. 如出现不适症状及时告知值班医生。
+3. 配合治疗，遵医嘱按时服药，加强护理，避免摔伤，坠床等意外事故发生。
+4. 必须遵守医院管理規定不得擅自离院，擅自离院后导致不良后杲均由患者及家属自负。
+
+其他（用药不良反应等）：所有药物均存在不同程度的不良反应，并可能存在目前尚未发现的不良反应，对此患者及家属应正确认识。
+
+患者（或其代理人）签字:                           沟通医师签名:
+
+</BodyText>
+   <LocalConfig />
+   <PageSettings>
+      <StrictUsePageSize>false</StrictUsePageSize>
+   </PageSettings>
+</XTextDocument>

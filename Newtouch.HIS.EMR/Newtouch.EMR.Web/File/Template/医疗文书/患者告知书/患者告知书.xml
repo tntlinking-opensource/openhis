@@ -1,0 +1,248 @@
+<XTextDocument xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EditorVersionString="1.2023.2.14">
+   <Attributes>
+      <Attribute>
+         <Name>DCLocalDataSource</Name>
+         <Value>&lt;DataSourceDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="DataSource" Name="DataSource" Guid="eb1656e2-9291-4387-9eb9-a1209c9411fc" Title=""&gt;&lt;Parameters /&gt;&lt;Nodes /&gt;&lt;/DataSourceDocument&gt;</Value>
+      </Attribute>
+   </Attributes>
+   <InnerID>1191</InnerID>
+   <XElements>
+      <Element xsi:type="XTextHeader">
+         <InnerID>6</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XInputField" StyleIndex="1">
+               <InnerID>1214</InnerID>
+               <ID>B0EADC5F-D1A7-4C1D-8BFF-C30B4AB96B89</ID>
+               <ToolTip>请输入医院名称</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/yymc</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <Name>yymc</Name>
+               <BackgroundText>医院名称</BackgroundText>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0">
+               <InnerID>1215</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="1">
+               <InnerID>2035</InnerID>
+               <Text>患者告知书</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0">
+               <InnerID>1222</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+      <Element xsi:type="XTextBody">
+         <InnerID>8</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>1226</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>2036</InnerID>
+               <Text>                </Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>1244</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2037</InnerID>
+               <Text>        为保障您住院治疗期间享有充分的知情同意权，医务人员将向您告知您的病情、主要医疗措施、医疗风险等情况，解答您对疾病的咨询。未经您本人充分知情和签名同意，医务人员将不得进行手术等重大医疗行为。但是由于各人心理承受能力不同，以及疾病发展具有不可预测性，为有利于治疗，请您现授权委托一位您充分信任的代理人，代为行使您的知情同意权。我院将根据您签名出具的授权委托书，视代理人的行为为您本人真实的意思表示。如您为未满 18周岁或没有民事行为能力和限制民事行为能力的，您的法定监护人为您的法定代理人,代为行使知情同意权。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>1507</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2038</InnerID>
+               <Text>       为了让医生给您制定最佳的治疗方案，请您务必客观、真实地向医生提供您的病情资料和相关情况。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>1560</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2039</InnerID>
+               <Text>       特此告知</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>1573</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2040</InnerID>
+               <Text>附空白授权委托书一份                              内蒙古博鏊蒙医医院</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>1624</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2041</InnerID>
+               <Text>                                                        谈话人:</Text>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>2042</InnerID>
+               <Text>         </Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>1695</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2043</InnerID>
+               <Text>                                                    年       月       日</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>1766</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="4">
+               <InnerID>1768</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="4">
+               <InnerID>1770</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2044</InnerID>
+               <Text>上述告知书内容本人已充分了解，本人决定选择以下方式不选择处划掉):</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>1805</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>1807</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2045</InnerID>
+               <Text>1.向贵院出具授权委托书指定代理人。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>1827</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2046</InnerID>
+               <Text>2.向贵院出具户籍等相关证明，明确法定代理人</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>1851</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2047</InnerID>
+               <Text>3，本人决定不委托代理人，如本人疾病出现危急情况或不可预知情况，授权经治医师决定治疗方案，如有医疗风险和不良后果，由本人自行负责。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>1918</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>1920</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2048</InnerID>
+               <Text>住院号:</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>1926</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2049</InnerID>
+               <Text>患者签名:</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>1933</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2050</InnerID>
+               <Text>                                                              年       月       日</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>2014</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+      <Element xsi:type="XTextFooter">
+         <InnerID>3557</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>1224</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+   </XElements>
+   <SerializeParameterValue>true</SerializeParameterValue>
+   <Parameters>
+      <Parameter Name="当前时间" />
+   </Parameters>
+   <FileName>\File\Template\医疗文书\患者告知书\患者告知书.xml</FileName>
+   <FileFormat>xml</FileFormat>
+   <ContentStyles>
+      <Default xsi:type="DocumentContentStyle">
+         <FontName>宋体</FontName>
+         <FontSize>12</FontSize>
+      </Default>
+      <Styles>
+         <Style Index="0">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <Align>Center</Align>
+         </Style>
+         <Style Index="1">
+            <FontName>宋体</FontName>
+            <FontSize>18</FontSize>
+            <Bold>true</Bold>
+         </Style>
+         <Style Index="2">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <LineSpacingStyle>SpaceDouble</LineSpacingStyle>
+         </Style>
+         <Style Index="3">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <Underline>true</Underline>
+         </Style>
+         <Style Index="4">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <LineSpacingStyle>SpaceDouble</LineSpacingStyle>
+            <FirstLineIndent>100</FirstLineIndent>
+         </Style>
+      </Styles>
+   </ContentStyles>
+   <Info>
+      <LicenseText>未注册|Unregister</LicenseText>
+      <CreationTime>1980-01-01T00:00:00</CreationTime>
+      <LastModifiedTime>2025-02-13T11:22:45.626161+08:00</LastModifiedTime>
+      <LastPrintTime>1980-01-01T00:00:00</LastPrintTime>
+      <Operator>DCSoft.Writer Version:1.2015.12.23</Operator>
+      <NumOfPage>2</NumOfPage>
+   </Info>
+   <BodyText>
+                
+        为保障您住院治疗期间享有充分的知情同意权，医务人员将向您告知您的病情、主要医疗措施、医疗风险等情况，解答您对疾病的咨询。未经您本人充分知情和签名同意，医务人员将不得进行手术等重大医疗行为。但是由于各人心理承受能力不同，以及疾病发展具有不可预测性，为有利于治疗，请您现授权委托一位您充分信任的代理人，代为行使您的知情同意权。我院将根据您签名出具的授权委托书，视代理人的行为为您本人真实的意思表示。如您为未满 18周岁或没有民事行为能力和限制民事行为能力的，您的法定监护人为您的法定代理人,代为行使知情同意权。
+       为了让医生给您制定最佳的治疗方案，请您务必客观、真实地向医生提供您的病情资料和相关情况。
+       特此告知
+附空白授权委托书一份                              内蒙古博鏊蒙医医院
+                                                        谈话人:         
+                                                    年       月       日
+
+
+上述告知书内容本人已充分了解，本人决定选择以下方式不选择处划掉):
+
+1.向贵院出具授权委托书指定代理人。
+2.向贵院出具户籍等相关证明，明确法定代理人
+3，本人决定不委托代理人，如本人疾病出现危急情况或不可预知情况，授权经治医师决定治疗方案，如有医疗风险和不良后果，由本人自行负责。
+
+住院号:
+患者签名:
+                                                              年       月       日</BodyText>
+   <LocalConfig />
+   <PageSettings>
+      <LeftMargin>71</LeftMargin>
+      <RightMargin>56</RightMargin>
+      <StrictUsePageSize>false</StrictUsePageSize>
+   </PageSettings>
+</XTextDocument>

@@ -1,0 +1,81 @@
+﻿@using Newtouch.Infrastructure
+@{
+    ViewBag.Title = "新增/修改";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<style>
+    .formTitle span {
+        color: red;
+    }
+</style>
+<form id="form1">
+    <div class="container" style="padding:0;">
+        <div class="tab-content" style="margin-top:10px;padding-right:10px;">
+            <div role="tabpanel" class="tab-pane fade in active">
+                <table class="form">
+                    <tr>
+                        <th class="formTitle"><span class="required">*</span>损益标志：</th>
+                        <td class="formValue">
+                            @Html.DropDownList("sybz", EnumSybz.Profit.ToDescSelectList(), new { @class = "form-control" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle"><span class="required">*</span>损溢原因：</th>
+                        <td class="formValue">
+                            <input id="syyy" name="syyy" type="text" class="form-control required" placeholder="请输入名称" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle" style="height: 35px;">选项：</th>
+                        <td class="formValue" style="padding-top: 1px;">
+                            <div class="ckbox">
+                                <input id="zt" name="zt" type="checkbox" checked="checked"><label for="zt">有效</label>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</form>
+<script lang="javascript">
+    var keyWord = $.request("keyValue");
+    var $gridList = $("#gridList");
+    $(function () {
+        if (!!keyWord) {
+            $.najax({
+                url: "/NurseManage/ProfitAndLoss/GetSyyyFormJson",
+                data: { keyWord: keyWord },
+                dataType: "json",
+                success: function (data) {
+                    $("#form1").formSerialize(data);
+                }
+            });
+        }
+    });
+
+    //提交
+    function AcceptClick(callback) {
+        if (!DataValidate()) {
+            return;
+        }
+        var postData = $("#form1").formSerialize();
+        $.submitForm({
+            url: "/NurseManage/ProfitAndLoss/SubmitSyyyForm?keyWord=" + keyWord,
+            param: postData,
+            success: function () {
+                $.modalClose();
+                callback();
+            }
+        });
+    }
+
+    //数据效验
+    function DataValidate() {
+        if ($("#syyy").val() === "") {
+            $.modalAlert("损溢原因必填", 'warning');
+            return false;
+        }
+        return true;
+    }
+</script>

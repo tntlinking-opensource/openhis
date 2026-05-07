@@ -1,0 +1,565 @@
+<XTextDocument xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EditorVersionString="1.2023.2.14">
+   <InnerID>357</InnerID>
+   <XElements>
+      <Element xsi:type="XTextHeader">
+         <InnerID>6</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XString">
+               <InnerID>656</InnerID>
+               <Text>                              </Text>
+            </Element>
+            <Element xsi:type="XInputField" StyleIndex="1">
+               <InnerID>410</InnerID>
+               <ID>B0EADC5F-D1A7-4C1D-8BFF-C30B4AB96B89</ID>
+               <ToolTip>请输入医院名称</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/yymc</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <Name>yymc</Name>
+               <BackgroundText>医院名称</BackgroundText>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>411</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+      <Element xsi:type="XTextBody">
+         <InnerID>11</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XString" StyleIndex="1">
+               <InnerID>657</InnerID>
+               <Text>疾病证明书</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>420</InnerID>
+            </Element>
+            <Element xsi:type="XTextTable" NumOfRows="9" NumOfColumns="2">
+               <InnerID>422</InnerID>
+               <ID>table731715337374484</ID>
+               <XElements>
+                  <Element xsi:type="XTextTableRow">
+                     <InnerID>425</InnerID>
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <InnerID>658</InnerID>
+                                 <Text>姓名：</Text>
+                              </Element>
+                              <Element xsi:type="XInputField">
+                                 <InnerID>431</InnerID>
+                                 <ID>555B0059-D165-46B3-9F88-9720672296AF</ID>
+                                 <ToolTip>请输入姓名</ToolTip>
+                                 <EnableValueValidate>true</EnableValueValidate>
+                                 <ValueBinding>
+                                    <DataSource>zy_brjbxx</DataSource>
+                                    <BindingPath>zy_brjbxx/xm</BindingPath>
+                                 </ValueBinding>
+                                 <ContentReadonly>False</ContentReadonly>
+                                 <StartBorderText>[</StartBorderText>
+                                 <EndBorderText>]</EndBorderText>
+                                 <BorderElementColor />
+                                 <Name>xm</Name>
+                                 <BackgroundText>姓名</BackgroundText>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>432</InnerID>
+                              </Element>
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>1</InnerID>
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <InnerID>659</InnerID>
+                                 <Text>性别：</Text>
+                              </Element>
+                              <Element xsi:type="XInputField">
+                                 <InnerID>438</InnerID>
+                                 <ID>F8D8D127-729E-4113-9BD4-A0C7918C331D</ID>
+                                 <ToolTip>请输入性别</ToolTip>
+                                 <EnableValueValidate>true</EnableValueValidate>
+                                 <ValueBinding>
+                                    <DataSource>zy_brjbxx</DataSource>
+                                    <BindingPath>zy_brjbxx/sex</BindingPath>
+                                 </ValueBinding>
+                                 <ContentReadonly>False</ContentReadonly>
+                                 <StartBorderText>[</StartBorderText>
+                                 <EndBorderText>]</EndBorderText>
+                                 <BorderElementColor />
+                                 <Name>sex</Name>
+                                 <BackgroundText>性别</BackgroundText>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>439</InnerID>
+                              </Element>
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <InnerID>440</InnerID>
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>2</InnerID>
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <InnerID>660</InnerID>
+                                 <Text>年龄：</Text>
+                              </Element>
+                              <Element xsi:type="XInputField">
+                                 <InnerID>446</InnerID>
+                                 <ID>294E8883-886E-4F41-B60C-AA5FCA5DC21E</ID>
+                                 <ToolTip>请输入年龄</ToolTip>
+                                 <EnableValueValidate>true</EnableValueValidate>
+                                 <ValueBinding>
+                                    <DataSource>zy_brjbxx</DataSource>
+                                    <BindingPath>zy_brjbxx/nl</BindingPath>
+                                 </ValueBinding>
+                                 <ContentReadonly>False</ContentReadonly>
+                                 <StartBorderText>[</StartBorderText>
+                                 <EndBorderText>]</EndBorderText>
+                                 <BorderElementColor />
+                                 <Name>nl</Name>
+                                 <BackgroundText>年龄</BackgroundText>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>447</InnerID>
+                              </Element>
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>3</InnerID>
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <InnerID>661</InnerID>
+                                 <Text>科室：</Text>
+                              </Element>
+                              <Element xsi:type="XInputField">
+                                 <InnerID>453</InnerID>
+                                 <ID>220721A8-9136-43DD-A629-A68F31233CE2</ID>
+                                 <ToolTip>请输入科室</ToolTip>
+                                 <EnableValueValidate>true</EnableValueValidate>
+                                 <ValueBinding>
+                                    <DataSource>zy_brjbxx</DataSource>
+                                    <BindingPath>zy_brjbxx/WardName</BindingPath>
+                                 </ValueBinding>
+                                 <ContentReadonly>False</ContentReadonly>
+                                 <StartBorderText>[</StartBorderText>
+                                 <EndBorderText>]</EndBorderText>
+                                 <BorderElementColor />
+                                 <Name>WardName</Name>
+                                 <BackgroundText>科室</BackgroundText>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>454</InnerID>
+                              </Element>
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <InnerID>455</InnerID>
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>4</InnerID>
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <InnerID>662</InnerID>
+                                 <Text>职业：</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>461</InnerID>
+                              </Element>
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>5</InnerID>
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <InnerID>663</InnerID>
+                                 <Text>家庭住址：</Text>
+                              </Element>
+                              <Element xsi:type="XInputField">
+                                 <InnerID>469</InnerID>
+                                 <ID>C455D928-0AB2-4619-BF7E-C2F6FB3CDA05</ID>
+                                 <EnableValueValidate>true</EnableValueValidate>
+                                 <ValueBinding>
+                                    <DataSource>zy_brjbxx</DataSource>
+                                    <BindingPath>zy_brjbxx/hu_dz</BindingPath>
+                                 </ValueBinding>
+                                 <ContentReadonly>False</ContentReadonly>
+                                 <BorderElementColor />
+                                 <Name>hu_dz</Name>
+                                 <BackgroundText>户口地址</BackgroundText>
+                                 <EditorActiveMode>None</EditorActiveMode>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>470</InnerID>
+                              </Element>
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <InnerID>471</InnerID>
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>6</InnerID>
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <InnerID>664</InnerID>
+                                 <Text>单位：</Text>
+                              </Element>
+                              <Element xsi:type="XInputField">
+                                 <InnerID>477</InnerID>
+                                 <ID>16C4857E-FABD-4088-B917-8A0652E6F282</ID>
+                                 <ToolTip>请输入工作单位及地址</ToolTip>
+                                 <EnableValueValidate>true</EnableValueValidate>
+                                 <ValueBinding>
+                                    <DataSource>zy_brjbxx</DataSource>
+                                    <BindingPath>zy_brjbxx/dwmc</BindingPath>
+                                 </ValueBinding>
+                                 <ContentReadonly>False</ContentReadonly>
+                                 <StartBorderText>[</StartBorderText>
+                                 <EndBorderText>]</EndBorderText>
+                                 <BorderElementColor />
+                                 <Name>dwmc</Name>
+                                 <BackgroundText>工作单位及地址</BackgroundText>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>478</InnerID>
+                              </Element>
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>7</InnerID>
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <InnerID>665</InnerID>
+                                 <Text>身份证：</Text>
+                              </Element>
+                              <Element xsi:type="XInputField">
+                                 <InnerID>485</InnerID>
+                                 <ID>136BF164-1893-4DB6-8F4A-3AF2A965681E</ID>
+                                 <ToolTip>请输入身份证号</ToolTip>
+                                 <EnableValueValidate>true</EnableValueValidate>
+                                 <ValueBinding>
+                                    <DataSource>zy_brjbxx</DataSource>
+                                    <BindingPath>zy_brjbxx/sfzh</BindingPath>
+                                 </ValueBinding>
+                                 <ContentReadonly>False</ContentReadonly>
+                                 <StartBorderText>[</StartBorderText>
+                                 <EndBorderText>]</EndBorderText>
+                                 <BorderElementColor />
+                                 <Name>sfzh</Name>
+                                 <BackgroundText>身份证号</BackgroundText>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>486</InnerID>
+                              </Element>
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <InnerID>487</InnerID>
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>8</InnerID>
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <InnerID>666</InnerID>
+                                 <Text>临床诊断：</Text>
+                              </Element>
+                              <Element xsi:type="XInputField">
+                                 <InnerID>495</InnerID>
+                                 <ID>C2F93F70-B187-4748-8F02-4164208C5697</ID>
+                                 <ToolTip>请输入住院入院诊断</ToolTip>
+                                 <EnableValueValidate>true</EnableValueValidate>
+                                 <ValueBinding>
+                                    <DataSource>zy_brjbxx</DataSource>
+                                    <BindingPath>zy_brjbxx/zdmc</BindingPath>
+                                 </ValueBinding>
+                                 <ContentReadonly>False</ContentReadonly>
+                                 <StartBorderText>[</StartBorderText>
+                                 <EndBorderText>]</EndBorderText>
+                                 <BorderElementColor />
+                                 <Name>zdmc</Name>
+                                 <BackgroundText>住院入院诊断</BackgroundText>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>496</InnerID>
+                              </Element>
+                           </XElements>
+                           <ColSpan>2</ColSpan>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>621</InnerID>
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>652</InnerID>
+                                 <AutoCreate>true</AutoCreate>
+                              </Element>
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <InnerID>497</InnerID>
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>9</InnerID>
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <InnerID>667</InnerID>
+                                 <Text>处理意见：</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>505</InnerID>
+                              </Element>
+                           </XElements>
+                           <ColSpan>2</ColSpan>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>622</InnerID>
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>653</InnerID>
+                                 <AutoCreate>true</AutoCreate>
+                              </Element>
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <InnerID>506</InnerID>
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>10</InnerID>
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <InnerID>668</InnerID>
+                                 <Text>出院后注意事项：</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>517</InnerID>
+                              </Element>
+                           </XElements>
+                           <ColSpan>2</ColSpan>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>623</InnerID>
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>654</InnerID>
+                                 <AutoCreate>true</AutoCreate>
+                              </Element>
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <InnerID>518</InnerID>
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>11</InnerID>
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <InnerID>669</InnerID>
+                                 <Text>医师签名：</Text>
+                              </Element>
+                              <Element xsi:type="XInputField">
+                                 <InnerID>526</InnerID>
+                                 <ID>FD1ED09E-9895-4709-9EEA-4C73D7362089</ID>
+                                 <ToolTip>请输入医生姓名</ToolTip>
+                                 <EnableValueValidate>true</EnableValueValidate>
+                                 <ValueBinding>
+                                    <DataSource>zy_brjbxx</DataSource>
+                                    <BindingPath>zy_brjbxx/ysxm</BindingPath>
+                                 </ValueBinding>
+                                 <ContentReadonly>False</ContentReadonly>
+                                 <StartBorderText>[</StartBorderText>
+                                 <EndBorderText>]</EndBorderText>
+                                 <BorderElementColor />
+                                 <Name>ysxm</Name>
+                                 <BackgroundText>医生姓名</BackgroundText>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>527</InnerID>
+                              </Element>
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>12</InnerID>
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <InnerID>670</InnerID>
+                                 <Text>签名日期：</Text>
+                              </Element>
+                              <Element xsi:type="XInputField">
+                                 <InnerID>535</InnerID>
+                                 <ID>txtDate</ID>
+                                 <ToolTip>请输入日期</ToolTip>
+                                 <EnableValueValidate>true</EnableValueValidate>
+                                 <ContentReadonly>False</ContentReadonly>
+                                 <XElements>
+                                    <Element xsi:type="XString">
+                                       <InnerID>671</InnerID>
+                                       <Text>2015-01-09 09:39</Text>
+                                    </Element>
+                                 </XElements>
+                                 <BorderElementColor />
+                                 <Name>日期</Name>
+                                 <BackgroundText>日期</BackgroundText>
+                                 <EditorActiveMode>MouseClick</EditorActiveMode>
+                                 <FieldSettings>
+                                    <EditStyle>DateTime</EditStyle>
+                                 </FieldSettings>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>552</InnerID>
+                              </Element>
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <InnerID>553</InnerID>
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>13</InnerID>
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <InnerID>672</InnerID>
+                                 <Text>1、此证明未经我院加盖公章无效。2、涂改未经过加盖我院公章无效。</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>588</InnerID>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <InnerID>673</InnerID>
+                                 <Text>3、此证明仅证明病人出院时病情。4、请妥善保管，遗失不补。</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>619</InnerID>
+                              </Element>
+                           </XElements>
+                           <ColSpan>2</ColSpan>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>624</InnerID>
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>655</InnerID>
+                                 <AutoCreate>true</AutoCreate>
+                              </Element>
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+               </XElements>
+               <Columns>
+                  <Element xsi:type="XTextTableColumn">
+                     <InnerID>423</InnerID>
+                     <Width>1206.25</Width>
+                  </Element>
+                  <Element xsi:type="XTextTableColumn">
+                     <InnerID>424</InnerID>
+                     <Width>1234.375</Width>
+                  </Element>
+               </Columns>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>625</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+      <Element xsi:type="XTextFooter">
+         <InnerID>90</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>413</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+   </XElements>
+   <SerializeParameterValue>true</SerializeParameterValue>
+   <FileName>\File\Template\医疗文书\医疗文书\疾病证明.xml</FileName>
+   <FileFormat>xml</FileFormat>
+   <ContentStyles>
+      <Default xsi:type="DocumentContentStyle">
+         <FontName>宋体</FontName>
+         <FontSize>12</FontSize>
+      </Default>
+      <Styles>
+         <Style Index="0">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <Align>Center</Align>
+         </Style>
+         <Style Index="1">
+            <FontName>宋体</FontName>
+            <FontSize>18</FontSize>
+            <Bold>true</Bold>
+         </Style>
+         <Style Index="2">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <LineSpacingStyle>SpaceDouble</LineSpacingStyle>
+            <Align>Center</Align>
+         </Style>
+         <Style Index="3">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <BorderWidth>1</BorderWidth>
+            <BorderLeft>true</BorderLeft>
+            <BorderBottom>true</BorderBottom>
+            <BorderTop>true</BorderTop>
+            <BorderRight>true</BorderRight>
+            <PaddingLeft>12.5</PaddingLeft>
+            <PaddingTop>9.375</PaddingTop>
+            <PaddingRight>12.5</PaddingRight>
+            <PaddingBottom>9.375</PaddingBottom>
+         </Style>
+      </Styles>
+   </ContentStyles>
+   <Info>
+      <LicenseText>未注册|Unregister</LicenseText>
+      <CreationTime>1980-01-01T00:00:00</CreationTime>
+      <LastModifiedTime>2025-02-13T11:26:43.0479167+08:00</LastModifiedTime>
+      <LastPrintTime>1980-01-01T00:00:00</LastPrintTime>
+      <Operator>DCSoft.Writer Version:1.2023.2.14</Operator>
+      <NumOfPage>1</NumOfPage>
+   </Info>
+   <BodyText>疾病证明书
+
+姓名：[] 性别：[] 
+年龄：[] 科室：[] 
+职业： 家庭住址： 
+单位：[] 身份证：[] 
+临床诊断：[] 
+处理意见： 
+出院后注意事项： 
+医师签名：[] 签名日期：2015-01-09 09:39 
+1、此证明未经我院加盖公章无效。2、涂改未经过加盖我院公章无效。
+3、此证明仅证明病人出院时病情。4、请妥善保管，遗失不补。 </BodyText>
+   <LocalConfig />
+   <PageSettings>
+      <PaperKind>Custom</PaperKind>
+      <LeftMargin>8</LeftMargin>
+      <TopMargin>47</TopMargin>
+      <RightMargin>8</RightMargin>
+      <BottomMargin>39</BottomMargin>
+      <StrictUsePageSize>false</StrictUsePageSize>
+   </PageSettings>
+</XTextDocument>

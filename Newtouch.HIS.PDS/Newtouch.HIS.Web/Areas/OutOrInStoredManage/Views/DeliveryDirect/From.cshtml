@@ -1,0 +1,116 @@
+﻿
+@{
+    ViewBag.Title = "直接出库-发票查询";
+    Layout = "~/Views/Shared/_Form.cshtml";
+    var from = (ViewBag.from as string) ?? "";
+}
+<style>
+    .table-responsive {
+        border: 0;
+    }
+
+    .ui-jqgrid .ui-jqgrid-pager .ui-pager-table {
+        width: 90%;
+    }
+</style>
+
+<div class="topPanel" style="border-bottom:1px solid rgb(221, 221, 221);margin-bottom: 1%;">
+    <div class="search">
+        <table class="form">
+            <tr>
+                <th class="formTitle">发票号：</th>
+                <td class="formValue">
+                    <input id="fph" name="fph" type="text" class="form-control form-an" placeholder="请输入发票号" />
+                </td>
+                <th class="formTitle">入库时间：</th>
+                <td class="formValue" colspan="3">
+                    <input id="kssj" type="text" class="form-control input-wdatepicker" style="width:42%; margin-top:10px;float:left;" value="@DateTime.Now.ToString("yyyy-MM-01 00:00:00")" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />
+                    <span style="margin-left:1%;float:left">—</span>
+                    <input id="jssj" type="text" class="form-control input-wdatepicker" style="width:43%; margin-top:10px;float:left;margin-left:1%;" value="@DateTime.Now.ToString("yyyy-MM-dd 23:59:59")" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />
+                </td>
+                <td style="padding-left: 20px;">
+                    <button type="button" id="btn_search" class="btn btn-primary btn-md">&nbsp;查询&nbsp;</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<form id="formPatSer">
+    <div class="gridPanel">
+        <table id="GridList" rel="formPatSer"></table>
+        <div id="gridPager" style="padding-right:2%"></div>
+    </div>
+</form>
+
+<script>
+    //上一个window对象
+    var prevWindow = $.currentWindow();
+
+    $(function () {
+        gridList();
+    });
+
+    function gridList() {
+        var $gridList = $("#GridList");
+        $gridList.dataGrid({
+            url: "/OutOrInStoredManage/DeliveryDirect/GetRkFphData",
+            height: $(window).height()-150,
+            postData: { kssj: $("#kssj").val(), jssj: $("#jssj").val(), fph: $("#fph").val(), djlx: 1},
+            colModel: [
+                { label: '单据号', name: 'Pdh', width: 120, align: 'left' },
+                { label: 'pc', name: 'pc', width: 100, align: 'left', hidden: true },
+                { label: 'Rkbm', name: 'Rkbm', width: 100, align: 'left', hidden:true },
+                { label: '入库部门', name: 'Rkmc', width: 80, align: 'left' },
+                {
+                    label: '入库时间', name: 'Rksj', width: 120, align: 'left', formatter: "date", formatoptions: { srcformat: 'Y-m-d H:m:s', newformat: 'Y-m-d H:m:s' }
+                },
+                { label: '发票号', name: 'Fph', width: 120, align: 'left' },
+                { label: 'Ckbm', name: 'Ckbm', width: 100, align: 'left', hidden: true },
+                { label: '供应商', name: 'Ckmc', width: 100, align: 'left' },
+                { label: '发票总金额', name: 'Zje', width: 80, align: 'left' },
+            ],
+            multiselect: false,
+            pager: "#gridPager",
+            sortname: 'CreateTime',
+            viewrecords: true,
+            ondblClickRow: function (rowid, iRow, iCol, e) {
+                SearchConfirm();
+            }
+        });
+
+        $("#btn_search").click(function () {
+            $("#GridList").jqGrid('setGridParam', {
+                postData: {
+                    kssj: $("#kssj").val(), jssj: $("#jssj").val(), fph: $("#fph").val(), djlx: "1"
+                },
+                page: 1,
+                url: "/OutOrInStoredManage/DeliveryDirect/GetRkFphData",
+            }).trigger('reloadGrid');
+        });
+    }
+
+    //jqGrid 双击选中某行
+    function btn_edit() {
+        SearchConfirm();
+    }
+
+    function BillDbGrid() {
+        var obj = new Object();
+        obj.pc = $("#GridList").jqGridRowValue().pc;
+        obj.fph = $("#GridList").jqGridRowValue().Fph;
+        prevWindow.GetQueryAjax(obj);
+        //关闭窗口
+        ReceiptCancle();
+    }
+    //确定 主页面调用
+    function SearchConfirm() {
+        BillDbGrid();
+    }
+
+    //取消
+    function ReceiptCancle() {
+        $.modalClose();
+    }
+</script>
+
+

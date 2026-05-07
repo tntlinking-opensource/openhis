@@ -1,0 +1,124 @@
+﻿@using Newtouch.Infrastructure;
+@{
+    ViewBag.Title = "护士站患者中心-费用一日清";
+    var reportUrl = Newtouch.Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("ReportUrl");
+    var ReportSystemCode = Newtouch.Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("ReportSystemCode");
+    var opr = Newtouch.Common.Operator.OperatorProvider.GetCurrent();
+}
+
+
+<div id="linkfyyrq" role="tabpanel" class="tab-pane" style="width:100%;margin-right: 5px; border:solid 1px #ddd; margin-top: 3px;">
+    <div class="btn-group">
+        <table class="form">
+            <tr>
+                <th class="formTitle">住院号：</th>
+                <td class="formValue">
+                    <input id="yrqzyh" name="yrqzyh" type="text" autocomplete="off"  class="form-control" />
+                </td>
+                <th class="formTitle">开始日期：</th>
+                <td class="formValue">
+                    <input id="ksrq" type="text" class="form-control input-wdatepicker formClearIgnore" style="width:90px"
+                           onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd' })"
+                           onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd', onpicked: function () { refReport(); } })"
+                           value="@DateTime.Now.ToString("yyyy-MM-01")" />
+                </td>
+                <th class="formTitle">结束日期：</th>
+                <td class="formValue">
+                    <input id="jsrq" type="text" class="form-control input-wdatepicker formClearIgnore" style="width:90px"
+                           onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd' })"
+                           onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd', onpicked: function () { refReport(); } })"
+                           value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                </td>
+                <th class="formTitle">入院日期：</th>
+                <td class="formValue"><p id="ryrq" name="ryrq" type="text" style="margin-bottom:0" /></td>
+                <th class="formTitle">
+                    <input type="button" id="btn_search" onclick="submit();" class="btn btn-primary btn-md" value="查询一日清" style="width:60px" />
+                </th>
+                <td class="formValue" style="padding-left:20px;">
+
+                    <input type="hidden" id="btn_search" onclick="summary();" class="btn btn-primary btn-md" value="查询汇总" style="width:55px" />
+                </td>
+                <th></th>
+                <td></td>
+
+            </tr>
+        </table>
+    </div>
+    <iframe class="ui-layout-center" style="width:100%;" id="iframerightiframerightiframerightttt" name="iframerightiframerightiframerightttt"
+            scrolling="auto" allowtransparency="true" frameborder="0"></iframe>
+</div>
+<script type="text/javascript">
+    $("#iframerightiframerightiframerightttt").css("height", $(window).height() - 100);
+    var zyfyyrqzyh = "";
+     function init_fyyrq(zyh)
+    {
+         if (!zyfyyrqzyh)
+             zyfyyrqzyh = zyh;
+         getFyyrqTreeList();
+         
+         $("#PatTreeList_" + zyfyyrqzyh).attr('class', 'bbit-tree-node-el bbit-tree-node-leaf bbit-tree-selected');//选中
+         $("#yrqzyh").val(zyfyyrqzyh);
+         submit();
+        
+     }
+
+     function getFyyrqTreeList()
+     {
+         $("#PatTreeList").treeview({
+             height: $(window).height(),
+             slimscroll: false,
+             url: "/NurseManage/InpatientList/GetPatWardTree?zyzt=" + $('#zyzt').val() + "&keyword=" + $('#keyword').val(),
+             onnodeclick: function (item) {
+                 if (item.value && item.Ex1 == "c") {
+                     $("#yrqzyh").val(item.value);
+                     $('#ryrq').html($.getDate({ date: item.Ex5 }));
+                     zyfyyrqzyh = item.value;
+                     submit();
+                 }
+             }
+         });
+     }
+
+     function submit() {
+
+         if ($('#yrqzyh').val().length == 0) {
+             $('#yrqzyh').val("000001")
+             //$.modalAlert("缺少住院号", "error");
+             //return;
+         }
+         if ($('#ksrq').val().length == 0 || $('#jsrq').val().length == 0) {
+             $.modalAlert("请选择时间范围", "error");
+             return;
+         }
+
+         var url = '@Html.Raw(reportUrl)' + "?tempCode=1218" + "&systemCode=" + 'SETT';
+         url += "&zyh=" + $('#yrqzyh').val();
+         url += "&orgId=" + '@(opr.OrganizeId)';
+         url += "&kssj=" + $('#ksrq').val();
+         url += "&jssj=" + $('#jsrq').val();
+         setTimeout("$.loading(true, '正在请求报表页面...');", 10);
+         $("#iframerightiframerightiframerightttt").attr('src', url);
+     }
+     function summary() {
+         if ($('#yrqzyh').val().length == 0) {
+             $.modalAlert("缺少住院号", "error");
+             return;
+         }
+         var url = '@Html.Raw(reportUrl)' + "?tempCode=1305" + "&systemCode=" + 'SETT';
+         url += " &zyh=" + $('#yrqzyh').val();
+         url += " &orgId=" + '@(opr.OrganizeId)';
+         url += " &kssj=" + $('#ryrq').html();
+         url += " &jssj=" + $('#jsrq').val();
+         url += " &hospitalCode=" + '@(opr.OrganizeId)';
+         setTimeout("$.loading(true, '正在请求报表页面...');", 10);
+         $("#iframerightiframerightiframerightttt").attr('src', url);
+     }
+     $("#iframerightiframerightiframerightttt").load(function () {
+         $.loading(false);
+     });
+     //刷新列表
+     function refReport() {
+         $("#btn_search").trigger('click');
+     }
+
+</script>  

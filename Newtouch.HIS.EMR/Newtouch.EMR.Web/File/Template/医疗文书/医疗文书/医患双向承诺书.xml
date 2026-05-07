@@ -1,0 +1,151 @@
+<XTextDocument xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EditorVersionString="1.2023.2.14">
+   <InnerID>1654</InnerID>
+   <XElements>
+      <Element xsi:type="XTextHeader">
+         <InnerID>1</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XInputField" StyleIndex="1">
+               <InnerID>1677</InnerID>
+               <ID>B0EADC5F-D1A7-4C1D-8BFF-C30B4AB96B89</ID>
+               <ToolTip>请输入医院名称</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/yymc</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <Name>yymc</Name>
+               <BackgroundText>医院名称</BackgroundText>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0">
+               <InnerID>1678</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="2">
+               <InnerID>2117</InnerID>
+               <Text>医患双向承诺书</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0">
+               <InnerID>1687</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+      <Element xsi:type="XTextBody">
+         <InnerID>2</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XString">
+               <InnerID>2118</InnerID>
+               <Text>     为了全面加强卫生行业作风建设，坚决纠正行业不正之风，切实维护人民群众的利益，按上级卫生行政部门的要求，让我们共同签订《医患双向承诺书》，并以实际行动履行承诺。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>1775</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2119</InnerID>
+               <Text>     医院向患者承诺:严格执行八项行业纪律，提供优质高效的医疗服务，拒绝“红包”、“礼物”及“宴请”，对违反承诺的科室和员工进行惩罚。医院受理投诉举报电话:0771-6538884、6530037</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>1877</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2120</InnerID>
+               <Text>患者或患者家属向医院承诺:支持医院开展医药购销和医疗服务中的不正之风专项治理工作，不向医院工作人员送“红包”、“礼物”不宴请医院工作人员。发现有工作人员索要“红包”、“礼物”的坚决拒绝，并实名向医院进行举报。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>1983</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>1985</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2121</InnerID>
+               <Text>     科室：</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>1995</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2122</InnerID>
+               <Text>     医师：                             患者(患者家属)家属签名：</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>2047</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2123</InnerID>
+               <Text>  二0二    年    月    日                二0二    年    月    日</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>2103</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>2105</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+      <Element xsi:type="XTextFooter">
+         <InnerID>3</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>1689</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+   </XElements>
+   <SerializeParameterValue>true</SerializeParameterValue>
+   <FileName>\File\Template\医疗文书\医疗文书\医患双向承诺书.xml</FileName>
+   <FileFormat>xml</FileFormat>
+   <ContentStyles>
+      <Default xsi:type="DocumentContentStyle">
+         <FontName>宋体</FontName>
+         <FontSize>12</FontSize>
+      </Default>
+      <Styles>
+         <Style Index="0">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <Align>Center</Align>
+         </Style>
+         <Style Index="1">
+            <FontName>宋体</FontName>
+            <FontSize>18</FontSize>
+            <Bold>true</Bold>
+         </Style>
+         <Style Index="2">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <Bold>true</Bold>
+         </Style>
+         <Style Index="3">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <LineSpacingStyle>SpaceDouble</LineSpacingStyle>
+         </Style>
+      </Styles>
+   </ContentStyles>
+   <Info>
+      <LicenseText>未注册|Unregister</LicenseText>
+      <CreationTime>1980-01-01T00:00:00</CreationTime>
+      <LastModifiedTime>2025-02-13T11:21:00.5637868+08:00</LastModifiedTime>
+      <LastPrintTime>1980-01-01T00:00:00</LastPrintTime>
+      <Operator>DCSoft.Writer Version:1.2023.2.14</Operator>
+      <NumOfPage>1</NumOfPage>
+   </Info>
+   <BodyText>     为了全面加强卫生行业作风建设，坚决纠正行业不正之风，切实维护人民群众的利益，按上级卫生行政部门的要求，让我们共同签订《医患双向承诺书》，并以实际行动履行承诺。
+     医院向患者承诺:严格执行八项行业纪律，提供优质高效的医疗服务，拒绝“红包”、“礼物”及“宴请”，对违反承诺的科室和员工进行惩罚。医院受理投诉举报电话:0771-6538884、6530037
+患者或患者家属向医院承诺:支持医院开展医药购销和医疗服务中的不正之风专项治理工作，不向医院工作人员送“红包”、“礼物”不宴请医院工作人员。发现有工作人员索要“红包”、“礼物”的坚决拒绝，并实名向医院进行举报。
+
+     科室：
+     医师：                             患者(患者家属)家属签名：
+  二0二    年    月    日                二0二    年    月    日
+</BodyText>
+   <LocalConfig />
+   <PageSettings>
+      <StrictUsePageSize>false</StrictUsePageSize>
+   </PageSettings>
+</XTextDocument>

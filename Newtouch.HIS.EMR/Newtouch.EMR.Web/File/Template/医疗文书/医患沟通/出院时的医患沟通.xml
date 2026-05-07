@@ -1,0 +1,397 @@
+<XTextDocument xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EditorVersionString="1.2023.2.14">
+   <XElements>
+      <Element xsi:type="XTextHeader">
+         <InnerID>1</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XInputField" StyleIndex="1">
+               <InnerID>23</InnerID>
+               <ID>B0EADC5F-D1A7-4C1D-8BFF-C30B4AB96B89</ID>
+               <ToolTip>请输入医院名称</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/yymc</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <Name>yymc</Name>
+               <BackgroundText>医院名称</BackgroundText>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>24</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>823</InnerID>
+               <Text>出 院 时 的 医 患 沟 通</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>41</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="4">
+               <InnerID>824</InnerID>
+               <Text>姓名:</Text>
+            </Element>
+            <Element xsi:type="XInputField" StyleIndex="4">
+               <InnerID>46</InnerID>
+               <ID>555B0059-D165-46B3-9F88-9720672296AF</ID>
+               <ToolTip>请输入姓名</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/xm</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <Name>xm</Name>
+               <BackgroundText>姓名</BackgroundText>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="4">
+               <InnerID>825</InnerID>
+               <Text>     科别:</Text>
+            </Element>
+            <Element xsi:type="XInputField" StyleIndex="4">
+               <InnerID>55</InnerID>
+               <ID>05851fea-e7a2-4ada-969c-76b7d0403c10</ID>
+               <ToolTip>请输入科室名称</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/DeptName</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <Name>DeptName</Name>
+               <BackgroundText>科室名称</BackgroundText>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="4">
+               <InnerID>826</InnerID>
+               <Text>      床号:</Text>
+            </Element>
+            <Element xsi:type="XInputField" StyleIndex="4">
+               <InnerID>65</InnerID>
+               <ID>47C322C6-9098-4D54-9F8A-C726F1BE8CC1</ID>
+               <ToolTip>请输入床号</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/BedName</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <Name>BedName</Name>
+               <BackgroundText>床号</BackgroundText>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="4">
+               <InnerID>827</InnerID>
+               <Text>      住院号:</Text>
+            </Element>
+            <Element xsi:type="XInputField" StyleIndex="4">
+               <InnerID>76</InnerID>
+               <ID>6C1F42F9-EB78-43E1-AF32-18795C4E2303</ID>
+               <ToolTip>请输入住院号</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/zyh</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <Name>zyh</Name>
+               <BackgroundText>住院号</BackgroundText>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="4">
+               <InnerID>828</InnerID>
+               <Text>      </Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>83</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+      <Element xsi:type="XTextBody">
+         <InnerID>2</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>829</InnerID>
+               <Text>出院诊断及简要治疗过程:</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>100</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>830</InnerID>
+               <Text>出院诊断：1.颈椎间盘突出伴有神经根病2.稳定型心绞痛3.心功能II级4•冠状动脉粥样硬化性心脏病5. 2型糖尿病6.高胆固醇血症</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>167</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>831</InnerID>
+               <Text>治疗过程：患者入院后完善相关检查，颈椎间盘CT示：C3/4C4/5C5/6椎间盘突出2•颈椎骨质增生3.胸椎骨质增生。胸部DR示:两肺纹理增强，结合临床。心脏彩超示：左室舒张功能减低。心电图示:窦性心动过缓，大致正常心电图。尿常规：葡萄糖2+mmol/L,生化:葡萄糖10.47mmol/L,低密度脂蛋白胆固醇4.94mmol/L,白球比2.8,总胆固醇7.92mmol/L0根据病情给予改善循环,抗血小板聚集、稳定斑块、降糖、降脂及对症治疗头晕、颈肩部困痛，恶心、口干、口苦、手指麻木、心慌等症状好转，今日出院。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>426</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>832</InnerID>
+               <Text>出院用药及方法、注意事项：</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>441</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>833</InnerID>
+               <Text>1.继续药物治疗。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>452</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>834</InnerID>
+               <Text>阿司匹林肠溶分片</Text>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>835</InnerID>
+               <Text>    </Text>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="4">
+               <InnerID>836</InnerID>
+               <Text>100mg  qd</Text>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>837</InnerID>
+               <Text>   </Text>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="4">
+               <InnerID>838</InnerID>
+               <Text>口服</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>480</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>839</InnerID>
+               <Text>早上：通拉嘎-7</Text>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>840</InnerID>
+               <Text>           </Text>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>841</InnerID>
+               <Text>15丸</Text>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>842</InnerID>
+               <Text>       </Text>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>843</InnerID>
+               <Text>温水送服</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>515</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>844</InnerID>
+               <Text>中午：吉如很T9</Text>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>845</InnerID>
+               <Text>           </Text>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>846</InnerID>
+               <Text>15丸</Text>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>847</InnerID>
+               <Text>       </Text>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>848</InnerID>
+               <Text>温水送服</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>550</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>849</InnerID>
+               <Text>晚上：额日敦-乌日勒</Text>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>850</InnerID>
+               <Text>       </Text>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>851</InnerID>
+               <Text>15丸</Text>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>852</InnerID>
+               <Text>       </Text>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>853</InnerID>
+               <Text>温水送服</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>583</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>854</InnerID>
+               <Text>2.定期复査定期复査血糖、血脂、肝肾功能等。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>607</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>855</InnerID>
+               <Text>3. 低盐低脂低糖饮食，适当锻炼、避免劳累及着凉保持心情舒畅。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>640</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>856</InnerID>
+               <Text>4. 不适随诊。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>650</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>857</InnerID>
+               <Text>其他（用药不良反应等）：所有药物均存在不同程度的不良反应，并可能存在目前尚未发现的不良反应，对此患者及家属应正确认识。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>711</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>714</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>858</InnerID>
+               <Text>随访：定期随访。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>724</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>727</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>730</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>859</InnerID>
+               <Text>患者（或其代理人）签字:</Text>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>860</InnerID>
+               <Text>                        </Text>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="4">
+               <InnerID>861</InnerID>
+               <Text> 沟通医师签名：</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>776</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>779</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+      <Element xsi:type="XTextFooter">
+         <InnerID>3</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XPageInfo">
+               <InnerID>85</InnerID>
+               <ID>pageinfo1</ID>
+               <Width>400</Width>
+               <AutoHeight>true</AutoHeight>
+               <Height>65</Height>
+               <FormatString>第[%PageIndex%]页 共[%NumOfPages%]页</FormatString>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>86</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+   </XElements>
+   <SerializeParameterValue>true</SerializeParameterValue>
+   <ContentStyles>
+      <Default xsi:type="DocumentContentStyle">
+         <FontSize>12</FontSize>
+      </Default>
+      <Styles>
+         <Style Index="0">
+            <FontSize>12</FontSize>
+            <Align>Center</Align>
+         </Style>
+         <Style Index="1">
+            <FontName>宋体</FontName>
+            <FontSize>18</FontSize>
+            <Bold>true</Bold>
+         </Style>
+         <Style Index="2">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <Align>Center</Align>
+         </Style>
+         <Style Index="3">
+            <BackgroundColor>#F5F5F5</BackgroundColor>
+            <Color>#242424</Color>
+            <FontSize>11.0000257</FontSize>
+         </Style>
+         <Style Index="4">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+         </Style>
+      </Styles>
+   </ContentStyles>
+   <Info>
+      <LicenseText>未注册|Unregister</LicenseText>
+      <CreationTime>1980-01-01T00:00:00</CreationTime>
+      <LastModifiedTime>2025-02-12T14:43:52.3466269+08:00</LastModifiedTime>
+      <LastPrintTime>1980-01-01T00:00:00</LastPrintTime>
+      <Operator>DCSoft.Writer Version:1.2023.2.14</Operator>
+      <NumOfPage>1</NumOfPage>
+   </Info>
+   <BodyText>出院诊断及简要治疗过程:
+出院诊断：1.颈椎间盘突出伴有神经根病2.稳定型心绞痛3.心功能II级4•冠状动脉粥样硬化性心脏病5. 2型糖尿病6.高胆固醇血症
+治疗过程：患者入院后完善相关检查，颈椎间盘CT示：C3/4C4/5C5/6椎间盘突出2•颈椎骨质增生3.胸椎骨质增生。胸部DR示:两肺纹理增强，结合临床。心脏彩超示：左室舒张功能减低。心电图示:窦性心动过缓，大致正常心电图。尿常规：葡萄糖2+mmol/L,生化:葡萄糖10.47mmol/L,低密度脂蛋白胆固醇4.94mmol/L,白球比2.8,总胆固醇7.92mmol/L0根据病情给予改善循环,抗血小板聚集、稳定斑块、降糖、降脂及对症治疗头晕、颈肩部困痛，恶心、口干、口苦、手指麻木、心慌等症状好转，今日出院。
+出院用药及方法、注意事项：
+1.继续药物治疗。
+阿司匹林肠溶分片    100mg  qd   口服
+早上：通拉嘎-7           15丸       温水送服
+中午：吉如很T9           15丸       温水送服
+晚上：额日敦-乌日勒       15丸       温水送服
+2.定期复査定期复査血糖、血脂、肝肾功能等。
+3. 低盐低脂低糖饮食，适当锻炼、避免劳累及着凉保持心情舒畅。
+4. 不适随诊。
+其他（用药不良反应等）：所有药物均存在不同程度的不良反应，并可能存在目前尚未发现的不良反应，对此患者及家属应正确认识。
+
+随访：定期随访。
+
+
+患者（或其代理人）签字:                         沟通医师签名：
+</BodyText>
+   <LocalConfig />
+   <PageSettings>
+      <StrictUsePageSize>false</StrictUsePageSize>
+   </PageSettings>
+</XTextDocument>

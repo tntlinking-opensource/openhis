@@ -1,0 +1,416 @@
+﻿
+@using Newtouch.Infrastructure;
+@using Newtouch.HIS.Web.Core.Extensions;
+@{
+    ViewBag.Title = "药剂科-采购单据审核";
+    Layout = "~/Views/Shared/_Index.cshtml";
+    var reportUrl = Newtouch.Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("ReportUrl");
+}
+
+<script src="~/Content/js/bootstrap-multiselect.js"></script>
+<link href="~/Content/js/bootstrap-multiselect.css" rel="stylesheet" />
+<style>
+    .showbotton {
+        display: none;
+        position: fixed;
+        bottom: 1px;
+        right: 0;
+        z-index: 9999;
+        background-color: #ccc;
+        width: 50px;
+        height: 40px;
+        filter: alpha(Opacity=90);
+        -moz-opacity: 0.9;
+        opacity: 0.9;
+        cursor: pointer;
+        border-radius: 100px 0 0 100px;
+    }
+
+    #TabGrid {
+        width: 100%;
+        position: fixed;
+        bottom: 10px;
+        right: 0;
+        z-index: 8888;
+        background-color: #253443;
+        filter: alpha(Opacity=92);
+        -moz-opacity: 0.92;
+        opacity: 0.92;
+        box-shadow: 0px 2px 10px #909090;
+    }
+
+        #TabGrid > * {
+            filter: alpha(Opacity=92);
+            -moz-opacity: 0.92;
+            opacity: 0.92;
+        }
+</style>
+<form>
+    <div class="panel panel-default">
+        <table class="form">
+            <tr>
+                <th class="formTitle">审核状态：</th>
+                <td class="formValue">
+                    <select id="ddzt" name="ddzt" class="form-control required">
+                        <option value="0">全部</option>
+                        <option value="1" selected>待审核</option>
+                        <option value="2">审核通过</option>
+                        <option value="3">已作废</option>
+                    </select>
+                </td>
+                <th class="formTitle">时间：</th>
+                <td class="formValue">
+                    <input id="kssj" type="text" class="form-control input-wdatepicker" value="@DateTime.Now.ToString("yyyy-MM-01")" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd' })" />
+                </td>
+                <th class="formTitle">至：</th>
+                <td class="formValue">
+                    <input id="jssj" type="text" class="form-control input-wdatepicker" value="@DateTime.Now.ToString("yyyy-MM-dd")" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd' })" />
+                </td>
+                <th class="formTitle">单据号：</th>
+                <td class="formValue">
+                    <input id="yyjhdh" type="text" class="form-control " />
+                </td>
+                <th class="formTitle">供应商：</th>
+                <td class="formValue">
+                    <select id="selgys" name="selgys" class="form-control" multiple="multiple"></select>
+                </td>
+                <td class="formValue title">
+                    <input type="button" id="btn_search" class="btn btn-primary" style="width:36%;margin-left: 10%;" value="查询" />
+                </td>
+
+            </tr>
+
+        </table>
+    </div>
+    <div class="gridPanel">
+        <table id="gridList"></table>
+        <div id="gridPager"></div>
+    </div>
+    <div id="TabGrid">
+        <ul class="nav nav-tabs navb-bg" role="tablist" id="myTab">
+            <li role="presentation" class="active">
+                <a href="#dv_djmx" id="linkSearch" role="tab" data-toggle="tab">单据明细</a>
+            </li>
+            <li style="float:right">
+                <span class="hiding glyphicon glyphicon-chevron-right btn-lg"></span>
+            </li>
+        </ul>
+        <div id="dv_djmx" style="">
+            <table id="gridDJMXInfo"></table>
+        </div>
+    </div>
+    <div class="showbotton">
+        <span class="glyphicon glyphicon-chevron-left btn-lg"></span>
+    </div>
+    <div class="panel panel-default">
+        <input type="button" id="btn_add" class="btn btn-info" style="width:7%;display:inline-block;float:right;margin-left:20px;margin-top:15px;margin-right:20px;" value="采购单新增" />
+        <input type="button" id="btn_delete" class="btn btn-info" style="width:7%;display:inline-block;float:right;margin-left:20px;margin-top:15px;" value="作废" />
+        <input type="button" id="btn_cancalreceive" class="btn btn-info" style="width:7%;display:inline-block;float:right;margin-left:20px;margin-top:15px;" value="撤销审核" />
+        <input type="button" id="btn_receive" class="btn btn-info" style="width:7%;display:inline-block;float:right;margin-left:20px;margin-top:15px;" value="审核" />
+
+    </div>
+</form>
+
+
+<script>
+    var reportServerHOST = '@(ViewBag.ReportServerHOST)';
+    var orgId = '@(ViewBag.OrgId)';
+    $(function () {
+        gridList();
+        //搜索框隐藏显示控制
+        $(".hiding,.rows,#dv_search,.toolbar").click(function () {
+            TabGridHide();
+        });
+        $(".showbotton").click(function () {
+            $(".showbotton").animate({ width: 'hide' }, "fast", function () {
+                $("#TabGrid").animate({ left: '0px' }, "slow");
+            });
+        });
+        TabGridHide();
+        BindGys();
+    })
+
+    //隐藏搜索框并显示箭头
+    function TabGridHide() {
+        var tabGridwith = $("#TabGrid").width() + 200;
+        if ($(".showbotton").is(":hidden")) {
+            $("#TabGrid").animate({ left: tabGridwith }, "slow", function () {
+                $(".showbotton").animate({ width: 'show' }, "fast");
+            });
+        }
+    }
+
+    function gridList() {
+        var $gridList = $("#gridList");
+        $gridList.dataGrid({
+            url: "/OutOrInStoredManage/Purchase/GetPurchaseGridJson",
+            height: $(window).height() - 200,
+            postData:getSearchPostData(),
+            colModel: [
+
+                { label: 'cgId', name: 'cgId', hidden: true },
+                { label: '订单时间', name: 'ddsj', width: 120, align: 'left' },
+                {
+                    label: '订单类型', name: 'ddlx', width: 100, align: 'left', formatter: function (cellvalue) {
+                        if (cellvalue == 1) return '常规采购';
+                        else if (cellvalue == 2) return '紧急采购';
+                        else return '';
+                    }
+                },
+               
+                { label: '采购计划单号', name: 'yyjhdh', width: 130, align: 'left' },
+                {
+                    label: '订单状态', name: 'ddzt', width: 80, align: 'left', formatter: function (cellvalue) {
+                        if (cellvalue == 1) return '待审核';
+                        else if (cellvalue == 2) return '审核通过';
+                        else if (cellvalue == 3) return '已作废';
+                        else return '';
+                    }
+                },
+                { label: '明细记录数', name: 'jls', width: 80, align: 'left' },
+                { label: '单据金额', name: 'zje', width: 80, align: 'left' },
+                {
+                    label: '发票号', name: 'ddbh', width: 100, align: 'left', formatter: function (cellvalue, options) {
+                        return cellvalue === "" || cellvalue === null ? "<input type=\"text\" name=\"fph\" rowid=" + options.rowId + " role=\"textbox\" class=\"editable inline-edit-cell form-control\" style=\"width: 100%; height: 99%;\" onblur=\"UpdateFph(this)\">" : cellvalue;
+                    }
+                },
+                { label: 'fph', name: 'fph', width: 100, align: 'left',hidden:true },
+                { label: '供应商', name: 'gysName', width: 220, align: 'left' },
+                {
+                    label: "操作", name: "", align: "left", width: 150,
+                    formatter: function (cellvalue, options, rowobject) {
+                        return '<input type="button" id="btn_rpt" onclick="Updatedjmx(\'' + rowobject.cgId + '\',\'' + rowobject.ddzt + '\')" class="btn btn-info" style="width:60px;display:inline-block;"  value="修改"/> <input type="button" id="btn_rpt" onclick="rptdjmx(\'' + rowobject.cgId + '\')" class="btn btn-info" style="width:80px;display:inline-block;"  value="打印单据"/>'
+                    }
+                },
+
+            ],
+
+            multiselect: true,
+            rowNum:100,
+            pager: "#gridPager",
+            sortname: 'ddsj desc',
+            viewrecords: true,
+            ondblClickRow: function (rowid, iRow, iCol, e) {
+                btn_selectrow(rowid);
+            }
+        });
+        $("#btn_search").click(function () {
+            $('#gridDJMXInfo').jqGrid("clearGridData");
+            $gridList.jqGrid('setGridParam', {
+                postData:getSearchPostData(),
+            }).trigger('reloadGrid');
+        });
+        $("#ddzt").change(function () {
+            $('#gridDJMXInfo').jqGrid("clearGridData");
+            $gridList.jqGrid('setGridParam', {
+                postData: getSearchPostData(),
+            }).trigger('reloadGrid');
+        })
+    }
+    function getSearchPostData() {
+        debugger
+        var gyssStr = "";
+        var gyssArr = $("#selgys").val();
+        if (gyssArr != null && gyssArr.length > 0) {
+            $.each(gyssArr, function (index, item) {
+                gyssStr += item + ',';
+            });
+            gyssStr = gyssStr.substring(0, gyssStr.length - 1);
+        }
+ 
+        var d = { kssj: $("#kssj").val(), jssj: $("#jssj").val(), ddzt: $("#ddzt").val(), yyjhdh: $("#yyjhdh").val(), gysCode: gyssStr }
+        return d;
+    };
+
+    function rptdjmx(cgId) {
+         
+        var uri = '@reportUrl' + "?tempCode=1327" + "&systemCode=PDS&hospitalCode=" + '@ViewBag.OrganizeId'+"&cgId="+cgId;
+        window.open(uri);
+    }
+
+    //单击事件
+    function btn_selectrow(rowId) {
+        $('#gridDJMXInfo').jqGrid("clearGridData");//每次单击，先清空明细 再重新加载所有选中行明细
+        $.najax({
+            type: "Get",
+            url: "/OutOrInStoredManage/Purchase/QueryPurchaseDetailbyId",
+            data: { cgId: $("#gridList").jqGrid('getRowData', rowId).cgId },
+            dataType: "json",
+            success: function (ajaxresp) {
+                if (ajaxresp !== null) {
+                    $('#gridDJMXInfo').newtouchLocalDataGrid(null, ajaxresp.sort((a, b) =>b.sxh - a.sxh));
+                }
+                $(".showbotton").click().trigger("click");
+            }
+        });
+    }
+    //单据明细
+    $('#gridDJMXInfo').newtouchLocalDataGrid({
+        height: $(window).height() - 200,
+        unwritten: false,
+        sortable: false,
+        colModel: [
+            { label: '顺序号', name: 'sxh', width: 60, align: 'left', hidden: true },
+            { label: '药品代码', name: 'ypCode', width: 60, align: 'center' },
+            { label: '药品名称', name: 'ypmc', width: 180, align: 'center' },
+            { label: '商品统编代码', name: 'zxspbm', width: 160, align: 'center' },
+            { label: '采购单价', name: 'cgdj', width: 60, align: 'center' },
+            { label: '采购数量', name: 'cgsl', width: 60, align: 'center' },
+             { label: '采购数量', name: 'zje', width: 60, align: 'center' },
+            { label: '单位', name: 'dw', width: 80, align: 'center' },
+            { label: '规格', name: 'ggbz', width: 90, align: 'center' },
+            { label: '厂家', name: 'sccj', width: 200, align: 'center' },
+            { label: '采购类型', name: 'cglxmc', width: 90, align: 'center' },
+            { label: '商品类型', name: 'splxmc', width: 80, align: 'center' },
+            { label: '采购计量单位', name: 'cgjldwmc', width: 100, align: 'center' },
+            { label: '多次配送', name: 'dcpsbsmc', width: 60, align: 'center' },
+            { label: '备注说明', name: 'bzsm', width: 60, align: 'center' },
+        ]
+    });
+
+    //新建
+    $('#btn_add').click(function () {
+        $.modalOpen({
+            id: "PurchasePlanForm",
+            title: "采购药品录入",
+            url: "/OutOrInStoredManage/Purchase/PurchasePlanFrom",
+            width: "1100px",
+            height: "700px",
+            callBack: function (iframeId) {
+                $.currentWindow(iframeId).AcceptClick(function () {
+                    //$("#gridList").resetSelection();
+                    //$("#gridList").trigger("reloadGrid");
+                    //$('#btn_search').trigger('click');
+                });
+            }
+        });
+    });
+
+    //修改未审批单据
+    function Updatedjmx(cgId, ddzt)
+    {
+        if (ddzt != "1") {
+            $.modalAlert("选中的单据不是待审核状态，不能修改", 'warning');
+            return;
+        }
+        $.modalOpen({
+            id: "PurchasePlanForm",
+            title: "采购药品录入",
+            url: "/OutOrInStoredManage/Purchase/PurchasePlanFrom?keyValue=" + cgId,
+            width: "1100px",
+            height: "700px",
+            callBack: function (iframeId) {
+                $.currentWindow(iframeId).AcceptClick(function () {
+                });
+            }
+        });
+    }
+    //审核
+    $('#btn_receive').click(function () {
+        DjshUpdate(2);
+    });
+    //审核撤销
+    $('#btn_cancalreceive').click(function () {
+        DjshUpdate(1);
+    });
+
+    //作废
+    $('#btn_delete').click(function () {
+        DjshUpdate(3);
+    });
+
+    function DjshUpdate(ddzt)
+    {
+        var cgIds = [];
+        var selRowIds = $("#gridList").jqGrid('getGridParam', 'selarrrow');
+        if (selRowIds == null || selRowIds.length == 0) {
+            $.modalAlert("请选择需要操作的单据", 'warning');
+            return;
+        }
+        for (var i = 0; i < selRowIds.length; i++) {
+            var rowData = $("#gridList").jqGrid('getRowData', selRowIds[i]);
+            if (ddzt=='1' && rowData.ddzt != "审核通过") {
+                $.modalAlert("单据号" + rowData.yyjhdh + "非已审核单据，不能撤销", 'warning');
+                return;
+            }
+            if (ddzt == '2' && rowData.ddzt != "待审核") {
+                $.modalAlert("单据号" + rowData.yyjhdh + "非待审核状态，不能审核", 'warning');
+                return;
+            }
+            if (ddzt == '3' && rowData.ddzt != "待审核") {
+                $.modalAlert("单据号" + rowData.yyjhdh + "非待审核状态，不能作废", 'warning');
+                return;
+            }
+            cgIds.push(rowData.cgId);
+        }
+        $.najax({
+            type: "POST",
+            url: "/OutOrInStoredManage/Purchase/PurchaseStateUpdate",
+            data: { cgId: cgIds.join(), ddzt: ddzt },
+            dataType: "json",
+            success: function (res) {
+                if (res.state === "success") {
+                    $.modalMsg(ddzt == 1 ? "撤销审核成功！" : (ddzt == 2 ? "审核完成！" : "单据作废完成！"), 'success', 1000);
+                    $("#btn_search").trigger('click');
+                } else {
+                    $.modalAlert(res.message, 'error');
+                }
+            }
+        });
+    }
+
+    //绑定供应商
+    function BindGys() {
+        $.najax({
+            type: "Get",
+            url: "/Medicine/MedicineSupplierList?keyword=",
+            dataType: "json",
+            success: function (ajaxresp) {
+                if (ajaxresp !== null) {
+                    $("#selgys").html("");
+                    for (var i = 0; i < ajaxresp.length; i++) {
+                        $("#selgys").append("<option value='" + ajaxresp[i].gysCode + "'>" + ajaxresp[i].gysmc + "</option>");
+                    }
+                    $('#selgys').multiselect({
+                        buttonWidth: '100%',
+                        includeSelectAllOption: true,
+                        enableClickableOptGroups: true,
+                        enableCollapsibleOptGroups: true,
+                        selectAllText: "全选",
+                        nonSelectedText: "未选中",
+                        allSelectedText: "全选"
+                    });
+                }
+            }
+        });
+    }
+
+    //补发票号
+    function UpdateFph(obj) {
+        var fph = $(obj).val();
+        var cgId = $("#gridList").getRowData($(obj).attr("rowid")).cgId;
+        var rowid = $(obj).attr("rowid");
+        $("#gridList").jqGrid('setCell', rowid, 'fph', fph);
+        if (fph !== "") {
+            $.modalConfirm("您确定要将发票号改为" + fph + "吗？",
+                function (flag) {
+                    if (flag) {
+                        $.najax({
+                            url: "/OutOrInStoredManage/Purchase/UpdateFph",
+                            type: "POST",
+                            data: { cgId: cgId, ddbh: fph },
+                            dataType: "json",
+                            success: function (data) {
+                                if (data.state === 'success') {
+                                    $.modalMsg("发票号修改成功", "success", 1000);
+                                } else {
+                                    $.modalMsg(data.message, "warning", 1000);
+                                }
+                            }
+                        });
+                    }
+                });
+
+        }
+    }
+</script>

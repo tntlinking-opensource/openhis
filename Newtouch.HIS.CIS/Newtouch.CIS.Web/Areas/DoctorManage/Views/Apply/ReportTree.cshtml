@@ -1,0 +1,136 @@
+﻿@{
+    //是否开启lis pacs报告订阅
+    var IsreportOpen = SysConfigReader.String("IsreportOpen");
+    var pacsHost = SiteUrl.GetUrl("OuterPacsServiceHost", "");
+    var curOpr = Newtouch.Common.Operator.OperatorProvider.GetCurrent();
+ }
+<div id="floatLisReportDiv">
+    <div data-href="ynbg"><span>院内报告</span></div>
+</div>
+<div id="floadLisReportTree" style="display:none;z-index:1;background: white;">
+    <div class="panel-body">
+        <table class="form">
+            <tr>
+                <td class="formValue">
+                    <input class="btn btn-info md" id="btn_pacs" style="width: 60px;" value="PACS报告" />
+                </td>
+            </tr>
+            <tr>
+                <td class="formValue">
+                    <input class="btn btn-info md" id="btn_lis_report" style="width: 60px;" value="LIS报告" />
+                </td>
+            </tr>
+            @*<tr>
+                    <td class="formValue">
+                        <input class="btn btn-info md" id="btn_bc" style="width: 100px;" value="B超报告" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="formValue">
+                        <input class="btn btn-info md" id="btn_xd" style="width: 100px;" value="心电报告" />
+                    </td>
+                </tr>*@
+        </table>
+    </div>
+</div>
+<script>
+    function cfLeftFloatHide() {
+        $("#floatLisReportDiv div").removeClass("activepart");
+        $('#floadLisReportTree').hide();
+    }
+
+    $('.contentPanel').on('click', function () {
+        cfLeftFloatHide();
+    });
+    $("#floatLisReportDiv div").on("click", function (e) {
+        e.preventDefault();
+        if ($(this).hasClass('activepart')) {
+            //再点击 隐藏
+            $("#floatLisReportDiv div").removeClass("activepart");
+            $('#floadLisReportTree').hide();
+        }
+        else {
+            $("#floatLisReportDiv div").removeClass("activepart");
+            $(this).addClass("activepart");
+            $('#floadLisReportTree').show();
+        }
+    })
+    $('#btn_pacs').click(function () {
+        debugger
+        var zyh = "";
+        if ($("#zyh").val())
+            zyh = $("#zyh").val();//护士站患者中心住院号获取
+        else
+            zyh=currentobj.zyh;
+        if ("@IsreportOpen" == "true") {
+            $.modalOpen({
+                id: "medicaljyForm",
+                title: "检查申请单列表",
+                url: "/MedicalRecord/PacsSqdhQueryForm?mzzyh=" + zyh + "&type=" + "zy",
+                width: "900px",
+                height: "600px",
+                btn: ['', '关闭'],
+                btnclass: ['', 'btn btn-danger'],
+            });
+        } else {
+            //金风易通 PACS 2024-4-28 chl
+            $.ajax({
+                type: "POST",
+                dataType: "json", //返回json格式的数据
+                url: "/DoctorsAdvice/CountLISztzy",
+                data: { "zyh": currentobj.zyh },
+                async: false,
+                success: function (data) {
+                    var num = data.num;
+                    if (num < 1) {
+                        $.modalAlert("当前没有已完成报告,不能查看", 'warning');
+                        return;
+                    }
+                    else {
+                        window.open("@pacsHost/doctor-api/api/viewer?type=2&pid=" + currentobj.blh + "&areaCode=" + "@curOpr.OrganizeId", "_blank");
+
+                    }
+                }
+            });
+        }
+    })
+    $('#btn_lis_report').click(function () {
+        debugger
+        var zyh = "";
+        if ($("#zyh").val())
+            zyh = $("#zyh").val();//护士站患者中心住院号获取
+        else
+            zyh=currentobj.zyh;
+
+        if ("@IsreportOpen" == "true") {
+            $.modalOpen({
+                id: "medicaljyForm",
+                title: "检验申请单列表",
+                url: "/MedicalRecord/LisSqdhQueryForm?mzzyh=" + zyh + "&type=" + "zy",
+                width: "900px",
+                height: "600px",
+                btn: ['', '关闭'],
+                btnclass: ['', 'btn btn-danger'],
+            });
+        } else {
+            $.ajax({
+                type: "POST",
+                dataType: "json", //返回json格式的数据
+                url: "/DoctorsAdvice/CountLISztzy",
+                data: { "zyh": currentobj.zyh },
+                async: false,
+                success: function (data) {
+                    var num = data.num;
+                    if (num < 1) {
+                        $.modalAlert("当前没有已完成报告,不能查看", 'warning');
+                        return;
+                    }
+                    else {
+                        window.open("@pacsHost/doctor-api/api/viewer?type=1&pid=" + currentobj.blh + "&areaCode=" + "@curOpr.OrganizeId", "_blank");
+                    }
+                }
+            });
+        }
+    })
+
+</script>

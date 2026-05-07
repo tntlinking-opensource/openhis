@@ -1,0 +1,392 @@
+<XTextDocument xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EditorVersionString="1.2023.2.14">
+   <InnerID>469</InnerID>
+   <XElements>
+      <Element xsi:type="XTextHeader">
+         <InnerID>1</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XInputField" StyleIndex="1">
+               <InnerID>492</InnerID>
+               <ID>B0EADC5F-D1A7-4C1D-8BFF-C30B4AB96B89</ID>
+               <ToolTip>请输入医院名称</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/yymc</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <Name>yymc</Name>
+               <BackgroundText>医院名称</BackgroundText>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0">
+               <InnerID>493</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="2">
+               <InnerID>2704</InnerID>
+               <Text>病  历  记  录</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0">
+               <InnerID>505</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2705</InnerID>
+               <Text>姓名：	</Text>
+            </Element>
+            <Element xsi:type="XInputField">
+               <InnerID>511</InnerID>
+               <ID>555B0059-D165-46B3-9F88-9720672296AF</ID>
+               <ToolTip>请输入姓名</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/xm</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <Name>xm</Name>
+               <BackgroundText>姓名</BackgroundText>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2706</InnerID>
+               <Text>                床号：</Text>
+            </Element>
+            <Element xsi:type="XInputField">
+               <InnerID>531</InnerID>
+               <ID>92555c17-aa50-4dd2-983e-c5b48613855c</ID>
+               <ToolTip>请输入床位编码</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/BedCode</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <Name>BedCode</Name>
+               <BackgroundText>床位编码</BackgroundText>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2707</InnerID>
+               <Text>	         住院号：</Text>
+            </Element>
+            <Element xsi:type="XInputField">
+               <InnerID>546</InnerID>
+               <ID>6C1F42F9-EB78-43E1-AF32-18795C4E2303</ID>
+               <ToolTip>请输入住院号</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/zyh</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <Name>zyh</Name>
+               <BackgroundText>住院号</BackgroundText>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0">
+               <InnerID>547</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+      <Element xsi:type="XTextBody">
+         <InnerID>2</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XInputField">
+               <InnerID>551</InnerID>
+               <ID>txtDate</ID>
+               <ToolTip>请输入日期</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ContentReadonly>False</ContentReadonly>
+               <XElements>
+                  <Element xsi:type="XString">
+                     <InnerID>2725</InnerID>
+                     <Text>2024-05-27 15:02:46</Text>
+                  </Element>
+               </XElements>
+               <BorderElementColor />
+               <Name>日期</Name>
+               <InnerValue>2024-05-27 15:02:46</InnerValue>
+               <BackgroundText>日期</BackgroundText>
+               <EditorActiveMode>MouseClick</EditorActiveMode>
+               <FieldSettings>
+                  <EditStyle>DateTime</EditStyle>
+               </FieldSettings>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>2708</InnerID>
+               <Text>         </Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>580</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="1">
+               <InnerID>2709</InnerID>
+               <Text>主治医师查房记录</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="4">
+               <InnerID>590</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2710</InnerID>
+               <Text>今日随庞金芳主治医师查房，患者咳嗽、咽痛缓解，偶有咳吐有少量粘痰，无喉中喘鸣、气喘，无畏寒、发热，无寒战、惊厥，无声音嘶哑，无抽搐、昏迷，无呼吸困难，无盗汗，无心悸、胸痛，无呕吐、腹痛、腹泻，无腰痛、膝关节痛，精神、睡眠、饮食较前好，大小便正常。查体：T37.0℃，BP140/88mmHg，神清，手、足、臀部无疱疹，咽红、充血，两侧扁桃体未见肿大，无脓点。两肺呼吸音粗，未闻及明显干湿性啰音，未闻及湿罗音及哮鸣音；叩诊心界不大，HR92次/分，律齐，各瓣膜听诊区未闻及病理性心脏杂音；腹平软，无压痛、反跳痛，肝肾区叩击痛阴性，移动性浊音阴性，肠鸣音正常；双下肢无水肿；辅助检查回报：胸片：两下肺纹理增粗、多，请结合临床。庞金芳主治医师查房后指出：根据患者病史、临床表现及辅助检查结果，同意目前诊断及治疗方案，需与肺结核、哮喘相签别；患者咳嗽中医治疗给予穴位贴敷，疏风解表、宣肺止咳为主。选用穴位：天突、膻中、大椎、肺俞、合谷、列缺等穴位。咽炎穴位贴敷，清热利咽，消肿止痛为主,选用穴位：廉泉、尺泽、少商、关冲、内庭风池、内关等穴位。患者经予抗感染、止咳化痰、清热解毒、穴位敷贴、补液对症支持治疗后，现患者症状缓解，无发热，治疗有效，监测血压基本正常；继续原方案治疗足疗程，注意观察病情变化，遵执。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="5">
+               <InnerID>1141</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2711</InnerID>
+               <Text>主治医师签名：</Text>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>2712</InnerID>
+               <Text> </Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="6">
+               <InnerID>1151</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2713</InnerID>
+               <Text>经治医师签名：</Text>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>2714</InnerID>
+               <Text> </Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="6">
+               <InnerID>1161</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="7">
+               <InnerID>1163</InnerID>
+            </Element>
+            <Element xsi:type="XInputField">
+               <InnerID>1165</InnerID>
+               <ID>txtDate</ID>
+               <ToolTip>请输入日期</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ContentReadonly>False</ContentReadonly>
+               <XElements>
+                  <Element xsi:type="XString">
+                     <InnerID>2726</InnerID>
+                     <Text>2024-05-27 15:02:49</Text>
+                  </Element>
+               </XElements>
+               <BorderElementColor />
+               <Name>日期</Name>
+               <InnerValue>2024-05-27 15:02:49</InnerValue>
+               <BackgroundText>日期</BackgroundText>
+               <EditorActiveMode>MouseClick</EditorActiveMode>
+               <FieldSettings>
+                  <EditStyle>DateTime</EditStyle>
+               </FieldSettings>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>1185</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="1">
+               <InnerID>2715</InnerID>
+               <Text>主任医师查房记录</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="4">
+               <InnerID>1195</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2716</InnerID>
+               <Text>今日随黄纯民科主任医师查房，患者咳嗽、咽痛较前好转，偶有咳吐有少量粘痰，无气喘，无畏寒、发热，无声音嘶哑，无抽搐、昏迷，无紫绀、呼吸困难，无咯血、低热、盗汗，无心悸、胸痛，无恶心、呕吐，无腹痛、腹泻，无腰痛、膝关节痛，精神、食欲、睡眠尚可，大小便未见异常。查体：T36.5℃，P90次/分，BP140/91mmHg，R20次/分。神清，咽红，两侧扁桃体未见肿大，无脓点。两肺呼吸音粗，未闻及干湿性啰音；心界不大，HR90次/分，律齐，各瓣膜听诊区未闻及病理性心脏杂音。腹平软，无压痛、反跳痛，肝肾区叩击痛阴性，移动性音阴性，肠鸣音正常；双下肢无水肿。辅助检查回报：尿常规：隐血+1，MA&lt;=10mg/L,Ca2.5mmol/L，CR8.8mmol/L ；血常规：WBC7.58×109/L，Neu5.21×109/L，N68.8％，L25.9％，RBC4.65×1012/L，HGB146g/L，PlT276×109/L。hs-CRP&gt;5.0mg/L↑；CRP25.4mg/L↑。随机血糖：9.10mmol/L；电解质、心肌酶：未见异常；肝功能：ALT 46.2U/L↑,AST31.6U/L↑,ALT/AST 1.5↑,r-GT 56.1U/L↑,余项正常；肾功能：CREA86.6umol/L↑,UA 394.0umol/L↑,余项正常；血脂：TC5.75mmol/L↑,余项正常；肺炎支原体及衣原体IgM、IgG：均阴性；腺病毒IgM、IgG：均阴性；ASO：阴性；心电图：1、窦性心律2、ST-T改变；腹部B超：肝、胆、胰、脾、双肾未见明显异常；黄纯民科主任医师查房后指出：根据患者病史、临床表现及辅助检查结果，住院诊断为 1、急性支气管炎 2、急性咽炎 3、原发性高血压 明确，需与肺结核、哮喘、咽白喉相签别；患者症状好转，无发热，病情继续好转；监测血压基本正常；继续原方案治疗足疗程；注意观察病情变化，遵执。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>2007</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2717</InnerID>
+               <Text>                                                    </Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="7">
+               <InnerID>2061</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2718</InnerID>
+               <Text>科主任医师签名：</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="6">
+               <InnerID>2071</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2719</InnerID>
+               <Text>经治医师签名：</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="6">
+               <InnerID>2080</InnerID>
+            </Element>
+            <Element xsi:type="XInputField">
+               <InnerID>2082</InnerID>
+               <ID>txtDate</ID>
+               <ToolTip>请输入日期</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ContentReadonly>False</ContentReadonly>
+               <XElements>
+                  <Element xsi:type="XString">
+                     <InnerID>2727</InnerID>
+                     <Text>2024-05-27 15:02:52</Text>
+                  </Element>
+               </XElements>
+               <BorderElementColor />
+               <Name>日期</Name>
+               <InnerValue>2024-05-27 15:02:52</InnerValue>
+               <BackgroundText>日期</BackgroundText>
+               <EditorActiveMode>MouseClick</EditorActiveMode>
+               <FieldSettings>
+                  <EditStyle>DateTime</EditStyle>
+               </FieldSettings>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2720</InnerID>
+               <Text> </Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>2103</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="1">
+               <InnerID>2721</InnerID>
+               <Text>日常查房记录</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="4">
+               <InnerID>2111</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2722</InnerID>
+               <Text>今日随黄纯民科主任医师查房，患者无畏寒、发热，无鼻塞、流涕，无咽痛、声音嘶哑，无咳嗽、咳痰，无喉中喘鸣，无气喘、呼吸困难，无恶心、呕吐，无腹痛、腹泻，精神、食欲、睡眠好，大小便未见异常。查体：T36.7℃，P88次/分，BP135/91mmHg，R20次/分。神清，咽不红，两侧扁桃体未见肿大，无脓点及脓苔附着；两肺呼吸音清，未闻及干湿性啰音，未闻及喘鸣音；心界不大，HR88次/分，律齐，各瓣膜听诊区未闻及心脏杂音。腹平软，全腹无压痛，无反跳痛，肠鸣音正常；双下肢无水肿；黄纯民科主任医师查房后指出：患者住院诊断 1、急性支气管炎 2、急性咽炎 3、原发性高血压 明确，经治疗后患者无畏寒、发热，无鼻塞、流涕，无咽痛、声音嘶哑,无咳嗽、咳痰，无气喘、呼吸困难，无恶心、呕吐，无腹痛、腹泻，无抽搐、昏迷，无其他不适。精神、睡眠、饮食好，大小便正常。查体：生命征正常，神清，咽不红，两侧扁桃体未见肿大，无脓点。两肺未闻及干湿性啰音；心律齐，无杂音；腹部体检未见异常，双下肢无水肿；监测血压基本正常；症状基本消失，要求出院，予办理出院。慎起居，防外感，低盐低脂低嘌呤饮食，多饮水；定期监测血压及视血压情况服降血压药治疗；定期复查血脂、肾功能、心电图；劳逸结合，如有不适请及时就诊。遵执。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>2654</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="8">
+               <InnerID>2656</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2723</InnerID>
+               <Text>科主任医师签名：</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="8">
+               <InnerID>2666</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2724</InnerID>
+               <Text>经治医师签名：</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="6">
+               <InnerID>2675</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+      <Element xsi:type="XTextFooter">
+         <InnerID>3</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>549</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+   </XElements>
+   <SerializeParameterValue>true</SerializeParameterValue>
+   <FileName>\File\Template\医疗文书\医疗文书\查房记录.xml</FileName>
+   <FileFormat>xml</FileFormat>
+   <ContentStyles>
+      <Default xsi:type="DocumentContentStyle">
+         <FontName>宋体</FontName>
+         <FontSize>12</FontSize>
+      </Default>
+      <Styles>
+         <Style Index="0">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <Align>Center</Align>
+         </Style>
+         <Style Index="1">
+            <FontName>宋体</FontName>
+            <FontSize>18</FontSize>
+            <Bold>true</Bold>
+         </Style>
+         <Style Index="2">
+            <FontName>宋体</FontName>
+            <FontSize>18</FontSize>
+         </Style>
+         <Style Index="3">
+            <FontName>宋体</FontName>
+            <FontSize>24</FontSize>
+         </Style>
+         <Style Index="4">
+            <FontName>宋体</FontName>
+            <FontSize>24</FontSize>
+            <LineSpacingStyle>SpaceDouble</LineSpacingStyle>
+            <Align>Center</Align>
+         </Style>
+         <Style Index="5">
+            <FontName>宋体</FontName>
+            <FontSize>24</FontSize>
+            <SpacingBeforeParagraph>15.625</SpacingBeforeParagraph>
+            <FirstLineIndent>100</FirstLineIndent>
+         </Style>
+         <Style Index="6">
+            <FontName>宋体</FontName>
+            <FontSize>24</FontSize>
+            <Align>Right</Align>
+            <FirstLineIndent>100</FirstLineIndent>
+         </Style>
+         <Style Index="7">
+            <FontName>宋体</FontName>
+            <FontSize>24</FontSize>
+            <Align>Center</Align>
+         </Style>
+         <Style Index="8">
+            <FontName>宋体</FontName>
+            <FontSize>24</FontSize>
+            <Align>Right</Align>
+         </Style>
+      </Styles>
+   </ContentStyles>
+   <Info>
+      <LicenseText>未注册|Unregister</LicenseText>
+      <CreationTime>1980-01-01T00:00:00</CreationTime>
+      <LastModifiedTime>2025-02-13T11:21:15.1889891+08:00</LastModifiedTime>
+      <LastPrintTime>1980-01-01T00:00:00</LastPrintTime>
+      <Operator>DCSoft.Writer Version:1.2023.2.14</Operator>
+      <NumOfPage>2</NumOfPage>
+   </Info>
+   <BodyText>2024-05-27 15:02:46         
+主治医师查房记录
+今日随庞金芳主治医师查房，患者咳嗽、咽痛缓解，偶有咳吐有少量粘痰，无喉中喘鸣、气喘，无畏寒、发热，无寒战、惊厥，无声音嘶哑，无抽搐、昏迷，无呼吸困难，无盗汗，无心悸、胸痛，无呕吐、腹痛、腹泻，无腰痛、膝关节痛，精神、睡眠、饮食较前好，大小便正常。查体：T37.0℃，BP140/88mmHg，神清，手、足、臀部无疱疹，咽红、充血，两侧扁桃体未见肿大，无脓点。两肺呼吸音粗，未闻及明显干湿性啰音，未闻及湿罗音及哮鸣音；叩诊心界不大，HR92次/分，律齐，各瓣膜听诊区未闻及病理性心脏杂音；腹平软，无压痛、反跳痛，肝肾区叩击痛阴性，移动性浊音阴性，肠鸣音正常；双下肢无水肿；辅助检查回报：胸片：两下肺纹理增粗、多，请结合临床。庞金芳主治医师查房后指出：根据患者病史、临床表现及辅助检查结果，同意目前诊断及治疗方案，需与肺结核、哮喘相签别；患者咳嗽中医治疗给予穴位贴敷，疏风解表、宣肺止咳为主。选用穴位：天突、膻中、大椎、肺俞、合谷、列缺等穴位。咽炎穴位贴敷，清热利咽，消肿止痛为主,选用穴位：廉泉、尺泽、少商、关冲、内庭风池、内关等穴位。患者经予抗感染、止咳化痰、清热解毒、穴位敷贴、补液对症支持治疗后，现患者症状缓解，无发热，治疗有效，监测血压基本正常；继续原方案治疗足疗程，注意观察病情变化，遵执。
+主治医师签名： 
+经治医师签名： 
+
+2024-05-27 15:02:49
+主任医师查房记录
+今日随黄纯民科主任医师查房，患者咳嗽、咽痛较前好转，偶有咳吐有少量粘痰，无气喘，无畏寒、发热，无声音嘶哑，无抽搐、昏迷，无紫绀、呼吸困难，无咯血、低热、盗汗，无心悸、胸痛，无恶心、呕吐，无腹痛、腹泻，无腰痛、膝关节痛，精神、食欲、睡眠尚可，大小便未见异常。查体：T36.5℃，P90次/分，BP140/91mmHg，R20次/分。神清，咽红，两侧扁桃体未见肿大，无脓点。两肺呼吸音粗，未闻及干湿性啰音；心界不大，HR90次/分，律齐，各瓣膜听诊区未闻及病理性心脏杂音。腹平软，无压痛、反跳痛，肝肾区叩击痛阴性，移动性音阴性，肠鸣音正常；双下肢无水肿。辅助检查回报：尿常规：隐血+1，MA&lt;=10mg/L,Ca2.5mmol/L，CR8.8mmol/L ；血常规：WBC7.58×109/L，Neu5.21×109/L，N68.8％，L25.9％，RBC4.65×1012/L，HGB146g/L，PlT276×109/L。hs-CRP&gt;5.0mg/L↑；CRP25.4mg/L↑。随机血糖：9.10mmol/L；电解质、心肌酶：未见异常；肝功能：ALT 46.2U/L↑,AST31.6U/L↑,ALT/AST 1.5↑,r-GT 56.1U/L↑,余项正常；肾功能：CREA86.6umol/L↑,UA 394.0umol/L↑,余项正常；血脂：TC5.75mmol/L↑,余项正常；肺炎支原体及衣原体IgM、IgG：均阴性；腺病毒IgM、IgG：均阴性；ASO：阴性；心电图：1、窦性心律2、ST-T改变；腹部B超：肝、胆、胰、脾、双肾未见明显异常；黄纯民科主任医师查房后指出：根据患者病史、临床表现及辅助检查结果，住院诊断为 1、急性支气管炎 2、急性咽炎 3、原发性高血压 明确，需与肺结核、哮喘、咽白喉相签别；患者症状好转，无发热，病情继续好转；监测血压基本正常；继续原方案治疗足疗程；注意观察病情变化，遵执。
+                                                    
+科主任医师签名：
+经治医师签名：
+2024-05-27 15:02:52 
+日常查房记录
+今日随黄纯民科主任医师查房，患者无畏寒、发热，无鼻塞、流涕，无咽痛、声音嘶哑，无咳嗽、咳痰，无喉中喘鸣，无气喘、呼吸困难，无恶心、呕吐，无腹痛、腹泻，精神、食欲、睡眠好，大小便未见异常。查体：T36.7℃，P88次/分，BP135/91mmHg，R20次/分。神清，咽不红，两侧扁桃体未见肿大，无脓点及脓苔附着；两肺呼吸音清，未闻及干湿性啰音，未闻及喘鸣音；心界不大，HR88次/分，律齐，各瓣膜听诊区未闻及心脏杂音。腹平软，全腹无压痛，无反跳痛，肠鸣音正常；双下肢无水肿；黄纯民科主任医师查房后指出：患者住院诊断 1、急性支气管炎 2、急性咽炎 3、原发性高血压 明确，经治疗后患者无畏寒、发热，无鼻塞、流涕，无咽痛、声音嘶哑,无咳嗽、咳痰，无气喘、呼吸困难，无恶心、呕吐，无腹痛、腹泻，无抽搐、昏迷，无其他不适。精神、睡眠、饮食好，大小便正常。查体：生命征正常，神清，咽不红，两侧扁桃体未见肿大，无脓点。两肺未闻及干湿性啰音；心律齐，无杂音；腹部体检未见异常，双下肢无水肿；监测血压基本正常；症状基本消失，要求出院，予办理出院。慎起居，防外感，低盐低脂低嘌呤饮食，多饮水；定期监测血压及视血压情况服降血压药治疗；定期复查血脂、肾功能、心电图；劳逸结合，如有不适请及时就诊。遵执。
+
+科主任医师签名：
+经治医师签名：</BodyText>
+   <LocalConfig />
+   <PageSettings>
+      <PaperKind>Custom</PaperKind>
+      <LeftMargin>79</LeftMargin>
+      <TopMargin>47</TopMargin>
+      <RightMargin>79</RightMargin>
+      <BottomMargin>39</BottomMargin>
+      <StrictUsePageSize>false</StrictUsePageSize>
+   </PageSettings>
+</XTextDocument>

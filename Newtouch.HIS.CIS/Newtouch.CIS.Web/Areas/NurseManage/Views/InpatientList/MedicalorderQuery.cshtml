@@ -1,0 +1,607 @@
+﻿@using Newtouch.Infrastructure;
+@{
+    ViewBag.Title = "护士站患者中心-医嘱管理";
+    Layout = null;
+    var pacsHost = SiteUrl.GetUrl("OuterPacsServiceHost", "");
+    //长期医嘱打印单是否显示签名
+    var isShowSign = SysConfigReader.String("IS_ShowSigner");
+    var reportUrl = Newtouch.Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("ReportUrl");
+    var ReportSystemCode = Newtouch.Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("ReportSystemCode");
+    var curOpr = Newtouch.Common.Operator.OperatorProvider.GetCurrent();
+}
+<style>
+    /*已执行*/
+    .orginal {
+        color: blue;
+    }
+    /*已审核*/
+    .ysh {
+        background-color: white;
+        color: black;
+    }
+    /*已停止*/
+    .grey {
+        color: grey;
+    }
+    /*已作废*/
+    .red {
+        color: red;
+    }
+    /*DC*/
+    .pink {
+        color: pink;
+    }
+
+    .toolbar {
+        width: 45% !important;
+        margin: 10px 30px 12px;
+    }
+</style>
+<div id="linkyzcx" role="tabpanel" class="tab-pane">
+    <div class="topPanel" style="width: 99%; margin-top: -15px; border-radius: 5px;height:unset !important">
+        <table class="form" style="margin-left:5px;">
+            <tr>
+                <td colspan="3" id="btnKeywordTypeGourp">
+                    <input type="button" id="btn_dryz" class="panelposition btn btn-default btn-md" value="当日医嘱">
+                    <input type="button" id="btn_cqyz" class="panelposition btn btn-default btn-md" value="长期医嘱">
+                    <input type="button" id="btn_lsyz" class="panelposition btn btn-default btn-md" value="临时医嘱">
+                    <span style="margin:auto 5px">|</span>
+                    <input type="button" id="btn_wsh" class="panelposition btn btn-md btn-restore active" value="未审核">
+                    <input id="zyh" type="text" value="00001" style="display:none;" class="form-control" />
+                </td>
+                <td class="formTitle">
+                    医嘱类型：
+                </td>
+                <td class="formValue formDdlSelectorTd">
+                    <select id="yzlx" class="form-control required"></select>
+                </td>
+                <td class="formValue" style="width:15%;margin-left:10px">
+                    <div id="panelposition" style="margin-left:30px">
+                        <label><input type="radio" name="optionsRadios" class="optionsRadios formClearIgnore" checked value="qb" />全部医嘱</label>
+                        <label><input type="radio" id="radioTreating" name="optionsRadios" class="optionsRadios formClearIgnore" value="yx" />有效医嘱</label>
+                    </div>
+                </td>
+                @*<th class="formTitle">住院号：</th>
+                    <td class="formValue">
+                        <input id="zyh" type="text" class="form-control" value="00001" />
+                    </td>*@
+                <th class="formTitle">开始日期：</th>
+                <td class="formValue">
+                    <input id="kssj" type="text" class="form-control input-wdatepicker formClearIgnore" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd', onpicked: function () { btn_search() } })" value="@DateTime.Now.ToString("yyyy-MM-01")" />
+                </td>
+                <th class="formTitle">结束日期：</th>
+                <td class="formValue">
+                    <input id="jssj" type="text" class="form-control input-wdatepicker formClearIgnore" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd', onpicked: function () { btn_search() }  })" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                </td>
+                <td class="formTitle">
+                    <input type="button" id="btn_search" class="btn btn-md btn-primary" value="查询" onclick="btn_search()" style="margin-right:10px" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="contentPanel" style="width: 99%; height: 84%;margin-top: 2px;">
+        <div style="background-color: #fff;width:100%;">
+            <table id="gridPatientList"></table>
+            <div id="gridPatPager"></div>
+        </div>
+    </div>
+    <table style="width:420px;height:20px; margin-top:10px;margin-left:10px; float:left; color:#274b6d">
+        <tr>
+            <td>
+                <label style="height:7px;width:25px;background-color:blue; border:1px solid #ddd"></label>
+            </td>
+            <td>执行长期/临时</td>
+            <td>
+                <label style="height:7px;width:25px;background-color:red; border:1px solid #ddd"></label>
+            </td>
+            <td>作废临时</td>
+            <td>
+                <label style="height:7px;width:25px;background-color:grey; border:1px solid #ddd"></label>
+            </td>
+            <td>停止长期</td>
+            <td>
+                <label style="height:7px;width:25px;background-color:black;  border:1px solid #ddd"></label>
+            </td>
+            <td>未执行长期/临时</td>
+        </tr>
+    </table>
+    @Html.Partial("~/Areas/DoctorManage/Views/Apply/ReportTree.cshtml")
+    <input type="button" id="btn_BindingFee" style="position:relative;top:10px;" class="btn btn-primary" value="附属医嘱" onclick="BindingFeeManage()" />
+    @Html.Partial("_BottomButtonsYzPrintView", new Newtouch.HIS.Web.Core.Models.BottomButtonViewModel()
+{
+    ShowKeyList = new int[] { 2, 3,6, 8 },
+    F2Text = "打印长期",
+    F3Text = "打印临时",
+    F5Text = "刷新",
+    F6Text = "三测单",
+    F8Text = "打印精麻"
+})
+</div>
+<div id="context-menu">
+    <ul class="dropdown-menu" role="menu" style="min-width: 115px;">
+        <li><a href="javascript:;" tabindex="-1" menuitem=1>附属医嘱</a></li>
+    </ul>
+</div>
+<script src="~/Content/js/bootstrap-contextmenu.min.js"></script>
+<script>
+      var newlist = new Array();
+    var last = "";//上一个组号
+    var isshowSign = '@isShowSign';
+    //当前选中医嘱对象
+    var currentyzobj = {};
+    var yzcxzyh = "";
+    $(function () {
+        init_yzcx(currentZyh);
+        gridPatientList();
+        $('#gridPatientList').clearGridData();
+        $('#btnKeywordTypeGourp').on('click', '.btn', function () {
+            if ($(this).attr('id') == "btn_dryz" || $(this).attr('id') == "btn_wsh") {
+                if (!$(this).hasClass('active')) {
+                    $(this).siblings('.btn').removeClass('btn-restore').removeClass('active').addClass('btn-default');
+                }
+            } else {
+                if ($('#btn_dryz').hasClass("active")) {
+                    $('#btn_dryz').removeClass('btn-restore').removeClass('active').addClass('btn-default');
+                }
+                if ($('#btn_wsh').hasClass("active")) {
+                    $('#btn_wsh').removeClass('btn-restore').removeClass('active').addClass('btn-default');
+                }
+            }
+            if ($(this).hasClass("active")) {
+                $(this).removeClass('btn-restore').removeClass('active').addClass('btn-default');
+            } else {
+                $(this).removeClass('btn-default').addClass('btn-restore active');
+            }
+            btn_search();
+        });
+
+        $("#yzlx").bindSelect({
+            url: "/DoctorManage/DoctorsAdvice/GetyzlxContain"
+        });
+    });
+
+    function init_yzcx(zyh)
+    {
+        if (!yzcxzyh)
+            yzcxzyh = zyh;
+        getPatTreeList();
+        btn_search();
+        $("#PatTreeList_"+yzcxzyh).attr('class', 'bbit-tree-node-el bbit-tree-node-leaf bbit-tree-selected');//选中
+    }
+
+    function getPatTreeList() {
+        $("#PatTreeList").treeview({
+            height: $(window).height(),
+            slimscroll: false,
+            url: "/NurseManage/InpatientList/GetPatWardTree?zyzt=" + $('#zyzt').val() + "&keyword=" + $('#keyword').val(),
+            onnodeclick: function (item) {
+                if (item.value && item.Ex1=="c")
+                {
+                    yzcxzyh=item.value;
+                    $("#zyh").val(item.value);
+                    $('#kssj').val($.getDate({ date: item.Ex5 }));
+                    btn_search();
+                }
+            }
+        });
+        $("#PatTreeList_"+yzcxzyh).attr('class', 'bbit-tree-node-el bbit-tree-node-leaf bbit-tree-selected');//选中
+    }
+
+    function BindingFeeManage() {
+        var keyValue = $("#gridPatientList").jqGridRowValue().Id;
+        if (!!!keyValue) {
+            let res = confirm('未选择项目/药品，是否继续？');
+            if (res == true) {
+                $.modalOpen({
+                    id: "BindingFeeForm",
+                    title: "附属医嘱",
+                    url: "/NurseManage/OrderExecution/BindingFeeForm?zyh=" + $("#zyh").val() + "&yzid=" + "",
+                    width: "1000px",
+                    height: "700px",
+                    btn: ['确认'],
+                    callBack: function (iframeId) {
+                        btn_search();
+                        //var Obj = top.frames[iframeId].submitForm();
+                        $.modalClose("BindingFeeForm");
+                    },
+                    cancelCallBack: function (iframeId) {
+                        btn_search();
+                        $.modalClose("BindingFeeForm");
+                    }
+                });
+            }
+            return;
+        }
+        else {
+            $.modalOpen({
+                id: "BindingFeeForm",
+                title: "附属医嘱",
+                url: "/NurseManage/OrderExecution/BindingFeeForm?zyh=" + $("#zyh").val() + "&yzid=" + keyValue,
+                width: "1000px",
+                height: "700px",
+                btn: ['确认'],
+                callBack: function (iframeId) {
+                    btn_search();
+                    //var Obj = top.frames[iframeId].submitForm();
+                    $.modalClose("BindingFeeForm");
+                },
+                cancelCallBack: function (iframeId) {
+                    btn_search();
+                    $.modalClose("BindingFeeForm");
+                }
+            });
+        }
+    }
+    //删除并解绑医嘱
+    function DeleteBindManage(Id,yzlb) {
+        let res = confirm('是否作废/停止该医嘱？');
+        if (res == true) {
+            var yzxz = "2";
+            if (yzlb=="临") {
+                yzxz = "1";
+            }
+            $.ajax({
+                url: "/NurseManage/OrderExecution/DeleteBind",
+                data: { zyh:$("#zyh").val(), yzid: Id, yzxz: yzxz },
+                dataType: "json",
+                type: "POST",
+                async: false,
+                success: function (data) {
+                    if (data != null && data.message != "") {
+                        $.modalAlert("作废/停止失败！" + data.message, 'warning');
+                        return;
+                    }
+                    else {
+                        $.modalAlert("作废/停止成功！", 'success');
+                        btn_search();
+                        return;
+                    }
+                }
+            });
+        }
+    }
+    $('#gridPatientList').contextmenu({
+        target: '#context-menu',
+        before: function (e, context) {
+            $('#gridPatientList').data("contextmenu-rowId", $(e.target).closest('tr').attr('id'));
+        },
+        onItem: function (context, e) {
+            var menuName = $(e.target).text();
+            var tt = $('#gridPatientList').jqGrid('getRowData', $('#gridPatientList').data('contextmenu-rowId'));
+            if (menuName == "附属医嘱") {
+                $.modalOpen({
+                    id: "BindingFeeForm",
+                    title: "附属医嘱",
+                    url: "/NurseManage/OrderExecution/BindingFeeForm?zyh=" + $("#zyh").val() + "&yzid=" + tt.Id,
+                    width: "1000px",
+                    height: "700px",
+                    btn: ['确认'],
+                    callBack: function (iframeId) {
+                        btn_search();
+                        //var Obj = top.frames[iframeId].submitForm();
+                        $.modalClose("BindingFeeForm");
+                    },
+                    cancelCallBack: function (iframeId) {
+                        btn_search();
+                        $.modalClose("BindingFeeForm");
+                    }
+                });
+            }
+        }
+    });
+
+    function gridPatientList() {
+        $('#gridPatientList').dataGrid({
+            url:"/DoctorManage/DoctorsAdvice/AdviceGridView",
+            height: $(window).height() - 220,
+            postData: getSearchPostData(),
+            unwritten: false,
+            pager: '#gridPatPager',
+            //sortname: 'zh,yzlb,yzlx,kssj desc',
+            //sortname: 'yzlx,kssj desc,zh,Px',
+            sortname: 'yzh desc,px,kssj desc,zh',
+            rownumbers: true,
+            rowNum: 100, //每页显示记录数
+            colModel: [
+                { label: '医嘱ID', name: 'Id', align: 'center', width: 50, hidden: true },
+                {label: '医嘱类别', name: 'yzlb', align: 'center', width: 50},
+                {
+                    label: '医嘱类型', name: 'yzlx', align: 'center', width: 50, formatter: function (val) {
+                        return $.enum.getDescByValue("EnumYzlx", val)
+                    }
+                },
+                { label: '开始时间', name: 'kssj', align: 'center', width: 120, formatter: "date", formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } },
+                { label: '住院号', name: 'zyh', align: 'center', width: 40 },
+                { label: '姓名', name: 'xm', align: 'center', width: 60 },
+                { label: '医生', name: 'ysmc', align: 'center', width: 40 },
+                {
+                    label: '附属医嘱', name: 'isfsyz', align: 'center', width: 60,hidden: true , formatter: function (val, option, row) {
+                        if (row.isfsyz != null && row.isfsyz != "") {
+                            return " <label style='color:red'>(附属医嘱)</label>";
+                        }
+                        else {
+                            return "";
+                        }
+                    }
+                },
+                { label: '医嘱', name: 'yzmc', align: 'center', width: 160,formatter: function (val, options, rowObject){
+                    if (rowObject["isfsyz"]){
+                        return " <label style='color:red'>(附)</label>"+val;
+                    }else
+                    {
+                        return val;
+                    }
+                }},
+                { label: '剂量', name: 'yzjl', align: 'center', width: 30 },
+                { label: '用法', name: 'yfmc', align: 'center', width: 30 },
+                { label: '频次', name: 'yzpcmc', align: 'center', width: 30 },
+                {label: '同组', name: 'zh', align: 'center', width: 30},
+                {
+                    label: '停止时间', name: 'tzsj', align: 'center', width: 110, formatter: "date",
+                    formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' }
+                },
+                { label: '停止医生', name: 'tzr', align: 'center', width: 50 },
+				{ label: '执行者', name: 'zxr', align: 'center', width: 50 },
+				{ label: '执行科室', name: 'deptName', align: 'center', width: 60 },
+                { label: 'yztag', name: 'yztag', align: 'center', hidden: true },
+                { label: 'iszt', name: 'iszt', align: 'center', hidden: true },
+                { label: 'yfztbs', name: 'yfztbs', align: 'center', hidden: true },
+                { label: '精麻', name: 'yztagName', align: 'center', width: 30 },
+                { label: '医嘱号', name: 'yzh', align: 'center', width: 60, hidden: true },
+                {
+                    label: '药品总量', name: 'zycldw', align: 'center', width: 50
+                },
+                { label: '计费', name: 'isjf', align: 'center', width: 30,formatter:function(val){
+                    return $.enum.getDescByValue("EnumSF", val);
+                    }
+                 },
+                 {
+                     label: '皮试', name: 'ispscs', align: 'center', width: 30, formatter: function (val) {
+                         return $.enum.getDescByValue("EnumSF", val);
+                     }
+                 },
+                 { label: '转自费', name: 'zzfbz', align: 'center', width: 40,formatter:function(val){
+                      return $.enum.getDescByValue("EnumSF", val);
+                      }
+                 },
+                 { label: '最后执行时间', name: 'zxsj', align: 'center', width: 110, formatter: "date", formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' }  },
+                 {
+                    label: '状态', name: 'yzzt', align: 'center', width: 40, formatter: function (val, options, rowObject) {
+                        if (rowObject["yzzt"] ==@Html.Raw(((int)EnumYzzt.DC).ToString())) {//DC状态
+                            //有执行时间，取已执行状态，有审核时间，取已审核状态
+                            if (rowObject["zxsj"] !== typeof (undefined) && rowObject["zxsj"] !== "") {
+                              return "执行";
+                            } else {
+                                return "审核";
+                            }
+                        } else if (rowObject["yzzt"] ==@Html.Raw(((int)EnumYzzt.TZ).ToString())) {
+                            if (rowObject["yzlb"] == "长") {
+                                return "停止";
+                            } else {
+                                return "作废";
+                            }
+                        }
+                        return $.enum.getDescByValue("EnumYzzt", val)
+                    }
+                 },
+                { label: '操作', name: 'cz', align: 'center', width: 70, title: false , formatter: function (val, option, row) {
+                        if (row.isfsyz != null && row.isfsyz != "") {
+                            return "<span style='color:red' onclick='DeleteBindManage(\"" + row.Id + "\",\"" + row.yzlb +"\")' title='作废停止' >作废停止</span>";
+                        }
+                        else {
+                            return "";
+                        }
+                       }
+                 }],
+
+                gridComplete: function () {
+                    var ids = $("#gridPatientList").jqGrid('getDataIDs');
+                    for (i = 0; i < ids.length; i++) {
+                        var rowData = $("#gridPatientList").jqGrid('getRowData', ids[i]);
+                        if (rowData.yzzt == "执行") {
+                            $('#gridPatientList tr[id="' + ids[i] + '"]').addClass('orginal');
+                        } else
+                            if (rowData.yzzt == "待审" || rowData.yzzt == "审核") {
+                                $('#gridPatientList tr[id="' + ids[i] + '"]').addClass('ysh');
+                            } else
+                                if (rowData.yzzt == "停止") {
+                                    $('#gridPatientList tr[id="' + ids[i] + '"]').addClass('grey');
+                                } else if (rowData.yzzt == "作废") {
+                                    $('#gridPatientList tr[id="' + ids[i] + '"]').addClass('red');
+                                }
+                        //组号生成特殊符号
+                        var returnval = "";
+                        if (rowData.zh != typeof (undefined) && rowData.zh !== "" && rowData.zh !== null) {
+                            if (last == rowData.zh) {
+                                returnval = "中间";
+                                if (i == (ids.length-1)) {//最后一个
+                                    returnval = "结束";
+                                    last = "";
+                                }
+                            } else if (last !== rowData.zh) {
+                                if (last !== "") {
+                                    setlastrowzuhao(ids[i]);
+                                }
+                                returnval = "开始";
+                            }
+                            $("#gridPatientList").setCell(ids[i], "zh", '<img src="../../../../Content/img/'+ returnval+'.png" />');//setCell 设置单元格样式 值 或属性
+                        } else if (last !== rowData.zh && last!=="") {
+                            setlastrowzuhao(ids[i]);
+                        }
+                        last = rowData.zh;
+                    }
+                },
+                onSelectRow: function (rowid) {
+                    var obj = $("#gridPatientList").jqGrid('getRowData', rowid);
+                    onSelectyzobj(obj);
+                }
+         });
+    }
+    //设置上一行组号
+    function setlastrowzuhao(rowid) {
+        var lastrow = parseInt(rowid) - 1;
+        $("#gridPatientList").setCell(lastrow, "zh", '<img src="../../../../Content/img/结束.png" />');//setCell 设置单元格样式 值 或属性
+    }
+    function onSelectyzobj(obj) {
+        currentyzobj.Id = obj.Id;//医嘱id
+        currentyzobj.yznr = obj.yznr;//医嘱内容
+        currentyzobj.yztag = obj.yztag;//精麻医嘱
+    }
+    function getSearchPostData() {
+        var wsh = false;
+        var dryz = false;
+        var yzlb = "长临";
+        if ($('#btn_wsh').hasClass("active")) {//未审核
+            wsh = true;
+        } else
+            if ($('#btn_dryz').hasClass("active")) {
+                dryz = true;
+            } else if (($('#btn_cqyz').hasClass("active") && $('#btn_lsyz').hasClass("active"))) {
+                var yzlb = "长临";
+            } else if ($('#btn_cqyz').hasClass("active") && !$('#btn_lsyz').hasClass("active")) {
+                var yzlb = "长";
+            } else if (!$('#btn_cqyz').hasClass("active") && $('#btn_lsyz').hasClass("active")) {
+                var yzlb = "临";
+            }
+        var yx = $('input[name="optionsRadios"]:checked').val();//var yx = $('#panelposition').val();
+        var kssj = $('#kssj').val();
+        var jssj = $('#jssj').val();
+        var yzlx = $('#yzlx').val();
+        return { dryz: dryz, yzlb: yzlb, wsh: wsh, yx: yx, kssj: kssj, jssj: jssj, yzlx: yzlx, zyh: $("#zyh").val() };
+    }
+    function newtouch_event_f6() {
+        var zyh = $("#zyh").val();
+        top.top.$.Newtouchtab.addTabWithOutMenu({ name: "三测单查询(护士)", enName: "", url: "/NurseManage/InpatientVitalSigns/TemperatureChartIndex?zyh=" + zyh + "&yshsbz=2" });
+    }
+    function btn_search() {
+        last = "";
+        $("#gridPatientList").clearGridData();
+        $("#gridPatientList").jqGrid('setGridParam', {
+            url: "/DoctorManage/DoctorsAdvice/AdviceGridView",
+            postData: getSearchPostData()
+        }).trigger("reloadGrid");
+    }
+    $('#yzlx').change(function () {
+        btn_search();
+    });
+    $('#panelposition').click(function () {
+        btn_search();
+    });
+
+    //续打
+    //function newtouch_event_f8() {
+    //    $.modalOpen({
+    //        id: "ContinuePrint",
+    //        title: "续打",
+    //        url: "/DoctorManage/DoctorsAdvice/ContinuePrint",
+    //        width: "550px",
+    //        height: "300px",
+    //        callBack: function (iframeId) {
+
+    //            $.modalClose("AdviceLeaveHospitalStop");
+    //        }
+    //    });
+    //}
+
+    //刷新
+    function newtouch_event_f4() {
+        btn_search();
+    }
+
+    ///判断当前病人是否存在未审核的长期医嘱
+    function boolwsh(zyh, callback) {
+        $.najax({
+            url: "/DoctorManage/DoctorsAdvice/boolwsh)",
+            dataType: "json",
+            data: { zyh: zyh },
+            async: true,
+            type: "POST",
+            success: function () {
+                callback(false);
+            }, error: function () {
+                callback(true);
+            }
+        });
+    }
+
+    //打印长期医嘱
+    function newtouch_event_f2() {
+        var zyh = $("#zyh").val();
+
+        var isSign = "0";
+        if (isshowSign && isshowSign === '1') {
+            isSign = "1";
+        }
+        if($('#ck_printgoon').is(':checked'))
+        {
+            $.modalAlert("长期医嘱不支持续打,请勿勾选续打", "warning");
+            //yzContinuePrint(zyh,"2",isSign);
+        }
+        else{
+            top.top.$.Newtouchtab.addTabWithOutMenu({ name: zyh+"-长期医嘱", enName: "", url: "/SystemManage/YzPreView/YzPreView?zyh=" + zyh+ "&orgId="+'@curOpr.OrganizeId'+"&isSign="+isSign+"&yzlx="+"长期医嘱", AppId: "EMR" });
+            //var uri = '@reportUrl' + "?tempCode=28" +"&zyh="+zyh+ "&orgId=" + '@curOpr.OrganizeId' + "&isSign=" + isSign;
+            //window.open(uri);
+            //window.open("/ReportManage/Report/PrintCqyzReport?zyh=" + zyh + "&isShowSign=" + isSign, "height=500, width=1195,top=100, left=50, toolbar =no, menubar=no, scrollbars=yes, resizable=yes, location=no, status=no");
+        }
+    }
+    //打印临时医嘱
+    function newtouch_event_f3() {
+        var zyh = $("#zyh").val();
+        var isSign = "0";
+        if (isshowSign && isshowSign === '1') {
+            isSign = "1";
+        }
+        if($('#ck_printgoon').is(':checked'))
+        {
+            yzContinuePrint(zyh,"1",isSign);
+        }
+        else{
+            top.top.$.Newtouchtab.addTabWithOutMenu({ name: zyh+"-临时医嘱", enName: "", url: "/SystemManage/YzPreView/YzPreView?zyh=" + zyh+ "&orgId="+'@curOpr.OrganizeId'+"&isSign="+isSign+"&yzlx="+"临时医嘱", AppId: "EMR" });
+            //var uri = '@reportUrl' + "?tempCode=28" +"&zyh="+zyh+ "&orgId=" + '@curOpr.OrganizeId' + "&isSign=" + isSign;
+            //window.open(uri);
+            //window.open("/ReportManage/Report/PrintLsyzReport?zyh=" + zyh + "&isShowSign=" + isSign, "height=500, width=1195,top=100, left=50, toolbar =no, menubar=no, scrollbars=yes, resizable=yes, location=no, status=no");
+
+        }
+
+    }
+    function yzContinuePrint(zyh,yzlx,isSign)
+    {
+        var title="临时医嘱续打";
+        if(yzlx=="2")
+        {
+            title="长期医嘱续打";
+        }
+        $.modalOpen({
+            id: "ContinuePrint",
+            title: title,
+            url: "/DoctorManage/DoctorsAdvice/ContinuePrint?zyh=" + zyh + "&isShowSign=" + isSign+ "&yzlx=" + yzlx,
+            width: "650px",
+            height: "300px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].ContinuePrint();
+                $.loading(false);
+                $.modalClose("ContinuePrint");
+            }
+        });
+    }
+    //打印精麻医嘱
+    function newtouch_event_f8()
+    {
+        var yzobj=(JSON.stringify(currentyzobj) != "{}");
+        if(yzobj)
+        {
+            if(currentyzobj.yztag=="")
+            {
+                $.modalAlert("医嘱内容"+(currentyzobj.yznr) +"不是精麻医嘱不能打印!", "warning");
+                return;
+            }
+            window.open('@reportUrl' + "?tempCode=1300" + "&systemCode=" + '@Html.Raw(ReportSystemCode)'+ "&zyh=" + $("#zyh").val() +"&orgId=" + '@curOpr.OrganizeId' +"&Id=" + currentyzobj.Id, "_blank", "height = 500, width = 1195, top = 100, left = 50, toolbar = no, menubar = no, scrollbars = yes, resizable = yes, location = no, status = no");
+        }
+        else{
+            $.modalAlert("请选中要打印的精麻医嘱", "warning");
+            return;
+        }
+
+    }
+</script>
+

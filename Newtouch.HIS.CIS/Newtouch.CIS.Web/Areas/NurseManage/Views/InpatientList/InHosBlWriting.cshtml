@@ -1,0 +1,76 @@
+﻿@using Newtouch.Infrastructure;
+@{
+    ViewBag.Title = "护士站患者中心-电子病历患者一览";
+}
+
+<div id="linkzybl" role="tabpanel" class="tab-pane" style="width:100%;margin-right: 5px; border:solid 1px #ddd; margin-top: 3px;">
+    <iframe src="" class="Newtouch_iframe"  id="iframeblyl" style="width:100%"></iframe>
+</div>
+ <script  type="text/javascript">
+     var bluaAddr = "";
+     var bldataUrl = "";
+     $("#iframeblyl").css("height", $(window).height() - 65);
+     //var fistblload = true;
+     var iframezyblinit = document.getElementById('iframeblyl');
+     var blbqdm = "";
+     iframezyblinit.onload = function () {
+         if (blbqdm) {
+             var addstyleid = 'PatTreeList_' + blbqdm;
+             $("#" + addstyleid + "").addClass('bbit-tree-selected');//增加选中样式
+             // 获取iframe元素
+             var iframe = document.getElementById('iframeblyl');
+             // 访问iframe中的window对象
+             var iframeWindow = iframe.contentWindow;
+             iframeWindow.$('#sel_inpatientArea').val(blbqdm).trigger("change", false);
+             
+         }
+     }
+     $(function () {
+         blbqdm = currentbq;
+     })
+
+     function init_zybl(bqdm)
+     {
+         debugger;
+         getZyblTreeList();
+         document.getElementById('iframeblyl').contentWindow.location.reload(true);
+         //if (fistblload) {
+         //    $.ajax({
+         //        url: '/Login/GetUALoginAddres',
+         //        data: { appId: "EMR" },
+         //        type: "post",
+         //        async: false,
+         //        dataType: "json",
+         //        success: function (ajaxResp) {
+         //            if (ajaxResp && ajaxResp.data) {
+         //                debugger
+         //                bluaAddr = ajaxResp.data;
+         //                bldataUrl = bluaAddr + "&returnUrl=" + encodeURIComponent("/MedicalRecordManage/PatInfo/Index");
+         //            }
+         //        }
+         //    });
+         //    $('#iframeblyl').attr("src", bldataUrl);
+         //    fistblload = false;
+         //    blbqdm = bqdm;
+         //}
+     }
+     function getZyblTreeList() {
+         $("#PatTreeList").treeview({
+             height: $(window).height(),
+             slimscroll: false,
+             showcheck: false,
+             param: {},
+             url: "/NurseManage/EntryRegistration/TreeViewdata",
+             onnodeclick: function (item) {
+                 if (item.value && item.Ex1 == "c") {
+                     // 获取iframe元素
+                     var iframe = document.getElementById('iframeblyl');
+                     // 访问iframe中的window对象
+                     var iframeWindow = iframe.contentWindow;
+                     iframeWindow.$('#sel_inpatientArea').val(item.value).trigger("change", false);
+                 }
+             }
+         });
+     }
+
+ </script>  

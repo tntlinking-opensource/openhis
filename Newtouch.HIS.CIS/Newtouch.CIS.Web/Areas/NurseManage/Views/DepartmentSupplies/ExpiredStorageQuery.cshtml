@@ -1,0 +1,205 @@
+﻿@using Newtouch.Infrastructure
+
+@{
+    ViewBag.Title = "过期库物资查询";
+    Layout = "~/Views/Shared/_Index.cshtml";
+    var reportUrl = Newtouch.Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("ReportUrl");
+    var reportSystemCode = Newtouch.Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("ReportSystemCode");
+
+}
+<style>
+    #btn_search {
+        width: 45px;
+        font-weight: bolder;
+    }
+
+    #btn_print {
+        width: 45px;
+        background-color: #fff;
+        color: #00a9ea;
+        font-weight: bolder;
+    }
+
+    #TabGrid {
+        width: 100%;
+        position: fixed;
+        bottom: 10px;
+        right: 0;
+        z-index: 8888;
+        background-color: #253443;
+        filter: alpha(Opacity=95);
+        -moz-opacity: 0.95;
+        opacity: 0.95;
+        box-shadow: 0px 2px 10px #909090;
+    }
+
+        #TabGrid > * {
+            filter: alpha(Opacity=95);
+            -moz-opacity: 0.95;
+            opacity: 0.95;
+        }
+
+    .showbotton {
+        display: none;
+        position: fixed;
+        bottom: 5px;
+        right: 0;
+        z-index: 9999;
+        background-color: #ccc;
+        width: 50px;
+        height: 44px;
+        filter: alpha(Opacity=90);
+        -moz-opacity: 0.9;
+        opacity: 0.9;
+        cursor: pointer;
+        border-radius: 100px 0 0 100px;
+    }
+</style>
+<form id="form1">
+    <div class="panel panel-default">
+        <div class="panel-heading">筛选条件</div>
+        <div style="padding-right:10px;">
+            <table class="form">
+                <tr>
+                    <td class="formTitle">物资名称：</td>
+                    <td class="formValue" s>
+                        <input type="text" id="keyWord" class="form-control" placeholder="拼音/名称" />
+                        <input type="hidden" id="productId" value="" />
+                    </td>
+                    <td class="formTitle">类别：</td>
+                    <td class="formValue formDdlSelectorTd">
+                        <select class="form-control" id="lb">
+                            <option value="">全部</option>
+                        </select>
+                    </td>
+                    <td class="formTitle">使用状态：</td>
+                    <td class="formValue formDdlSelectorTd">
+                        <select class="form-control" id="kzbz" name="kzbz">
+                            <option value="">全部</option>
+                            <option value="1" selected>正常</option>
+                            <option value="0">控制</option>
+                        </select>
+                    </td>
+                    <td class="formTitle">
+                        <input type="button" class="btn btn-primary btn-md" id="btn_search" value="查询" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="formTitle">物资状态：</td>
+                    <td class="formValue formDdlSelectorTd">
+                        <select class="form-control" id="wzzt" name="wzzt">
+                            <option value="">全部</option>
+                            <option value="1" selected>有效</option>
+                            <option value="0">无效</option>
+                        </select>
+                    </td>
+                    <td class="formTitle">显示零库存：</td>
+                    <td class="formValue formDdlSelectorTd">
+                        <select class="form-control" id="xslkc" name="xslkc">
+                            <option value="1">是</option>
+                            <option value="0" selected>否</option>
+                        </select>
+                    </td>
+                    <td class="formValue" colspan="2">
+                        <label style="line-height: 20px; margin-left:10px; float:left;">只显示库存有效：</label>
+                        <div class="ckbox">
+                            <input id="mxyx" name="mxyx" type="checkbox" class="ckbox" checked />
+                            <label for="mxyx">是</label>
+                        </div>
+                    </td>
+                    <td class="formTitle">
+                        <input type="button" id="btn_print" class="btn btn-md btn-primary" value="打印" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="gridPanel">
+        <table id="gridList"></table>
+        <div id="gridPager" rel="form1"></div>
+    </div>
+</form>
+<script>
+    $(function () {
+        //浏览器窗口调整大小时重新加载jqGrid的宽
+        $(window).resize(function () {
+            window.initLayout("MyTabGrid");
+        });
+        Initial();
+    });
+
+    //回车事件绑定
+    $(document).keyup(function (event) {
+        if (event.keyCode == 13) {
+            $("#btn_search").trigger("click");
+        }
+    });
+
+    //初始化
+    function Initial() {
+        $("#lb").bindSelect({ url: "/NurseManage/DepartmentSupplies/GetPatientTreeSelectJson" });
+        gridList();
+        $("#btn_print").click(function () {
+            window.open('@reportUrl' + "?tempCode=1329" + "&systemCode=" + '@reportSystemCode'+ "&hospitalCode=" + '@ViewBag.OrgId' + "&OrganizeId=@ViewBag.OrgId&warehouseId=@Constants.DeptCode"+
+                "&keyWord=" + $('#keyWord').val() +
+                "&lbId=" + ($('#lb').val() === "" ? "" : $('#lb').val()) +
+                "&kzbz=" + ($('#kzbz').val() === "" ? "" : $('#kzbz').val()) +
+                "&wzzt=" + ($('#wzzt').val() === "" ? "" : $('#wzzt').val()) +
+                "&xslkc=" + ($('#xslkc').val() ==="1"?"":"0") +
+                "&mxyx=" + ($('#mxyx').is(":checked") ? "1" : "") +
+                "&ygq=" + ($('#ygq').is(":checked") ? "" : "0") +
+                "&isExpired=1");
+        });
+    }
+
+    //主表信息
+    function gridList() {
+        var $gridList = $("#gridList");
+        $gridList.dataGrid({
+            url: "/NurseManage/DepartmentSupplies/GetExpiredWarehouseStorage",
+            postData: $("#form1").formSerialize(),
+            height: $(window).height() - document.getElementById('gridList').offsetTop - 70,
+            colModel: [
+                { label: '名称', name: 'wzmc', width: 120, align: 'left' },
+                { label: '规格', name: 'gg', width: 80, align: 'left' },
+                { label: '有效期', name: 'yxq', width: 90, align: 'left', formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d' } },
+                { label: '批号', name: 'ph', width: 100, align: 'left' },
+                { label: '批次', name: 'pc', width: 100, align: 'left' },
+                { label: '数量', name: 'slStr', width: 70, align: 'right' },
+                { label: '单价单位', name: 'lsjStr', width: 60, align: 'center' },
+                {
+                    label: '进价总额', name: 'jjze', width: 70, align: 'right',
+                    formatter: function (val) {
+                        return val.toFixed(2);
+                    }
+                },
+                { label: '类别', name: 'lb', width: 90, align: 'left' },
+                { label: '品牌', name: 'brand', width: 90, align: 'left' },
+                { label: '生产厂家', name: 'sccj', width: 150, align: 'left' },
+                { label: "productId", name: "productId", hidden: true, key: true }
+            ],
+            pager: "#gridPager",
+            sortname: 'wzmc asc',
+            viewrecords: true,
+        });
+        $("#btn_search").click(function () {
+            $gridList.jqGrid('setGridParam',
+            {
+                postData: $("#form1").formSerialize()
+            }).trigger('reloadGrid');
+        });
+    }
+
+    //获取url中的参数
+    function getQueryString(name) {
+        // 匹配目标参数
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var result = window.location.search.substr(1).match(reg); // 对querystring匹配目标参数
+        if (result != null) {
+            return decodeURIComponent(result[2]);
+        } else {
+            return null;
+        }
+    }
+
+</script>

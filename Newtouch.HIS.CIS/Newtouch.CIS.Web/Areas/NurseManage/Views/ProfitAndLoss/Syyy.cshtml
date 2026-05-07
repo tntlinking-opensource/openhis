@@ -1,0 +1,165 @@
+﻿@using Newtouch.Common.Operator
+@model dynamic
+
+@{
+    ViewBag.Title = "损益原因";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+
+<div class="topPanel">
+    <div class="toolbar">
+        <div class="btn-group">
+            <a class="btn btn-primary" onclick="$.reload()"><span class="fa fa-refresh"></span></a>
+        </div>
+        <div class="btn-group">
+            <a class="btn btn-primary" onclick="btn_add()"><i class="fa fa-plus"></i>新建</a>
+        </div>
+        <div class="btn-group">
+            <a class="btn btn-primary" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>修改</a>
+        </div>
+        <div class="btn-group">
+            <a class="btn btn-primary" onclick="btn_delete()"><i class="fa fa-trash-o"></i>删除</a>
+        </div>
+    </div>
+    <div class="search">
+        <table>
+            <tr>
+                <td>
+                    <div class="input-group">
+                        <input id="txt_keyword" type="text" class="form-control" placeholder="名称" style="width: 180px;">
+                        <span class="input-group-btn">
+                            <button id="btn_search" type="button" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="gridPanel">
+    <table id="gridList"></table>
+    <div id="gridPager"></div>
+</div>
+<script lang="javascript">
+    $(function () {
+        gridList();
+    });
+
+    //get data
+    function gridList() {
+        var $gridList = $("#gridList");
+        $gridList.dataGrid({
+            url: "/NurseManage/ProfitAndLoss/GetSyyyGridJson",
+            height: $(window).height() - 120,
+            colModel: [
+                { label: "主键", name: "Id", hidden: true, key: true },
+                {
+                    label: "损益标志", name: "sybz", width: 100, align: "center",
+                    formatter: function (cellvalue) { return cellvalue === "1" ? "报溢" : "报损"; }
+                },
+                { label: '损溢原因', name: 'syyy', width: 350, align: 'left' },
+                {
+                    label: "有效", name: "zt", width: 50, align: "center",
+                    formatter: function (cellvalue) { return cellvalue === "1" ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>"; }
+                },
+                { label: '创建人', name: 'CreatorCode', width: 70, align: 'left' },
+                { label: '创建时间', name: 'CreateTime', width: 110, align: 'left', formatter: "date", formatoptions: { srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i' } },
+                { label: '最后修改', name: 'LastModifierCode', width: 70, align: 'left' },
+                { label: '最后修改时间', name: 'LastModifyTime', width: 110, align: 'left', formatter: "date", formatoptions: { srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i' }  }
+            ],
+            pager: "#gridPager",
+            sortname: 'syyy',
+            viewrecords: true
+        });
+        $("#btn_search").click(function () {
+            $gridList.jqGrid('setGridParam',
+                {
+                    postData: { keyWord: $("#txt_keyword").val() }
+                }).trigger('reloadGrid');
+        });
+    }
+
+    //回车触发查询事件
+    $("#txt_keyword").keydownEnterEvent(function() {
+        $("#btn_search").trigger("click");
+    });
+
+    //新增
+    function btn_add() {
+        $.modalOpen({
+            id: "Form",
+            title: "新增损益",
+            url: "/NurseManage/ProfitAndLoss/SyyyForm",
+            width: "400px",
+            height: "300px",
+            callBack: function (iframeId) {
+                $.currentWindow(iframeId).AcceptClick(function() {
+                    cleanSearchInput();
+                    $('#gridList').jqGrid("clearGridData"); //清除明细的grid
+                    $("#gridList").resetSelection();
+                    $("#gridList").trigger("reloadGrid");
+                });
+            }
+        });
+    }
+
+    //修改
+    function btn_edit() {
+        var keyValue = $("#gridList").jqGridRowValue().Id;
+        if (!!!keyValue) {
+            $.modalAlert("请选中一条信息", 'warning');
+            return;
+        }
+        @*var thisOrgId = $("#gridList").jqGridRowValue().OrganizeId;
+        if (!!!thisOrgId && '@(!string.IsNullOrEmpty(OperatorProvider.GetCurrent().OrganizeId) && OperatorProvider.GetCurrent().OrganizeId != OperatorProvider.GetCurrent().TopOrganizeId)' === 'True') {
+            $.modalAlert("无权限修改", 'warning');
+            return;
+        }*@
+        $.modalOpen({
+            id: "Form",
+            title: "修改损益",
+            url: "/NurseManage/ProfitAndLoss/SyyyForm?keyValue=" + keyValue,
+            width: "400px",
+            height: "300px",
+            callBack: function (iframeId) {
+                $.currentWindow(iframeId).AcceptClick(function() {
+                    cleanSearchInput();
+                    $('#gridList').jqGrid("clearGridData"); //清除明细的grid
+                    $("#gridList").resetSelection();
+                    $("#gridList").trigger("reloadGrid");
+                });
+            }
+        });
+    }
+
+    //删除
+    function btn_delete() {
+        var keyValue = $("#gridList").jqGridRowValue().Id;
+        if (!!!keyValue) {
+            $.modalAlert("请选中一条信息", 'warning');
+            return;
+        }
+        @*var thisOrgId = $("#gridList").jqGridRowValue().OrganizeId;
+        if (!!!thisOrgId && '@(!string.IsNullOrEmpty(OperatorProvider.GetCurrent().OrganizeId) && OperatorProvider.GetCurrent().OrganizeId != OperatorProvider.GetCurrent().TopOrganizeId)' === 'True') {
+            $.modalAlert("无权限修改", 'warning');
+            return;
+        }*@
+        $.deleteForm({
+            url: "/NurseManage/ProfitAndLoss/DeleteSyyyForm",
+            param: { keyValue: keyValue },
+            success: function () {
+                cleanSearchInput();
+                $('#gridList').jqGrid("clearGridData"); //清除明细的grid
+                $("#gridList").resetSelection();
+                $("#gridList").trigger("reloadGrid");
+            }
+        });
+        cleanSearchInput();
+    }
+
+    //sweep search marks
+    function cleanSearchInput() {
+        $("#txt_keyword").val("");
+    }
+
+</script>

@@ -1,0 +1,903 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XTextDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" EditorVersionString="1.2015.12.23">
+   <Attributes />
+   <XElements>
+      <Element xsi:type="XTextHeader">
+         <Attributes />
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XInputField" StyleIndex="1">
+               <Attributes />
+               <ID>B0EADC5F-D1A7-4C1D-8BFF-C30B4AB96B89</ID>
+               <ToolTip>请输入医院名称</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/yymc</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <XElements />
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <EventExpressions />
+               <Name>yymc</Name>
+               <BackgroundText>医院名称</BackgroundText>
+               <LastSelectedListItems />
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0" />
+            <Element xsi:type="XString" StyleIndex="2">
+               <XElements xsi:nil="true" />
+               <Text>出院病人病情评估单</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0" />
+            <Element xsi:type="XString">
+               <XElements xsi:nil="true" />
+               <Text>姓名:</Text>
+            </Element>
+            <Element xsi:type="XInputField">
+               <Attributes />
+               <ID>555B0059-D165-46B3-9F88-9720672296AF</ID>
+               <ToolTip>请输入姓名</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/xm</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <XElements />
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <EventExpressions />
+               <Name>xm</Name>
+               <BackgroundText>姓名</BackgroundText>
+               <LastSelectedListItems />
+            </Element>
+            <Element xsi:type="XString">
+               <XElements xsi:nil="true" />
+               <Text>     科别:</Text>
+            </Element>
+            <Element xsi:type="XInputField">
+               <Attributes />
+               <ID>05851fea-e7a2-4ada-969c-76b7d0403c10</ID>
+               <ToolTip>请输入科室名称</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/DeptName</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <XElements />
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <EventExpressions />
+               <Name>DeptName</Name>
+               <BackgroundText>科室名称</BackgroundText>
+               <LastSelectedListItems />
+            </Element>
+            <Element xsi:type="XString">
+               <XElements xsi:nil="true" />
+               <Text>      床号:</Text>
+            </Element>
+            <Element xsi:type="XInputField">
+               <Attributes />
+               <ID>47C322C6-9098-4D54-9F8A-C726F1BE8CC1</ID>
+               <ToolTip>请输入床号</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/BedName</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <XElements />
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <EventExpressions />
+               <Name>BedName</Name>
+               <BackgroundText>床号</BackgroundText>
+               <LastSelectedListItems />
+            </Element>
+            <Element xsi:type="XString">
+               <XElements xsi:nil="true" />
+               <Text>      住院号:</Text>
+            </Element>
+            <Element xsi:type="XInputField">
+               <Attributes />
+               <ID>6C1F42F9-EB78-43E1-AF32-18795C4E2303</ID>
+               <ToolTip>请输入住院号</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/zyh</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <XElements />
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <EventExpressions />
+               <Name>zyh</Name>
+               <BackgroundText>住院号</BackgroundText>
+               <LastSelectedListItems />
+            </Element>
+            <Element xsi:type="XString">
+               <XElements xsi:nil="true" />
+               <Text>  </Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0" />
+         </XElements>
+      </Element>
+      <Element xsi:type="XTextBody">
+         <Attributes />
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XTextTable" NumOfRows="3" NumOfColumns="2">
+               <Attributes />
+               <ID>table46</ID>
+               <Expressions />
+               <XElements>
+                  <Element xsi:type="XTextTableRow">
+                     <Attributes />
+                     <Expressions />
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <XElements xsi:nil="true" />
+                                 <Text>     出院前评估</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <XElements xsi:nil="true" />
+                                 <Text>出院时d患者情况：</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" />
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <XElements xsi:nil="true" />
+                                 <Text>意识状态：</Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="5">
+                                 <ID>name001-1</ID>
+                                 <PropertyExpressions />
+                                 <Name>name001</Name>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Caption>清楚</Caption>
+                                 <Width>159.5</Width>
+                                 <Height>62</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值1</CheckedValue>
+                                 <EventExpressions />
+                                 <RuntimeVisible>true</RuntimeVisible>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <XElements xsi:nil="true" />
+                                 <Text>  </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="5">
+                                 <ID>name001-2</ID>
+                                 <PropertyExpressions />
+                                 <Name>name001</Name>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Caption>嗜睡</Caption>
+                                 <Width>159.5</Width>
+                                 <Height>62</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                                 <EventExpressions />
+                                 <RuntimeVisible>true</RuntimeVisible>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <XElements xsi:nil="true" />
+                                 <Text>   </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="5">
+                                 <ID>name001-1</ID>
+                                 <PropertyExpressions />
+                                 <Name>name001</Name>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Caption>烦躁</Caption>
+                                 <Width>159.5</Width>
+                                 <Height>62</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值1</CheckedValue>
+                                 <EventExpressions />
+                                 <RuntimeVisible>true</RuntimeVisible>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <XElements xsi:nil="true" />
+                                 <Text>   </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="5">
+                                 <ID>name001-2</ID>
+                                 <PropertyExpressions />
+                                 <Name>name001</Name>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Caption>昏迷</Caption>
+                                 <Width>159.5</Width>
+                                 <Height>62</Height>
+                                 <GroupName>name001</GroupName>
+                                 <Checked>true</Checked>
+                                 <CheckedValue>值2</CheckedValue>
+                                 <EventExpressions />
+                                 <RuntimeVisible>true</RuntimeVisible>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <XElements xsi:nil="true" />
+                                 <Text>     </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="5">
+                                 <ID>name001-2</ID>
+                                 <PropertyExpressions />
+                                 <Name>name0021</Name>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Caption>其他</Caption>
+                                 <Width>159.5</Width>
+                                 <Height>62</Height>
+                                 <GroupName>name0021</GroupName>
+                                 <CheckedValue>qt</CheckedValue>
+                                 <EventExpressions />
+                                 <RuntimeVisible>true</RuntimeVisible>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="6">
+                                 <XElements xsi:nil="true" />
+                                 <Text> </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="7">
+                                 <XElements xsi:nil="true" />
+                                 <Text> </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="8">
+                                 <XElements xsi:nil="true" />
+                                 <Text>       </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="6">
+                                 <XElements xsi:nil="true" />
+                                 <Text> </Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" />
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <XElements xsi:nil="true" />
+                                 <Text>自主能力：</Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="5">
+                                 <ID>name001-2</ID>
+                                 <PropertyExpressions />
+                                 <Name>name001</Name>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Caption>正常</Caption>
+                                 <Width>159.5</Width>
+                                 <Height>62</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                                 <EventExpressions />
+                                 <RuntimeVisible>true</RuntimeVisible>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <XElements xsi:nil="true" />
+                                 <Text> 公 </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="5">
+                                 <ID>name001-1</ID>
+                                 <PropertyExpressions />
+                                 <Name>name001</Name>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Caption>全瘫</Caption>
+                                 <Width>159.5</Width>
+                                 <Height>62</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值1</CheckedValue>
+                                 <EventExpressions />
+                                 <RuntimeVisible>true</RuntimeVisible>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <XElements xsi:nil="true" />
+                                 <Text>   </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="5">
+                                 <ID>name001-2</ID>
+                                 <PropertyExpressions />
+                                 <Name>name001</Name>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Caption>截瘫</Caption>
+                                 <Width>159.5</Width>
+                                 <Height>62</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                                 <EventExpressions />
+                                 <RuntimeVisible>true</RuntimeVisible>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <XElements xsi:nil="true" />
+                                 <Text>   </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="5">
+                                 <ID>name001-2</ID>
+                                 <PropertyExpressions />
+                                 <Name>name0021</Name>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Caption>其他</Caption>
+                                 <Width>159.5</Width>
+                                 <Height>62</Height>
+                                 <GroupName>name0021</GroupName>
+                                 <CheckedValue>qt</CheckedValue>
+                                 <EventExpressions />
+                                 <RuntimeVisible>true</RuntimeVisible>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="6">
+                                 <XElements xsi:nil="true" />
+                                 <Text> </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="7">
+                                 <XElements xsi:nil="true" />
+                                 <Text> </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="8">
+                                 <XElements xsi:nil="true" />
+                                 <Text>       </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="6">
+                                 <XElements xsi:nil="true" />
+                                 <Text> </Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" />
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <XElements xsi:nil="true" />
+                                 <Text>阳性特征：</Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="5">
+                                 <ID>name001-1</ID>
+                                 <PropertyExpressions />
+                                 <Name>name001</Name>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Caption>无</Caption>
+                                 <Width>115.75</Width>
+                                 <Height>62</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值1</CheckedValue>
+                                 <EventExpressions />
+                                 <RuntimeVisible>true</RuntimeVisible>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <XElements xsi:nil="true" />
+                                 <Text>  </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="5">
+                                 <ID>name001-2</ID>
+                                 <PropertyExpressions />
+                                 <Name>name001</Name>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Caption>有</Caption>
+                                 <Width>115.75</Width>
+                                 <Height>62</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                                 <EventExpressions />
+                                 <RuntimeVisible>true</RuntimeVisible>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="7">
+                                 <XElements xsi:nil="true" />
+                                 <Text>               s                    </Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" />
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <XElements xsi:nil="true" />
+                                 <Text>特殊的阴性体征：</Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="5">
+                                 <ID>name001-1</ID>
+                                 <PropertyExpressions />
+                                 <Name>name001</Name>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Caption>无</Caption>
+                                 <Width>115.75</Width>
+                                 <Height>62</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值1</CheckedValue>
+                                 <EventExpressions />
+                                 <RuntimeVisible>true</RuntimeVisible>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <XElements xsi:nil="true" />
+                                 <Text>  </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="5">
+                                 <ID>name001-2</ID>
+                                 <PropertyExpressions />
+                                 <Name>name001</Name>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Caption>有</Caption>
+                                 <Width>115.75</Width>
+                                 <Height>62</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                                 <EventExpressions />
+                                 <RuntimeVisible>true</RuntimeVisible>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="7">
+                                 <XElements xsi:nil="true" />
+                                 <Text>         有                          </Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" />
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <XElements xsi:nil="true" />
+                                 <Text>重要的辅助检査：</Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="5">
+                                 <ID>name001-1</ID>
+                                 <PropertyExpressions />
+                                 <Name>name001</Name>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Caption>无</Caption>
+                                 <Width>115.75</Width>
+                                 <Height>62</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值1</CheckedValue>
+                                 <EventExpressions />
+                                 <RuntimeVisible>true</RuntimeVisible>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <XElements xsi:nil="true" />
+                                 <Text>  </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="5">
+                                 <ID>name001-2</ID>
+                                 <PropertyExpressions />
+                                 <Name>name001</Name>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Caption>有</Caption>
+                                 <Width>115.75</Width>
+                                 <Height>62</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                                 <EventExpressions />
+                                 <RuntimeVisible>true</RuntimeVisible>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="7">
+                                 <XElements xsi:nil="true" />
+                                 <Text>   I                                </Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" />
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <XElements xsi:nil="true" />
+                                 <Text>出院诊断：</Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="5">
+                                 <ID>name001-1</ID>
+                                 <PropertyExpressions />
+                                 <Name>name001</Name>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Caption>符合</Caption>
+                                 <Width>159.5</Width>
+                                 <Height>62</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值1</CheckedValue>
+                                 <EventExpressions />
+                                 <RuntimeVisible>true</RuntimeVisible>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="6">
+                                 <XElements xsi:nil="true" />
+                                 <Text>  </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <XElements xsi:nil="true" />
+                                 <Text>科  </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="5">
+                                 <ID>name001-2</ID>
+                                 <PropertyExpressions />
+                                 <Name>name001</Name>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Caption>不符合</Caption>
+                                 <Width>203.250015</Width>
+                                 <Height>62</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                                 <EventExpressions />
+                                 <RuntimeVisible>true</RuntimeVisible>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" />
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <XElements xsi:nil="true" />
+                                 <Text>出院标准：</Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="5">
+                                 <ID>name001-1</ID>
+                                 <PropertyExpressions />
+                                 <Name>name001</Name>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Caption>符合</Caption>
+                                 <Width>159.5</Width>
+                                 <Height>62</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值1</CheckedValue>
+                                 <EventExpressions />
+                                 <RuntimeVisible>true</RuntimeVisible>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <XElements xsi:nil="true" />
+                                 <Text>      </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="5">
+                                 <ID>name001-2</ID>
+                                 <PropertyExpressions />
+                                 <Name>name001</Name>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Caption>不符合</Caption>
+                                 <Width>203.250015</Width>
+                                 <Height>62</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                                 <EventExpressions />
+                                 <RuntimeVisible>true</RuntimeVisible>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" />
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <XElements xsi:nil="true" />
+                                 <Text>出院时疗效判断：</Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="5">
+                                 <ID>name001-1</ID>
+                                 <PropertyExpressions />
+                                 <Name>name001</Name>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Caption>痊愈</Caption>
+                                 <Width>159.5</Width>
+                                 <Height>62</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值1</CheckedValue>
+                                 <EventExpressions />
+                                 <RuntimeVisible>true</RuntimeVisible>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <XElements xsi:nil="true" />
+                                 <Text>   </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <XElements xsi:nil="true" />
+                                 <Text>        </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="5">
+                                 <ID>name001-2</ID>
+                                 <PropertyExpressions />
+                                 <Name>name001</Name>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Caption>好转</Caption>
+                                 <Width>159.5</Width>
+                                 <Height>62</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                                 <EventExpressions />
+                                 <RuntimeVisible>true</RuntimeVisible>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <XElements xsi:nil="true" />
+                                 <Text>       t   </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="5">
+                                 <ID>name001-3</ID>
+                                 <PropertyExpressions />
+                                 <Name>name001</Name>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Caption>转院</Caption>
+                                 <Width>159.5</Width>
+                                 <Height>62</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值3</CheckedValue>
+                                 <EventExpressions />
+                                 <RuntimeVisible>true</RuntimeVisible>
+                              </Element>
+                              <Element xsi:type="XLineBreak" />
+                              <Element xsi:type="XParagraphFlag" />
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <XElements xsi:nil="true" />
+                                 <Text>             </Text>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <XElements xsi:nil="true" />
+                                 <Text> </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <XElements xsi:nil="true" />
+                                 <Text>  </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="5">
+                                 <ID>name001-1</ID>
+                                 <PropertyExpressions />
+                                 <Name>name001</Name>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Caption>自动出院</Caption>
+                                 <Width>247.000015</Width>
+                                 <Height>62</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值1</CheckedValue>
+                                 <EventExpressions />
+                                 <RuntimeVisible>true</RuntimeVisible>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <XElements xsi:nil="true" />
+                                 <Text>      </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="5">
+                                 <ID>name001-2</ID>
+                                 <PropertyExpressions />
+                                 <Name>name001</Name>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Caption>死亡</Caption>
+                                 <Width>159.5</Width>
+                                 <Height>62</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                                 <EventExpressions />
+                                 <RuntimeVisible>true</RuntimeVisible>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <XElements xsi:nil="true" />
+                                 <Text>         </Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox" StyleIndex="5">
+                                 <ID>name001-3</ID>
+                                 <PropertyExpressions />
+                                 <Name>name001</Name>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Caption>其他</Caption>
+                                 <Width>159.5</Width>
+                                 <Height>62</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值3</CheckedValue>
+                                 <EventExpressions />
+                                 <RuntimeVisible>true</RuntimeVisible>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <XElements xsi:nil="true" />
+                                 <Text> </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="8">
+                                 <XElements xsi:nil="true" />
+                                 <Text>    信      </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <XElements xsi:nil="true" />
+                                 <Text>  </Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" />
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <XElements xsi:nil="true" />
+                                 <Text>出院后的随访事宜充分和清楚的向患者或家属交代：</Text>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox">
+                                 <ID>name001-1</ID>
+                                 <PropertyExpressions />
+                                 <Name>name001</Name>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Caption>是</Caption>
+                                 <Width>122.000008</Width>
+                                 <Height>62</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值1</CheckedValue>
+                                 <EventExpressions />
+                                 <RuntimeVisible>true</RuntimeVisible>
+                              </Element>
+                              <Element xsi:type="XTextCheckBox">
+                                 <ID>name001-2</ID>
+                                 <PropertyExpressions />
+                                 <Name>name001</Name>
+                                 <ToolTip>提示信息</ToolTip>
+                                 <Caption>否</Caption>
+                                 <Width>122.000008</Width>
+                                 <Height>62</Height>
+                                 <GroupName>name001</GroupName>
+                                 <CheckedValue>值2</CheckedValue>
+                                 <EventExpressions />
+                                 <RuntimeVisible>true</RuntimeVisible>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <XElements xsi:nil="true" />
+                                 <Text>，原因:</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="9">
+                                 <XElements xsi:nil="true" />
+                                 <Text>         </Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <Attributes />
+                     <Expressions />
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <XElements xsi:nil="true" />
+                                 <Text>评估医师签名：     </Text>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <XElements xsi:nil="true" />
+                                 <Text>                       都    </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <XElements xsi:nil="true" />
+                                 <Text> 上级医师签名：</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                           <ColSpan>2</ColSpan>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <Attributes />
+                     <Expressions />
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XString">
+                                 <XElements xsi:nil="true" />
+                                 <Text>                           C                   评估时间：2024-06-04 14:30</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                           <ColSpan>2</ColSpan>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <Attributes />
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag" />
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+               </XElements>
+               <Columns>
+                  <Element xsi:type="XTextTableColumn">
+                     <Attributes />
+                     <Width>90.625</Width>
+                  </Element>
+                  <Element xsi:type="XTextTableColumn">
+                     <Attributes />
+                     <Width>1790.625</Width>
+                  </Element>
+               </Columns>
+            </Element>
+            <Element xsi:type="XParagraphFlag" />
+         </XElements>
+      </Element>
+      <Element xsi:type="XTextFooter">
+         <Attributes />
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XPageInfo" StyleIndex="10">
+               <ID>pageinfo1</ID>
+               <PropertyExpressions />
+               <Width>400</Width>
+               <AutoHeight>true</AutoHeight>
+               <Height>62.73438</Height>
+               <FormatString>第[%PageIndex%]页 共[%NumOfPages%]页</FormatString>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0" />
+         </XElements>
+      </Element>
+   </XElements>
+   <RepeatedImages />
+   <GlobalJavaScriptReferences />
+   <Info>
+      <LicenseText>本软件未注册。</LicenseText>
+      <CreationTime>1980-01-01T00:00:00</CreationTime>
+      <LastModifiedTime>2025-10-27T11:36:45.7972239+08:00</LastModifiedTime>
+      <LastPrintTime>1980-01-01T00:00:00</LastPrintTime>
+      <Operator>DCSoft.Writer Version:1.2023.2.14</Operator>
+      <NumOfPage>1</NumOfPage>
+   </Info>
+   <BodyText>     出院前评估 出院时d患者情况：
+意识状态：□清楚  □嗜睡   □烦躁   ■昏迷     □其他          
+自主能力：□正常 公 □全瘫   □截瘫   □其他          
+阳性特征：□无  □有               s                    
+特殊的阴性体征：□无  □有         有                          
+重要的辅助检査：□无  □有   I                                
+出院诊断：□符合  科  □不符合
+出院标准：□符合      □不符合
+出院时疗效判断：□痊愈           □好转       t   □转院
+
+                □自动出院      □死亡         □其他     信        
+出院后的随访事宜充分和清楚的向患者或家属交代：□是□否，原因:          
+评估医师签名：                            都     上级医师签名： 
+                           C                   评估时间：2024-06-04 14:30 </BodyText>
+   <Comments />
+   <LocalConfig />
+   <PageSettings />
+   <UserHistories />
+   <SerializeParameterValue>true</SerializeParameterValue>
+   <Parameters />
+   <ContentStyles>
+      <Default xsi:type="DocumentContentStyle">
+         <FontName>宋体</FontName>
+         <FontSize>12</FontSize>
+      </Default>
+      <Styles>
+         <Style Index="0">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <Align>Center</Align>
+         </Style>
+         <Style Index="1">
+            <FontName>宋体</FontName>
+            <FontSize>18</FontSize>
+            <Bold>true</Bold>
+         </Style>
+         <Style Index="2">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <Bold>true</Bold>
+         </Style>
+         <Style Index="3">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <BorderWidth>1</BorderWidth>
+            <BorderLeft>true</BorderLeft>
+            <BorderBottom>true</BorderBottom>
+            <BorderTop>true</BorderTop>
+            <BorderRight>true</BorderRight>
+            <PaddingLeft>12.5</PaddingLeft>
+            <PaddingTop>9.375</PaddingTop>
+            <PaddingRight>12.5</PaddingRight>
+            <PaddingBottom>9.375</PaddingBottom>
+         </Style>
+         <Style Index="4">
+            <BackgroundColor>#F5F5F5</BackgroundColor>
+            <Color>#242424</Color>
+            <FontName>宋体</FontName>
+            <FontSize>10.5</FontSize>
+         </Style>
+         <Style Index="5">
+            <Color>#242424</Color>
+            <FontName>宋体</FontName>
+            <FontSize>10.5</FontSize>
+         </Style>
+         <Style Index="6">
+            <FontName>宋体</FontName>
+            <FontSize>10.5</FontSize>
+         </Style>
+         <Style Index="7">
+            <Color>#242424</Color>
+            <FontName>宋体</FontName>
+            <FontSize>10.5</FontSize>
+            <Underline>true</Underline>
+         </Style>
+         <Style Index="8">
+            <FontName>宋体</FontName>
+            <FontSize>10.5</FontSize>
+            <Underline>true</Underline>
+         </Style>
+         <Style Index="9">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <Underline>true</Underline>
+         </Style>
+         <Style Index="10">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+         </Style>
+      </Styles>
+   </ContentStyles>
+   <FileName>C:\Users\lf_20\Desktop\Template\护理文书\出院病人病情评估表\出院病人病情评估表.xml</FileName>
+   <FileFormat>XML</FileFormat>
+</XTextDocument>

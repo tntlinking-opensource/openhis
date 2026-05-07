@@ -1,0 +1,911 @@
+<XTextDocument xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EditorVersionString="1.2023.2.14">
+   <InnerID>411</InnerID>
+   <XElements>
+      <Element xsi:type="XTextHeader">
+         <InnerID>1</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XInputField" StyleIndex="1">
+               <InnerID>434</InnerID>
+               <ID>B0EADC5F-D1A7-4C1D-8BFF-C30B4AB96B89</ID>
+               <ToolTip>请输入医院名称</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/yymc</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <Name>yymc</Name>
+               <BackgroundText>医院名称</BackgroundText>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0">
+               <InnerID>435</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="2">
+               <InnerID>1885</InnerID>
+               <Text>腰间盘突出</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0">
+               <InnerID>442</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+      <Element xsi:type="XTextBody">
+         <InnerID>2</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XTextTable" NumOfRows="7" NumOfColumns="2">
+               <InnerID>446</InnerID>
+               <ID>table96</ID>
+               <XElements>
+                  <Element xsi:type="XTextTableRow">
+                     <InnerID>449</InnerID>
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <XElements>
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <InnerID>1886</InnerID>
+                                 <Text>姓名:</Text>
+                              </Element>
+                              <Element xsi:type="XInputField" StyleIndex="4">
+                                 <InnerID>455</InnerID>
+                                 <ID>555B0059-D165-46B3-9F88-9720672296AF</ID>
+                                 <ToolTip>请输入姓名</ToolTip>
+                                 <EnableValueValidate>true</EnableValueValidate>
+                                 <ValueBinding>
+                                    <DataSource>zy_brjbxx</DataSource>
+                                    <BindingPath>zy_brjbxx/xm</BindingPath>
+                                 </ValueBinding>
+                                 <ContentReadonly>False</ContentReadonly>
+                                 <StartBorderText>[</StartBorderText>
+                                 <EndBorderText>]</EndBorderText>
+                                 <BorderElementColor />
+                                 <Name>xm</Name>
+                                 <BackgroundText>姓名</BackgroundText>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <InnerID>1887</InnerID>
+                                 <Text>  性别:</Text>
+                              </Element>
+                              <Element xsi:type="XInputField" StyleIndex="4">
+                                 <InnerID>461</InnerID>
+                                 <ID>F8D8D127-729E-4113-9BD4-A0C7918C331D</ID>
+                                 <ToolTip>请输入性别</ToolTip>
+                                 <EnableValueValidate>true</EnableValueValidate>
+                                 <ValueBinding>
+                                    <DataSource>zy_brjbxx</DataSource>
+                                    <BindingPath>zy_brjbxx/sex</BindingPath>
+                                 </ValueBinding>
+                                 <ContentReadonly>False</ContentReadonly>
+                                 <StartBorderText>[</StartBorderText>
+                                 <EndBorderText>]</EndBorderText>
+                                 <BorderElementColor />
+                                 <Name>sex</Name>
+                                 <BackgroundText>性别</BackgroundText>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <InnerID>1888</InnerID>
+                                 <Text>年龄:</Text>
+                              </Element>
+                              <Element xsi:type="XInputField" StyleIndex="4">
+                                 <InnerID>465</InnerID>
+                                 <ID>294E8883-886E-4F41-B60C-AA5FCA5DC21E</ID>
+                                 <ToolTip>请输入年龄</ToolTip>
+                                 <EnableValueValidate>true</EnableValueValidate>
+                                 <ValueBinding>
+                                    <DataSource>zy_brjbxx</DataSource>
+                                    <BindingPath>zy_brjbxx/nl</BindingPath>
+                                 </ValueBinding>
+                                 <ContentReadonly>False</ContentReadonly>
+                                 <StartBorderText>[</StartBorderText>
+                                 <EndBorderText>]</EndBorderText>
+                                 <BorderElementColor />
+                                 <Name>nl</Name>
+                                 <BackgroundText>年龄</BackgroundText>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <InnerID>1889</InnerID>
+                                 <Text>婚姻:</Text>
+                              </Element>
+                              <Element xsi:type="XInputField" StyleIndex="4">
+                                 <InnerID>469</InnerID>
+                                 <ID>C563AD89-7F13-4A03-93C1-7CE6E8A55828</ID>
+                                 <ToolTip>请输入婚姻状况</ToolTip>
+                                 <EnableValueValidate>true</EnableValueValidate>
+                                 <ValueBinding>
+                                    <DataSource>zy_brjbxx</DataSource>
+                                    <BindingPath>zy_brjbxx/hfzk</BindingPath>
+                                 </ValueBinding>
+                                 <ContentReadonly>False</ContentReadonly>
+                                 <StartBorderText>[</StartBorderText>
+                                 <EndBorderText>]</EndBorderText>
+                                 <BorderElementColor />
+                                 <Name>hfzk</Name>
+                                 <BackgroundText>婚姻状况</BackgroundText>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <InnerID>1890</InnerID>
+                                 <Text>民族:</Text>
+                              </Element>
+                              <Element xsi:type="XInputField" StyleIndex="4">
+                                 <InnerID>473</InnerID>
+                                 <ID>7154762a-e06e-46a5-83f6-53138cac66e5</ID>
+                                 <ToolTip>请输入民族</ToolTip>
+                                 <EnableValueValidate>true</EnableValueValidate>
+                                 <ValueBinding>
+                                    <DataSource>zy_brjbxx</DataSource>
+                                    <BindingPath>zy_brjbxx/mz</BindingPath>
+                                 </ValueBinding>
+                                 <ContentReadonly>False</ContentReadonly>
+                                 <StartBorderText>[</StartBorderText>
+                                 <EndBorderText>]</EndBorderText>
+                                 <BorderElementColor />
+                                 <Name>mz</Name>
+                                 <BackgroundText>民族</BackgroundText>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <InnerID>1891</InnerID>
+                                 <Text> 籍贯:</Text>
+                              </Element>
+                              <Element xsi:type="XInputField" StyleIndex="4">
+                                 <InnerID>478</InnerID>
+                                 <ID>5FEBF1BA-577A-410A-B5AF-DDD7080C3B5D</ID>
+                                 <ToolTip>请输入籍贯</ToolTip>
+                                 <EnableValueValidate>true</EnableValueValidate>
+                                 <ValueBinding>
+                                    <DataSource>zy_brjbxx</DataSource>
+                                    <BindingPath>zy_brjbxx/jg</BindingPath>
+                                 </ValueBinding>
+                                 <ContentReadonly>False</ContentReadonly>
+                                 <StartBorderText>[</StartBorderText>
+                                 <EndBorderText>]</EndBorderText>
+                                 <BorderElementColor />
+                                 <Name>jg</Name>
+                                 <BackgroundText>籍贯</BackgroundText>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>479</InnerID>
+                              </Element>
+                           </XElements>
+                           <ColSpan>2</ColSpan>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>1793</InnerID>
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1878</InnerID>
+                                 <AutoCreate>true</AutoCreate>
+                              </Element>
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <InnerID>480</InnerID>
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>1</InnerID>
+                           <XElements>
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <InnerID>1892</InnerID>
+                                 <Text>出生地: </Text>
+                              </Element>
+                              <Element xsi:type="XInputField" StyleIndex="4">
+                                 <InnerID>488</InnerID>
+                                 <ID>A7DB5475-9569-4B25-B786-F34CE41931B1</ID>
+                                 <ToolTip>请输入出生地</ToolTip>
+                                 <EnableValueValidate>true</EnableValueValidate>
+                                 <ValueBinding>
+                                    <DataSource>zy_brjbxx</DataSource>
+                                    <BindingPath>zy_brjbxx/cs_dz</BindingPath>
+                                 </ValueBinding>
+                                 <ContentReadonly>False</ContentReadonly>
+                                 <StartBorderText>[</StartBorderText>
+                                 <EndBorderText>]</EndBorderText>
+                                 <BorderElementColor />
+                                 <Name>cs_dz</Name>
+                                 <BackgroundText>出生地</BackgroundText>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <InnerID>1893</InnerID>
+                                 <Text>                   户籍所在地:</Text>
+                              </Element>
+                              <Element xsi:type="XInputField" StyleIndex="4">
+                                 <InnerID>514</InnerID>
+                                 <ID>C455D928-0AB2-4619-BF7E-C2F6FB3CDA05</ID>
+                                 <ToolTip>请输入户口地址</ToolTip>
+                                 <EnableValueValidate>true</EnableValueValidate>
+                                 <ValueBinding>
+                                    <DataSource>zy_brjbxx</DataSource>
+                                    <BindingPath>zy_brjbxx/hu_dz</BindingPath>
+                                 </ValueBinding>
+                                 <ContentReadonly>False</ContentReadonly>
+                                 <StartBorderText>[</StartBorderText>
+                                 <EndBorderText>]</EndBorderText>
+                                 <BorderElementColor />
+                                 <Name>hu_dz</Name>
+                                 <BackgroundText>户口地址</BackgroundText>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>515</InnerID>
+                              </Element>
+                           </XElements>
+                           <ColSpan>2</ColSpan>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>1794</InnerID>
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1879</InnerID>
+                                 <AutoCreate>true</AutoCreate>
+                              </Element>
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <InnerID>516</InnerID>
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>2</InnerID>
+                           <XElements>
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <InnerID>1894</InnerID>
+                                 <Text>职业:</Text>
+                              </Element>
+                              <Element xsi:type="XInputField" StyleIndex="4">
+                                 <InnerID>522</InnerID>
+                                 <ID>2643AA52-0024-459E-950E-AFA6903F2F26</ID>
+                                 <ToolTip>请输入职业</ToolTip>
+                                 <EnableValueValidate>true</EnableValueValidate>
+                                 <ValueBinding>
+                                    <DataSource>zy_brjbxx</DataSource>
+                                    <BindingPath>zy_brjbxx/zy</BindingPath>
+                                 </ValueBinding>
+                                 <ContentReadonly>False</ContentReadonly>
+                                 <StartBorderText>[</StartBorderText>
+                                 <EndBorderText>]</EndBorderText>
+                                 <BorderElementColor />
+                                 <Name>zy</Name>
+                                 <BackgroundText>职业</BackgroundText>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <InnerID>1895</InnerID>
+                                 <Text>                        单位:</Text>
+                              </Element>
+                              <Element xsi:type="XInputField" StyleIndex="4">
+                                 <InnerID>550</InnerID>
+                                 <ID>16C4857E-FABD-4088-B917-8A0652E6F282</ID>
+                                 <ToolTip>请输入工作单位及地址</ToolTip>
+                                 <EnableValueValidate>true</EnableValueValidate>
+                                 <ValueBinding>
+                                    <DataSource>zy_brjbxx</DataSource>
+                                    <BindingPath>zy_brjbxx/dwmc</BindingPath>
+                                 </ValueBinding>
+                                 <ContentReadonly>False</ContentReadonly>
+                                 <StartBorderText>[</StartBorderText>
+                                 <EndBorderText>]</EndBorderText>
+                                 <BorderElementColor />
+                                 <Name>dwmc</Name>
+                                 <BackgroundText>工作单位及地址</BackgroundText>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>551</InnerID>
+                              </Element>
+                           </XElements>
+                           <ColSpan>2</ColSpan>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>1795</InnerID>
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1880</InnerID>
+                                 <AutoCreate>true</AutoCreate>
+                              </Element>
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <InnerID>552</InnerID>
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>3</InnerID>
+                           <XElements>
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <InnerID>1896</InnerID>
+                                 <Text>电话:</Text>
+                              </Element>
+                              <Element xsi:type="XInputField" StyleIndex="4">
+                                 <InnerID>558</InnerID>
+                                 <ID>7D5FA4FF-6B7E-4A59-BC32-63E30BEF69DA</ID>
+                                 <ToolTip>请输入联系电话</ToolTip>
+                                 <EnableValueValidate>true</EnableValueValidate>
+                                 <ValueBinding>
+                                    <DataSource>zy_brjbxx</DataSource>
+                                    <BindingPath>zy_brjbxx/phone</BindingPath>
+                                 </ValueBinding>
+                                 <ContentReadonly>False</ContentReadonly>
+                                 <StartBorderText>[</StartBorderText>
+                                 <EndBorderText>]</EndBorderText>
+                                 <BorderElementColor />
+                                 <Name>phone</Name>
+                                 <BackgroundText>联系电话</BackgroundText>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <InnerID>1897</InnerID>
+                                 <Text>                    身份证号码:</Text>
+                              </Element>
+                              <Element xsi:type="XInputField" StyleIndex="4">
+                                 <InnerID>585</InnerID>
+                                 <ID>136BF164-1893-4DB6-8F4A-3AF2A965681E</ID>
+                                 <ToolTip>请输入身份证号</ToolTip>
+                                 <EnableValueValidate>true</EnableValueValidate>
+                                 <ValueBinding>
+                                    <DataSource>zy_brjbxx</DataSource>
+                                    <BindingPath>zy_brjbxx/sfzh</BindingPath>
+                                 </ValueBinding>
+                                 <ContentReadonly>False</ContentReadonly>
+                                 <StartBorderText>[</StartBorderText>
+                                 <EndBorderText>]</EndBorderText>
+                                 <BorderElementColor />
+                                 <Name>sfzh</Name>
+                                 <BackgroundText>身份证号</BackgroundText>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>586</InnerID>
+                              </Element>
+                           </XElements>
+                           <ColSpan>2</ColSpan>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>1796</InnerID>
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1881</InnerID>
+                                 <AutoCreate>true</AutoCreate>
+                              </Element>
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <InnerID>587</InnerID>
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>4</InnerID>
+                           <XElements>
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <InnerID>1898</InnerID>
+                                 <Text>详细住址:</Text>
+                              </Element>
+                              <Element xsi:type="XInputField" StyleIndex="4">
+                                 <InnerID>595</InnerID>
+                                 <ID>6DD143BF-A26A-4487-A264-2F4D1370789C</ID>
+                                 <ToolTip>请输入现地址</ToolTip>
+                                 <EnableValueValidate>true</EnableValueValidate>
+                                 <ValueBinding>
+                                    <DataSource>zy_brjbxx</DataSource>
+                                    <BindingPath>zy_brjbxx/xian_dz</BindingPath>
+                                 </ValueBinding>
+                                 <ContentReadonly>False</ContentReadonly>
+                                 <StartBorderText>[</StartBorderText>
+                                 <EndBorderText>]</EndBorderText>
+                                 <BorderElementColor />
+                                 <Name>xian_dz</Name>
+                                 <BackgroundText>现地址</BackgroundText>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>596</InnerID>
+                              </Element>
+                           </XElements>
+                           <ColSpan>2</ColSpan>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>1797</InnerID>
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1882</InnerID>
+                                 <AutoCreate>true</AutoCreate>
+                              </Element>
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <InnerID>597</InnerID>
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>5</InnerID>
+                           <XElements>
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <InnerID>1899</InnerID>
+                                 <Text>入院日期:</Text>
+                              </Element>
+                              <Element xsi:type="XInputField" StyleIndex="4">
+                                 <InnerID>605</InnerID>
+                                 <ID>712DBF5F-E853-4459-851B-30C61A6F1AD1</ID>
+                                 <ToolTip>请输入入院日期</ToolTip>
+                                 <EnableValueValidate>true</EnableValueValidate>
+                                 <ValueBinding>
+                                    <DataSource>zy_brjbxx</DataSource>
+                                    <BindingPath>zy_brjbxx/ryrq</BindingPath>
+                                 </ValueBinding>
+                                 <ContentReadonly>False</ContentReadonly>
+                                 <StartBorderText>[</StartBorderText>
+                                 <EndBorderText>]</EndBorderText>
+                                 <BorderElementColor />
+                                 <Name>ryrq</Name>
+                                 <BackgroundText>入院日期</BackgroundText>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <InnerID>1900</InnerID>
+                                 <Text>                病史陈述者:</Text>
+                              </Element>
+                              <Element xsi:type="XInputField" StyleIndex="4">
+                                 <InnerID>628</InnerID>
+                                 <ID>2000002104</ID>
+                                 <ToolTip>请输入病史陈述者姓名</ToolTip>
+                                 <EnableValueValidate>true</EnableValueValidate>
+                                 <ValueBinding>
+                                    <DataSource>-</DataSource>
+                                    <BindingPath>-/emr_2000002104</BindingPath>
+                                 </ValueBinding>
+                                 <ContentReadonly>False</ContentReadonly>
+                                 <StartBorderText>[</StartBorderText>
+                                 <EndBorderText>]</EndBorderText>
+                                 <BorderElementColor />
+                                 <Name>emr_2000002104</Name>
+                                 <BackgroundText>病史陈述者姓名</BackgroundText>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>629</InnerID>
+                              </Element>
+                           </XElements>
+                           <ColSpan>2</ColSpan>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>1798</InnerID>
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1883</InnerID>
+                                 <AutoCreate>true</AutoCreate>
+                              </Element>
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+                  <Element xsi:type="XTextTableRow">
+                     <InnerID>630</InnerID>
+                     <XElements>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>6</InnerID>
+                           <XElements>
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <InnerID>1901</InnerID>
+                                 <Text>主诉：</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <InnerID>1902</InnerID>
+                                 <Text>腰部疼痛2月余。</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="6">
+                                 <InnerID>644</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <InnerID>1903</InnerID>
+                                 <Text>现病史：</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <InnerID>1904</InnerID>
+                                 <Text>患者诉</Text>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <InnerID>1905</InnerID>
+                                 <Text>2个多月前无明显诱因下开</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <InnerID>1906</InnerID>
+                                 <Text>无尿“腰椎间盘突出”收入院进一步诊治，病后，食欲、睡眠正常，无大小便失禁，无午后潮热现象。</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="7">
+                                 <InnerID>710</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <InnerID>1907</InnerID>
+                                 <Text>既往史：</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <InnerID>1908</InnerID>
+                                 <Text>既往有颈椎、腰椎疾病史，时有疼痛，有胃炎病史，现一直服药治疗。否认有高血压、冠心病、心脏病病史，否认有肝炎、结核等传染病史。无药物、食物过敏史。预防接种史未详。</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="7">
+                                 <InnerID>796</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <InnerID>1909</InnerID>
+                                 <Text>个人史</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <InnerID>1910</InnerID>
+                                 <Text>：出生及生长于原籍，无外地长期居住史。一直在家务农，否认到过流行病疫区，无烟酒嗜好。否认冶游史。已在城厢镇大型接种点接种3剂新冠疫苗。</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="7">
+                                 <InnerID>868</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <InnerID>1911</InnerID>
+                                 <Text>月经及生育史:</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <InnerID>1912</InnerID>
+                                 <Text>14天，已绝经，无痛经史。已婚，爱人、子女均健康。</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="7">
+                                 <InnerID>902</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="5">
+                                 <InnerID>1913</InnerID>
+                                 <Text>家族史：</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <InnerID>1914</InnerID>
+                                 <Text>父母健在，非近亲婚配，家族中无遗传病史。</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="7">
+                                 <InnerID>928</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <InnerID>1915</InnerID>
+                                 <Text>                             </Text>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <InnerID>1916</InnerID>
+                                 <Text>   </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="8">
+                                 <InnerID>1917</InnerID>
+                                 <Text>体格检查</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="7">
+                                 <InnerID>966</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <InnerID>1918</InnerID>
+                                 <Text>     T 36.5℃，P 66次/分，R 20次/分，BP 124/80mmHg。体重 37kg，身高 152cm。</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="7">
+                                 <InnerID>1028</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <InnerID>1919</InnerID>
+                                 <Text>一</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="2">
+                                 <InnerID>1920</InnerID>
+                                 <Text>般情况：</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <InnerID>1921</InnerID>
+                                 <Text>发育正常，营养中等。神清，精神可，急性病容，言语清晰，自动体位，查体合作。</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="2">
+                                 <InnerID>1922</InnerID>
+                                 <Text>皮肤粘膜</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <InnerID>1923</InnerID>
+                                 <Text>：皮肤弹性可，干燥。全身皮肤粘膜无黄染，无皮下结节及皮疹，无皮下出血点，无蜘蛛痣、</Text>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <InnerID>1924</InnerID>
+                                 <Text>瘢痕、溃疡。</Text>
+                              </Element>
+                              <Element xsi:type="XLineBreak">
+                                 <InnerID>1123</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="2">
+                                 <InnerID>1925</InnerID>
+                                 <Text>淋巴结：</Text>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <InnerID>1926</InnerID>
+                                 <Text>全身浅表淋巴结未触及肿大。</Text>
+                              </Element>
+                              <Element xsi:type="XLineBreak">
+                                 <InnerID>1141</InnerID>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <InnerID>1927</InnerID>
+                                 <Text>头部及其器官：3.0mm，对光</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <InnerID>1928</InnerID>
+                                 <Text>咽充血（</Text>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <InnerID>1929</InnerID>
+                                 <Text>-），咽后壁无充血滤泡，双侧扁桃体无肿大。</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="2">
+                                 <InnerID>1930</InnerID>
+                                 <Text>颈部</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <InnerID>1931</InnerID>
+                                 <Text>：两侧对称，柔软，无抵抗。气管居中，甲状腺无肿大。未闻及血管杂音。无颈静脉怒张。</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1224</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="2">
+                                 <InnerID>1932</InnerID>
+                                 <Text>胸部</Text>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <InnerID>1933</InnerID>
+                                 <Text>：胸廓：两侧对称无畸形，无桶状胸。无</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <InnerID>1934</InnerID>
+                                 <Text>               肺脏：呼吸频率20次/分，两肺呼吸音清，未闻及干湿性罗音。</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1290</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="2">
+                                 <InnerID>1935</InnerID>
+                                 <Text>心脏：</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <InnerID>1936</InnerID>
+                                 <Text>心前区无隆心率66次/分，节律齐，未闻及病理性杂音。</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1321</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="2">
+                                 <InnerID>1937</InnerID>
+                                 <Text>周围血管：</Text>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <InnerID>1938</InnerID>
+                                 <Text>未发现毛细血管异常搏动，无血管杂音。</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1346</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="2">
+                                 <InnerID>1939</InnerID>
+                                 <Text>腹部：</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <InnerID>1940</InnerID>
+                                 <Text>腹软，无压痛及反跳痛，肝脾肋下未及，肝区、双肾区无叩击痛，肠鸣音正常。外生殖器、肛门、会阴：未检。</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1400</InnerID>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="2">
+                                 <InnerID>1941</InnerID>
+                                 <Text>脊柱四肢</Text>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <InnerID>1942</InnerID>
+                                 <Text>：</Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="4">
+                                 <InnerID>1943</InnerID>
+                                 <Text>脊柱四肢无畸形，双下肢无浮肿。腰部活动受限，腰椎椎体、椎间隙压痛（-），左侧椎旁肌肉压痛，左侧臀部压痛，其疼痛感放射至小腿后侧，双直腿抬高试验（左侧70°、右侧70°）及加强试验（-），“4”字征（-），膝跟腱反射正常。神经系统：生理反射存在，病理反射未引出。四肢肌力肌张力正常。专科情况：腰部活动受限，腰椎椎体、椎间隙压痛（-），左侧椎旁肌肉压痛，左侧臀部压痛，其疼痛感放射至小腿后侧，双直腿抬高试验（左侧70°、右侧70°）及加强试验（-），“4”字征（-），膝跟腱反射正常。</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1647</InnerID>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <InnerID>1944</InnerID>
+                                 <Text>                             </Text>
+                              </Element>
+                              <Element xsi:type="XString" StyleIndex="2">
+                                 <InnerID>1945</InnerID>
+                                 <Text>辅助检查</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1682</InnerID>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <InnerID>1946</InnerID>
+                                 <Text>暂缺。</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="7">
+                                 <InnerID>1687</InnerID>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <InnerID>1947</InnerID>
+                                 <Text>初步诊断：腰椎间盘突出</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="9">
+                                 <InnerID>1700</InnerID>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <InnerID>1948</InnerID>
+                                 <Text>入院时病例分型：              </Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="6">
+                                 <InnerID>1724</InnerID>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <InnerID>1949</InnerID>
+                                 <Text>                        主治医师：</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="6">
+                                 <InnerID>1755</InnerID>
+                              </Element>
+                              <Element xsi:type="XString">
+                                 <InnerID>1950</InnerID>
+                                 <Text>                  2024年03月19日  8PM</Text>
+                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="10">
+                                 <InnerID>1791</InnerID>
+                              </Element>
+                           </XElements>
+                           <ColSpan>2</ColSpan>
+                        </Element>
+                        <Element xsi:type="XTextTableCell" StyleIndex="3">
+                           <InnerID>1799</InnerID>
+                           <XElements>
+                              <Element xsi:type="XParagraphFlag">
+                                 <InnerID>1884</InnerID>
+                                 <AutoCreate>true</AutoCreate>
+                              </Element>
+                           </XElements>
+                        </Element>
+                     </XElements>
+                  </Element>
+               </XElements>
+               <Columns>
+                  <Element xsi:type="XTextTableColumn">
+                     <InnerID>447</InnerID>
+                     <Width>940.625</Width>
+                  </Element>
+                  <Element xsi:type="XTextTableColumn">
+                     <InnerID>448</InnerID>
+                     <Width>940.625</Width>
+                  </Element>
+               </Columns>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>1800</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+      <Element xsi:type="XTextFooter">
+         <InnerID>3</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>444</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+   </XElements>
+   <SerializeParameterValue>true</SerializeParameterValue>
+   <FileName>\File\Template\医疗文书\医疗文书\腰间盘突出.xml</FileName>
+   <FileFormat>xml</FileFormat>
+   <ContentStyles>
+      <Default xsi:type="DocumentContentStyle">
+         <FontName>宋体</FontName>
+         <FontSize>12</FontSize>
+      </Default>
+      <Styles>
+         <Style Index="0">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <Align>Center</Align>
+         </Style>
+         <Style Index="1">
+            <FontName>宋体</FontName>
+            <FontSize>18</FontSize>
+            <Bold>true</Bold>
+         </Style>
+         <Style Index="2">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <Bold>true</Bold>
+         </Style>
+         <Style Index="3">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <BorderWidth>1</BorderWidth>
+            <BorderLeft>true</BorderLeft>
+            <BorderBottom>true</BorderBottom>
+            <BorderTop>true</BorderTop>
+            <BorderRight>true</BorderRight>
+            <PaddingLeft>12.5</PaddingLeft>
+            <PaddingTop>9.375</PaddingTop>
+            <PaddingRight>12.5</PaddingRight>
+            <PaddingBottom>9.375</PaddingBottom>
+         </Style>
+         <Style Index="4">
+            <FontName>宋体</FontName>
+            <FontSize>10.5</FontSize>
+         </Style>
+         <Style Index="5">
+            <FontName>宋体</FontName>
+            <FontSize>10.5</FontSize>
+            <Bold>true</Bold>
+         </Style>
+         <Style Index="6">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <LineSpacingStyle>Space1pt5</LineSpacingStyle>
+         </Style>
+         <Style Index="7">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <LineSpacingStyle>Space1pt5</LineSpacingStyle>
+            <FirstLineIndent>-100</FirstLineIndent>
+            <LeftIndent>100</LeftIndent>
+         </Style>
+         <Style Index="8">
+            <FontName>黑体</FontName>
+            <FontSize>12</FontSize>
+            <Bold>true</Bold>
+         </Style>
+         <Style Index="9">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <LineSpacingStyle>Space1pt5</LineSpacingStyle>
+            <FirstLineIndent>100</FirstLineIndent>
+         </Style>
+         <Style Index="10">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <LineSpacingStyle>Space1pt5</LineSpacingStyle>
+            <FirstLineIndent>125</FirstLineIndent>
+         </Style>
+      </Styles>
+   </ContentStyles>
+   <Info>
+      <LicenseText>未注册|Unregister</LicenseText>
+      <CreationTime>1980-01-01T00:00:00</CreationTime>
+      <LastModifiedTime>2025-02-13T11:22:05.7045129+08:00</LastModifiedTime>
+      <LastPrintTime>1980-01-01T00:00:00</LastPrintTime>
+      <Operator>DCSoft.Writer Version:1.2023.2.14</Operator>
+      <NumOfPage>2</NumOfPage>
+   </Info>
+   <BodyText>姓名:[]  性别:[]年龄:[]婚姻:[]民族:[] 籍贯:[] 
+出生地: []                   户籍所在地:[] 
+职业:[]                        单位:[] 
+电话:[]                    身份证号码:[] 
+详细住址:[] 
+入院日期:[]                病史陈述者:[] 
+主诉：腰部疼痛2月余。
+现病史：患者诉2个多月前无明显诱因下开无尿“腰椎间盘突出”收入院进一步诊治，病后，食欲、睡眠正常，无大小便失禁，无午后潮热现象。
+既往史：既往有颈椎、腰椎疾病史，时有疼痛，有胃炎病史，现一直服药治疗。否认有高血压、冠心病、心脏病病史，否认有肝炎、结核等传染病史。无药物、食物过敏史。预防接种史未详。
+个人史：出生及生长于原籍，无外地长期居住史。一直在家务农，否认到过流行病疫区，无烟酒嗜好。否认冶游史。已在城厢镇大型接种点接种3剂新冠疫苗。
+月经及生育史:14天，已绝经，无痛经史。已婚，爱人、子女均健康。
+家族史：父母健在，非近亲婚配，家族中无遗传病史。
+                                体格检查
+     T 36.5℃，P 66次/分，R 20次/分，BP 124/80mmHg。体重 37kg，身高 152cm。
+一般情况：发育正常，营养中等。神清，精神可，急性病容，言语清晰，自动体位，查体合作。皮肤粘膜：皮肤弹性可，干燥。全身皮肤粘膜无黄染，无皮下结节及皮疹，无皮下出血点，无蜘蛛痣、瘢痕、溃疡。
+淋巴结：全身浅表淋巴结未触及肿大。
+头部及其器官：3.0mm，对光咽充血（-），咽后壁无充血滤泡，双侧扁桃体无肿大。颈部：两侧对称，柔软，无抵抗。气管居中，甲状腺无肿大。未闻及血管杂音。无颈静脉怒张。
+胸部：胸廓：两侧对称无畸形，无桶状胸。无               肺脏：呼吸频率20次/分，两肺呼吸音清，未闻及干湿性罗音。
+心脏：心前区无隆心率66次/分，节律齐，未闻及病理性杂音。
+周围血管：未发现毛细血管异常搏动，无血管杂音。
+腹部：腹软，无压痛及反跳痛，肝脾肋下未及，肝区、双肾区无叩击痛，肠鸣音正常。外生殖器、肛门、会阴：未检。
+脊柱四肢：脊柱四肢无畸形，双下肢无浮肿。腰部活动受限，腰椎椎体、椎间隙压痛（-），左侧椎旁肌肉压痛，左侧臀部压痛，其疼痛感放射至小腿后侧，双直腿抬高试验（左侧70°、右侧70°）及加强试验（-），“4”字征（-），膝跟腱反射正常。神经系统：生理反射存在，病理反射未引出。四肢肌力肌张力正常。专科情况：腰部活动受限，腰椎椎体、椎间隙压痛（-），左侧椎旁肌肉压痛，左侧臀部压痛，其疼痛感放射至小腿后侧，双直腿抬高试验（左侧70°、右侧70°）及加强试验（-），“4”字征（-），膝跟腱反射正常。
+                             辅助检查
+暂缺。
+初步诊断：腰椎间盘突出
+入院时病例分型：              
+                        主治医师：
+                  2024年03月19日  8PM </BodyText>
+   <LocalConfig />
+   <PageSettings>
+      <StrictUsePageSize>false</StrictUsePageSize>
+   </PageSettings>
+</XTextDocument>

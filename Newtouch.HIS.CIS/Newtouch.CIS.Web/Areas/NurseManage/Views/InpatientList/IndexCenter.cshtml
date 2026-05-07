@@ -1,0 +1,371 @@
+﻿@using Newtouch.Infrastructure
+@{
+    ViewBag.Title = "护士站患者中心";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+<link href="@SiteUrl.GetStaticResourceScriptUrl("~/Content/css/cispage.css", false)" rel="stylesheet" />
+
+<script src="@SiteUrl.GetStaticResourceScriptUrl("~/js/layout/jquery.layout.js")"></script>
+<link href="@SiteUrl.GetStaticResourceScriptUrl("~/css/framework-ui-compact.css")" rel="stylesheet" />
+<script src="@SiteUrl.GetStaticResourceScriptUrl("~/js/wdtree/tree.js")"></script>
+<link href="@SiteUrl.GetStaticResourceScriptUrl("~/js/wdtree/tree.css")" rel="stylesheet" />
+<style>
+    .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
+        border: 1px solid #ddd;
+    }
+    .dv-left {
+        width: 15.5%;
+        float: left;
+    }
+    .dv-right {
+        width: 84.4%;
+        float: right;
+    }
+</style>
+<div id="dv_patleft" class="dv-left" style="height:99%; position:fixed;top:1px;border-radius: 4px;box-shadow: 0 0 3px #808080 inset;">
+    <div class="panel panel-default">
+        <div class="panel-heading navb-bg">
+            筛选条件
+        </div>
+        <table class="form" style="width:95%">
+            <tbody>
+                <tr id="srmTr">
+                    <th class="formTitle">姓名/住院号：</th>
+                    <td class="formValue">
+                        <input id="keyword" type="text" class="form-control">
+                    </td>
+                </tr>
+                <tr id="zybzTr">
+                    <th class="formTitle">在院状态：</th>
+                    <td class="formValue formDdlSelectorTd">
+                        <select class="form-control" id="zyzt">
+                            <option value="" id="qb">全部</option>
+                            <option value="zy" id="zy" selected>在院</option>
+                            <option value="cq" id="cq">出区</option>
+                            <option value="cy" id="cy">出院</option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="dv-left-tree" id="PatTreeList"></div>
+</div>
+<div class="dv-right" style="height:95%;">
+    @*导航栏*@
+    <ul class="nav nav-tabs  navb-bg" id="myTab" style="position:fixed;top:0px;z-index:100009;width:85%;">
+        <li role="presentation"><a href="#linkyzcx" role="tab" data-toggle="tab">医嘱查询</a></li>
+        <li role="presentation"><a href="#linkyzsh" role="tab" data-toggle="tab">医嘱审核</a></li>
+        <li role="presentation"><a href="#linkyzzx" role="tab" data-toggle="tab">医嘱执行(计费)</a></li>
+        <li role="presentation" class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">费用清单/打印<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li role="presentation"><a href="#linkfyyrq" role="tab" data-toggle="tab">费用清单</a></li>
+                <li role="presentation"><a href="#linkzxddy" role="tab" data-toggle="tab">执行单打印</a></li>
+                <li class="divider"></li>
+            </ul>
+        </li>
+        <li role="presentation"><a href="#linkyzty" role="tab" data-toggle="tab">医嘱退药</a></li>
+        <li role="presentation"><a href="#linkzyjz" role="tab" data-toggle="tab">住院记账</a></li>
+        <li role="presentation"><a href="#linkzytf" role="tab" data-toggle="tab">住院退费</a></li>
+        <li role="presentation"><a href="#linkzybl" role="tab" data-toggle="tab">住院病历</a></li>
+        <li role="presentation" class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">更多<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li role="presentation"><a href="#linkrqdj" role="tab" data-toggle="tab">入区登记</a></li>
+                <li role="presentation"><a href="#linkcqzh" role="tab" data-toggle="tab">出区召回</a></li>
+                <li class="divider"></li>
+                <li role="presentation"><a href="#linktwdlr" role="tab" data-toggle="tab">体温单录入</a></li>
+                <li role="presentation"><a href="#linkdtwdlr" role="tab" data-toggle="tab">多病人体温录入</a></li>
+                <li class="divider"></li>
+                <li><a href="#">.....</a></li>
+            </ul>
+        </li>
+    </ul>
+    <div style="margin-top:40px;">
+        <div class="tab-content">
+            @Html.Partial("MedicalorderQuery")@*医嘱查询*@
+            @Html.Partial("~/Areas/NurseManage/Views/InpatientList/OrderAudit.cshtml")@*医嘱审核*@
+            @Html.Partial("~/Areas/NurseManage/Views/InpatientList/OrderExecution.cshtml")@*医嘱执行*@
+            @Html.Partial("~/Areas/NurseManage/Views/InpatientList/InHosMedReturn.cshtml")@*医嘱退药*@
+            @Html.Partial("~/Areas/NurseManage/Views/InpatientList/InHosBookkeep.cshtml")@*住院记账*@
+            @Html.Partial("~/Areas/NurseManage/Views/InpatientList/InHosFeeRefund.cshtml")@*住院退费*@
+            @Html.Partial("~/Areas/NurseManage/Views/InpatientList/InHosFee.cshtml")@*费用一日清*@
+            @Html.Partial("~/Areas/NurseManage/Views/InpatientList/InHosPrint.cshtml")@*执行单打印*@
+            @Html.Partial("~/Areas/NurseManage/Views/InpatientList/InHosBlWriting.cshtml")@*病历文书*@
+            @Html.Partial("~/Areas/NurseManage/Views/InpatientList/InHosRegistration.cshtml")@*入区登记*@
+            @Html.Partial("~/Areas/NurseManage/Views/InpatientList/InHosRecallOutArea.cshtml")@*患者出区*@
+            @Html.Partial("~/Areas/NurseManage/Views/InpatientList/InHosQueryIndex.cshtml")@*体温单录入*@
+            @Html.Partial("~/Areas/NurseManage/Views/InpatientList/InHosNursingInput.cshtml")@*多体温单录入*@
+        </div>
+    </div>
+</div>
+
+<script>
+    window.alldataArray = [];
+    var currentPage = "yzcx";
+    var transferbool = false;
+    $('#myTab a:first').trigger('click'); //初始化显示哪个tab
+    var currentZyh = "";//住院号
+    var currentbq = "";//病区
+    var currentobj = JSON.parse(sessionStorage.getItem('currentobj'));
+    var fistblload = true;
+    var fistload = true;
+    debugger
+    //window.parent.$('#page-wrapper.nav-small #sidebar-nav > .nav-pills > li').removeClass('open');
+    if (currentobj) {
+        sessionStorage.removeItem("currentobj");
+        $("#zyh").val(currentobj.zyh);
+        currentZyh = currentobj.zyh;
+        currentbq = currentobj.selbq;
+        $('#kssj').val($.getDate({ date: currentobj.ryrq }));
+       
+    }
+
+    function transferPage($thishref) {
+        switch ($thishref) {
+            case "#linkyzcx":
+                $("#zybzTr").show();
+                $("#srmTr").show();
+                $('#cy').css('display', 'block');
+                $('#qb').css('display', 'block');
+                currentPage = "yzcx";
+                init_yzcx(currentZyh);
+                //getPatTreeList(currentZyh);
+                break;
+            case "#linkyzsh":
+                $("#zybzTr").hide();
+                $("#srmTr").show();
+                currentPage = "yzsh";
+                init_yzsh(currentZyh);
+                break;
+            case "#linkyzzx":
+                $("#zybzTr").hide();
+                $("#srmTr").show();
+                currentPage = "yzzx";
+                init_yzzx(currentZyh);
+                break;
+            case "#linkzyjz":
+                $("#zybzTr").show();
+                $("#srmTr").show();
+                $('#cy').css('display', 'none');
+                $('#qb').css('display', 'none');
+                $("#zyzt").val("zy");
+                currentPage = "zyjz";
+                init_zyjz(currentZyh);
+                break;
+            case "#linkzytf":
+                $("#zybzTr").show();
+                $("#srmTr").show();
+                $('#cy').css('display', 'none');
+                $('#qb').css('display', 'none');
+                currentPage = "zytf";
+                $("#zyzt").val("zy");
+                init_zytf(currentZyh);
+                break;
+            case "#linkyzty":
+                $("#zybzTr").hide();
+                $("#srmTr").show();
+                currentPage = "yzty";
+                init_yzty(currentZyh);
+                break;
+            case "#linkfyyrq":
+                $("#zybzTr").show();
+                $('#cy').css('display', 'block');
+                $('#qb').css('display', 'block');
+                currentPage = "fyyrq";
+                init_fyyrq(currentZyh);
+                break;
+            case "#linkzxddy":
+                $("#zybzTr").show();
+                $('#cy').css('display', 'block');
+                $('#qb').css('display', 'block');
+                currentPage = "zxddy";
+                init_zxddy(currentZyh);
+                break;
+            case "#linkrqdj":
+                $("#srmTr").show();
+                $("#zybzTr").hide();
+                currentPage = "rqdj";
+                init_rqdj();
+                break;
+            case "#linkcqzh":
+                $("#srmTr").hide();
+                $("#zybzTr").hide();
+                currentPage = "cqzh";
+                init_cqzh();
+                break;
+            case "#linktwdlr":
+                $("#zybzTr").show();
+                $("#srmTr").show();
+                $('#cy').css('display', 'block');
+                $('#qb').css('display', 'block');
+                currentPage = "twdlr";
+                init_twdlr(currentZyh);
+                break;
+            case "#linkdtwdlr":
+                $("#zybzTr").show();
+                $("#srmTr").show();
+                $('#cy').css('display', 'block');
+                $('#qb').css('display', 'block');
+                currentPage = "dtwdlr";
+                init_dtwdlr(currentZyh);
+                break;
+            case "#linkzybl":
+                $("#srmTr").hide();
+                $("#zybzTr").hide();
+                currentPage = "zybl";
+                init_zybl(currentbq);
+                break;
+        }
+    }
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        transferPage($(this).attr('href'));
+        transferbool = false;
+    });
+
+    $(function () {
+        //$(".divtab").height(window.innerHeight - 90);
+       
+        getPatTreeList();
+        //btn_search();
+        //搜索病人信息
+        //$('#keyword').keyup(function () {
+        //    PageTree();
+        //});
+        $('#keyword').on('keyup', debounce(function() {
+            PageTree();
+        }, 800));
+
+        $('#zyzt').change(function () {
+            PageTree();
+            //getPatTreeList();
+        });
+        tabInit();
+    })
+   
+    function tabInit()
+    {
+        
+        if (fistblload) {
+            $.ajax({
+                url: '/Login/GetUALoginAddres',
+                data: { appId: "EMR" },
+                type: "post",
+                async: true,
+                dataType: "json",
+                success: function (ajaxResp) {
+                    if (ajaxResp && ajaxResp.data) {
+                        
+                        var bluaAddr = ajaxResp.data;
+                        var bldataUrl = bluaAddr + "&returnUrl=" + encodeURIComponent("/MedicalRecordManage/PatInfo/Index");
+                        $('#iframeblyl').attr("src", bldataUrl);
+                        fistblload = false;
+                    }
+                }
+            });
+        }
+        if (fistload) {
+            $.ajax({
+                url: '/Login/GetUALoginAddres',
+                data: { appId: "SETT" },
+                type: "post",
+                async: true,
+                dataType: "json",
+                success: function (ajaxResp) {
+                    if (ajaxResp && ajaxResp.data) {
+                        
+                        var uaAddr = ajaxResp.data;
+                        var dataUrl = uaAddr + "&returnUrl=" + encodeURIComponent("/HospitalizationManage/BookkeepInHos/Index");
+                        var tfdataUrl = uaAddr + "&returnUrl=" + encodeURIComponent("/HospitalizationManage/InpatientRefund/Index");
+                        $('#iframezyjz').attr("src", dataUrl);
+                        $('#iframezytf').attr("src", tfdataUrl);
+                        fistload = false;
+                    }
+                }
+            });
+        }
+    }
+   
+  @** 防抖
+  * @param {Function} fn 要执行的函数
+  * @param {Number} time 延迟时间(毫秒)
+  * @param {Boolean} immediate 是否立即执行一次*@
+
+    function debounce(fn, time, immediate) {
+        let timer = null;
+        return function () {
+            const context = this;
+            const args = arguments;
+
+            if (timer) clearTimeout(timer);
+
+            if (immediate && !timer) {
+                fn.apply(context, args);
+            }
+
+            timer = setTimeout(() => {
+                timer = null;
+                if (!immediate) {
+                    fn.apply(context, args);
+                }
+            }, time);
+        };
+    }
+
+    function PageTree()
+    {
+        switch (currentPage) {
+            case "yzcx":
+                getPatTreeList();
+                break;
+            case "yzsh":
+                getYzshTreeList();
+                break;
+            case "yzzx":
+                getYzzxTreeList();
+                break;
+            case "zyjz":
+                getZyjzTreeList();
+                break;
+            case "zytf":
+                getZytfTreeList();
+                break;
+            case "yzty":
+                getYztyTreeList();
+                break;
+            case "fyyrq":
+                getFyyrqTreeList();
+                break;
+            case "rqdj":
+                getRqdjTreeList();
+                break;
+            case "twdlr":
+                getTwdlrTreeList();
+                break;
+            case "dtwdlr":
+                getPatTwdsTreeList();
+                break;
+            case "zxddy":
+                getZxxdyTreeList();
+                break;
+        }
+    }
+
+    //function getPatTreeList() {
+    //    $("#PatTreeList").treeview({
+    //        height: $(window).height(),
+    //        slimscroll: false,
+    //        url: "/NurseManage/InpatientList/GetPatWardTree?zyzt=" + $('#zyzt').val() + "&keyword=" + $('#keyword').val(),
+    //        onnodeclick: function (item) {
+    //            if (item.value && item.Ex1 == "c") {
+    //                alert(23);
+    //                $("#zyh").val(item.value);
+    //                $('#kssj').val($.getDate({ date: item.Ex5 }));
+    //                btn_search();
+    //            }
+    //        }
+    //    });
+    //}
+
+</script>

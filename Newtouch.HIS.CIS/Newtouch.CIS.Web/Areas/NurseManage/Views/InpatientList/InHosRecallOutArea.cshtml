@@ -1,0 +1,182 @@
+﻿@using Newtouch.Infrastructure;
+@{
+    ViewBag.Title = "护士站患者中心-出区召回";
+    var reportUrl = Newtouch.Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("ReportUrl");
+    var ReportSystemCode = Newtouch.Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("ReportSystemCode");
+    var opr = Newtouch.Common.Operator.OperatorProvider.GetCurrent();
+}
+
+
+<div id="linkcqzh" role="tabpanel" class="tab-pane" style="width:100%;margin-right: 5px; border:solid 1px #ddd; margin-top: 3px;">
+    <form name="form1">
+        <div class="panel panel-default">
+            <div class="panel-heading navb-bg">
+                筛选条件
+            </div>
+            <div>
+                <table class="form">
+                    <tr>
+                        <th class="formTitle">姓名：</th>
+                        <td class="formValue">
+                            <input id="txt_zhname" class="form-control" placeholder="姓名" />
+                        </td>
+                        <th class="formTitle">开始日期：</th>
+                        <td class="formValue">
+                            <input id="txt_zhksrq" class="form-control input-wdatepicker formClearIgnore" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd' })" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd', onpicked: function () { refleshPatientList(); } })" value="@DateTime.Now.ToString("yyyy-MM-01")" />
+                        </td>
+                        <th class="formTitle">结束日期：</th>
+                        <td class="formValue">
+                            <input id="txt_zhjsrq" class="form-control input-wdatepicker formClearIgnore" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd' })" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd', onpicked: function () { refleshPatientList(); } })" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                        </td>
+                        <td class="formTitle">
+                            <input type="button" id="btncqzh_search" class="btn btn-md btn-primary" value="查询" />
+                        </td>
+                        <td colspan="1"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </form>
+    <div class="gridPanel" style="width: 100%;background-color: #fff;">
+        <table id="gridPatCqzhList"></table>
+        <div id="gridCqzhPager"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    function init_cqzh()
+    {
+        $("#PatTreeList").treeview({
+            height: $(window).height() - 40,
+            slimscroll: false,
+            showcheck: false,
+            url: "/NurseManage/EntryRegistration/TreeViewdata",
+            param: {},
+            oncheckboxclick: null,
+            onnodeclick: function (item) {
+                var callbackFuncName = 'PatTreeListcqzh_onnodeclick';
+                if (window[callbackFuncName] && typeof window[callbackFuncName] === 'function') {
+                    window[callbackFuncName](item);
+                }
+            }
+
+        });
+        DefaultZhCheck();
+    }
+    //默认选中根节点.
+    function DefaultZhCheck() {
+        var firstid = $("div[id^='PatTreeList_']:first").attr("id").replace("PatTreeList_", "");//根节点病区代码
+        var addstyleid = 'PatTreeList_' + firstid;
+        var item = new Object();
+        item.id = firstid;
+        $("#" + addstyleid + "").addClass('bbit-tree-selected');//增加选中样式
+        PatTreeListcqzh_onnodeclick(item);
+    }
+    var bqdm = null;
+    //$(".dv-body").height($(window).height());
+    //$(".dv-body").width($(window).width());
+    //var rightWidth = $(".Newtouch_iframe", parent.document).width() - $(".dv-left").width() - 5;
+    //$(".dv-right").width(rightWidth - 20);
+    function PatTreeListcqzh_onnodeclick(item) {
+
+        bqdm = item.id;
+        GetPatientCqzhList(bqdm);
+        refleshPatientList();
+    }
+    //刷新事件
+    function refleshPatientList() {
+        $("#btncqzh_search").trigger('click');
+    }
+    $("#btncqzh_search").click(function () {
+        var keyValue = bqdm;
+        if (!!!keyValue) {
+            $.modalAlert("请选中病区", 'warning');
+            return;
+        }
+        if ($('#txt_zhksrq').val() && $('#txt_zhjsrq').val() && ($('#txt_zhksrq').val() > $('#txt_zhjsrq').val())) {
+            $.modalAlert("开始日期不能大于结束时间", 'warning');
+            return;
+        }
+        $("#gridPatCqzhList").jqGrid('setGridParam', {
+            postData: { keyword: $('#txt_zhname').val(), ksrq: $('#txt_zhksrq').val(), jsrq: $('#txt_zhjsrq').val(), bqdm: bqdm },
+        }).trigger('reloadGrid'); //重新加载当前表格
+    });
+    // 查询条件
+    function getSearchzhPostData() {
+        var keyword = $('#txt_zhname').val();
+        var ksrq = $('#txt_zhksrq').val();
+        var jsrq = $('#txt_zhjsrq').val();
+        return { keyword: keyword, ksrq: ksrq, jsrq: jsrq };
+
+    }
+    function GetPatientCqzhList(bqdm) {
+        var $gridList = $("#gridPatCqzhList");
+        var Querydata = getSearchzhPostData();
+        Querydata["bqdm"] = bqdm;
+        //alert(bqdm);
+        $gridList.dataGrid({
+            //获取出区待结算病人信息
+            url: "/EntryRegistration/GetOutAreaPatlist",
+            postData: Querydata,
+            dataType: "json",
+            height: $(window).height() - 155,
+            //width: $(".Newtouch_iframe", parent.document).width() - $(".dv-left").width() - 5,
+            autowidth: true,//根据父容器宽度自适应调整
+            shrinkToFit: false,//滚动条
+            //unwritten: false,
+            //multiselect: true,
+            colModel: [
+               { label: 'Id', name: 'Id', hidden: true },
+               { label: '住院号', name: 'zyh', align: 'center', width: 80 },
+               { label: '姓名', name: 'xm', align: 'center', width: 100 },
+               {
+                   label: '性别', name: 'sex', align: 'center', width: 40, formatter: function (val) {
+                       return $.getGender(val);
+                   }
+               },
+               { label: '年龄', name: 'nl', align: 'center', width: 40 },
+                { label: '床号', name: 'cwmc', align: 'center', width: 80 },
+               { label: '入院日期', name: 'ryrq', align: 'center', width: 150, formatter: "date", formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } },
+               { label: '费用类型', name: 'brxzmc', align: 'center', width: 80 },
+               { label: '入院诊断', name: 'zzdmc', align: 'center', width: 120 },
+
+               { label: '出区日期', name: 'cqrq', align: 'center', width: 150, formatter: "date", formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } },
+               { label: '床位医生', name: 'ysxm', align: 'center', width: 100 },
+               {
+                   label: "操作", name: "zyh", align: "center", width: 80,
+                   formatter: function (cellvalue) {
+                       return "<a href=\#\" onclick='recall(\"" + cellvalue + "\")'' title='出区召回' style='text-decoration: none;color: #dd4b39;cursor: pointer;'>召  回</a>";
+                   }
+               }
+            ],
+            pager: "#gridPager",
+            sortname: 'zyh asc',
+            viewrecords: true,
+        });
+    }
+    //召回
+    function recall(zyh) {
+        if (zyh == null || zyh == "") {
+            $.modalAlert("请选择一个患者", 'warning');
+            return;
+        }
+        $.modalConfirm("确定要召回吗？", function (flag) {
+            if (flag) {
+                $.ajax({
+                    type: "POST",
+                    url: "/EntryRegistration/SaveRecallOutArea",
+                    data: { zyh: zyh, bqdm: bqdm },
+                    dataType: "json",
+                    success: function (ajaxresp) {
+                        if (ajaxresp.state == "success") {
+                            $.modalMsg('召回成功', 'success');
+                        }
+                        else {
+                            $.modalAlert(ajaxresp.message, 'warning');
+                        }
+                        refleshPatientList();
+                    }
+                });
+            }
+        });
+    }
+</script>  

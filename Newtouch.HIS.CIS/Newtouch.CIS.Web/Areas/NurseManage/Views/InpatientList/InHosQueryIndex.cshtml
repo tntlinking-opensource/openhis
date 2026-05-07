@@ -1,0 +1,409 @@
+﻿@using Newtouch.Infrastructure;
+@{
+    ViewBag.Title = "护士站患者中心-体温单录入";
+    var reportUrl = Newtouch.Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("ReportUrl");
+    var ReportSystemCode = Newtouch.Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("ReportSystemCode");
+    var opr = Newtouch.Common.Operator.OperatorProvider.GetCurrent();
+}
+<style type="text/css">
+
+    #gbox_gridtwdlrList .ui-jqgrid-btable tbody tr.jqgrow td {
+        border: solid 1px #ddd;
+    }
+
+</style>
+<div id="linktwdlr" role="tabpanel" class="tab-pane" style="width:100%;margin-right: 5px; border:solid 1px #ddd; margin-top: 3px;">
+    <form name="form1">
+        <div class="panel panel-default" style="margin-bottom:5px;">
+
+            <div style="padding: 2px 0;">
+                <table class="form">
+                    <tr>
+                        <th class="formTitle">姓名：</th>
+                        <td class="formValue">
+                            <label id="xm"></label>
+                        </td>
+                        <th class="formTitle">性别：</th>
+                        <td class="formValue">
+                            <label id="xb"></label>
+                        </td>
+                        <th class="formTitle">病区：</th>
+                        <td class="formValue">
+                            <label id="bq"></label>
+                        </td>
+                        <th class="formTitle">年龄：</th>
+                        <td class="formValue">
+                            <label id="nl"></label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="formTitle">日期：</th>
+                        <td class="formValue" colspan="4">
+                            <input id="twdkssj" type="text" class="form-control input-wdatepicker" style="width:42%; float:left;" value="@DateTime.Now.ToString("yyyy-MM-01")" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd' })" />
+                            <span style="margin-left:1%;float:left">—</span>
+                            <input id="twdjssj" type="text" class="form-control input-wdatepicker" style="width:43%; float:left;margin-left:1%;" value="@DateTime.Now.ToString("yyyy-MM-dd")" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd' })" />
+                        </td>
+                        <th class="formTitle"></th>
+                        <td class="formTitle"><input type="button" id="btntwlr_search" style="width:100%;" class="btn btn-primary" value=" 查 询 " /></td>
+                        @*<td class="formValue" hidden="hidden">
+                                <input type="button" id="btn_zyh" class="btn btn-default" value="住院号" />
+                            </td>*@
+                        @*<td class="formTitle"><span class="required">*</span>病区：</td>
+                            <td class="formValue">
+                                <select id="WardCode" class="form-control">
+                                    <option>
+                                        全部
+                                    </option>
+                                </select>
+                            </td>*@
+                        @*<td class="formTitle" hidden="hidden">显示已作废</td>
+                            <td class="formValue"></td>*@
+                    </tr>
+                    <tr>
+                        <td class="formValue" colspan="8">
+                            &nbsp;
+                            <input type="button" id="btn_add" class="btn btn-primary" value=" 新 录 入 " />
+                            &nbsp;
+                            <input type="button" id="btn_edit" class="btn btn-primary" value=" 修 改 " />
+                            &nbsp;
+                            <input type="button" id="btn_delete" class="btn btn-primary" value=" 作 废 " />
+                            &nbsp;
+                            <input type="button" id="btn_export" class="btn btn-primary" value=" 导 出 " />
+                            &nbsp;
+                            <input type="button" id="btn_twdquery" class="btn btn-primary" value=" 体 温 单 查 询 " />
+                            <input id="twdzyh" type="text" hidden="hidden" />
+                            <input onclick="showDelete()" hidden="hidden" value="0" name="isShowDelete" checked="checked" type="checkbox" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </form>
+    <div class="gridPanel" style="width: 100%;background-color: #fff;">
+        <table id="gridtwdlrList"></table>
+        @*<div id="gridPager"></div>*@
+    </div>
+</div>
+<script type="text/javascript">
+    var twdzyh = "";
+    var fistdjload = true;
+    $(function () {
+        initControl();
+        $("#twdzyh").val(currentZyh);
+        gridtwdlrList();
+    });
+    function showDelete() {
+        btntwlr_search();
+    }
+    function initControl() {
+        $('#twdzyh').keyupEnterEvent(function () {
+            btntwlr_search();
+        });
+        $('#btntwlr_search').click(function () {
+            btntwlr_search();
+        });
+    }
+
+    function init_twdlr(zyh)
+    {
+        if (!twdzyh)
+            twdzyh = zyh;
+        $("#twdzyh").val(twdzyh);
+        getTwdlrTreeList(twdzyh);
+        if (fisttfload) {
+            $("#gridtwdlrList").jqGrid('setFrozenColumns');//设置冻结列
+            fistdjload = false;
+            if (twdzyh){
+                $.ajax({
+                    url: "/NurseManage/InpatientVitalSigns/GetPatWard",
+                    data: { zyh: twdzyh },
+                    dataType: "json",
+                    async: false,
+                    success: function (data) {
+                        $("#xm").text(data.hzxm);
+                        if (data.sex == "1") {
+                            $("#xb").text("男");
+                        }
+                        else { $("#xb").text("女"); }
+                        $("#bq").text(data.bqmc);
+                        $("#nl").text(data.nl + "岁");
+                    }
+                });
+            }
+        }
+        //gridTwdlrList(zxzyh);
+
+    }
+    function getTwdlrTreeList()
+    {
+        $("#PatTreeList").treeview({
+            height: $(window).height(),
+            slimscroll: false,
+            url: "/NurseManage/InpatientList/GetPatWardTree?zyzt=" + $('#zyzt').val() + "&keyword=" + $('#keyword').val(),
+            onnodeclick: function (item) {
+                if (item.value && item.Ex1 == "c") {
+                    debugger;
+                    $.ajax({
+                        url: "/NurseManage/InpatientVitalSigns/GetPatWard",
+                        data: { zyh: item.value },
+                        dataType: "json",
+                        async: false,
+                        success: function (data) {
+                            $("#xm").text(data.hzxm);
+                            if (data.sex == "1") {
+                                $("#xb").text("男");
+                            }
+                            else { $("#xb").text("女"); }
+                            $("#bq").text(data.bqmc);
+                            $("#nl").text(data.nl + "岁");
+                        }
+                    });
+                    getlistbyzyh(item.value, item.Ex5, item.Ex6);
+
+                }
+            }
+        });
+        $("#PatTreeList_" + twdzyh).attr('class', 'bbit-tree-node-el bbit-tree-node-leaf bbit-tree-selected');//选中
+    }
+    function getlistbyzyh(zyh, rqrq, cqrq) {
+        $("#twdzyh").val(zyh);
+        $("#twdkssj").val(rqrq);
+        $("#twdjssj").val(cqrq);
+        btntwlr_search();
+    }
+    function gridtwdlrList() {
+        var $gridtwdlrList = $("#gridtwdlrList");
+        $gridtwdlrList.dataGrid({
+            postData: {},
+            url: "/NurseManage/InpatientVitalSigns/GetGridJson",
+            postData: gettwlrSearchPostData(),
+            height: $(window).height() - 220,
+            //autowidth: true,//根据父容器宽度自适应调整
+            //shrinkToFit: false,//滚动条
+            //autoScroll:true,
+            colModel: [
+                { label: "Id", name: "Id", hidden: true, frozen: true },
+                {
+                    label: "住院号", name: "zyh", width: 80, align: 'left',
+                    formatter: function (cellvalue, options, rowobject) {
+                        if (rowobject.zt == "0") {
+                            cellvalue += '<span style="color:red;">【作废】</span>';
+                        }
+                        return cellvalue;
+                    }, frozen: true
+                },
+                { label: "姓名", name: "xm", width: 80, align: 'left', frozen: true },
+                {
+                    label: "日期", name: "rq", width: 100, align: 'left',
+                    formatter: function (cellvalue, options, rowobject) {
+                        //日期 时间点 相关状态
+                        var val = $.getDate({ date: cellvalue });
+                        val += " " + rowobject.sj + ":00";
+                        if (rowobject.brzt) {
+                            val += " " + $.enum.getDescByValue("EnumHlbrzt", rowobject.brzt);
+                        }
+                        return val;
+                    }, frozen: true
+                },
+                { label: "时间点", name: "sj", width: 50, align: 'left', hidden: true },
+                { label: "意识", name: "hlysname", width: 70, align: 'left' },
+                { label: "饮食", name: "brfoodname", width: 70, align: 'left' },
+                { label: "护理级别", name: "hljb", width: 70, align: 'left' },
+                { label: "相关状态", name: "brzt", width: 60, align: 'left', hidden: true },
+				{ label: "体温", name: "tw", width: 40, align: 'left' },
+				{ label: "物理降温", name: "wljw", width: 60, align: 'left' },
+                { label: "twclfs", name: "twclfs", width: 50, align: 'left', hidden: true },
+                { label: "心率", name: "xl", width: 40, align: 'left' },
+                { label: "脉搏", name: "mb", width: 40, align: 'left' },
+                { label: "qbq", name: "qbq", width: 50, align: 'left', hidden: true },
+                { label: "呼吸", name: "hx", width: 40, align: 'left' },
+                { label: "hxj", name: "hxj", width: 50, align: 'left', hidden: true },
+                {
+                    label: "血压", name: "xysz", width: 50, align: 'left',
+                    formatter: function (cellvalue, options, rowobject) {
+                        //上值 下值
+                        var val = cellvalue;
+                        if (rowobject.xyxz) {
+                            val += " - " + rowobject.xyxz;
+                        }
+                        return val || '';
+                    }
+                },
+                { label: "血压", name: "xyxz", width: 55, align: 'left', hidden: true },
+                { label: "体重", name: "tz", width: 40, align: 'left' },
+                { label: "身高", name: "sg", width: 40, align: 'left' },
+                { label: "疼痛评分", name: "ttpf", width: 50, align: 'left' },
+                { label: "tzclbz", name: "tzclbz", width: 50, align: 'left', hidden: true },
+
+                { label: "大便次数", name: "dbcs", width: 50, align: 'left' },
+                { label: "备注", name: "dbcsbz", width: 50, align: 'left' },
+
+                { label: "输液量", name: "syl", width: 40, align: 'left' },
+
+                { label: "输血量", name: "sxl", width: 40, align: 'left' },
+                { label: "饮食量", name: "ysl", width: 40, align: 'left' },
+                { label: "饮食量途径", name: "ysltj", width: 70, align: 'left' },
+                { label: "呕吐量", name: "otl", width: 40, align: 'left' },
+                { label: "呕吐量颜色", name: "otlys", width: 70, align: 'left' },
+                { label: "尿量", name: "xbl", width: 40, align: 'left' },
+                { label: "尿量颜色", name: "nlys", width: 70, align: 'left' },
+                { label: "超液量", name: "cys", width: 40, align: 'left' },
+                { label: "伤口引流", name: "skyll", width: 50, align: 'left' },
+                { label: "胸液量", name: "xyl", width: 40, align: 'left' },
+                { label: "胃液量", name: "wyl", width: 40, align: 'left' },
+                { label: "负吸小球", name: "fxxq", width: 50, align: 'left' },
+                { label: "其他摄出", name: "qtsc", width: 50, align: 'left' },
+                { label: "吸氧/流量L/min", name: "xyll", width: 90, align: 'left' },
+                { label: "皮肤<br/>情况", name: "pfqkname", width: 70, align: 'left' },
+                { label: "管道<br/>护理", name: "gdhlname", width: 70, align: 'left' },
+                { label: "xyfs", name: "xyfs", width: 50, align: 'left', hidden: true },
+                { label: "血氧饱和度", name: "xybhd", width: 70, align: 'left' },
+                { label: "病情观察<br/>及措施", name: "bqgcjcs", width: 70, align: 'left' },
+                { label: "录入用户", name: "CreatorCode", width: 60, align: 'left' },
+                { label: '录入时间', name: 'CreateTime', width: 120, align: 'left', formatter: "date", formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } },
+            ],
+            rowNum: 10,
+            //pager: "#gridPager",
+            //sortname: 'rq , sj',
+            viewrecords: true,
+            rownumbers: false,
+            ondblClickRow: function (rowid) {
+                gridEditRow(rowid);
+            },
+            gridComplete: function () {
+                $("#gridtwdlrList").jqGrid('setGridWidth', $(".Newtouch_iframe", parent.document).width() - $(".dv-left-tree").width() - 21); // 根据需要调整宽度参数
+            }
+        });
+
+        //二级菜单
+        //$gridtwdlrList.jqGrid('setGroupHeaders', {
+        //    useColSpanStyle: true,
+        //    groupHeaders: [
+        //    {
+        //        startColumnName: 'syl',
+        //        numberOfColumns: 4,
+        //        titleText: '摄入量'
+        //    },
+        //    {
+        //        startColumnName: 'otl',
+        //        numberOfColumns: 10,
+        //        titleText: '摄出量'
+        //    }
+        //    ]
+        //});
+
+        //btntwlr_search();
+    }
+    function btntwlr_search() {
+        $("#gridtwdlrList").jqGrid('setGridParam', {
+            postData: gettwlrSearchPostData(),
+           // autowidth: true,
+            page: 1,
+        }).trigger('reloadGrid');
+        //$("#gridtwdlrList").jqGrid('setGridWidth', $(".Newtouch_iframe", parent.document).width() - $(".dv-left-tree").width() - 21); // 根据需要调整宽度参数
+        //$("#gridtwdlrList").jqGrid('setGridWidth', $(window).width()-280); // 根据需要调整宽度参数
+    }
+    //查询条件
+    function gettwlrSearchPostData() {
+        var kssj = $("#twdkssj").val();
+        var jssj = $("#twdjssj").val();
+        var zyh = $("#twdzyh").val();
+        var wardCode = "";
+        var isShowDelete = $("input[name='isShowDelete']")[0].checked;
+        return { zyh: zyh, kssj: kssj, jssj: jssj, wardCode: wardCode, isShowDelete: isShowDelete };
+    };
+
+    $("#btn_add").click(function () {
+        InpatientVitalSignsForm();
+    });
+
+    $("#btn_edit").click(function () {
+        var seleId = $('#gridtwdlrList').jqGrid('getGridParam', 'selrow');
+        if (seleId) {
+            //请求修改该行
+            gridEditRow(seleId);
+        }
+        else {
+            $.modalAlert("请选中一条信息", 'warning');
+            return;
+        }
+    });
+
+    $("#btn_delete").click(function () {
+        var seleId = $('#gridtwdlrList').jqGrid('getGridParam', 'selrow');
+        if (seleId) {
+            //请求作废该行
+            gridDeleteRow(seleId);
+        }
+        else {
+            $.modalAlert("请选中一条信息", 'warning');
+            return;
+        }
+    });
+
+    $("#btn_twdquery").click(function () {
+        var zyh = $('#twdzyh').val();
+        if (zyh == null || zyh == "") {
+            $.modalAlert("请选择病人查看！", 'warning');
+            return;
+        }
+        top.top.$.Newtouchtab.addTabWithOutMenu({ name: "体温单", enName: "", url: "/NurseManage/InpatientVitalSigns/TemperatureChartIndex?zyh=" + zyh + "&yshsbz=1" });
+
+    });
+    $("#btn_export").click(function () {
+        var reportServerHOST = '@(ViewBag.ReportServerHOST)';
+        var orgId = '@(ViewBag.OrgId)';
+        var kssj = $("#twdkssj").val();
+        var jssj = $("#twdjssj").val();
+        var zyh = $('#twdzyh').val();
+        if (!zyh) {
+            $.modalAlert("缺少住院号", "warning");
+            return;
+        }
+        window.open('@reportUrl' + "?tempCode=1012" + "&systemCode=" + '@Html.Raw(ReportSystemCode)' + "&kssj=" + kssj + "&jssj=" + jssj + "&orgId=" + orgId + "&zyh=" + zyh);
+
+    });
+    function gridEditRow(rowid) {
+        var rowData = $("#gridtwdlrList").jqGrid('getRowData', rowid);
+        InpatientVitalSignsForm(rowData.Id);
+    }
+
+    function gridDeleteRow(rowid) {
+        var rowData = $("#gridtwdlrList").jqGrid('getRowData', rowid);
+        $.deleteForm({
+            prompt: "注：您确定要作废该条数据吗？",
+            url: "/NurseManage/InpatientVitalSigns/DeleteForm",
+            param: { keyValue: rowData.Id },
+            success: function () {
+                $("#gridtwdlrList").trigger("reloadGrid");
+            }
+        })
+    }
+
+    function InpatientVitalSignsForm(smtzId) {
+        if ($("#zyh").val() == "") {
+            $.modalAlert("请选择病人！", "warning");
+            return;
+        }
+        $.modalOpen({
+            id: "InpatientVitalSignsForm",
+            title: "护理录入",
+            url: "/NurseManage/InpatientVitalSigns/Form?smtzId=" + smtzId + "&zyh=" + $("#twdzyh").val(),
+            width: "830px",
+            height: "750px",
+            showleftlalbel: !!!smtzId,  //新增时显示 '确认并关闭按钮'
+            leftlalbelchecked: true,
+            leftlabeltext: "连续录入",
+            leftlalbelcheckedasClose: false,
+            callBack: function (iframeId, isClose) {
+                var ret = top.frames[iframeId].AcceptClick(function () {
+                    $("#gridtwdlrList").trigger("reloadGrid");
+                    if (isClose === undefined || isClose === true) {
+                        top.frames[iframeId].$.modalClose();
+                    }
+                });
+            }
+        });
+    }
+
+</script>

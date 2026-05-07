@@ -1,0 +1,327 @@
+<XTextDocument xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EditorVersionString="1.2023.2.14">
+   <Attributes>
+      <Attribute>
+         <Name>DCLocalDataSource</Name>
+         <Value>&lt;DataSourceDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="DataSource" Name="DataSource" Guid="eb1656e2-9291-4387-9eb9-a1209c9411fc" Title=""&gt;&lt;Parameters /&gt;&lt;Nodes /&gt;&lt;/DataSourceDocument&gt;</Value>
+      </Attribute>
+   </Attributes>
+   <InnerID>1955</InnerID>
+   <XElements>
+      <Element xsi:type="XTextHeader">
+         <InnerID>6</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XInputField" StyleIndex="1">
+               <InnerID>1978</InnerID>
+               <ID>B0EADC5F-D1A7-4C1D-8BFF-C30B4AB96B89</ID>
+               <ToolTip>请输入医院名称</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/yymc</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <Name>yymc</Name>
+               <BackgroundText>医院名称</BackgroundText>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0">
+               <InnerID>1979</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="1">
+               <InnerID>3123</InnerID>
+               <Text>住院告知书</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0">
+               <InnerID>1986</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+      <Element xsi:type="XTextBody">
+         <InnerID>8</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>1990</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>3124</InnerID>
+               <Text>亲爱的病员及家属:</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>2001</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>3125</InnerID>
+               <Text>       为了更好地维护医疗秩序与病人的权益，营造舒适的诊疗环境，当您入住病房，请知晓并自觉遵守住院病区的管理制度及规定，配合做好病区管理工作:</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>2077</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>3126</InnerID>
+               <Text>       1、凡住院病人必须带好您的居民身份证、医保卡(或社保卡等)、门诊病历、入院证等资料，以及预交款，办好住院手续后方能入院安排床位。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>2150</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>3127</InnerID>
+               <Text>       </Text>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>3128</InnerID>
+               <Text>办理出入院手续地点:一楼收费</Text>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>3129</InnerID>
+               <Text>挂号处;办理时间8;00一下午17:00。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>2194</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>3130</InnerID>
+               <Text>       2、您入住的是</Text>
+            </Element>
+            <Element xsi:type="XInputField" StyleIndex="4">
+               <InnerID>2210</InnerID>
+               <ID>05851fea-e7a2-4ada-969c-76b7d0403c10</ID>
+               <ToolTip>请输入科室名称</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/DeptName</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <Name>DeptName</Name>
+               <BackgroundText>科室名称</BackgroundText>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>3131</InnerID>
+               <Text>科病房， 床号</Text>
+            </Element>
+            <Element xsi:type="XInputField" StyleIndex="4">
+               <InnerID>2218</InnerID>
+               <ID>4cc046b8-0919-4534-beb3-509e1096e2f4</ID>
+               <ToolTip>请输入床位名称</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/BedName</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <Name>BedName</Name>
+               <BackgroundText>床位名称</BackgroundText>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>3132</InnerID>
+               <Text>， 负责床位医师是责任护士是</Text>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="4">
+               <InnerID>3133</InnerID>
+               <Text>        ;</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>2242</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>3134</InnerID>
+               <Text>       3、入院时，病人须签署《住院病人告知委托书》，医护人员应告知签署上述文书的重要性与内容。病人如因病情无法签字时，应由其指定委托人并签字;如住院期间更换委托人的，应及时告知医师更换人姓名并签字。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>2347</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>3135</InnerID>
+               <Text>       4、为了保证病人住院期间的安全，病人不得随意外出或在院外住宿。如确有特殊情况或要事外出，须得到床位主治医师的批准，并办理请假手续。必须自行落实亲属或其他人员陪同，如擅自单独自行离院，一切后果自负。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>2454</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>3136</InnerID>
+               <Text>       5、病人需积极配合诊疗、护理、检查、健康指导等工作，做相关检查时应有医护人员或护工陪同。未经医务人员的允许，不能随便翻阅、抢夺、涂改、损坏病历等医疗文书。如有问题，请向医师或护士咨询与沟通，我们将满足您的要求。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>2568</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>3137</InnerID>
+               <Text>       6、住院期间请配合保持病区的整洁，不随意乱放生活日用物品。不要带入贵重物品，手机、钱包等请妥善保管，如遗失，医院概不负责。严禁将易燃易爆物品带入病区;刀具、锐器等物品可交给护理部统一保管，出院后领取。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>2677</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>3138</InnerID>
+               <Text>       7、病人如需缴纳或查询医药费，请到出入院处，由工作人员为你办理(也可到护士办公室查询)。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>2730</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>3139</InnerID>
+               <Text>       8、为了加强医德医风建设与行业自律，医患双方应共同遵守上海市卫生系统行风建设规定。本院是“无红包”医院，严禁医务人员在医疗活动中收受或索要患者“红包”及其他贵重物品，一旦查实，将按上级行风建设有关规定与院规院纪严肃处理。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>2849</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>3140</InnerID>
+               <Text>       </Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>2858</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>3141</InnerID>
+               <Text>      </Text>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="3">
+               <InnerID>3142</InnerID>
+               <Text> </Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>2867</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>3143</InnerID>
+               <Text>       我们将谒诚为您服务，祝您早日康复。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>2893</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>3144</InnerID>
+               <Text>                                             病人或家属签名: </Text>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="4">
+               <InnerID>3145</InnerID>
+               <Text>            </Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>2961</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>3146</InnerID>
+               <Text>                                                      年      月      日</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>3032</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>3034</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>3036</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>3147</InnerID>
+               <Text>      医院地址:内蒙古自治区通辽市科尔沁区阿古拉大街90号内蒙古博鏊国际蒙医医院</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>3081</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>3148</InnerID>
+               <Text>      电话:</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="2">
+               <InnerID>3092</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+      <Element xsi:type="XTextFooter">
+         <InnerID>3557</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>1988</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+   </XElements>
+   <SerializeParameterValue>true</SerializeParameterValue>
+   <Parameters>
+      <Parameter Name="当前时间" />
+   </Parameters>
+   <FileName>\File\Template\医疗文书\住院告知书\住院告知书.xml</FileName>
+   <FileFormat>xml</FileFormat>
+   <ContentStyles>
+      <Default xsi:type="DocumentContentStyle">
+         <FontName>宋体</FontName>
+         <FontSize>12</FontSize>
+      </Default>
+      <Styles>
+         <Style Index="0">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <Align>Center</Align>
+         </Style>
+         <Style Index="1">
+            <FontName>宋体</FontName>
+            <FontSize>18</FontSize>
+            <Bold>true</Bold>
+         </Style>
+         <Style Index="2">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <LineSpacingStyle>SpaceDouble</LineSpacingStyle>
+         </Style>
+         <Style Index="3">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <Bold>true</Bold>
+         </Style>
+         <Style Index="4">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <Underline>true</Underline>
+         </Style>
+      </Styles>
+   </ContentStyles>
+   <Info>
+      <LicenseText>未注册|Unregister</LicenseText>
+      <CreationTime>1980-01-01T00:00:00</CreationTime>
+      <LastModifiedTime>2025-02-13T11:22:30.2357763+08:00</LastModifiedTime>
+      <LastPrintTime>1980-01-01T00:00:00</LastPrintTime>
+      <Operator>DCSoft.Writer Version:1.2015.12.23</Operator>
+      <NumOfPage>2</NumOfPage>
+   </Info>
+   <BodyText>
+亲爱的病员及家属:
+       为了更好地维护医疗秩序与病人的权益，营造舒适的诊疗环境，当您入住病房，请知晓并自觉遵守住院病区的管理制度及规定，配合做好病区管理工作:
+       1、凡住院病人必须带好您的居民身份证、医保卡(或社保卡等)、门诊病历、入院证等资料，以及预交款，办好住院手续后方能入院安排床位。
+       办理出入院手续地点:一楼收费挂号处;办理时间8;00一下午17:00。
+       2、您入住的是[]科病房， 床号[]， 负责床位医师是责任护士是        ;
+       3、入院时，病人须签署《住院病人告知委托书》，医护人员应告知签署上述文书的重要性与内容。病人如因病情无法签字时，应由其指定委托人并签字;如住院期间更换委托人的，应及时告知医师更换人姓名并签字。
+       4、为了保证病人住院期间的安全，病人不得随意外出或在院外住宿。如确有特殊情况或要事外出，须得到床位主治医师的批准，并办理请假手续。必须自行落实亲属或其他人员陪同，如擅自单独自行离院，一切后果自负。
+       5、病人需积极配合诊疗、护理、检查、健康指导等工作，做相关检查时应有医护人员或护工陪同。未经医务人员的允许，不能随便翻阅、抢夺、涂改、损坏病历等医疗文书。如有问题，请向医师或护士咨询与沟通，我们将满足您的要求。
+       6、住院期间请配合保持病区的整洁，不随意乱放生活日用物品。不要带入贵重物品，手机、钱包等请妥善保管，如遗失，医院概不负责。严禁将易燃易爆物品带入病区;刀具、锐器等物品可交给护理部统一保管，出院后领取。
+       7、病人如需缴纳或查询医药费，请到出入院处，由工作人员为你办理(也可到护士办公室查询)。
+       8、为了加强医德医风建设与行业自律，医患双方应共同遵守上海市卫生系统行风建设规定。本院是“无红包”医院，严禁医务人员在医疗活动中收受或索要患者“红包”及其他贵重物品，一旦查实，将按上级行风建设有关规定与院规院纪严肃处理。
+       
+       
+       我们将谒诚为您服务，祝您早日康复。
+                                             病人或家属签名:             
+                                                      年      月      日
+
+
+      医院地址:内蒙古自治区通辽市科尔沁区阿古拉大街90号内蒙古博鏊国际蒙医医院
+      电话:</BodyText>
+   <LocalConfig />
+   <PageSettings>
+      <LeftMargin>71</LeftMargin>
+      <RightMargin>56</RightMargin>
+      <StrictUsePageSize>false</StrictUsePageSize>
+   </PageSettings>
+</XTextDocument>

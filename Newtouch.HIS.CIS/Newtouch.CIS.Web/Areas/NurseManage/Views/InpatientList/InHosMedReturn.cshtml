@@ -1,0 +1,334 @@
+﻿@using Newtouch.Infrastructure;
+@{
+    ViewBag.Title = "护士站患者中心-医嘱退药";
+    var tysqPrinturl = SysConfigReader.OrgReportLink("tysqdPrint");//门诊常规项目处方单
+}
+<div id="linkyzty" role="tabpanel" class="tab-pane" style="width:99%;margin-right: 5px; border:solid 1px #ddd; margin-top: 3px;">
+    <div class="panel panel-default">
+        <div class="panel-heading navb-bg">
+            筛选条件
+        </div>
+        <div>
+            <table class="form">
+                <tr>
+                    <th class="formTitle">药名：</th>
+                    <td class="formValue">
+                        <input id="txt_name" type="text" class="form-control" placeholder="药名" />
+                    </td>
+                    <th class="formTitle">开始日期：</th>
+                    <td class="formValue">
+                        <input id="txt_ksrq" type="text" class="form-control input-wdatepicker formClearIgnore" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd' })" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd', onpicked: function () { refleshMedList(); } })" value="@DateTime.Now.AddDays(-7).ToString("yyyy-MM-dd")" />
+                    </td>
+                    <th class="formTitle">结束日期：</th>
+                    <td class="formValue">
+                        <input id="txt_jsrq" type="text" class="form-control input-wdatepicker formClearIgnore" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd' })" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd', onpicked: function () { refleshMedList(); } })" value="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")" />
+                    </td>
+                    <td class="formTitle">
+                        <input type="button" id="btnty_search" class="btn btn-md btn-primary"  onclick="btnty_search()"  value="查询" />
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    @*<td class="formTitle">
+                         <input type="button" id="btn_confirm" class="btn btn-md btn-primary" value="退药确认" />
+                        </td>*@
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="gridPanel" style="width: 99%;background-color: #fff;">
+        <table id="gridYztyList"></table>
+    </div>
+    <div style="float:right">
+        <div class="btn-group">
+            <a class="btn btn-primary" onclick="refleshMedList()"><span class="fa fa-refresh"></span></a>
+        </div>
+        <div class="btn-group">
+            <a authorize="yes" class="btn btn-primary" onclick="returnConfirm()">
+                <i class="fa fa-plus"></i>退药确认
+            </a>
+        </div>
+    </div>
+</div>
+ <script  type="text/javascript">
+     var tyzyh = "";
+     var fistyztyload = true;
+     $(function () {
+         $("#btnty_search").click(function () {
+             $("#gridYztyList").jqGrid('setGridParam', {
+                 postData: {
+                     patInfo: tyzyh, keyword: $("#txt_name").val(), kssj: $("#txt_ksrq").val(),
+                     jssj: $("#txt_jsrq").val()
+                 },
+             }).trigger('reloadGrid');
+         });
+     })
+
+     function init_yzty(zyh)
+     {
+         if (!tyzyh)
+             tyzyh = zyh;
+         //$('#gridYztyList').jqGrid("clearGridData");
+         getYztyTreeList();
+         $("#PatTreeList_" + tyzyh).attr('class', 'bbit-tree-node-el bbit-tree-node-leaf bbit-tree-selected');//选中
+         if (fistyztyload) {
+             gridYztyList(tyzyh);
+             fistyztyload = false;
+         } else {
+             btnty_search();
+         }
+         //gridYztyList(tyzyh);
+        
+     }
+
+     function getYztyTreeList() {
+         $("#PatTreeList").treeview({
+             height: $(window).height() - 120,
+             slimscroll: false,
+             showcheck: false,
+             url: "/NurseManage/InpatientMedReturn/GetPatWardTree?keyword=" + $('#keyword').val(),
+             onnodeclick: function (item) {
+                 if (item.value && item.Ex1 == "c") {
+                     tyzyh = item.value;
+                     $('#gridYztyList').jqGrid('setGridParam', {
+                         postData: {
+                             patInfo: item.value, keyword: $("#txt_name").val(), kssj: $("#txt_ksrq").val()
+                             , jssj: $("#txt_jsrq").val()
+                         }
+                     }).trigger("reloadGrid");
+                 }
+
+             }
+         });
+
+     }
+     var checkTrigger = false;
+     var list = new Array();
+     var liststu = false;
+     var j = 0;
+     function gridYztyList(patzyh) {
+         var $gridYztyList = $("#gridYztyList");
+         $gridYztyList.dataGrid({
+             postData: { patInfo: patzyh, keyword: $("#txt_name").val(), kssj: $("#txt_ksrq").val(), jssj: $("#txt_jsrq").val() },
+             url: "/NurseManage/InpatientMedReturn/GetGridJson",
+             editurl: "clientArray",
+             height: $(window).height() - 200,
+             colModel: [
+                 { label: '药品Id', name: 'Id', align: 'center', width: 100, hidden: true, key: true },
+                 { label: '患者姓名', name: 'hzxm', align: 'center', width: 100 },
+                 { label: '住院号', name: 'zyh', align: 'center', width: 70, },
+                 { label: 'yzlx', name: 'yzlx', align: 'center', hidden: true, },
+                 {
+                     label: '医嘱性质', name: 'yzxz', align: 'center', width: 100, formatter: function (cellvalue) {
+                         if (cellvalue == 2) return "长期"; if (cellvalue == 1) return "临时";
+                     }
+                 },
+                 { label: '药品名称', name: 'ypmc', align: 'center', width: 180 },
+                 {
+                     label: '执行日期', name: 'zxrq', align: 'center', width: 150, formatter: function (val)
+                     { return $.getTime({ date: val }); }
+                 },
+                 { label: '发药数量', name: 'ypsl', align: 'center', width: 80 },
+                 { label: '可退数量', name: 'ktsl', align: 'center', width: 80 },
+                 {
+                     label: '申请退药数量', name: 'tsl', align: 'center', width: 80, editable: true,
+                     ditrules: { integer: true, minValue: 1 }, align: "left"
+                 },
+                 { label: '药品单位', name: 'ypdw', align: 'center', width: 60 },
+                 { label: '药品单价', name: 'ypdj', align: 'center', width: 60 },
+                 //{ label: '医生', name: 'ysxm', align: 'center', width: 50 },
+                 {
+                     label: '分组序号', name: 'fzxh', align: 'center', width: 70, formatter: function (val) {
+                         if (val != null)
+                             return val; else return "";
+                     }
+                 }
+             ],
+             sortname: 'fzxh desc',
+             viewrecords: true,
+             multiselect: true,
+             gridComplete: function () {
+                 //$("#gview_gridYztyList").attr("style", $(window).width());
+                 //$(".ui-jqgrid-hdiv,.ui-jqgrid-bdiv").css("width", "100%");
+                 //$(".ui-jqgrid-pager").css("width", "100%");
+                 //$("#gbox_gridYztyList").css("width", "100%");
+             },
+             onSelectAll: function (aRowids, status) {
+                 EnableInlineEditBox();
+             },
+             onSelectRow: function (rowIndex, s) {
+                 if (!checkTrigger) {
+                     var len = 0;
+                     var rowData = $("#gridYztyList").jqGrid('getRowData', rowIndex);
+                     var ids = $("#gridYztyList").jqGrid('getRowData_AllLine');
+
+                     liststu = s; //同步状态
+                     for (var i = 0; i < ids.length; i++) {
+                         if (ids[i].fzxh == rowData.fzxh && ids[i].fzxh != "" && ids[i].zxrq == rowData.zxrq) {
+                             if (s == true) {
+                                 if (rowIndex != ids[i].Id) {
+                                     list[len] = ids[i].Id;
+                                     len += 1;
+                                 }
+                             }
+                             else {
+                                 if (rowIndex != ids[i].Id) {
+                                     list[len] = ids[i].Id;
+                                     len += 1;
+                                 }
+                             }
+                         }
+                     }
+                     checkTrigger = true;
+                 }
+
+                 if (list.length > 0) {
+
+                     for (j = j; j < list.length; j++) {
+                         if (liststu) //同组选中
+                         {
+                             j = j + 1;
+                             $("#gridYztyList").jqGrid("setSelection", list[j - 1], true);
+                             //$("#gridYztyList").jqGrid('editRow', list[j - 1], true, null, null, null, null, function (callbackRowId) {     //true: when set to true we can use [Enter] key to save the row and [Esc] to cancel editing.
+                             //});
+                             $("#gridYztyList").editRow(list[j], null, null, null, function (callbackRowId) { });
+                         }
+                         else { //同组取消选中
+                             //j = j + 1;
+                             $("#gridYztyList").jqGrid("setSelection", list[j], false);      //取消不触发onselectrow
+                             //$("#gridYztyList").saveRow(rowIndex, null, null, null, function (callbackRowId) { }, null, null);
+                             var selectrowid = list[j];
+                             $("#gridYztyList").saveRow(selectrowid, null, null, null, function (callbackRowId) { }, null, null);
+                         }
+
+                     }
+                 }
+
+                 j = 0;
+                 checkTrigger = false;
+                 list = new Array();
+                 liststu = false;
+                 if (s) {
+                     $gridYztyList.jqGrid('editRow', rowIndex, true, null, null, null, null, function (callbackRowId) {     //true: when set to true we can use [Enter] key to save the row and [Esc] to cancel editing.
+                     });
+
+                 } else {
+                     $gridYztyList.saveRow(rowIndex, null, null, null, function (callbackRowId) { }, null, null);
+                 }
+             }
+
+         });
+     }
+     //启用行内编辑框
+     function EnableInlineEditBox(rowId) {
+         if (rowId) {
+             $("#gridYztyList").jqGrid('editRow', rowId, true, null, null, null, null, function (callbackRowId) {
+                 ;
+             });
+         }
+         else {
+             var rowIds = $("#gridYztyList").jqGrid('getDataIDs');
+             for (var i = 0; i < rowIds.length; i++) {
+                 EnableInlineEditBox(rowIds[i]);
+             }
+         }
+     }
+     function returnConfirm()
+     {
+         $.modalConfirm("确认对当前选中药品申请退药？", function (flag) {
+             if (flag) {
+
+                 //获取所有行Id，遍历使编辑框处于保存状态
+                 var rowIds = $("#gridYztyList").jqGrid('getDataIDs');
+                 for (var i = 0; i < rowIds.length; i++) {
+                     $("#gridYztyList").saveRow(rowIds[i], null, null, null, function (callbackRowId) { }, null, null);
+                 }
+                 var selRowIds = $("#gridYztyList").jqGrid('getGridParam', 'selarrrow');
+                 //判断退数量
+                 for (var i = 0; i < selRowIds.length; i++) {
+                     var rowData = $("#gridYztyList").jqGrid('getRowData', selRowIds[i]);
+                     if (!rowData) {
+                         break;
+                     }
+                     if (rowData.tsl.replace(/(^\s*)|(\s*$)/g, "") == "") {
+                         //启用行内编辑框
+                         EnableInlineEditBox(selRowIds[i]);
+                         $.modalAlert("项目（" + rowData.ypmc + "）退数量为空，请确认。", 'warning');
+                         return;
+                     }
+                     if (rowData.tsl <= 0 || isNaN(rowData.tsl) || rowData.tsl == "") {
+                         //启用行内编辑框
+                         EnableInlineEditBox(selRowIds[i]);
+                         return;
+                     }
+                     if (parseInt(rowData.tsl) > parseInt(rowData.ktsl)) {
+                         //启用行内编辑框
+                         EnableInlineEditBox(selRowIds[i]);
+                         $.modalAlert("退数量大于可退数量，请确认<br/>" + rowData.ypmc, 'warning');
+                         return;
+                     }
+                 }
+
+                 var medobjs = new Array();
+                 var ids = $("#gridYztyList").jqGrid("getGridParam", "selarrrow");
+                 $(ids).each(function (index, id) {
+
+                     var row = $("#gridYztyList").jqGrid('getRowData', id);
+                     var medobj = {};
+                     medobj.Id = row.Id;
+                     medobj.tsL = row.tsl;
+                     medobj.yzlx = row.yzlx;
+                     medobjs.push(medobj);
+                     //medIds += row.Id + ",";
+                 });
+
+
+                 $.ajax({
+                     type: "POST",
+                     url: "/NurseManage/InpatientMedReturn/MedReturnSubmit",
+                     data: { medIds: JSON.stringify(medobjs) },
+                     dataType: "json",
+                     async: false,
+                     success: function (ajaxresp) {
+                         if (ajaxresp.state == "error"||ajaxresp.state =="")
+                         {
+                             setTimeout(function () {
+                                 $.modalMsg(ajaxresp.message, 'error');
+                             }, 1000);
+
+                         }
+                         else {
+                             setTimeout(function () {
+                                 $.modalMsg('退药成功', 'success');
+                             }, 1000);
+                             var ids = $("#gridYztyList").jqGrid("getGridParam", "selarrrow");
+                             var zyh = $("#gridYztyList").jqGrid('getRowData', ids[0]).zyh;
+                             //先注释老报表打印 新报表还未做
+                             @*var rpturl = '@Html.Raw(tysqPrinturl)';
+                             if (rpturl) {
+                                 window.open(rpturl + "&zyh=" + zyh + "&tyxh=" + ajaxresp.data, "_blank", "height = 500, width = 1195, top = 100, left = 50, toolbar = no, menubar = no, scrollbars = yes, resizable = yes, location = no, status = no");
+                             }*@
+                             }
+                         refleshMedList();
+                     }
+                 });
+             }
+         });
+
+
+
+     }
+
+     //回车事件
+     $('#txt_name').keydownEnterEvent(function () {
+         $('#btnty_search').trigger('click');
+     })
+     //刷新列表
+     function refleshMedList() {
+         $("#btnty_search").trigger('click');
+     }
+     function btnty_search()
+     {
+         $("#btnty_search").trigger('click');
+     }
+ </script>

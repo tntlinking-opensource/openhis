@@ -1,0 +1,215 @@
+<XTextDocument xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EditorVersionString="1.2023.2.14">
+   <InnerID>1519</InnerID>
+   <XElements>
+      <Element xsi:type="XTextHeader">
+         <InnerID>6</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XString">
+               <InnerID>2309</InnerID>
+               <Text>            </Text>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="1">
+               <InnerID>2310</InnerID>
+               <Text>  </Text>
+            </Element>
+            <Element xsi:type="XInputField" StyleIndex="1">
+               <InnerID>1556</InnerID>
+               <ID>B0EADC5F-D1A7-4C1D-8BFF-C30B4AB96B89</ID>
+               <ToolTip>请输入医院名称</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/yymc</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <Name>yymc</Name>
+               <BackgroundText>医院名称</BackgroundText>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="1">
+               <InnerID>1557</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="2">
+               <InnerID>2311</InnerID>
+               <Text>患者知情同意征求意见书</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0">
+               <InnerID>1570</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+      <Element xsi:type="XTextBody">
+         <InnerID>14</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XString">
+               <InnerID>2312</InnerID>
+               <Text>病员姓名：_______________性别：_______年龄：________科室：________________</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>1634</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2313</InnerID>
+               <Text>床号：____________住院号：____________病员:_______________________________</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>1701</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2314</InnerID>
+               <Text>     您在我院住院期间享有知情同意的权利，我们应该将您住院期间的病情、医疗措施、治疗情况、医疗风险等如实的告知您，对您的特殊检查、治疗及手术也应征得您的签字同意。为了维护您的合法权益，避免对您产生不利的影响，遇到下列情况时，请您明确我们应如何向您履行告知义务。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>1835</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2315</InnerID>
+               <Text>  一、当您在诊治中病情有变化遇到危险，或是特殊检查、治疗、手术有较大风险，或是治疗有困难遇到不治之症时，是否将真实情况告知您本人?</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>1903</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2316</InnerID>
+               <Text>     1.否2.是</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>1916</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2317</InnerID>
+               <Text>  二、当特殊检查、治疗、手术需签署同意书时，是否由您本人签字同意?</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>1952</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2318</InnerID>
+               <Text>     1.否2.是</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>1965</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2319</InnerID>
+               <Text>三、如果不将真实情况告知您本人，不由您本人签署同意书，您决定委托_________</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>2008</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2320</InnerID>
+               <Text>__________________________________作您的知情同意事项代理人。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>2057</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2321</InnerID>
+               <Text>病员签字：__________________</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>2082</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2322</InnerID>
+               <Text>病员代理人签字：______________________与病员关系：_____________________</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>2141</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2323</InnerID>
+               <Text>代理人住址：___________________________联系电话：_______________________</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>2204</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2324</InnerID>
+               <Text>医生签字：____________________</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>2231</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>2325</InnerID>
+               <Text>______________年_________月_________日_________时________分</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>2287</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+      <Element xsi:type="XTextFooter">
+         <InnerID>43</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>1572</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+   </XElements>
+   <SerializeParameterValue>true</SerializeParameterValue>
+   <FileName>\File\Template\医疗文书\医疗文书\患者知情同意征求意见书.xml</FileName>
+   <FileFormat>xml</FileFormat>
+   <ContentStyles>
+      <Default xsi:type="DocumentContentStyle">
+         <FontName>宋体</FontName>
+         <FontSize>12</FontSize>
+      </Default>
+      <Styles>
+         <Style Index="0">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <Align>Center</Align>
+         </Style>
+         <Style Index="1">
+            <FontName>宋体</FontName>
+            <FontSize>18</FontSize>
+            <Bold>true</Bold>
+         </Style>
+         <Style Index="2">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <Bold>true</Bold>
+         </Style>
+         <Style Index="3">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <LineSpacingStyle>SpaceDouble</LineSpacingStyle>
+         </Style>
+      </Styles>
+   </ContentStyles>
+   <Info>
+      <LicenseText>未注册|Unregister</LicenseText>
+      <CreationTime>1980-01-01T00:00:00</CreationTime>
+      <LastModifiedTime>2025-02-13T11:26:35.4386226+08:00</LastModifiedTime>
+      <LastPrintTime>1980-01-01T00:00:00</LastPrintTime>
+      <Operator>DCSoft.Writer Version:1.2023.2.14</Operator>
+      <NumOfPage>1</NumOfPage>
+   </Info>
+   <BodyText>病员姓名：_______________性别：_______年龄：________科室：________________
+床号：____________住院号：____________病员:_______________________________
+     您在我院住院期间享有知情同意的权利，我们应该将您住院期间的病情、医疗措施、治疗情况、医疗风险等如实的告知您，对您的特殊检查、治疗及手术也应征得您的签字同意。为了维护您的合法权益，避免对您产生不利的影响，遇到下列情况时，请您明确我们应如何向您履行告知义务。
+  一、当您在诊治中病情有变化遇到危险，或是特殊检查、治疗、手术有较大风险，或是治疗有困难遇到不治之症时，是否将真实情况告知您本人?
+     1.否2.是
+  二、当特殊检查、治疗、手术需签署同意书时，是否由您本人签字同意?
+     1.否2.是
+三、如果不将真实情况告知您本人，不由您本人签署同意书，您决定委托_________
+__________________________________作您的知情同意事项代理人。
+病员签字：__________________
+病员代理人签字：______________________与病员关系：_____________________
+代理人住址：___________________________联系电话：_______________________
+医生签字：____________________
+______________年_________月_________日_________时________分</BodyText>
+   <LocalConfig />
+   <PageSettings>
+      <StrictUsePageSize>false</StrictUsePageSize>
+   </PageSettings>
+</XTextDocument>

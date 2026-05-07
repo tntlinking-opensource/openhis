@@ -1,0 +1,492 @@
+<XTextDocument xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EditorVersionString="1.2023.2.14">
+   <Attributes>
+      <Attribute>
+         <Name>DCLocalDataSource</Name>
+         <Value>&lt;DataSourceDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="DataSource" Name="DataSource" Guid="eb1656e2-9291-4387-9eb9-a1209c9411fc" Title=""&gt;&lt;Parameters /&gt;&lt;Nodes /&gt;&lt;/DataSourceDocument&gt;</Value>
+      </Attribute>
+   </Attributes>
+   <InnerID>3153</InnerID>
+   <XElements>
+      <Element xsi:type="XTextHeader">
+         <InnerID>6</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XInputField" StyleIndex="1">
+               <InnerID>3176</InnerID>
+               <ID>B0EADC5F-D1A7-4C1D-8BFF-C30B4AB96B89</ID>
+               <ToolTip>请输入医院名称</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/yymc</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <Name>yymc</Name>
+               <BackgroundText>医院名称</BackgroundText>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0">
+               <InnerID>3177</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="1">
+               <InnerID>3791</InnerID>
+               <Text>病员告知委托书</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0">
+               <InnerID>3186</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+      <Element xsi:type="XTextBody">
+         <InnerID>8</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XString">
+               <InnerID>3792</InnerID>
+               <Text>       为有利于本人的疾病治疗，慈委托</Text>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="2">
+               <InnerID>3793</InnerID>
+               <Text>          </Text>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>3794</InnerID>
+               <Text>(与患者关系:</Text>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="2">
+               <InnerID>3795</InnerID>
+               <Text>         </Text>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>3796</InnerID>
+               <Text>为本人代理人，听取医疗机构告知有关本人的病情、医疗措施、医疗风险等情况，全权处理本人在诊疗过程中的一切事物并在手术同意书等需要患者签名同意的医疗文书上签名，代理本人行使知情同意权和选择权。经代理人签名同意所实施的诊疗行为若产生不良后果将由本人承担。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>3362</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>3797</InnerID>
+               <Text>       此致</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>3373</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>3375</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>3377</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>3798</InnerID>
+               <Text>受托人姓名:</Text>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="2">
+               <InnerID>3799</InnerID>
+               <Text>             </Text>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>3800</InnerID>
+               <Text>委托人(患者)姓名:</Text>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="2">
+               <InnerID>3801</InnerID>
+               <Text>                </Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="4">
+               <InnerID>3424</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>3802</InnerID>
+               <Text>性别:</Text>
+            </Element>
+            <Element xsi:type="XInputField" StyleIndex="2">
+               <InnerID>3429</InnerID>
+               <ID>B4DF9EC6-B5D1-4DDA-B7A0-CF1C28E822F1</ID>
+               <ToolTip>请选择</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ContentReadonly>False</ContentReadonly>
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <Name>sex</Name>
+               <BackgroundText>性别</BackgroundText>
+               <EditorActiveMode>MouseClick</EditorActiveMode>
+               <FieldSettings>
+                  <EditStyle>DropdownList</EditStyle>
+                  <ListSource>
+                     <Items>
+                        <Item>
+                           <Text>男性</Text>
+                           <Value>0</Value>
+                        </Item>
+                        <Item>
+                           <Text>女性</Text>
+                           <Value>1</Value>
+                        </Item>
+                        <Item>
+                           <Text>男</Text>
+                           <Value>2</Value>
+                        </Item>
+                        <Item>
+                           <Text>女</Text>
+                           <Value>3</Value>
+                        </Item>
+                     </Items>
+                  </ListSource>
+               </FieldSettings>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>3803</InnerID>
+               <Text>  年龄:</Text>
+            </Element>
+            <Element xsi:type="XInputField" StyleIndex="2">
+               <InnerID>3435</InnerID>
+               <ID>294E8883-886E-4F41-B60C-AA5FCA5DC21E</ID>
+               <ToolTip>请输入年龄</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/nl</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <Name>nl</Name>
+               <BackgroundText>年龄</BackgroundText>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>3804</InnerID>
+               <Text>   性别:</Text>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="2">
+               <InnerID>3805</InnerID>
+               <Text>           </Text>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>3806</InnerID>
+               <Text> 年龄:</Text>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="2">
+               <InnerID>3807</InnerID>
+               <Text>           </Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="4">
+               <InnerID>3468</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>3808</InnerID>
+               <Text>住址:</Text>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="2">
+               <InnerID>3809</InnerID>
+               <Text>                  </Text>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>3810</InnerID>
+               <Text>   门诊号:</Text>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="2">
+               <InnerID>3811</InnerID>
+               <Text>                 </Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="4">
+               <InnerID>3515</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>3812</InnerID>
+               <Text>联系电话: </Text>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="2">
+               <InnerID>3813</InnerID>
+               <Text>            </Text>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>3814</InnerID>
+               <Text>  病史床号: </Text>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="2">
+               <InnerID>3815</InnerID>
+               <Text>                 </Text>
+            </Element>
+            <Element xsi:type="XLineBreak">
+               <InnerID>3560</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>3816</InnerID>
+               <Text>受托人身份证号码:</Text>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="2">
+               <InnerID>3817</InnerID>
+               <Text>                    </Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="4">
+               <InnerID>3590</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>3592</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>3818</InnerID>
+               <Text>                                                             年      月      日</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>3670</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3672</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3674</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3676</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3678</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3680</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3682</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3684</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3686</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3688</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3690</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3692</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3694</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3696</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3698</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3700</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3702</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3704</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3706</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3708</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3710</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3712</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3714</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3716</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3718</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3720</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3722</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3724</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3726</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3728</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3730</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3732</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3734</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3736</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3738</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3740</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3742</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3744</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3746</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3748</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3750</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3752</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3754</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3756</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3758</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+      <Element xsi:type="XTextFooter">
+         <InnerID>3557</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>3188</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+   </XElements>
+   <SerializeParameterValue>true</SerializeParameterValue>
+   <Parameters>
+      <Parameter Name="当前时间" />
+   </Parameters>
+   <FileName>\File\Template\医疗文书\病员告知委托书\病员告知委托书.xml</FileName>
+   <FileFormat>xml</FileFormat>
+   <ContentStyles>
+      <Default xsi:type="DocumentContentStyle">
+         <FontName>宋体</FontName>
+         <FontSize>12</FontSize>
+      </Default>
+      <Styles>
+         <Style Index="0">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <Align>Center</Align>
+         </Style>
+         <Style Index="1">
+            <FontName>宋体</FontName>
+            <FontSize>18</FontSize>
+            <Bold>true</Bold>
+         </Style>
+         <Style Index="2">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <Underline>true</Underline>
+         </Style>
+         <Style Index="3">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <LineSpacingStyle>SpaceDouble</LineSpacingStyle>
+         </Style>
+         <Style Index="4">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <LineSpacingStyle>SpaceMultiple</LineSpacingStyle>
+            <LineSpacing>3</LineSpacing>
+         </Style>
+      </Styles>
+   </ContentStyles>
+   <Info>
+      <LicenseText>未注册|Unregister</LicenseText>
+      <CreationTime>1980-01-01T00:00:00</CreationTime>
+      <LastModifiedTime>2025-02-13T11:22:38.5011089+08:00</LastModifiedTime>
+      <LastPrintTime>1980-01-01T00:00:00</LastPrintTime>
+      <Operator>DCSoft.Writer Version:1.2015.12.23</Operator>
+      <NumOfPage>2</NumOfPage>
+   </Info>
+   <BodyText>       为有利于本人的疾病治疗，慈委托          (与患者关系:         为本人代理人，听取医疗机构告知有关本人的病情、医疗措施、医疗风险等情况，全权处理本人在诊疗过程中的一切事物并在手术同意书等需要患者签名同意的医疗文书上签名，代理本人行使知情同意权和选择权。经代理人签名同意所实施的诊疗行为若产生不良后果将由本人承担。
+       此致
+
+
+受托人姓名:             委托人(患者)姓名:                
+性别:[]  年龄:[]   性别:            年龄:           
+住址:                     门诊号:                 
+联系电话:               病史床号:                  
+受托人身份证号码:                    
+
+                                                             年      月      日
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</BodyText>
+   <LocalConfig />
+   <PageSettings>
+      <LeftMargin>71</LeftMargin>
+      <RightMargin>56</RightMargin>
+      <StrictUsePageSize>false</StrictUsePageSize>
+   </PageSettings>
+</XTextDocument>

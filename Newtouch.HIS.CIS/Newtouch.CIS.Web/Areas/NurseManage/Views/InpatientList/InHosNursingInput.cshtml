@@ -1,0 +1,772 @@
+﻿@using Newtouch.Infrastructure;
+@{
+    ViewBag.Title = "护士站患者中心-多病人体温录入";
+    var reportUrl = Newtouch.Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("ReportUrl");
+    var ReportSystemCode = Newtouch.Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("ReportSystemCode");
+    var opr = Newtouch.Common.Operator.OperatorProvider.GetCurrent();
+    var MutipatientNursingInputFlag = SysConfigReader.String("MutipatientNursingInputFlag");
+    var ScdCode = SysConfigReader.String("ScdTimePoint");
+}
+<style>
+    .form .formTitle {
+        width: 80px;
+        padding-right: 5px;
+    }
+
+    .radio input[type=radio], .radio-inline input[type=radio] {
+        margin-left: -16px;
+    }
+
+    .radio-inline {
+        line-height: 20px;
+        margin-left: 30px;
+        width: 35px;
+    }
+    #gbox_gridtwdsList .ui-jqgrid-btable tbody tr.jqgrow td {
+        border: solid 1px #ddd;
+    }
+
+</style>
+
+<div id="linkdtwdlr" role="tabpanel" class="tab-pane" style="width:100%;margin-right: 5px; border:solid 1px #ddd; margin-top: 3px;">
+    <div class="topPanel" style="height:50px;line-height:30px">
+        <table class="form">
+            <tr>
+                <td class="formTitle"><span class="required">*</span>日期：</td>
+                <td class="formValue">
+                    <input id="rq" name="rq" type="text" class="required form-control input-wdatepicker formClearIgnore">
+                </td>
+                <td class="formTitle sjd"><span class="required">*</span>时间点：</td>
+                <td class="formValue sjd" colspan="4">
+                    <div>
+                        @if (@ScdCode == "1")
+                        {
+                            <label class="radio-inline">
+                                <input type="radio" name="optionsSj" value="3">3
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="optionsSj" value="7" checked>7
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="optionsSj" value="11">11
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="optionsSj" value="15">15
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="optionsSj" value="19">19
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="optionsSj" value="23">23
+                            </label>
+                        }
+                        else
+                        {
+                            <label class="radio-inline">
+                                <input type="radio" name="optionsSj" value="2">2
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="optionsSj" value="6" checked>6
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="optionsSj" value="10">10
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="optionsSj" value="14">14
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="optionsSj" value="18">18
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="optionsSj" value="22">22
+                            </label>
+                        }
+
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="gridPanel"  style="width: 100%;background-color: #fff;">
+        <table id="gridtwdsList"></table>
+    </div>
+    <div style="width:30%"><span style="color:red">说明：</span>血压测量单位：mmHg；摄入摄出测量单位：ml</div>
+    @Html.Partial("_BottomButtonsView", new Newtouch.HIS.Web.Core.Models.BottomButtonViewModel()
+{
+    ShowKeyList = new int[] { 4, 8 },
+    F8Text = "提交"
+})
+</div>
+<script type="text/javascript">
+    var localdata = [];
+    var errmsg = "";
+    var searchsjd = "";
+    var patzyh = "";
+    var fisdtdjload = true;
+    $(function () {
+        if ('@MutipatientNursingInputFlag' == '0') {
+            $('#rq').val('@DateTime.Now.ToString("yyyy-MM-dd")').focus(function () { WdatePicker({ dateFmt: 'yyyy-MM-dd', onpicked: function () { btn_search() } }) });
+            searchsjd = $("[name=optionsSj]:checked").val();
+        } else {
+            $('#rq').val('@DateTime.Now.ToString("yyyy-MM-dd HH:00:00")').focus(function () { WdatePicker({ dateFmt: 'yyyy-MM-dd HH:00:00', onpicked: function () { btn_search() } }) });
+            $('.sjd').css("display", "none");
+            searchsjd = new Date($.trim($('#rq').val())).getHours();
+        }
+        searchsjd = $("[name=optionsSj]:checked").val();
+      
+        gridtwdsList();
+    })
+
+    function init_dtwdlr(zyh) {
+        if (!patzyh)
+            patzyh = zyh;
+        getPatTwdsTreeList(patzyh);
+        if (fisdtdjload) {
+            $("#gridtwdsList").jqGrid('setFrozenColumns');//设置冻结列
+            fisdtdjload = false;
+            btn_dtwdsearch();
+        }
+    }
+
+    function getPatTwdsTreeList() {
+        $("#PatTreeList").treeview({
+            height: $(window).height(),
+            slimscroll: false,
+            showcheck: true,
+            url: "/NurseManage/InpatientList/GetPatWardTree?zyzt=" + $('#zyzt').val() + "&keyword=" + $('#keyword').val() + "&checkzyh=" + patzyh,
+            onnodeclick: function (item) {
+            },
+            oncheckboxclick: function (item, s) {
+                patzyh = "";
+                getOrderTWDList(item, s);
+            }
+        });
+    }
+    function getOrderTWDList(item,s) {
+        var patlist = $("#PatTreeList").getCheckedNodeObjArray();
+        var patlistFath = "";
+        yjjzhmsg = "";
+
+        //当前选中父节点
+        var len = 0;
+        var single = 0; //是否单个子节点
+
+        if (item != null && item.Ex1 == "p") {
+            patlistFath = item.ChildNodes;
+            len = patlistFath.length;
+        }
+        else if (item != null && item.Ex1 == "c") {
+            patlistFath = item;
+            len = 1;
+            single = 1;
+        }
+
+        //选中节点
+        for (var i = 0; i < patlist.length; i++) {
+            if (patlist[i].Ex1 == "c") {
+                patzyh += patlist[i].value + ",";
+            }
+        }
+
+        if (s == 1) {
+            if (single == 0) {
+                for (var j = 0; j < len; j++) {
+                    if (patlistFath[j].Ex1 == "c") {
+                        patzyh += patlistFath[j].value + ",";
+                    }
+                }
+            }
+            else if (patlistFath.Ex1 == "c") {
+                patzyh += patlistFath.value;
+            }
+        }
+        else if (s == 0) {
+            if (single == 0) {
+                for (var j = 0; j < len; j++) {
+                    if (patlistFath[j].Ex1 == "c" && patlistFath[j].checkstate == 1) {
+                        patzyh = patzyh.replace(patlistFath[j].value + ",", "");
+                    }
+                }
+            }
+            else if (patlistFath.Ex1 == "c") {
+                patzyh = patzyh.replace(patlistFath.value + ",", "");
+            }
+           
+        }
+        if (patzyh != null && patzyh != "") {
+            $.najax({
+                url: "/NurseManage/InpatientVitalSigns/GetNursingInputGridJson",
+                dataType: "json",
+                data: { bq: "", sj: searchsjd, rq: $.getDate({ date: $.trim($('#rq').val()) }), zyh: patzyh },
+                type: "POST",
+                success: function (data) {
+                    localdata = data;
+                    $("#gridtwdsList").clearGridData(); //先清
+                    $("#gridtwdsList").jqGrid('setGridParam', {
+                        datatype: 'local',
+                        data: localdata,
+                    }).trigger("reloadGrid");
+                    $("#gridtwdsList").jqGrid('setGridWidth', $(".Newtouch_iframe", parent.document).width() - $(".dv-left-tree").width() - 21); // 根据需要调整宽度参数
+                    //$("#gridtwdsList").jqGrid('setGridWidth', $(window).width() - 290); // 根据需要调整宽度参数
+                   }
+                });
+            } else {
+                    $("#gridtwdsList").clearGridData(); //先清
+            }
+
+        }
+    function btn_dtwdsearch() {
+        if (patzyh != null && patzyh != "") {
+            if ('@MutipatientNursingInputFlag' == '0') {
+                searchsjd = $("[name=optionsSj]:checked").val();
+            } else {
+                searchsjd = new Date($.trim($('#rq').val())).getHours();
+            }
+            if (validate()) {
+                loadgridjson("", searchsjd);
+            }
+        }
+    }
+
+    $('input[name="optionsSj"]').click(function ()
+    {
+        btn_dtwdsearch();
+    });
+
+    function loadgridjson(bqval, searchsjd) {
+        $.najax({
+            url:"/NurseManage/InpatientVitalSigns/GetNursingInputGridJson",
+            dataType: "json",
+        data: { bq: bqval, sj: searchsjd, rq: $.getDate({ date: $.trim($('#rq').val()) }), zyh: patzyh },
+        type: "POST",
+        success: function (data) {
+            localdata = data;
+            $("#gridtwdsList").clearGridData(); //先清
+            $("#gridtwdsList").jqGrid('setGridParam', {
+                datatype: 'local',
+                data: localdata,
+            }).trigger("reloadGrid");
+            $("#gridtwdsList").jqGrid('setGridWidth', $(".Newtouch_iframe", parent.document).width() - $(".dv-left-tree").width() - 21); // 根据需要调整宽度参数
+            //$("#gridtwdsList").jqGrid('setGridWidth', $(window).width() - 290); // 根据需要调整宽度参数
+        }
+    });
+    }
+    function gridtwdsList() {
+        var $gridtwdsList = $("#gridtwdsList");
+        $gridtwdsList.jqGrid({
+            datatype: 'local',
+            data: localdata,
+            rowNum:1000,
+            height: $(window).height() - 230,
+            shrinkToFit: false,   //true:按比例初始化列宽度 false:使用colModel指定的宽度
+            autowidth: true,
+            rownumbers: true,  //是否显示序号
+            editurl: "clientArray",  //行编辑不向服务器提交数据
+            multiselect: true,//复选框
+            unwritten: false,
+            autoScroll: false,//当autoScroll和shrinkToFit均为false时，会出现行滚动条
+            shrinkToFit: false,//是否列宽度自适应。true=适应 false=不适应
+            colModel: [
+                { label: "Id", name: "Id", hidden: true, frozen: true },
+                { label: "住院号", name: "zyh", width: 50, align: 'left', frozen: true },
+                { label: "病人姓名", name: "xm", width: 50, align: 'left', frozen: true },
+                { label: "状态", name: "brzt", hidden: true, editable: true },
+                {
+                    label: "状态", name: "brzttext", width: 80, align: 'left', edittype: "select", editwidth: "75%", editable: true, editoptions: {
+                        dataEvents: [
+                            {
+                                type: 'change',
+                                fn: function (e) {
+                                    var row = $(e.target).closest('tr.jqgrow');
+                                    var rowid = row.attr('id');
+                                    //用作保存选中的值
+                                    $("#" + rowid + "_brzt").val($(this).val());
+                                }
+                            }
+                        ]
+                    }
+                },
+                { label: "状态标注<br />(时)", name: "brzt_hh", width: 80, align: 'left', editable: true },
+                { label: "状态标注<br />(分)", name: "brzt_mi", width: 80, align: 'left', editable: true},
+                {
+                    label: "<span class='required'>*</span>体温测量方式", required: false, name: "twclfstext", width: 80, align: 'left', edittype: 'select', editwidth: "65%", editable: true, editoptions: {
+                        value: { 1: '口温', 2: '腋温', 3: '肛温' },
+                        dataEvents: [
+                            {
+                                type: 'change',
+                                fn: function (e) {
+                                    var row = $(e.target).closest('tr.jqgrow');
+                                    var rowid = row.attr('id');
+                                    //用作保存选中的值
+                                    $("#" + rowid + "_twclfs").val($(this).val());
+                                }
+                            }
+                        ]
+                    }
+                },
+                { label: "twclfs", name: "twclfs", hidden: true, editable: true },
+                { label: "体温(℃)", editwidth: "75%", required: false, name: "tw", width: 50, align: 'left', editable: true },
+                {
+                    label: "起搏器", name: "qbqtext", width: 65, align: 'left', edittype: 'select', editwidth: "65%", editable: true, editoptions: {
+                        value: { 1: '是', 0: '否' },
+                        dataEvents: [
+                           {
+                               type: 'change',
+                               fn: function (e) {
+                                   var row = $(e.target).closest('tr.jqgrow');
+                                   var rowid = row.attr('id');
+                                   //用作保存选中的值
+                                   $("#" + rowid + "_qbq").val($(this).val());
+                               }
+                           }
+                        ]
+                    }
+                },
+                { label: "qbq", name: "qbq", hidden: true, editable: true },
+                {
+                    label: "呼吸机", name: "hxjtext", width: 65, align: 'left', edittype: 'select', editwidth: "65%", editable: true, editoptions: {
+                        value: { 1: '是', 0: '否' },
+                        dataEvents: [
+                           {
+                               type: 'change',
+                               fn: function (e) {
+                                   var row = $(e.target).closest('tr.jqgrow');
+                                   var rowid = row.attr('id');
+                                   //用作保存选中的值
+                                   $("#" + rowid + "_hxj").val($(this).val());
+                               }
+                           }
+                        ]
+                    }
+                },
+                { label: "hxj", name: "hxj", hidden: true, editable: true },
+                { label: "心率(次/分)", name: "xl", width: 65, align: 'left', editwidth: "75%", editable: true },
+                { label: "脉搏(次/分)", name: "mb", width: 65, align: 'left', editwidth: "75%", editable: true },
+                { label: "呼吸(次/分)", name: "hx", width: 65, align: 'left', editwidth: "75%", editable: true },
+                { label: "hxj", name: "hxj", width: 50, align: 'left', hidden: true },
+                //{label: "血压上值", name: "xysz", width: 50, align: 'left', editable: true},
+                //{ label: "血压下值", name: "xyxz", width: 50, editable: true, align: 'left' },
+                { label: "血压上下值", name: "xysxz", width: 80, align: 'left', editwidth: "75%", editable: true },
+                { label: "体重(kg)", name: "tz", width: 50, align: 'left', editable: true },
+                { label: "身高(cm)", name: "sg", width: 50, align: 'left', editable: true },
+                { label: "测量说明", name: "tzclbz", width: 100, align: 'left', editwidth: "75%", editable: true },
+                { label: "疼痛评分", name: "ttpf", width: 50, align: 'left', editable: true },
+                { label: "大便次数", name: "dbcs", width: 50, align: 'left', editable: true },
+                { label: "说明", name: "dbcsbz", width: 80, align: 'left', editwidth: "75%", editable: true },
+                { label: "过敏药", name: "gmyw", width: 80, align: 'left', editable: true },
+                { label: "总入量", name: "zrl", width: 50, align: 'left', editable: true },
+                { label: "总出量", name: "zcl", width: 50, align: 'left', editable: true },
+                { label: "引流量", name: "yll", width: 50, align: 'left', editable: true },
+                { label: "输液量", name: "syl", width: 50, align: 'left', editable: true },
+                { label: "饮食量", name: "ysl", width: 50, align: 'left', editable: true },
+                { label: "输血量", name: "sxl", width: 50, align: 'left', editable: true },
+
+                { label: "呕吐量", name: "otl", width: 50, align: 'left', editable: true },
+                { label: "尿量", name: "xbl", width: 40, align: 'left', editable: true },
+                { label: "超液量", name: "cys", width: 50, align: 'left', editable: true },
+                { label: "伤口引流", name: "skyll", width: 50, align: 'left', editable: true },
+                { label: "胸液量", name: "xyl", width: 50, align: 'left', editable: true },
+                { label: "胃液量", name: "wyl", width: 50, align: 'left', editable: true},
+                { label: "负吸小球", name: "fxxq", width: 50, align: 'left', editable: true},
+                { label: "其他摄出", name: "qtsc", width: 50, align: 'left', editable: true},
+                { label: "吸氧/流量L/min", name: "xyll", width: 90, align: 'left', editwidth: "75%", editable: true},
+                { label: "吸氧说明", name: "xyfs", width: 100, align: 'left', editwidth: "75%", editable: true },
+                { label: "血氧饱和度", name: "xybhd", width: 80, align: 'left', editwidth: "75%", editable: true}],
+            viewrecords: true,
+            rownumbers: false,
+            editinputwidthborder: false,    //是否需要边框 默认为true
+            editinputborderradius: false,   //是否需要边框圆角 默认true（有圆角）
+            gridComplete: function () {
+                EnableInlineEditBox();
+            },
+        });
+
+
+        //二级菜单
+        $gridtwdsList.jqGrid('setGroupHeaders', {
+            useColSpanStyle: true,
+            groupHeaders: [
+                {
+                    startColumnName: 'syl',
+                    numberOfColumns: 3,
+                    titleText: '摄入量'
+                },
+                {
+                    startColumnName: 'otl',
+                    numberOfColumns: 8,
+                    titleText: '摄出量'
+                }
+            ]
+        });
+        
+    }
+
+    function EnableInlineEditBox() {
+        var ids = $("#gridtwdsList").getDataIDs();
+        $.each(ids, function () {
+            var rowid = String(this);
+            //打开编辑模式
+            $("#gridtwdsList").jqGrid('editRow', rowid, false, initInlineFunc);
+        });
+    }
+
+    function initInlineFunc(rowid) {
+        debugger;
+        //默认显示腋温
+        var currenttwclfs = $("#" + rowid + "_twclfs").val();
+        $("#" + rowid + "_twclfstext").val(currenttwclfs);
+        if (currenttwclfs=="") {
+            $("#" + rowid + "_twclfstext").val('2');
+            $("#" + rowid + "_twclfs").val('2');
+        }
+        var currentqbq1 = $("#" + rowid + "_qbq").val();
+        var currentqbq = $("#" + rowid + "_qbq").val()=="true"?"1":"0";
+        $("#" + rowid + "_qbqtext").val(currentqbq);
+        var currenthxj = $("#" + rowid + "_hxj").val() == "true" ? "1" : "0";
+        $("#" + rowid + "_hxjtext").val(currenthxj);
+        //病人状态下拉框
+        //$("#" + rowid + "_brzt").parent().next().children('select').html('');
+        //$("#" + rowid + "_brzt").val();
+        var currentbrzt = "2";//默认显示在院
+        if (top.clients.enums) {
+            var option = "<option>请选择</option>";
+            $.each(top.clients.enums, function (i, v) {
+                if (v.Type === "EnumHlbrzt") {
+                    $.each(v.Items, function (ii, vv) {
+                        if (currentbrzt == vv.Value) {
+                            option += '<option value="' + vv.Value + '" selected>' + vv.Desc + '</option>';
+                        } else {
+                            option += '<option value="' + vv.Value + '">' + vv.Desc + '</option>';
+                        }
+                    });
+                }
+            });
+            $("#" + rowid + "_brzt").parent().next().children('select').append(option);
+        }
+
+        bindItemFloator(rowid + "_tzclbz", "WeightMemo");
+        //bindItemFloator(rowid + "_dbcsbz", "DefecationFreqMemo");
+        bindItemFloator(rowid + "_xyfs", "OxygenUptakeMed");
+
+        //回车切换到下一行输入
+        $("#" + rowid + "_brzt").keyup(function (event) {
+            if (event.keyCode == 13) {
+                var newid = parseInt(rowid) + 1;
+                $("#" + newid + "_brzt").focus();
+            }
+        });
+        $("#" + rowid + "_brzt_hh").keyup(function (event) {
+            if (event.keyCode == 13) {
+                var newid = parseInt(rowid) + 1;
+                $("#" + newid + "_brzt_hh").focus();
+            }
+        });
+        $("#" + rowid + "_brzt_mi").keyup(function (event) {
+            if (event.keyCode == 13) {
+                var newid = parseInt(rowid) + 1;
+                $("#" + newid + "_brzt_mi").focus();
+            }
+        });
+        $("#" + rowid + "_twclfstext").keyup(function (event) {
+            if (event.keyCode == 13) {
+                var newid = parseInt(rowid) + 1;
+                $("#" + newid + "_twclfstext").focus();
+            }
+        });
+        $("#" + rowid + "_tw").keyup(function (event) {
+            if (event.keyCode == 13) {
+                var newid = parseInt(rowid) + 1;
+                $("#" + newid + "_tw").focus();
+            }
+        });
+        $("#" + rowid + "_qbq").keyup(function (event) {
+            if (event.keyCode == 13) {
+                var newid = parseInt(rowid) + 1;
+                $("#" + newid + "_qbq").focus();
+            }
+        });
+        $("#" + rowid + "_hxj").keyup(function (event) {
+            if (event.keyCode == 13) {
+                var newid = parseInt(rowid) + 1;
+                $("#" + newid + "_hxj").focus();
+            }
+        });
+        $("#" + rowid + "_xl").keyup(function (event) {
+            if (event.keyCode == 13) {
+                var newid = parseInt(rowid) + 1;
+                $("#" + newid + "_xl").focus();
+            }
+        });
+        $("#" + rowid + "_mb").keyup(function (event) {
+            if (event.keyCode == 13) {
+                var newid = parseInt(rowid) + 1;
+                $("#" + newid + "_mb").focus();
+            }
+        });
+        $("#" + rowid + "_hx").keyup(function (event) {
+            if (event.keyCode == 13) {
+                var newid = parseInt(rowid) + 1;
+                $("#" + newid + "_hx").focus();
+            }
+        });
+        $("#" + rowid + "_xysxz").keyup(function (event) {
+            if (event.keyCode == 13) {
+                var newid = parseInt(rowid) + 1;
+                $("#" + newid + "_xysxz").focus();
+            }
+        });
+        $("#" + rowid + "_tz").keyup(function (event) {
+            if (event.keyCode == 13) {
+                var newid = parseInt(rowid) + 1;
+                $("#" + newid + "_tz").focus();
+            }
+        });
+        $("#" + rowid + "_sg").keyup(function (event) {
+            if (event.keyCode == 13) {
+                var newid = parseInt(rowid) + 1;
+                $("#" + newid + "_sg").focus();
+            }
+        });
+        $("#" + rowid + "_tzclbz").keyup(function (event) {
+            if (event.keyCode == 13) {
+                var newid = parseInt(rowid) + 1;
+                $("#" + newid + "_tzclbz").focus();
+            }
+        });
+        $("#" + rowid + "_ttpf").keyup(function (event) {
+            if (event.keyCode == 13) {
+                var newid = parseInt(rowid) + 1;
+                $("#" + newid + "_ttpf").focus();
+            }
+        });
+        $("#" + rowid + "_dbcs").keyup(function (event) {
+            if (event.keyCode == 13) {
+                var newid = parseInt(rowid) + 1;
+                $("#" + newid + "_dbcs").focus();
+            }
+        });
+        $("#" + rowid + "_dbcsbz").keyup(function (event) {
+            if (event.keyCode == 13) {
+                var newid = parseInt(rowid) + 1;
+                $("#" + newid + "_dbcsbz").focus();
+            }
+        });
+        $("#" + rowid + "_gmyw").keyup(function (event) {
+            if (event.keyCode == 13) {
+                var newid = parseInt(rowid) + 1;
+                $("#" + newid + "_gmyw").focus();
+            }
+        });
+        $("#" + rowid + "_zrl").keyup(function (event) {
+            if (event.keyCode == 13) {
+                var newid = parseInt(rowid) + 1;
+                $("#" + newid + "_zrl").focus();
+            }
+        });
+        $("#" + rowid + "_zcl").keyup(function (event) {
+            if (event.keyCode == 13) {
+                var newid = parseInt(rowid) + 1;
+                $("#" + newid + "_zcl").focus();
+            }
+        });
+        $("#" + rowid + "_yll").keyup(function (event) {
+            if (event.keyCode == 13) {
+                var newid = parseInt(rowid) + 1;
+                $("#" + newid + "_yll").focus();
+            }
+        });
+        $("#" + rowid + "_syl").keyup(function (event) {
+            if (event.keyCode == 13) {
+                var newid = parseInt(rowid) + 1;
+                $("#" + newid + "_syl").focus();
+            }
+        });
+        $("#" + rowid + "_ysl").keyup(function (event) {
+            if (event.keyCode == 13) {
+                var newid = parseInt(rowid) + 1;
+                $("#" + newid + "_ysl").focus();
+            }
+        });
+        $("#" + rowid + "_sxl").keyup(function (event) {
+            if (event.keyCode == 13) {
+                var newid = parseInt(rowid) + 1;
+                $("#" + newid + "_sxl").focus();
+            }
+        });
+        $("#" + rowid + "_otl").keyup(function (event) {
+            if (event.keyCode == 13) {
+                var newid = parseInt(rowid) + 1;
+                $("#" + newid + "_otl").focus();
+            }
+        });
+        $("#" + rowid + "_xbl").keyup(function (event) {
+            if (event.keyCode == 13) {
+                var newid = parseInt(rowid) + 1;
+                $("#" + newid + "_xbl").focus();
+            }
+        });
+        $("#" + rowid + "_cys").keyup(function (event) {
+            if (event.keyCode == 13) {
+                var newid = parseInt(rowid) + 1;
+                $("#" + newid + "_cys").focus();
+            }
+        });
+        $("#" + rowid + "_skyll").keyup(function (event) {
+            if (event.keyCode == 13) {
+                var newid = parseInt(rowid) + 1;
+                $("#" + newid + "_skyll").focus();
+            }
+        });
+        $("#" + rowid + "_xyl").keyup(function (event) {
+            if (event.keyCode == 13) {
+                var newid = parseInt(rowid) + 1;
+                $("#" + newid + "_xyl").focus();
+            }
+        });
+        $("#" + rowid + "_wyl").keyup(function (event) {
+            if (event.keyCode == 13) {
+                var newid = parseInt(rowid) + 1;
+                $("#" + newid + "_wyl").focus();
+            }
+        });
+        $("#" + rowid + "_fxxq").keyup(function (event) {
+            if (event.keyCode == 13) {
+                var newid = parseInt(rowid) + 1;
+                $("#" + newid + "_fxxq").focus();
+            }
+        });
+        $("#" + rowid + "_qtsc").keyup(function (event) {
+            if (event.keyCode == 13) {
+                var newid = parseInt(rowid) + 1;
+                $("#" + newid + "_qtsc").focus();
+            }
+        });
+        $("#" + rowid + "_xyll").keyup(function (event) {
+            if (event.keyCode == 13) {
+                var newid = parseInt(rowid) + 1;
+                $("#" + newid + "_xyll").focus();
+            }
+        });
+        $("#" + rowid + "_xyfs").keyup(function (event) {
+            if (event.keyCode == 13) {
+                var newid = parseInt(rowid) + 1;
+                $("#" + newid + "_xyfs").focus();
+            }
+        });
+        $("#" + rowid + "_xybhd").keyup(function (event) {
+            if (event.keyCode == 13) {
+                var newid = parseInt(rowid) + 1;
+                $("#" + newid + "_xybhd").focus();
+            }
+        });
+
+    }
+
+    function bindItemFloator(inputId, itemType) {
+        //绑定字典
+        $("#" + inputId).newtouchFloatingSelector({
+            height: 200,
+            width: 330,
+            clickautotrigger: true,
+            filter: function (keyword) {
+                return $.itemDetails.getItems(itemType);
+            },
+            colModel: [
+                { label: '编码', name: 'Code', widthratio: 20 },
+                { label: '名称', name: 'Name', widthratio: 60 },
+            ],
+            itemdbclickhandler: function ($thistr, $thisinput) {
+                //保存时验证val和data-Name一致
+                $thisinput.attr('data-Code', $thistr.attr('data-Code'));
+                $thisinput.attr('data-Name', $thistr.attr('data-Name'));
+                $thisinput.val($thistr.attr('data-Name'));
+            }
+        });
+    }
+
+
+    function presubmit() {
+        var xysxzList = [];
+        headdata = validate();
+        if (headdata) {
+            //获取所有行Id，遍历使编辑框处于保存状态
+            var rowIds = $("#gridtwdsList").jqGrid("getGridParam", "selarrrow");
+            var validationFailedArr = [];
+            for (var i = 0; i < rowIds.length; i++) {
+                var saveResult = $("#gridtwdsList").saveRow(rowIds[i], null, null, null, function (callbackRowId) { }, null, null);
+                var rowData = $("#gridtwdsList").jqGrid('getRowData', rowIds[i]);
+                if (!validaterow(rowData)) {
+                    validationFailedArr.push(rowIds[i]);
+                }
+                xysxzList.push(rowData.xysxz)
+            }
+            if (validationFailedArr != null && validationFailedArr.length > 0) {
+                for (var i = 0; i < validationFailedArr.length; i++) {
+                    $("#gridtwdsList").jqGrid('editRow', validationFailedArr[i], false, initInlineFunc);//打开编辑模式
+                }
+                $.modalAlert(errmsg, "warning");
+                return;
+            }
+            var gridData = $("#gridtwdsList").jqGrid('getRowData_AllLine', true, true);
+            if (gridData.length < 1) {
+                $.modalAlert("缺少选中数据", 'warning');
+                return;
+            }
+            var submitdata = { entityList: gridData, sjd: headdata.sjd, rq: headdata.rq, flag: '@MutipatientNursingInputFlag', xysxzList: xysxzList};
+            return submitdata;
+        }
+    }
+    //F8提交至服务器
+    function newtouch_event_f8() {
+        submitdata = presubmit();
+        if (submitdata) {
+            $.submitForm({
+                url: "/NurseManage/InpatientVitalSigns/submitmutiple",
+                param: submitdata,
+            success: function () {
+                btn_dtwdsearch();
+            }
+        })
+        }
+    }
+
+    function validate() {
+        var headdata = {};
+        var selectrq = $.trim($('#rq').val())
+        headdata.rq = selectrq.substr(0, 10);
+        if (headdata.rq== '') {
+            $.modalAlert("请选择日期", "warning");
+            return false;
+        }
+
+        if ('@MutipatientNursingInputFlag' == '0') {
+            headdata.sjd = $("[name=optionsSj]:checked").val() || null;
+            if (!(headdata.sjd)) {
+                $.modalAlert("请选择时间点", "warning");
+                return false;
+            }
+        } else {
+            headdata.sjd = new Date($.trim($('#rq').val())).getHours();
+        }
+        return headdata;
+    }
+
+    function validaterow(rowdata) {
+        // 根据隆安要求，取消体温必填 by haijiang.mo
+
+        //         //1. 体温测量方式
+        //         if (!rowdata.twclfs) {
+        //             //$.modalAlert(rowdata.xm+"缺少体温测量方式", "warning");
+        //             errmsg += rowdata.xm + "缺少体温测量方式;";
+        //             return false;
+        //         }
+        //         //2. 体温
+        //         if (!rowdata.tw) {
+        //             //$.modalAlert(rowdata.xm +"缺少体温", "warning");
+        //             errmsg += rowdata.xm + "缺少体温测量方式;";
+        //             return false;
+        //         }
+        return true;
+    }
+
+</script>  

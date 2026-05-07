@@ -1,0 +1,348 @@
+﻿
+@{
+    ViewBag.Title = "科室物资库存查询";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+
+<style>
+    #btn_search {
+        width: 45px;
+        font-weight: bolder;
+    }
+    #btn_sync {
+        width: 45px;
+        font-weight: bolder;
+    }
+    #btn_print {
+        width: 45px;
+        background-color: #fff;
+        color: #00a9ea;
+        font-weight: bolder;
+    }
+
+    #TabGrid {
+        width: 100%;
+        position: fixed;
+        bottom: 10px;
+        right: 0;
+        z-index: 8888;
+        background-color: #253443;
+        filter: alpha(Opacity=95);
+        -moz-opacity: 0.95;
+        opacity: 0.95;
+        box-shadow: 0px 2px 10px #909090;
+    }
+
+        #TabGrid > * {
+            filter: alpha(Opacity=95);
+            -moz-opacity: 0.95;
+            opacity: 0.95;
+        }
+
+    .showbotton {
+        display: none;
+        position: fixed;
+        bottom: 5px;
+        right: 0;
+        z-index: 9999;
+        background-color: #ccc;
+        width: 50px;
+        height: 44px;
+        filter: alpha(Opacity=90);
+        -moz-opacity: 0.9;
+        opacity: 0.9;
+        cursor: pointer;
+        border-radius: 100px 0 0 100px;
+    }
+</style>
+<form id="form1">
+    <div class="panel panel-default">
+        <div class="panel-heading">筛选条件</div>
+        <div style="padding-right:10px;">
+            <table class="form">
+                <tr>
+                    <td class="formTitle">物资名称：</td>
+                    <td class="formValue">
+                        <input type="text" id="keyWord" class="form-control" placeholder="拼音/名称" />
+                        <input type="hidden" id="productId" value="" />
+                    </td>
+                    <td class="formTitle">科室：</td>
+                    <td class="formValue formDdlSelectorTd">
+                        <input type="text" id="ks" class="form-control" autocomplete="off" style="width: 200px" />
+                        <input type="text" id="ksCode" class="form-control" style="display:none;" />
+                    </td>
+                    <td class="formTitle">类别：</td>
+                    <td class="formValue formDdlSelectorTd">
+                        <select class="form-control" id="lb">
+                            <option value="">全部</option>
+                        </select>
+                    </td>
+                    <td class="formTitle">显示零库存：</td>
+                    <td class="formValue formDdlSelectorTd">
+                        <select class="form-control" id="xslkc" name="xslkc">
+                            <option value="1">是</option>
+                            <option value="0">否</option>
+                        </select>
+                    </td>
+                    <th class="formTitle" colspan="2">
+                        <input type="button" class="btn btn-primary btn-md" id="btn_search" value="查询" />
+                        <input type="button" class="btn btn-primary btn-md" id="btn_sync" value="同步物资" />
+                    </th>
+                    <td class="formValue"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="gridPanel" style="margin-top:10px">
+        <table id="gridList"></table>
+        <div id="gridPager" rel="form1"></div>
+    </div>
+</form>
+<div id="TabGrid">
+    <ul class="nav nav-tabs navb-bg" role="tablist" id="myTab">
+        <li role="presentation" class="active">
+            <a href="#dv_mx" id="linkSearch" role="tab" data-toggle="tab">单据明细</a>
+        </li>
+        <li style="float:right">
+            <span class="hiding glyphicon glyphicon-chevron-right btn-lg"></span>
+        </li>
+    </ul>
+    <div id="dv_mx">
+        <table id="gridMxInfo"></table>
+    </div>
+</div>
+<div class="showbotton">
+    <span class="glyphicon glyphicon-chevron-left btn-lg"></span>
+</div>
+<script>
+    var $gridMxList = $("#gridMxInfo");
+    $(function () {
+        //浏览器窗口调整大小时重新加载jqGrid的宽
+        $(window).resize(function () {
+            window.initLayout("MyTabGrid");
+        });
+        $(".hiding,.rows,#dv_search,.toolbar,.panel-default").click(function () {
+            TabGridHide();
+        });
+        $(".showbotton").click(function () {
+            $(".showbotton").animate({ width: 'hide' },
+                "fast",
+                function () {
+                    $("#TabGrid").animate({ left: '0px' }, "slow");
+                });
+        });
+        Initial();
+    });
+
+    //回车事件绑定
+    $(document).keyup(function (event) {
+        if (event.keyCode === 13) {
+            $("#btn_search").trigger("click");
+        }
+    });
+
+    //初始化
+    function Initial() {
+        getLbSelectTree();
+        gridList();
+        gridMxInfo();
+        TabGridHide();;
+
+        $('#ks').ksFloatingSelector({
+            iszlks: "1",
+            itemdbclickhandler: function ($this) {
+                $('#ks').attr('data-code', $this.attr('data-Code'))
+                    .val($this.attr('data-Name'));
+                $('#ksCode').attr('data-code', $this.attr('data-Code'))
+                    .val($this.attr('data-Code'));
+            },
+        });
+
+        $("#ks").change(function () {
+            if (!$("#ks").val()) {
+                $("#ksCode").val("");
+            }
+        })
+    }
+
+    //隐藏搜索框并显示箭头
+    function TabGridHide() {
+        var tabGridwith = $("#TabGrid").width() + 200;
+        if ($(".showbotton").is(":hidden")) {
+            $("#TabGrid").animate({ left: tabGridwith },
+                "slow",
+                function () {
+                    $(".showbotton").animate({ width: 'show' }, "fast");
+                });
+        }
+    }
+
+    //类别
+    function getLbSelectTree() {
+        $("#lb").bindSelect({
+            url: "/NurseManage/DepartmentSupplies/GetPatientTreeSelectJson"
+        });
+    }
+
+    //主表信息
+    function gridList() {
+        var $gridList = $("#gridList");
+        $gridList.dataGrid({
+            url: "/NurseManage/DepartmentSupplies/GetWarehouseStorage",
+            postData: $("#form1").formSerialize(),
+            height: $(window).height() - document.getElementById('gridList').offsetTop - 70,
+            colModel: [
+                { label: 'ks', name: 'ks', width: 180, align: 'left',hidden:true },
+                { label: '科室', name: 'ksName', width: 100, align: 'left' },
+                { label: '名称', name: 'wzmc', width: 180, align: 'left' },
+                { label: '拼音', name: 'py', width: 80, align: 'left' },
+                { label: '类别', name: 'lb', width: 120, align: 'left' },
+                { label: '规格', name: 'gg', width: 100, align: 'left' },
+                { label: '数量', name: 'slStr', width: 80, align: 'center' },
+                 { label: '零售单价', name: 'lsjStr', width: 80, align: 'center' },
+                {
+                    label: '零售单价', name: 'lsj', width: 80, align: 'center',
+                    formatter: function (val) {
+                        return val.toFixed(4);
+                    }
+                },
+                { label: '单价单位', name: 'bmdwmc', width: 60, align: 'center', hidden: true },
+                {
+                    label: '零售总额', name: 'lsze', width: 80, align: 'center', 
+                    formatter: function (val) {
+                        return val.toFixed(2);
+                    }
+                },
+                {
+                    label: '进价总额', name: 'jjze', width: 80, align: 'right',hidden:true,
+                    formatter: function (val) {
+                        return val.toFixed(2);
+                    }
+                },
+                { label: '品牌', name: 'brand', width: 100, align: 'center' },
+                { label: '有效期', name: 'yxqStr', width: 70, align: 'left', hidden: true },
+                { label: '生产厂家', name: 'sccj', width: 150, align: 'left' },
+                { label: "productId", name: "productId", hidden: true}
+            ],
+            pager: "#gridPager",
+            sortname: 'ksName asc',
+            viewrecords: true,
+            ondblClickRow: function (rowid, iRow, iCol, e) {
+                debugger;
+                var z = $('input[name=mxyx]:checked').length > 0 ? "1" : "";
+                $gridMxList.jqGrid('setGridParam',
+                    {
+                        url: "/NurseManage/DepartmentSupplies/GetWarehouseStorageDetail",
+                        postData: { ks: $("#gridList").getRowData(rowid).ks, proId: $("#gridList").getRowData(rowid).productId, zt: z }
+                    }).trigger('reloadGrid');
+                $(".showbotton").click();
+            }
+        });
+        $("#btn_search").click(function () {
+            $gridList.jqGrid('setGridParam',
+                {
+                    postData: $("#form1").formSerialize()
+                }).trigger('reloadGrid');
+        });
+        $("#btn_sync").click(function () {
+            $.najax({
+                url: "/NurseManage/DepartmentSupplies/UpdateSyncWz",
+                type: "POST",
+                data: {},
+                dataType: "json",
+                success: function (data) {
+                    if (data.state === 'success') {
+                        $.modalMsg("耗材同步成功！", "success", 1000);
+                    }
+                    else {
+                        $.modalMsg(data, "error", 1000);
+                    }
+                }
+            });
+        })
+    }
+
+    //明细信息
+    function gridMxInfo() {
+        $gridMxList.dataGrid({
+            url: "",
+            postData: "",
+            height: $(window).height() - document.getElementById('gridList').offsetTop - 200,
+            colModel: [
+                { label: '名称', name: 'wzmc', width: 180, align: 'left', hidden: true },
+                { label: '库存数', name: 'bmkcslStr', width: 80, align: 'right' },
+                { label: '冻结数', name: 'bmdjslStr', width: 80, align: 'right' },
+               
+               
+                { label: '进价单价', name: 'jjStr', width: 120, align: 'right'},
+                { label: '单价单位', name: 'bmdwmc', width: 70, align: 'center',hidden:true },
+                {
+                    label: '进价总额', name: 'jjze', width: 100, align: 'center',
+                    formatter: function (cellvalue) {
+                        return cellvalue ? parseFloat(cellvalue).toFixed(2) : "0.00";
+                    }
+                },
+                 {
+                     label: '零售单价', name: 'lsjStr', width: 120, align: 'center'
+                 },
+                  {
+                      label: '零售总额', name: 'lsze', width: 100, align: 'center',
+                      formatter: function (cellvalue) {
+                          return cellvalue ? parseFloat(cellvalue).toFixed(2) : "0.00";
+                      }
+                  },
+                   { label: '批号', name: 'ph', width: 120, align: 'left' },
+                { label: '批次', name: 'pc', width: 120, align: 'left' },
+                { label: '有效期', name: 'yxq', width: 70, align: 'left', formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d' } },
+                {
+                    label: '状态', name: 'zt', width: 50, align: 'center', formatter: function (val, options) {
+                        return val === "1" ? "<i rowId=" + options.rowId + " onclick='operateZt(this)' class=\"fa fa-toggle-on\"></i>" : "<i rowId=" + options.rowId + " onclick='operateZt(this)' class=\"fa fa-toggle-off\"></i>";
+                    }
+                },
+                { label: 'productId', name: 'productId', hidden: true },
+                { label: 'Id', name: 'Id', hidden: true }
+            ]
+        });
+    }
+
+    //设置库存有效与否
+    function operateZt(obj) {
+        var zt = "1";
+        var mxId = $gridMxList.getRowData($(obj).attr("rowId")).Id;
+        if ($(obj).hasClass("fa-toggle-off")) {
+            $(obj).removeClass("fa-toggle-off").addClass("fa-toggle-on");
+            zt = "1";
+        } else {
+            $(obj).removeClass("fa-toggle-on").addClass("fa-toggle-off");
+            zt = "0";
+        }
+
+        $.najax({
+            url: "/NurseManage/DepartmentSupplies/UpdateKcxxZt",
+            type: "POST",
+            data: { mxId: mxId, zt: zt },
+            dataType: "json",
+            success: function (data) {
+                if (data.state === 'success') {
+                    //$.modalMsg("修改库存状态成功", "success", 1000);
+                }
+                else {
+                    $.modalMsg(data, "error", 1000);
+                }
+            }
+        });
+    }
+
+    //获取url中的参数
+    function getQueryString(name) {
+        // 匹配目标参数
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var result = window.location.search.substr(1).match(reg); // 对querystring匹配目标参数
+        if (result != null) {
+            return decodeURIComponent(result[2]);
+        } else {
+            return null;
+        }
+    }
+
+</script>

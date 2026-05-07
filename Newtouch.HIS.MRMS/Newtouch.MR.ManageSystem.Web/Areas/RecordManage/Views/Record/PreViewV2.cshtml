@@ -1,0 +1,78 @@
+﻿@{
+    Layout = "~/Views/Shared/_Index.cshtml";
+    var EmrEdiForUrl = Newtouch.Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("KyEmrEdiForUrl");
+}
+<style>
+    .design-template-wrapper {
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        z-index: 100;
+        height: 800px;
+    }
+</style>
+<script src="@EmrEdiForUrl/iframe/HmEditorIfame.js"></script>
+<div class="design-template-wrapper" id="editorContainer">
+</div>
+
+<script>
+    var editorInstance;
+    var id = "Editor_" + new Date().getTime();
+    var templateId;
+    var templateName;
+    var zyh = $.request('zyh');
+    var blid = $.request('blid');
+    var bllx = $.request('bllx');
+
+    $(function () {
+        // 创建编辑器
+        HMEditorLoader.createEditorAsync({
+            container: "#editorContainer",
+            id: id,
+            style: {
+                width: '100%',
+                height: '100%',
+                border: '1px solid #ddd'
+            },
+            editorConfig: {
+                // 编辑器配置项
+            },
+            // 模式设置
+            designMode: false,  // 是否启用设计模式
+            allowModifyDatasource: true,
+            reviseMode: false,  // 是否启用修订模式
+            readOnly: false,     // 是否启用只读模式
+            customParams: {     // 自定义参数
+
+            }
+        })
+            .then(function (result) {
+                // 编辑器初始化完成
+                editorInstance = result; console.log(12);
+                $.ajax({
+                    type: "POST",
+                    url: "/RecordManage/Record/LoadMedicalRecordHtml",
+                    data: { blid: blid, bllx: bllx, zyh: zyh },
+                    dataType: "json",
+                    async: false,
+                    success: function (respdata) {
+                        console.log(respdata);
+                        editorInstance.setDocContent({
+                            code: respdata.templateId,
+                            docTplName: respdata.templateName,
+                            docContent: respdata.xmldata
+                        });
+                        templateId = respdata.templateId;
+                        templateName = respdata.templateName;
+                    }
+                })
+            })
+            .catch(function (error) {
+                console.error("编辑器初始化失败:", error);
+            });
+    });
+</script>

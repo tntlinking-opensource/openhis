@@ -1,0 +1,215 @@
+<XTextDocument xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EditorVersionString="1.2023.2.14">
+   <InnerID>740</InnerID>
+   <XElements>
+      <Element xsi:type="XTextHeader">
+         <InnerID>6</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XString">
+               <InnerID>1910</InnerID>
+               <Text>                    </Text>
+            </Element>
+            <Element xsi:type="XInputField" StyleIndex="1">
+               <InnerID>783</InnerID>
+               <ID>B0EADC5F-D1A7-4C1D-8BFF-C30B4AB96B89</ID>
+               <ToolTip>请输入医院名称</ToolTip>
+               <EnableValueValidate>true</EnableValueValidate>
+               <ValueBinding>
+                  <DataSource>zy_brjbxx</DataSource>
+                  <BindingPath>zy_brjbxx/yymc</BindingPath>
+               </ValueBinding>
+               <ContentReadonly>False</ContentReadonly>
+               <StartBorderText>[</StartBorderText>
+               <EndBorderText>]</EndBorderText>
+               <BorderElementColor />
+               <Name>yymc</Name>
+               <BackgroundText>医院名称</BackgroundText>
+            </Element>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>784</InnerID>
+            </Element>
+            <Element xsi:type="XString" StyleIndex="2">
+               <InnerID>1911</InnerID>
+               <Text>住院病人须知</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0">
+               <InnerID>792</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+      <Element xsi:type="XTextBody">
+         <InnerID>13</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XString">
+               <InnerID>1912</InnerID>
+               <Text>     为了使您享有一个安静、清洁、舒适、安全、优美和祥和的治疗、休养环境，促进医疗护理工作成效，我们需要您的理解与合作，以下是您住院期间需要了解及配合内容，请您在认真阅读并充分理解之后签上您的姓名，如您不能签字，可由您的家属代签。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>913</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>1913</InnerID>
+               <Text>     1、您需要携带的个人物品有:换洗的衣物、拖鞋、嗽口蛊、牙膏、牙刷、面巾等</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>956</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>1914</InnerID>
+               <Text>     2、请保管好您的财物。为避免您财物的损失，请尽量避免携带贵重物品和大量现金入院，建议您将现金存入银行或交到门诊收费处做住院预交金;您的手机、手表、现金及各科饰物请随身携带或妥善保管，以防丢失。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>1059</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>1915</InnerID>
+               <Text>     3、我们为您设置的作息时间:每天上午8:00~11:30;下午2:30~4:00为查房治疗时间;中午12:00~下午2:30、晚上9:30以后为休息时间。如您外出，将会影响您的康复及您享受规范化医疗服务的连续性，如确有急事外出应向科室请假，经同意后方可外出。同时请不要随意到治疗室、医护办公室走访或翻阅病历资料，以免影响医务人员为您提供服务。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>1237</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>1916</InnerID>
+               <Text>     4、住院期间如您有事离开医院，将会影响您所享有的连续的医疗服务。为防意外事件发生，请您不要在未经病房主任、医务人员书面同意下离院外出，敬请您关注，如有急事需外出的须向科室请假。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>1332</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>1917</InnerID>
+               <Text>     5、探病时间:您的亲属及朋友享有探病的权利，但也应清楚了解在病人的病情许可及不妨碍其他病人休息的情况下进行，才有助于康复。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>1400</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>1918</InnerID>
+               <Text>     6、陪护:医务人员根据您的病情决定您是否需要留家属陪护，如病情需要，应家属陪护，同时您的家属需要承担陪护的义务，敬请您的家属关注。为了您的安全，请您的陪护人员不要睡到病床上。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>1494</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>1919</InnerID>
+               <Text>     7、为使您享有良好的治疗、休息环境，敬请您和我们一起共同维持病室的安静和整洁，并注意节约用水，爱护公物。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>1553</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>1920</InnerID>
+               <Text>     8、住院大楼内设有安全通道，并设有明显标志，请您留意。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>1587</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>1921</InnerID>
+               <Text>     9、您有遵守公安部《关于维护医院秩序的联合通知》的义务，如您对医疗护理有疑问，请您向病区主任或护士长反映。</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>1647</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>1922</InnerID>
+               <Text>                                        病人签名：_____________</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>1707</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>1923</InnerID>
+               <Text>                                        或</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>1750</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>1924</InnerID>
+               <Text>                           家属签名:_______________与患者关系：_____________</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>1818</InnerID>
+            </Element>
+            <Element xsi:type="XString">
+               <InnerID>1925</InnerID>
+               <Text>                                                年        月        日</Text>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>1887</InnerID>
+            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="3">
+               <InnerID>1889</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+      <Element xsi:type="XTextFooter">
+         <InnerID>45</InnerID>
+         <AcceptTab>true</AcceptTab>
+         <XElements>
+            <Element xsi:type="XParagraphFlag">
+               <InnerID>794</InnerID>
+            </Element>
+         </XElements>
+      </Element>
+   </XElements>
+   <SerializeParameterValue>true</SerializeParameterValue>
+   <FileName>\File\Template\医疗文书\医疗文书\住院病人须知.xml</FileName>
+   <FileFormat>xml</FileFormat>
+   <ContentStyles>
+      <Default xsi:type="DocumentContentStyle">
+         <FontName>宋体</FontName>
+         <FontSize>12</FontSize>
+      </Default>
+      <Styles>
+         <Style Index="0">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <Align>Center</Align>
+         </Style>
+         <Style Index="1">
+            <FontName>宋体</FontName>
+            <FontSize>18</FontSize>
+            <Bold>true</Bold>
+         </Style>
+         <Style Index="2">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <Bold>true</Bold>
+         </Style>
+         <Style Index="3">
+            <FontName>宋体</FontName>
+            <FontSize>12</FontSize>
+            <LineSpacingStyle>SpaceDouble</LineSpacingStyle>
+         </Style>
+      </Styles>
+   </ContentStyles>
+   <Info>
+      <LicenseText>未注册|Unregister</LicenseText>
+      <CreationTime>1980-01-01T00:00:00</CreationTime>
+      <LastModifiedTime>2025-02-13T11:26:52.1887441+08:00</LastModifiedTime>
+      <LastPrintTime>1980-01-01T00:00:00</LastPrintTime>
+      <Operator>DCSoft.Writer Version:1.2023.2.14</Operator>
+      <NumOfPage>2</NumOfPage>
+   </Info>
+   <BodyText>     为了使您享有一个安静、清洁、舒适、安全、优美和祥和的治疗、休养环境，促进医疗护理工作成效，我们需要您的理解与合作，以下是您住院期间需要了解及配合内容，请您在认真阅读并充分理解之后签上您的姓名，如您不能签字，可由您的家属代签。
+     1、您需要携带的个人物品有:换洗的衣物、拖鞋、嗽口蛊、牙膏、牙刷、面巾等
+     2、请保管好您的财物。为避免您财物的损失，请尽量避免携带贵重物品和大量现金入院，建议您将现金存入银行或交到门诊收费处做住院预交金;您的手机、手表、现金及各科饰物请随身携带或妥善保管，以防丢失。
+     3、我们为您设置的作息时间:每天上午8:00~11:30;下午2:30~4:00为查房治疗时间;中午12:00~下午2:30、晚上9:30以后为休息时间。如您外出，将会影响您的康复及您享受规范化医疗服务的连续性，如确有急事外出应向科室请假，经同意后方可外出。同时请不要随意到治疗室、医护办公室走访或翻阅病历资料，以免影响医务人员为您提供服务。
+     4、住院期间如您有事离开医院，将会影响您所享有的连续的医疗服务。为防意外事件发生，请您不要在未经病房主任、医务人员书面同意下离院外出，敬请您关注，如有急事需外出的须向科室请假。
+     5、探病时间:您的亲属及朋友享有探病的权利，但也应清楚了解在病人的病情许可及不妨碍其他病人休息的情况下进行，才有助于康复。
+     6、陪护:医务人员根据您的病情决定您是否需要留家属陪护，如病情需要，应家属陪护，同时您的家属需要承担陪护的义务，敬请您的家属关注。为了您的安全，请您的陪护人员不要睡到病床上。
+     7、为使您享有良好的治疗、休息环境，敬请您和我们一起共同维持病室的安静和整洁，并注意节约用水，爱护公物。
+     8、住院大楼内设有安全通道，并设有明显标志，请您留意。
+     9、您有遵守公安部《关于维护医院秩序的联合通知》的义务，如您对医疗护理有疑问，请您向病区主任或护士长反映。
+                                        病人签名：_____________
+                                        或
+                           家属签名:_______________与患者关系：_____________
+                                                年        月        日
+</BodyText>
+   <LocalConfig />
+   <PageSettings>
+      <StrictUsePageSize>false</StrictUsePageSize>
+   </PageSettings>
+</XTextDocument>
