@@ -1,4 +1,8 @@
 ﻿@using Newtouch.Infrastructure;
+
+@{
+    var iSOpenZycfnew = ViewData["ISOpenZycfnew"] as bool?;
+}
 <div id="floatPreTemplateTree" style="display:none;z-index:1;background: white;">
     <div class="ui-layout-west">
         <ul id="beveltabs">
@@ -33,6 +37,7 @@
 <script>
     var pageFlag = "";
     var lasttabName = "";
+
     function SetCurrentPageCflx(page) {
         pageFlag = page;
         //模拟点击tab   $($(this).attr('name') + "Tree").treeview({
@@ -92,6 +97,7 @@
     });
 
     function presTemplateFill(data) {
+
         //alert(data.reverse());
         if (!(data && data.mbmxList && data.mbmxList.length > 0)) {
             return;
@@ -116,6 +122,18 @@
                 newCfh = GetNewPresNo();
             }
         }
+        if (pageFlag == '@Html.Raw(((int)EnumCflx.Yyhc).ToString())') {
+            getActionStr = getConsumablesActionStr();
+            grid = "gridwzhccf";
+            var gridwzcfData = $("#gridwzhccf").jqGrid('getRowData_AllLine', null, true);
+            if (gridwzcfData.length && gridwzcfData.length > 0) {
+                newCfh = gridwzcfData[0].cfh;
+                isNewCf = false;
+            }
+            else {
+                newCfh = GetNewPresNo();
+            }
+        }
         if (pageFlag == '@Html.Raw(((int)EnumCflx.WMPres).ToString())') {
             getActionStr = getWMActionStr();
             grid = "gridxycf";
@@ -128,7 +146,7 @@
                 newCfh = GetNewPresNo();
             }
         }
-        @*if (pageFlag == '@Html.Raw(((int)EnumCflx.TCMPres).ToString())') {
+        if (pageFlag == '@Html.Raw(((int)EnumCflx.TCMPres).ToString())') {
             getActionStr = getTCMActionStr();
             grid = "gridzycf";
             var gridzycfData = $("#gridzycf").jqGrid('getRowData_AllLine', null, true);
@@ -152,8 +170,8 @@
             if (data.cfyf) {
                 $("#cfyf").val(data.cfyf).trigger('change');
             }
-        }*@
-        if (pageFlag == '@Html.Raw(((int)EnumCflx.TCMPres).ToString())') {
+        }
+        if (pageFlag === '@Html.Raw(((int)EnumCflx.TCMPres).ToString())' &&'@iSOpenZycfnew.Value'==='True' ) {
             getActionStr = getTCMActionStr();
             grid = "gridzycfnew";
             var gridzycfData = $("#gridzycfnew").jqGrid('getRowData_AllLine', null, true);
@@ -178,6 +196,7 @@
                 $("#cfyf").val(data.cfyf).trigger('change');
             }
         }
+
         var jj = 0;
         for (var i = 0; i < data.mbmxList.length; i++) {
             jj += 1;
@@ -235,7 +254,7 @@
                     return;
                 }
                 else {
-                    if (pageFlag == '@Html.Raw(((int)EnumCflx.TCMPres).ToString())'&& jj % 2 == 0) {
+                    if (grid == "gridzycfnew" && jj % 2 == 0) {
                         var allRowID = $("#" + grid).jqGrid('getDataIDs');
                         var lastrowid = allRowID[allRowID.length - 1]
                         $("#" + lastrowid + "_ypCode2").val(data.mbmxList[i].ypCode);
@@ -258,8 +277,7 @@
                 }
             }
             else {
-
-                if (pageFlag == '@Html.Raw(((int)EnumCflx.TCMPres).ToString())'&& jj % 2 == 0) {
+                if (grid == "gridzycfnew" && jj % 2 == 0) {
                     var allRowID = $("#" + grid).jqGrid('getDataIDs');
                     var lastrowid = allRowID[allRowID.length - 1]
                     $("#" + lastrowid + "_ypCode2").val(data.mbmxList[i].ypCode);

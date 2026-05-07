@@ -16,6 +16,7 @@ namespace Newtouch.HIS.Domain.Entity
         /// 
         /// </summary>
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int ypId { get; set; }
 
         /// <summary>

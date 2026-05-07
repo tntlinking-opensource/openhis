@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 @using Newtouch.Infrastructure;
 @{
-	ViewBag.Title = "外部入库";
+	ViewBag.Title = "单据查询-修改单据";
 	Layout = "~/Views/Shared/_Index.cshtml";
 }
 <style>
@@ -90,6 +90,7 @@
 
 	var $gridList = $("#gridList");
 	var crkId = $.request("keyValue");
+	var fisrload=true;
     $(function () {
         $(window).resize(function () {
             window.initLayout("MyTabGrid");
@@ -101,6 +102,7 @@
             $("#gridList").jqGrid("addRowData", undefined, { operate: GetOperatehtml() }, "last");
         });
         InitBackspaceKeyForGys();
+        
     });
 
     //按backspace键清楚所有
@@ -130,7 +132,8 @@
     function init() {
         GetDjh();
         InitJqGrid();
-        $("#gridList").jqGrid("addRowData", undefined, { operate: GetOperatehtml() }, "last");
+        //$("#gridList").jqGrid("addRowData", undefined, { operate: GetOperatehtml() }, "last");
+        
     }
 
     //初始化出库明细
@@ -203,7 +206,6 @@
 				{ label: 'bzdwjj', name: 'bzdwjj', hidden: true, editable: true },
 				{ label: 'crkmxId', name: 'crkmxId', hidden: true, editable: true },
 				{ label: 'ckdw', name: 'ckdw', hidden: true, editable: true },
-				{ label: 'Fph', name: 'Fph', hidden: true, editable: true },
 				{ label: 'Ckzhyz', name: 'Ckzhyz', hidden: true, editable: true },
 				{ label: 'Ckbmkc', name: 'Ckbmkc', hidden: true, editable: true },
 				{ label: 'Rkzhyz', name: 'Rkzhyz', hidden: true, editable: true },
@@ -214,22 +216,32 @@
             editinputwidthborder: false,    //是否需要边框 默认为true
             editinputborderradius: false,   //是否需要边框圆角 默认true（有圆角）
 			gridComplete: function () {
-				debugger
                 var ids = $("#gridList").getDataIDs();
                 var lastRowoid = ids[ids.length - 1];
-				EnableInlineEditBox(ids);
+                if(fisrload){
+                    EnableInlineEditBox(ids);
+                    fisrload=false;
+                }
+                else
+                    EnableInlineEditBox(lastRowoid);
+                //ComputeRKZE();
             }
         });
     }
 
     //启用行内编辑
     function EnableInlineEditBox(rowid) {
-		if (rowid != null && rowid !== "") {
-			for (var i = 0; i < rowid.length; i++) {
-				$("#gridList").jqGrid('editRow', rowid[i], false, initInlineFunc);//打开编辑模式
-				$("#jqg_gridList_" + rowid[i]).trigger("click");
-			}
-
+        if (rowid != null && rowid !== "") {
+            if(fisrload){
+                for (var i = 0; i < rowid.length; i++) {
+                    $("#gridList").jqGrid('editRow', rowid[i], false, initInlineFunc);//打开编辑模式
+                    $("#jqg_gridList_" + rowid[i]).trigger("click");
+                }
+            }
+            else{
+                $("#gridList").jqGrid('editRow', rowid, false, initInlineFunc);//打开编辑模式
+                $("#jqg_gridList_" + rowid).trigger("click");
+            }
         }
         else {
             var ids = $("#gridList").getDataIDs();
@@ -242,6 +254,7 @@
 
     //初始化 浮层
     function initInlineFunc(rowid) {
+        debugger;
         //部分列只读
         $("#" + rowid + "_ypmc").attr('autocomplete', 'off');
         $("#" + rowid + "_dlmc").css('background-color', '#f6f7fb').attr('readonly', 'true');
@@ -254,6 +267,12 @@
         $("#" + rowid + "_kl").css('background-color', '#f6f7fb').attr('readonly', 'true');
         $("#" + rowid + "_pfjze").css('background-color', '#f6f7fb').attr('readonly', 'true');
         $("#" + rowid + "_pfj").css('background-color', '#f6f7fb').attr('readonly', 'true');
+        if(!fisrload){
+            var ids = $("#gridList").getDataIDs();
+            var lastRowoid = ids[ids.length - 1];
+            var fph=$("#" + ids[ids.length - 2] + "_fph").val();
+            $("#" + rowid + "_fph").val(fph);
+        }
         InitSrm(rowid + "_ypmc", rowid);//药品浮层
         InitTabKey("kprq_" + rowid, rowid);//开票日期输入处tab跳转
 		JJZE_Leave(rowid + "_Zje", rowid);//进价总额改变
@@ -264,7 +283,6 @@
 
     //添加明细
 	function addItem(obj) {
-		debugger
         var ids = $("#gridList").getDataIDs();
         var lastRowoid = ids[ids.length - 1];
         var dataRow = {
@@ -277,10 +295,13 @@
     }
 
     //删除明细
-    function deleteItem(obj) {
+	function deleteItem(obj) {
         var selRowId = $(obj).parent().parent().attr("id");
         if (!!selRowId) {
             $("#gridList").jqGrid("delRowData", selRowId);
+            var ids = $("#gridList").getDataIDs();
+            var lastRowoid = ids[ids.length - 1];
+            EnableInlineEditBox(lastRowoid);
             ComputeRKZE();
         }
     }
@@ -368,7 +389,7 @@
 
     //初始化输入库存检查事件
 	function InitKcCheck(rowid) {
-        $("#" + rowid + "_sl").blur(function () {
+	    $("#" + rowid + "_sl").blur(function () {
             if (CheckKc(rowid)) {
                 CalculationLsze(rowid);
                 ComputeKL(rowid);//计算扣率
@@ -445,11 +466,14 @@
 	function hzjs(id, id2,rowid) {
 		var crkmxid = $("#" + rowid + "_crkmxId").val()
 		if (crkmxid != null) {
-			$("#" + id).change(function () {
+		    $("#" + id).change(function () {
 				var Zje = $("#" + rowid + "_Zje").val();
 				var sl = $("#" + rowid + "_sl").val();
 				var pfj = $("#" + rowid + "_pfj").val();
+				var lsj = $("#" + rowid + "_lsj").val();
 				$("#" + rowid + "_kl").val(parseFloat(Zje / sl / pfj * 100).toFixed(2));  //五舍六入
+				$("#" + rowid + "_lsze").val((lsj * sl).toFixed(2));
+				$("#" + rowid + "_pfjze").val((pfj * sl).toFixed(2));
 			});
 			$("#" + id2).change(function () {
 				var Zje = $("#" + rowid + "_Zje").val();
@@ -458,6 +482,7 @@
 				var lsj = $("#" + rowid + "_lsj").val();
 				$("#" + rowid + "_kl").val(parseFloat(Zje / sl / pfj * 100).toFixed(2));  //五舍六入
 				$("#" + rowid + "_lsze").val((lsj * sl).toFixed(2));
+				$("#" + rowid + "_pfjze").val((pfj * sl).toFixed(2));
 			});
 		}
 	}
@@ -654,7 +679,8 @@
 	}
 
     //入库
-		function newtouch_event_f8() {
+	function newtouch_event_f8() {
+	    debugger;
 			$("#cb_gridList").click();
         var list = [];
         var validationFailedArr = [];
@@ -666,7 +692,6 @@
                 validationFailedArr.push(rowid);
                 return;
 			}
-			debugger
 			if (rowData.crkmxId != null && rowData.crkmxId != "") {
 				list.push(AssembleData1(rowData, rowid));
 			} else {
@@ -712,8 +737,11 @@
             dataType: "json",
             success: function (res) {
                 if (res.state === "success") {
-                    newtouch_event_f7();
+                    //newtouch_event_f7();
                     $.modalMsg('修改成功', 'success', 1000);
+                    $.currentWindow().$("#gridDJMainRecords").resetSelection();
+                    $.currentWindow().$("#gridDJMainRecords").trigger("reloadGrid");
+                    $.modalClose("Form");
                 } else {
                     $.modalAlert(res.message, 'error');
                 }

@@ -207,13 +207,13 @@ and not exists(select 1 from xt_gmxx c with(nolock) where a.OrganizeId=c.Organiz
  ,(isnull(a.ypmc,a.xmmc) + ' ' + isnull(d.ypgg,'') + ' ' + convert(varchar(8), a.sl) + a.dw ) cfmxnr
  ,c.xb,b.cfh,b.cfId,f.yfmc ypyfmc,a.yfcode,b.ys yscode,ys.name ysmc,b.cflx,isnull(a.je,0)je
    from xt_cfmx(nolock) a
- left join xt_cf(nolock) b on a.cfId = b.cfId and a.OrganizeId=b.OrganizeId
- left join xt_jz(nolock) c on c.jzId = b.jzId and a.OrganizeId=c.OrganizeId
+ left join xt_cf(nolock) b on a.cfId = b.cfId and a.OrganizeId=b.OrganizeId and b.zt='1'
+ left join xt_jz(nolock) c on c.jzId = b.jzId and a.OrganizeId=c.OrganizeId and c.zt='1'
  left join xt_gmxx(nolock) gm on gm.cfmxid=a.cfmxId and gm.mzzybz='1' and gm.zt='1'  and gm.cancel=0
- left join[NewtouchHIS_Base]..xt_ypsx d on a.ypcode = d.ypcode  and a.OrganizeId=d.OrganizeId
- left join[NewtouchHIS_Base]..xt_yzpc e on e.yzpcCode = a.pcCode  and a.OrganizeId=e.OrganizeId
- left join[NewtouchHIS_Base]..xt_ypyf f on f.yfcode = a.yfcode
- left join NewtouchHIS_Base..Sys_Staff (nolock) ys on ys.gh=b.ys  and a.OrganizeId=ys.OrganizeId
+ left join[NewtouchHIS_Base]..xt_ypsx d on a.ypcode = d.ypcode  and a.OrganizeId=d.OrganizeId and d.zt='1'
+ left join[NewtouchHIS_Base]..xt_yzpc e on e.yzpcCode = a.pcCode  and a.OrganizeId=e.OrganizeId and e.zt='1'
+ left join[NewtouchHIS_Base]..xt_ypyf f on f.yfcode = a.yfcode and f.zt='1'
+ left join NewtouchHIS_Base..Sys_Staff (nolock) ys on ys.gh=b.ys  and a.OrganizeId=ys.OrganizeId and ys.zt='1'
  where  a.zt='1' and a.OrganizeId=@orgId
  and b.jzid =@jzid ";
 

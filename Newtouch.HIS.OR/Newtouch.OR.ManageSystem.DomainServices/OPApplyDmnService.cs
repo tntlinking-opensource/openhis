@@ -49,8 +49,8 @@ namespace Newtouch.OR.ManageSystem.DomainServices
         {
             string sql = "";
             var para = new List<SqlParameter>();
-            para.Add(new SqlParameter("@OrgId", OrgId));
-            para.Add(new SqlParameter("@ysgh", ysgh));
+            para.Add(new SqlParameter("@OrgId", OrgId??"1"));
+            para.Add(new SqlParameter("@ysgh", ysgh??"1"));
 
             if (!string.IsNullOrWhiteSpace(zyh))
             {
@@ -108,7 +108,7 @@ namespace Newtouch.OR.ManageSystem.DomainServices
             }
             else if (type == 0)
             {
-                if (!string.IsNullOrWhiteSpace(ysgh))
+                if (!string.IsNullOrWhiteSpace(ysgh??"1"))
                 {
                     sql += " and a.ysgh=@ysgh ";
                 }

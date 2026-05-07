@@ -27,14 +27,14 @@ namespace Newtouch.Domain.IDomainServices
         /// <param name="orgId"></param>
         /// <param name="ztId"></param>
         /// <returns></returns>
-        List<GPackageZTTreeDetailVO> GetGPackageDetailByZtId(string orgId, string ztId);
+        List<GPackageZTTreeDetailVO> GetGPackageDetailByZtId(string orgId, string ztId,string mbId=null);
         /// <summary>
         /// 获取组套信息
         /// </summary>
         /// <param name="orgId"></param>
         /// <param name="ztId"></param>
         /// <returns></returns>
-        List<GPackageZTTreeDetailVO> GetGPackageInfoByZtId(string orgId, string ztId);
+        List<GPackageZTTreeDetailVO> GetGPackageInfoByZtId(string orgId, string ztId, string mbId);
 
         /// <summary>
         /// 模板详情

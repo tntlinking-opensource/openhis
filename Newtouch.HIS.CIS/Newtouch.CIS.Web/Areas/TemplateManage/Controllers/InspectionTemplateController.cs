@@ -145,24 +145,24 @@ namespace Newtouch.CIS.Web.Areas.TemplateManage.Controllers
         /// 根据ztId查询组套下的收费项目
         /// </summary>
         /// <returns></returns>
-        public ActionResult GetGPackageDetailByZtId(string ztId)
+        public ActionResult GetGPackageDetailByZtId(string ztId,string mbId=null)
         {
-            var sfxmdata = _inspectionTemplateDmnService.GetGPackageDetailByZtId(this.OrganizeId, ztId);
+            var sfxmdata = _inspectionTemplateDmnService.GetGPackageDetailByZtId(this.OrganizeId, ztId,mbId);
             return Content(sfxmdata.ToJson());
         }
-        public ActionResult GetGPackageDetailByZtIdArray(string[] ztId)
+        public ActionResult GetGPackageDetailByZtIdArray(string[] ztId,string mbId=null)
         {
             string ztIds = "";
             if (ztId != null && ztId.Length > 0)
             {
                 ztIds=String.Join(",", ztId);
             }
-            var sfxmdata = _inspectionTemplateDmnService.GetGPackageDetailByZtId(this.OrganizeId, ztIds);
+            var sfxmdata = _inspectionTemplateDmnService.GetGPackageDetailByZtId(this.OrganizeId, ztIds,mbId);
             return Content(sfxmdata.ToJson());
         }
-        public ActionResult GetGPackageInfoByZtId(string ztId)
+        public ActionResult GetGPackageInfoByZtId(string ztId,string mbId)
         {
-            var sfxmdata = _inspectionTemplateDmnService.GetGPackageInfoByZtId(this.OrganizeId, ztId);
+            var sfxmdata = _inspectionTemplateDmnService.GetGPackageInfoByZtId(this.OrganizeId, ztId,mbId);
             return Content(sfxmdata.ToJson());
         }
 

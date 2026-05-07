@@ -22,23 +22,36 @@ namespace Newtouch.HIS.Repository
 
 		public RptrptMzRjbEntity GetLastMzrjEntity(string orgId, string UserCode)
 		{
-			RptrptMzRjbEntity rjEntity = this.IQueryable()
-				.Where(p => p.OrganizeId == orgId && p.czr == UserCode && p.zt == "1")
-				.OrderByDescending(a => a.CreateTime)
-				.FirstOrDefault();
-			if (rjEntity==null)
-			{
-				rjEntity = new RptrptMzRjbEntity() {jssj = DateTime.Now.AddYears(-1)};
-			}
+            RptrptMzRjbEntity rjEntity = new RptrptMzRjbEntity();
+            List<RptrptMzRjbEntity> rjEntitylist = this.IQueryable()
+               .Where(p => p.OrganizeId == orgId && p.zt == "1")//&& p.czr == UserCode )
+               //.OrderByDescending(a => a.CreateTime)
+               .ToList();
+              // .FirstOrDefault();
+            if (rjEntitylist.Count()==0)
+            {
+                rjEntity = new RptrptMzRjbEntity() { jssj = DateTime.Now.AddYears(-1) };
+            }
+            else
+            {
+                if (!string.IsNullOrWhiteSpace(UserCode))
+                    rjEntity = rjEntitylist.Where(p => p.czr == UserCode).OrderByDescending(a => a.CreateTime).FirstOrDefault();
+                else
+                    rjEntity = rjEntitylist.OrderByDescending(a => a.CreateTime).FirstOrDefault();
+            }
 			return rjEntity;
 		}
 
 		public IList<OutPatientMzrjDto> GetLastMzrjEntityList(string orgId, string UserCode, string keyword)
 		{
 			var entityList = this.IQueryable()
-				.Where(p => p.OrganizeId == orgId && p.czr == UserCode && p.zt == "1" && (p.kssj.ToString().Contains(keyword) || p.jssj.ToString().Contains(keyword)))
+				.Where(p => p.OrganizeId == orgId && p.zt == "1" && (p.kssj.ToString().Contains(keyword) || p.jssj.ToString().Contains(keyword)))
 				.OrderByDescending(a => a.CreateTime)
 				.ToList();
+            if (entityList.Count > 0) {
+                if (!string.IsNullOrWhiteSpace(UserCode))
+                    entityList = entityList.Where(p=>p.czr== UserCode).ToList();
+            }
 			IList<OutPatientMzrjDto> outList = new List<OutPatientMzrjDto>();
 			foreach (var item in entityList)
 			{

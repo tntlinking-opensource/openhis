@@ -40,19 +40,26 @@ where  a.zt='1' and (a.OrganizeId=@orgId or a.OrganizeId='*')
  union all
  select * from [dbo].[bl_ys] b
 where  b.zt='1' and (b.OrganizeId=@orgId or b.OrganizeId='*')
-  and b.yssjid='-1'";
+  and b.yssjid='-1'  order by yssjid ,px";
             var para = new List<SqlParameter>();
             para.Add(new SqlParameter("@orgId", orgId));
             para.Add(new SqlParameter("@keyword", "%" + keyword + "%"));
-            return this.FindList<BlysEntity>(sql, para.ToArray());
+            return this.FindList<BlysEntity>(sql, para.ToArray()).OrderBy(p=>p.px).ToList();
         }
         public List<BlysMXEntity> GetYsMX(string orgId, string YsId)
         {
-            string sql = @"select * from bl_ysmx where zt='1' and YsId=@YsId and (OrganizeId=@orgId or OrganizeId='*') ";
             var para = new List<SqlParameter>();
+            StringBuilder sqlstr = new StringBuilder();
+            sqlstr.Append(" select * from bl_ysmx where zt='1'");
+            if (!string.IsNullOrWhiteSpace(YsId))
+            {
+                sqlstr.Append(" and YsId =@YsId");
+                para.Add(new SqlParameter("@YsId",YsId));
+            }
+            sqlstr.Append(" and (OrganizeId=@orgId or OrganizeId='*')");
             para.Add(new SqlParameter("@orgId", orgId));
-            para.Add(new SqlParameter("@YsId", YsId ));
-            return this.FindList<BlysMXEntity>(sql, para.ToArray());
+           
+            return this.FindList<BlysMXEntity>(sqlstr.ToString(), para.ToArray());
         }
         /// <summary>
         /// 保存表单（新增、修改）

@@ -112,5 +112,13 @@ namespace Newtouch.HIS.Web.Areas.ReportManage.Controllers
             ViewBag.yfbmCode = Constants.CurrentYfbm.yfbmCode;
             return View();
         }
+        public ActionResult YpckQueryNew()
+        {
+            ViewBag.OrganizeId = OrganizeId;
+            ViewBag.yfbmCode = Constants.CurrentYfbm.yfbmCode;
+            return View();
+        }
+        
+        
     }
 }

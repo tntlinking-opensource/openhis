@@ -250,7 +250,7 @@
                     }
                 },
                 {
-                    label: '单据类型', name: 'djlx', width: 65, align: 'left', formatter: function (val) {
+                    label: '单据类型', name: 'djlx', width: 65, align: 'center', formatter: function (val) {
                         switch (val) {
                         case @((int)EnumOutOrInStorageBillType.Nbth):
                             return "@EnumOutOrInStorageBillType.Nbth.GetDescription()";
@@ -267,16 +267,16 @@
                         }
                     }
                 },
-                { label: '单据号', name: 'Pdh', width: 125, align: 'left' },
-                { label: '配送单号', name: 'deliveryNo', width: 100, align: 'left' },
-                { label: '出库库房', name: 'ckbmmc', width: 90, align: 'left' },
-                { label: '入库部门', name: 'rkbmmc', width: 90, align: 'left' },
-                { label: '出入库方式', name: 'crkfsmc', width: 70, align: 'left' },
-                { label: '操作时间', name: 'czsj', width: 90, align: 'left', formatter: "date", formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } },
-                { label: '入库时间', name: 'rksj', width: 90, align: 'left' },
-                { label: '零售总额', name: 'ljze', width: 70, align: 'right', formatter: function (val) { return val.toFixed(2); } },
-                { label: '进价总额', name: 'jjze', width: 70, align: 'right', formatter: function (val) { return val.toFixed(2); } },
-                { label: '进销差价', name: 'jxcj', width: 65, align: 'right', formatter: function (val) { return val.toFixed(2); } },
+                { label: '单据号', name: 'Pdh', width: 135, align: 'center' },
+                { label: '配送单号', name: 'deliveryNo', width: 100, align: 'center' },
+                { label: '出库库房', name: 'ckbmmc', width: 130, align: 'center' },
+                { label: '入库部门', name: 'rkbmmc', width: 130, align: 'center' },
+                { label: '出入库方式', name: 'crkfsmc', width: 70, align: 'center' },
+                { label: '操作时间', name: 'czsj', width: 120, align: 'center', formatter: "date", formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } },
+                { label: '入库时间', name: 'rksj', width: 120, align: 'center' },
+                { label: '零售总额', name: 'ljze', width: 70, align: 'center', formatter: function (val) { return val.toFixed(2); } },
+                { label: '进价总额', name: 'jjze', width: 70, align: 'center', formatter: function (val) { return val.toFixed(2); } },
+                { label: '进销差价', name: 'jxcj', width: 65, align: 'left', formatter: function (val) { return val.toFixed(2); } },
                 { label: 'crkId', name: 'crkId', hidden: true },
                 { label: 'djlx', name: 'djlx', hidden: true }
             ],
@@ -346,9 +346,9 @@
             { label: '进销差价', name: 'jxcj', width: 60, align: 'left', formatter: function (val) { return val.toFixed(2); }},
             { label: '单位', name: 'dw', hidden: true },
             { label: '规格', name: 'gg', width: 80, align: 'left' },
-            { label: '批号', name: 'ph', width: 90, align: 'left' },
-            { label: '批次', name: 'pc', width: 90, align: 'left' },
-            { label: '发票', name: 'fph', width: 90, align: 'left' },
+            { label: '批号', name: 'ph', width: 120, align: 'left' },
+            { label: '批次', name: 'pc', width: 120, align: 'left' },
+            { label: '发票', name: 'fph', width: 110, align: 'left' },
             { label: '生产厂家', name: 'sccj', width: 150, align: 'left' }
         ]
     });

@@ -73,11 +73,11 @@ namespace Newtouch.HIS.Web.Areas.StorageManage.Controllers
 		/// <returns></returns>
 		[HttpGet]
 		[Core.Attributes.HandlerAuthorizeIgnore]
-		public ActionResult DrugAndStockSearchByPage(Pagination pagination, string keyword, string tybz, string kczt, string show0kc,string kcyjcode)
+		public ActionResult DrugAndStockSearchByPage(Pagination pagination, string keyword, string tybz, string kczt, string show0kc,string kcyjcode,string iskcyjz=null)
 		{
 			var stockTotalList = new
 			{
-				rows = drugStorageDmnService.GetDrugAndStock(pagination, Constants.CurrentYfbm.yfbmCode, keyword, tybz, kczt, show0kc, OrganizeId, kcyjcode),
+				rows = drugStorageDmnService.GetDrugAndStock(pagination, Constants.CurrentYfbm.yfbmCode, keyword, tybz, kczt, show0kc, OrganizeId, kcyjcode, iskcyjz),
 				total = pagination.total,
 				page = pagination.page,
 				records = pagination.records
@@ -180,12 +180,12 @@ namespace Newtouch.HIS.Web.Areas.StorageManage.Controllers
 		/// <param name="keyword"></param>
 		/// <param name="gpyf"></param>
 		/// <returns></returns>
-		public ActionResult ExpiredDrugsQuery(Pagination pagination, string keyword, int gpyf,string gqyjcode)
+		public ActionResult ExpiredDrugsQuery(Pagination pagination, string keyword, int gpyf,string gqyjcode,string noShow0Kc=null)
 		{
             int gqyjz = -SysConfigReader.Int("GET_YFGQYG");//过期预警值
             var stockTotalList = new
 			{
-				rows = drugStorageDmnService.SelectExpiredDrugs(pagination, keyword.Trim(), gpyf, Constants.CurrentYfbm.yfbmCode, OrganizeId, gqyjcode, gqyjz),
+				rows = drugStorageDmnService.SelectExpiredDrugs(pagination, keyword.Trim(), gpyf, Constants.CurrentYfbm.yfbmCode, OrganizeId, gqyjcode, gqyjz, noShow0Kc),
 				total = pagination.total,
 				page = pagination.page,
 				records = pagination.records
@@ -204,7 +204,7 @@ namespace Newtouch.HIS.Web.Areas.StorageManage.Controllers
 		/// <returns></returns>
 		public ActionResult GetCrkMxAll(string crkId)
 		{
-			var data = drugStorageDmnService.GetCrkMxAll(crkId);
+			var data = drugStorageDmnService.GetCrkMxAll(crkId,this.OrganizeId);
 			return Content(data.ToJson());
 		}
 

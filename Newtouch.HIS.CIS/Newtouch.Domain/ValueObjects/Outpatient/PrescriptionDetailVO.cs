@@ -123,6 +123,7 @@ namespace Newtouch.Domain.ValueObjects
         public string xzsybz { get; set; }
 
         public decimal? ts { get; set; }
+        public string ztmbId { get; set; }
         public string ztId { get; set; }
         public string ztmc { get; set; }
         public string ztCode { get; set; }

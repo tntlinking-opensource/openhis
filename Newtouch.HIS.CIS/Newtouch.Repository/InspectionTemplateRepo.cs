@@ -23,8 +23,10 @@ namespace Newtouch.HIS.Repository
         /// <returns></returns>
         public List<InspectionTemplateEntity> GetList(int type, string orgId)
         {
-            var list = this.IQueryable().Where(a => a.OrganizeId == orgId && a.Type == type).ToList();
-            return list;
+            if(type==0)
+                return this.IQueryable().Where(a => a.OrganizeId == orgId && a.zt == "1").ToList();
+            else
+                return this.IQueryable().Where(a => a.OrganizeId == orgId && a.Type == type &&  a.zt == "1").OrderBy(m=>m.Type).ToList();
         }
     }
 }

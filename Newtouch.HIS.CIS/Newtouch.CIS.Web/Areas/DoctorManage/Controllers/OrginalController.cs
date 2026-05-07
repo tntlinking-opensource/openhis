@@ -18,7 +18,10 @@ namespace Newtouch.CIS.Web.Areas.DoctorManage.Controllers
         {
             return View();
         }
-
+        public ActionResult ConsumablesIndex()
+        {
+            return View();
+        }
         public ActionResult gridPatientList(Pagination pagination, string zyh)
         {
             var data = new

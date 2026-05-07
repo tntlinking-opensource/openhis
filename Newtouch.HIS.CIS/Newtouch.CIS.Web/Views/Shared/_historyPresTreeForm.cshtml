@@ -1,4 +1,10 @@
 ﻿@using Newtouch.Infrastructure;
+@{
+    
+    //开关：是否开放检验检查
+    var iSOpenZycfnew = ViewData["ISOpenZycfnew"] as bool?;
+    
+}
 <script src="@SiteUrl.GetStaticResourceScriptUrl("~/js/wdtree/tree.js")"></script>
 <link href="@SiteUrl.GetStaticResourceScriptUrl("~/js/wdtree/tree.css")" rel="stylesheet" />
 <div id="floadHistoryPresTree" style="display:none;z-index:1;background: white;">
@@ -11,7 +17,7 @@
             return;
         }
         $("#divPresTree").html(''); //先清空掉
-
+        
         $("#divPresTree").treeview({
             height: $(window).height() - 90,
             slimscroll: false,
@@ -21,7 +27,6 @@
                 if (item.hasChildren === true) {
                     return;
                 }
-                
                 //
                 var getActionStr;
                 var grid;
@@ -33,15 +38,19 @@
                     getActionStr = getRegularItemActionStr();
                     grid = "gridcgxmcf";
                 }
+                else if (fromcflx == '@Html.Raw(((int)EnumCflx.Yyhc).ToString())') {
+                    getActionStr = getRegularItemActionStr();
+                    grid = "gridwzhccf";
+                }
                 if (fromcflx == '@Html.Raw(((int)EnumCflx.WMPres).ToString())') {
                     getActionStr = getWMActionStr();
                     grid = "gridxycf";
                 }
-                @*if (fromcflx == '@Html.Raw(((int)EnumCflx.TCMPres).ToString())') {
+                if (fromcflx == '@Html.Raw(((int)EnumCflx.TCMPres).ToString())') {
                     getActionStr = getTCMActionStr();
                     grid = "gridzycf";
-                }*@
-                if (fromcflx == '@Html.Raw(((int)EnumCflx.TCMPres).ToString())') {
+                }
+                if (fromcflx == '@Html.Raw(((int)EnumCflx.TCMPres).ToString())' && '@iSOpenZycfnew.Value'==='True') {
                     getActionStr = getTCMActionStr();
                     grid = "gridzycfnew";
 				}
@@ -74,6 +83,15 @@
                     if (fromcflx == '@Html.Raw(((int)EnumCflx.RehabPres).ToString())') {
                         if (window.alldataArray.kfcf) {
                             $.each($.deepClone.clone(window.alldataArray.kfcf), function () {
+                                if (this.cfh == item.value && this.cfId == item.id) {
+                                    sourcecfdataArr.push(this);
+                                }
+                            });
+                        }
+                    }
+                    if (fromcflx == '@Html.Raw(((int)EnumCflx.Yyhc).ToString())') {
+                        if (window.alldataArray.wzhccf) {
+                            $.each($.deepClone.clone(window.alldataArray.wzhccf), function () {
                                 if (this.cfh == item.value && this.cfId == item.id) {
                                     sourcecfdataArr.push(this);
                                 }
@@ -153,12 +171,16 @@
                         }
                         var jj = 0;
                         $.each(sourcecfdataArr, function () {
-                            //if (this.xmmc==null) {
                             jj += 1;
                             var allRowID = $("#" + grid).jqGrid('getDataIDs');
-                            var lastrowid = allRowID[allRowID.length - 1]
-                            if (fromcflx == '@Html.Raw(((int)EnumCflx.TCMPres).ToString())'&& jj % 2 == 0) {
+                            this.action = getActionStr;
+                            this.je = roundingBy4she6ru5chengshuang(parseFloat(this.je), 2);
+                            if (grid == "gridzycfnew" && jj % 2 == 0) {
+                                var lastrowid = allRowID[allRowID.length - 1];
                                 $("#" + lastrowid + "_ypCode2").val(this.ypCode);
+                                $("#" + lastrowid + "_cfId2").val(this.cfId);
+                                $("#" + lastrowid + "_cfmxId2").val(this.cfmxId);
+                                $("#" + lastrowid + "_cfh2").val(this.cfh);
                                 $("#" + lastrowid + "_ypmc2").val(this.ypmc);
                                 $("#" + lastrowid + "_ypgg2").val(this.ypgg);
                                 $("#" + lastrowid + "_sl2").val(this.sl);
@@ -171,18 +193,18 @@
                                 $("#" + lastrowid + "_je2").val(this.je);
                                 $("#" + lastrowid + "_dj2").val(this.dj);
                                 $("#" + lastrowid + "_zxks2").val(this.zxks);
-
+                                $("#" + lastrowid + "_ybwym2").val(this.ybwym);
+                                $("#" + lastrowid + "_xzsybz2").val(this.xzsybz);
+                                $("#" + lastrowid + "_iszzf2").val(this.iszzf);
+                                CalculateTCMPresAmount();
                             } else {
-                                this.action = getActionStr;
-                                this.je = parseFloat(this.je).toFixed(2);
                                 $("#" + grid).jqGrid("addRowData", undefined, this, "last");
-                                }
-                         //   }
+                            }
+                                
                         });
                     }
                 }
                 else {
-                    debugger;
                     //引用历史处方
                     $.modalOpen({
                         id: "FormShowHistoryPresForm",
@@ -193,7 +215,7 @@
                         btn: ['复制', '关闭'],
                         callBack: function (iframeId) {
                             top.frames[iframeId].submitForm(function (data) {
-                                var jj = 0; debugger;
+                                var jj = 0;
                                 //data 选中的行
                                 $.each(data, function () {
 
@@ -241,6 +263,19 @@
                                             }
                                         });
                                     }
+                                    else if (grid == "gridwzhccf") {
+                                        var addxmCode = this.xmCode;
+                                        $.each($("#" + grid).getDataIDs(), function () {
+                                            if (!isRepeatedAdd) {
+                                                var xmCode = $('#' + $($("#" + grid).getRowData(String(this)).xmCode).attr('id')).val()
+                                                var cfh = $("#gridwzhccf").getRowData(String(this)).cfh;
+                                                if (addxmCode == xmCode && thisCfh == cfh) {
+                                                    isRepeatedAdd = true;
+                                                    return;
+                                                }
+                                            }
+                                        });
+                                    }
                                     else if (grid == "gridxycf") {
                                         var addypCode = this.ypCode;
                                         var addzh = this.zh;
@@ -257,35 +292,35 @@
                                             }
                                         });
                                     }
-                                    //else if (grid == "gridzycf") {
-                                    //    var addypCode = this.ypCode;
-                                    //    var addzh = this.zh;
-                                    //    $.each($("#" + grid).getDataIDs(), function () {
-                                    //        if (!isRepeatedAdd) {
-                                    //            var ypCode = $('#' + $($("#" + grid).getRowData(String(this)).ypCode).attr('id')).val()
-                                    //            var cfh = $("#" + grid).getRowData(String(this)).cfh;
-                                    //            if (addypCode == ypCode && thisCfh == cfh) {
-                                    //                isRepeatedAdd = true;
-                                    //                return;
-                                    //            }
-                                    //        }
-                                    //    });
-                                    //    //中药贴数、用法、代煎带入
-                                    //    if ($("#gridzycf").jqGrid('getRowData_AllLine').length == 0
-                                    //        && this.tieshu) {
-                                    //        //$('#tieshu').val(this.tieshu);
-                                    //    }
-                                    //    //中药的金额
-                                    //    var tieshu = $.undefinedwith0($('#tieshu').val());    //贴数
-                                    //    if (tieshu) {
-                                    //        //this.sl = roundingBy4she6ru5chengshuang((parseFloat(tieshu) * parseFloat($.undefinedwith0(this.mcjl))), 0);
-                                    //        this.je = roundingBy4she6ru5chengshuang(parseFloat(this.dj) * parseFloat(this.sl), 2);
-                                    //    }
-                                    //    else {
-                                    //        //this.sl = this.mcjl;
-                                    //        this.je = null;
-                                    //    }
-                                    //}
+                                    else if (grid == "gridzycf") {
+                                       var addypCode = this.ypCode;
+                                        var addzh = this.zh;
+                                        $.each($("#" + grid).getDataIDs(), function () {
+                                           if (!isRepeatedAdd) {
+                                                var ypCode = $('#' + $($("#" + grid).getRowData(String(this)).ypCode).attr('id')).val()
+                                              var cfh = $("#" + grid).getRowData(String(this)).cfh;
+                                                if (addypCode == ypCode && thisCfh == cfh) {
+                                                    isRepeatedAdd = true;
+                                                    return;
+                                                }
+                                            }
+                                        });
+                                        //中药贴数、用法、代煎带入
+                                        if ($("#gridzycf").jqGrid('getRowData_AllLine').length == 0
+                                            && this.tieshu) {
+                                            $('#tieshu').val(this.tieshu);
+                                        }
+                                        //中药的金额
+                                       var tieshu = $.undefinedwith0($('#tieshu').val());    //贴数
+                                        if (tieshu) {
+                                            //this.sl = roundingBy4she6ru5chengshuang((parseFloat(tieshu) * parseFloat($.undefinedwith0(this.mcjl))), 0);
+                                            this.je = roundingBy4she6ru5chengshuang(parseFloat(this.dj) * parseFloat(this.sl), 2);
+                                        }
+                                       else {
+                                            //this.sl = this.mcjl;
+                                            this.je = null;
+                                       }
+                                    }
                                     else if (grid == "gridzycfnew") {
                                         var addypCode = this.ypCode;
                                         var addzh = this.zh;
@@ -302,7 +337,7 @@
                                         //中药贴数、用法、代煎带入
                                         if ($("#gridzycfnew").jqGrid('getRowData_AllLine').length == 0
                                             && this.tieshu) {
-                                            //$('#tieshu').val(this.tieshu);
+                                            $('#tieshu').val(this.tieshu);
                                         }
                                         //中药的金额
                                         var tieshu = $.undefinedwith0($('#tieshu').val());    //贴数
@@ -322,6 +357,7 @@
                                     else {
                                         if (grid == "gridzycfnew" && jj % 2 == 0) {
                                             $("#" + lastrowid + "_ypCode2").val(this.ypCode);
+                                            $("#" + lastrowid + "_cfh2").val(this.cfh);
                                             $("#" + lastrowid + "_ypmc2").val(this.ypmc);
                                             $("#" + lastrowid + "_ypgg2").val(this.ypgg);
                                             $("#" + lastrowid + "_sl2").val(this.sl);
@@ -335,6 +371,7 @@
                                             $("#" + lastrowid + "_dj2").val(this.dj);
                                             $("#" + lastrowid + "_zxks").val(this.zxks);
                                             $("#" + lastrowid + "_zxks2").val(this.zxks);
+                                            CalculateTCMPresAmount();
 
                                         } else {
                                             $("#" + grid).jqGrid("addRowData", undefined, this, "last");

@@ -62,6 +62,7 @@ namespace Newtouch.HIS.Web.Areas.OutpatientManage.Controllers
         private readonly ICqybSett23Repo _cqybSett23Repo;
         private readonly ICqybUpdateMedicalInput03Repo _cqybupdatemedicalInput03Repo;
         private readonly IPatientBasicInfoDmnService _PatientBasicInfoDmnService;
+        private readonly IOutPatientSettleDmnService _outPatientSettleDmnService;
 
         #region  view
         /// <summary>
@@ -269,6 +270,7 @@ namespace Newtouch.HIS.Web.Areas.OutpatientManage.Controllers
             ViewBag.ReportServerHOST = ConfigurationHelper.GetAppConfigValue("ReportServer.HOST");
             ViewBag.OrgId = this.OrganizeId;
             ViewBag.isOpenQfyj = _sysConfigRepo.GetBoolValueByCode("Outpatient_Charge_Open_Qfyj", this.OrganizeId);
+            ViewBag.Xzqh = _outPatientSettleDmnService.GetOrgXzqh(this.OrganizeId);
             return View();
         }
 

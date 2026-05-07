@@ -21,6 +21,7 @@ namespace Newtouch.HIS.Domain.ValueObjects
         public int sfxmbh { get; set; }
 
         public string sfxm { get; set; }
+        public string sfxmmc { get; set; }
         public decimal dj { get; set; }
         public string dl { get; set; }
         public string jfdw { get; set; }

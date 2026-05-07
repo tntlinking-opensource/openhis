@@ -1097,16 +1097,16 @@ namespace Newtouch.HIS.Web.Areas.HospitalizationManage.Controllers
                 isTradeRefundError = refundReuslt == (int)EnumRefundStatus.Failed || refundReuslt == (int)EnumRefundStatus.UnKnown;    //失败 或 未知
             }
             _hospdrugbillingRepo.Updatezy_brxxexpand(this.OrganizeId, zyh);
-            var msg = "保存成功";  
+            var msg = "取消结算成功";  
             if (isTradeRefundError.HasValue)
             {
                 if (!isTradeRefundError.Value)
                 {
-                    msg = "保存成功，应退金额已原路退回";
+                    msg = "取消结算成功，应退金额已原路退回";
                 }
                 else
                 {
-                    msg = "HIS保存成功，但应退金额退回失败，请人工核查";
+                    msg = "HIS取消结算成功，但应退金额退回失败，请人工核查";
                 }
             } 
             return Success(msg);

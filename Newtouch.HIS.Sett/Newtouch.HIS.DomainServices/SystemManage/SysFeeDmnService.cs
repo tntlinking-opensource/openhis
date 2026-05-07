@@ -216,6 +216,24 @@ from xt_sfmbxm(nolock) a
             return effectiveList;
         }
 
+        /// <summary>
+        /// 删除模板
+        /// </summary>
+        /// <param name="keyValue"></param>
+        /// <param name="orgId"></param>
+        public void DeleteById(string keyValue, string orgId)
+        {
+            using (var db = new EFDbTransaction(this._databaseFactory).BeginTrans())
+            {
+                SysChargeTemplateEntity entity = db.IQueryable<SysChargeTemplateEntity>().Where(p => p.sfmbbh == keyValue && p.zt == "1" && p.OrganizeId == orgId).FirstOrDefault();
+                if (entity!=null)
+                {
+                    db.Delete<SysChargeTemplateItemMappEntity>(p => p.sfmbbh == entity.sfmbbh);
+                    db.Delete<SysChargeTemplateEntity>(p => p.sfmbbh == entity.sfmbbh);
+                }
+                db.Commit();
+            }
+        }
     }
 
 }

@@ -493,5 +493,6 @@ namespace Newtouch.HIS.Domain.ValueObjects
         
         //暂为国药准字
         public string ypzsm { get; set; }
+        public int? kcyjz { get; set; }
     }
 }

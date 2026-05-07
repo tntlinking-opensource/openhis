@@ -147,11 +147,11 @@ namespace Newtouch.Herp.Web.Areas.StorageManage.Controllers
             string wzzt,
             string xslkc,
             string ygq,
-            string mxyx)
+            string mxyx,string kccg=null)
         {
             var list = new
             {
-                rows = _storageDmnService.GetProductStorage(pagination, Constants.CurrentKf.currentKfId, OrganizeId, (keyWord ?? "").Trim(), lb, kzbz, wzzt, xslkc, ygq, mxyx),
+                rows = _storageDmnService.GetProductStorage(pagination, Constants.CurrentKf.currentKfId, OrganizeId, (keyWord ?? "").Trim(), lb, kzbz, wzzt, xslkc, ygq, mxyx,kccg),
                 total = pagination.total,
                 page = pagination.page,
                 records = pagination.records
@@ -523,6 +523,8 @@ namespace Newtouch.Herp.Web.Areas.StorageManage.Controllers
         public ActionResult SaveDeliveryToDepartment(KfCrkdjEntity crkdj, KfCrkmxEntity[] crkdjmx)
         {
             var result = new DeliveryToDepartmentProcess(new DjInfDTO { crkdj = crkdj, crkdjmx = crkdjmx.ToList() }).Process();
+            if (result.IsSucceed)//同步科室物资-CIS
+                _storageDmnService.SynchWz(crkdj.Pdh,this.UserIdentity.UserCode,this.OrganizeId);
             return result.IsSucceed ? Success() : Error(result.ResultMsg);
         }
         #endregion

@@ -109,6 +109,7 @@
     var ryfs = $.request('ryfs');
     var ydsfz = $.request('ydsfz');
     var newzyh = $.request('newzyh');
+    var sbytj = $.request('sbytj');
     var zffs = $.request('zffs');
     var khxx = $.request('khxx');
     var patName = $.request('patName');
@@ -554,7 +555,11 @@
             if (zffs === "sm")//电子凭证
             {
                 payoptype.mdtrt_cert_type = "01";
-                url = "http://127.0.0.1:33333/api/YiBao/CardecInfo_1162";
+                if (sbytj == "Y") {
+                    url = "http://127.0.0.1:33333/api/YiBao/CardecInfo_1162";
+                } else {
+                    url = "http://127.0.0.1:33333/api/YiBao/CardecInfo_1162A";
+                }
             }
             if (zffs === "sfz") {//身份证
                 payoptype.mdtrt_cert_type = "02";

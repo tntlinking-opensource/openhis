@@ -512,10 +512,10 @@
     function sjPrint()
     {
         var pzh = $("#txtlpzh").val();
-        if (gridIpzh == "" || pzh != gridIpzh) {
-            $.modalAlert("请选择一条充值明细", 'warning');
-            return false;
-        }
+        //if (gridIpzh == "" || pzh != gridIpzh) {
+        //    $.modalAlert("请选择一条充值明细", 'warning');
+        //    return false;
+        //}
 
         var reqzhxz=$.request("zhxz")=='zy'?'住院':'门诊'
         var orgId = '@curOpr.OrganizeId';
@@ -576,6 +576,7 @@
 
     //余额全退
     function RefundOverAccount() {
+        debugger;
         patid = $("#patid").val();
         zh = $('#zhCode').val();
         zhxz = $('#zhxz').val();
@@ -589,8 +590,8 @@
             return false;
         }
         var reg = /^(-?\d+)(\.\d+)?$/;
-        //zfmoney = "-" +$("#zhye").val();
-        zfmoney = $("#txtmoney").val();
+        zfmoney = "-" +$("#zhye").val();
+        //zfmoney = $("#txtmoney").val();
         var ddlzffs = $("#ddlzffs option:selected");//获取选中的项
         zffsbh = ddlzffs.val();//拿到选中项的值
         zffsmc = ddlzffs.text();//拿到选中项的文本

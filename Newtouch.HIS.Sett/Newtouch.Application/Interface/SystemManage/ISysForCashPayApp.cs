@@ -10,13 +10,13 @@ namespace Newtouch.HIS.Application
     /// </summary>
     public interface ISysForCashPayApp
     {
-        List<SysCashPaymentModelEntity> GetList();
+        List<SysCashPaymentModelEntity> GetList(string keyword = null);
 
-        SysCashPaymentModelEntity GetForm(Guid keyValue);
+        SysCashPaymentModelEntity GetForm(int keyValue);
 
         void DeleteForm(int keyValue);
 
-        void SubmitForm(SysCashPaymentModelEntity sysForCashPayEntity, string keyValue);
+        void SubmitForm(SysCashPaymentModelEntity sysForCashPayEntity, int? keyValue);
 
         DataTable GetListBySearch(string keyword);
 

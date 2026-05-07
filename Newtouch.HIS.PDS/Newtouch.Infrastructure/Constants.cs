@@ -2,6 +2,10 @@
 using Newtouch.Core.Redis;
 using Newtouch.Infrastructure.Model;
 using System;
+using System.IO;
+using System.Management;
+using System.Net;
+using System.Web;
 
 namespace Newtouch.Infrastructure
 {
@@ -59,6 +63,42 @@ namespace Newtouch.Infrastructure
                 return _AppId;
             }
         }
+        public static string _AddressIp;
+        public static string AddressIp
+        {
+
+            get
+            {
+                if (_AddressIp == null)
+                {
+                    foreach (IPAddress _IPAddress in Dns.GetHostEntry(Dns.GetHostName()).AddressList)
+                    {
+                        if (_IPAddress.AddressFamily.ToString() == "InterNetwork")
+                        {
+                            _AddressIp = _IPAddress.ToString();
+                        }
+                    }
+                }
+                //Info("project2:" + _AddressIp);
+                return _AddressIp;
+            }
+        }
+        public static void Info(string message)
+        {
+            try
+            {
+                var root = "C:\\HISLog\\log_yibao";
+                var date = DateTime.Now.ToString("yyyyMMddHHmm");
+                var dirPath = string.Format("{0}\\{1}", root, date.Substring(0, 8));
+                if (!Directory.Exists(dirPath))
+                {
+                    Directory.CreateDirectory(dirPath);
+                }
+                var filePath = string.Format("{0}\\{1}.txt", dirPath, date.Substring(8, 2));
+                File.AppendAllText(filePath, string.Format("\r\n\r\n{0}.Info.{1}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), message));
+            }
+            catch { }
+        }
 
         #region 登录用户当前的药房部门信息 永不过期 不同系统之间会共享
 
@@ -80,6 +120,7 @@ namespace Newtouch.Infrastructure
         /// <param name="userId"></param>
         public static LoginUserCurrentYfbmModel GetCurrentYfbm(string userId)
         {
+            userId = userId + AddressIp;
             return RedisHelper.Get<LoginUserCurrentYfbmModel>(string.Format(CacheKey.CurrentYfbmInfoEntityKey, userId)) ?? new LoginUserCurrentYfbmModel();
         }
 
@@ -90,6 +131,8 @@ namespace Newtouch.Infrastructure
         /// <param name="value"></param>
         public static void SetCurrentYfbm(string userId, LoginUserCurrentYfbmModel value)
         {
+            //避免其他电脑登陆导致当前设备药房角色变化
+            userId = userId + AddressIp;
             if (value == null)
             {
                 RedisHelper.Remove(string.Format(CacheKey.CurrentYfbmInfoEntityKey, userId));

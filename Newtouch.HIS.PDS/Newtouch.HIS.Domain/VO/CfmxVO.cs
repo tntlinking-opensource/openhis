@@ -97,5 +97,13 @@ namespace Newtouch.HIS.Domain.VO
         /// 国家医保代码
         /// </summary>
         public string gjybdm { get; set; }
+        /// <summary>
+        /// 批次
+        /// </summary>
+        public string pc { get; set; }
+        /// <summary>
+        /// 批号
+        /// </summary>
+        public string ph { get; set; }
     }
 }

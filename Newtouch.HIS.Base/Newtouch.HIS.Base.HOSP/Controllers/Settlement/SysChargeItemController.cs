@@ -1,4 +1,5 @@
-﻿using Newtouch.Core.Common.Exceptions;
+﻿using System;
+using Newtouch.Core.Common.Exceptions;
 using Newtouch.Core.Common;
 using Newtouch.HIS.Domain.Entity;
 using Newtouch.HIS.Domain.IDomainServices;
@@ -41,7 +42,7 @@ namespace Newtouch.HIS.Base.HOSP.Controllers
         /// </summary>
         /// <param name="keyword"></param>
         /// <returns></returns>
-        public ActionResult GetGridJson(Pagination pagination, string organizeId, string keyword,string sfdl)
+        public ActionResult GetGridJson(Pagination pagination, string organizeId, string keyword,string sfdl,string zt)
         {
             pagination.sidx = "CreateTime desc";
             pagination.sord = "asc";
@@ -58,7 +59,7 @@ namespace Newtouch.HIS.Base.HOSP.Controllers
 
             if ("*".Equals(organizeId))
             {
-                var list = _sysChargeItemDmnService.GetPagintionList(organizeId, pagination, sfdl, keyword);
+                var list = _sysChargeItemDmnService.GetPagintionList(organizeId, pagination, sfdl, zt,keyword);
                 var data = new
                 {
                     rows = list,
@@ -71,7 +72,7 @@ namespace Newtouch.HIS.Base.HOSP.Controllers
             }
             else
             {
-                var list = _sysChargeItemDmnService.GetPagintionList(organizeId, pagination, sfdl, keyword);
+                var list = _sysChargeItemDmnService.GetPagintionList(organizeId, pagination, sfdl, zt,keyword);
                 var data = new
                 {
                     rows = list,
@@ -126,6 +127,36 @@ namespace Newtouch.HIS.Base.HOSP.Controllers
             return Success("操作成功。");
         }
 
+        
+        public ActionResult UpdateZt(int sfxmId,string zt,string organizeId)
+        {
+            
+            if (string.IsNullOrWhiteSpace(OrganizeId) && !"*".Equals( organizeId))
+            {
+                throw new FailedException("请选择组织机构");
+            }
+            else if (!_SysOrganizeDmnService.IsMedicalOrganize(OrganizeId)&& !"*".Equals(organizeId))
+            {
+                throw new FailedException("请选择医疗机构（医院或诊所）");
+            }
+            if ("*".Equals( organizeId))
+            {
+                var entity = _sysChargeItemBaseRepo.FindEntity(p => p.sfxmId == sfxmId);
+                entity.zt= zt;
+                entity.LastModifyTime = DateTime.Now;
+                _sysChargeItemBaseRepo.Update(entity.ToJson().ToObject<SysChargeItemBaseEntity>());
+            }
+            else
+            {
+                var entity = _sysChargeItemRepo.FindEntity(p => p.sfxmId == sfxmId);
+                entity.zt= zt;
+                entity.LastModifyTime = DateTime.Now;
+                _sysChargeItemRepo.Update(entity);
+            }
+            return Success("操作成功。");
+        }
+        
+        
         /// <summary>
         /// 收费项目同步医保
         /// </summary>

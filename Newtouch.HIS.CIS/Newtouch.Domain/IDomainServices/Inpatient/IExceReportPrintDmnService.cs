@@ -25,5 +25,7 @@ namespace Newtouch.Domain.IDomainServices
         /// <returns></returns>
          IList<ExecReportReportRightVO> GetExecDetailGridJson(string orgId, string zyh, DateTime zxsj,string zxdlb,string yzxz);
         IList<ExecReportReportRightVO> QueryExecDetailGridJson(Pagination pagination, string orgId, string zyh, DateTime zxsj, DateTime zxsjend, string zxdlb,string yzxz);
+
+        IList<InpWardPatTreeVO> GetPatCenterTree(string orgId, string zyzt, string keyword);
     }
 }

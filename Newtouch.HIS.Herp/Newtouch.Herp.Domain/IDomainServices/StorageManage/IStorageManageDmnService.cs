@@ -3,6 +3,7 @@ using Newtouch.Core.Common;
 using Newtouch.Herp.Domain.DTO.InputDto;
 using Newtouch.Herp.Domain.Entity;
 using Newtouch.Herp.Domain.Entity.VEntity;
+using Newtouch.HIS.Domain.ValueObjects;
 
 namespace Newtouch.Herp.Domain.IDomainServices
 {
@@ -84,7 +85,7 @@ namespace Newtouch.Herp.Domain.IDomainServices
            string wzzt,
            string xslkc,
            string ygq,
-           string mxyx);
+           string mxyx, string kccg = null);
 
         /// <summary>
         /// 获取物资库存
@@ -230,5 +231,21 @@ namespace Newtouch.Herp.Domain.IDomainServices
            string xslkc,
            string mxyx,
            bool isExpired);
+        
+        /// <summary>
+        /// 获取过期预警和库存预警总条数
+        /// </summary>
+        /// <param name="yfbm"></param>
+        /// <param name="OrganizeId"></param>
+        /// <param name="gqyjz"></param>
+        /// <returns></returns>
+        IList<SysMSGQueryVO> MSGQuery(string yfbm, string OrganizeId, int gqyjz);
+
+        /// <summary>
+        /// 出库至科室-同步物资到CIS
+        /// </summary>
+        /// <param name="djh"></param>
+        /// <param name="organizeId"></param>
+        void SynchWz(string djh, string UserCode, string organizeId);
     }
 }

@@ -93,12 +93,12 @@ namespace Newtouch.HIS.Base.HOSP.Controllers
         /// </summary>
         /// <param name="keyword"></param>
         /// <returns></returns>
-        public ActionResult GetTreeGridJson(string organizeId, string keyword)
+        public ActionResult GetTreeGridJson(string organizeId, string zt,string keyword)
         {
             if (!organizeId.Equals("*"))
             {
                 //非基础数据
-                var data = _SysChargeCategoryRepo.GetList(organizeId);
+                var data = _SysChargeCategoryRepo.GetList(organizeId,zt);
                 if (!string.IsNullOrEmpty(keyword))
                 {
                     data = data.ToList().TreeWhereForKeyInt(t => t.dlmc.Contains(keyword), keyValue: "dlId",
@@ -214,6 +214,28 @@ namespace Newtouch.HIS.Base.HOSP.Controllers
             else
             {
                 _SysChargeCategoryRepo.SubmitForm(entity, keyValue);
+            }
+            return Success("操作成功。");
+        }
+        /// <summary>
+        /// 修改状态
+        /// </summary>
+        /// <param name="SysPatiChargeAddEntity"></param>
+        /// <param name="keyValue"></param>
+        /// <returns></returns>
+        public ActionResult UpdateZt(int dlId,string zt,string organizeId, int? keyValue)
+        {
+            if ("*".Equals(organizeId))
+            {
+                var entity = _SysChargeCategoryBaseRepo.FindEntity(val => val.dlId == dlId);
+                entity.zt = zt;
+                _SysChargeCategoryBaseRepo.Update(entity);
+            }
+            else
+            {
+                var entity = _SysChargeCategoryRepo.FindEntity(val => val.dlId == dlId);
+                entity.zt = zt;
+                _SysChargeCategoryRepo.Update(entity);
             }
             return Success("操作成功。");
         }

@@ -192,24 +192,24 @@ namespace Newtouch.HIS.Web.Areas.OutpatientManage.Controllers
                 if (ztlist.Count() > 0)
                 {
                     ztlist = list.Where(p => p.ztId != null && p.ztId != "").ToList()
-                    .GroupBy(m => new { m.ghnm, m.jslx, m.feeType, m.cfh, m.ztmc, m.ztId, m.ztsl, m.cfnm, m.ks, m.ys, m.ysmc, m.sfmb, m.sqdzt, m.cflxmc }).Select(p =>
+                    .GroupBy(m => new { m.ghnm, m.jslx, m.feeType, m.cfh, m.ztmc, m.ztId, m.cfnm, m.ks, m.ys, m.ysmc, m.sfmb, m.sqdzt, m.cflxmc }).Select(p =>
                              new OutPatientRefundableVO
                              {
                                  ghnm = p.Key.ghnm,
                                  jsmxnm = p.Max(m => m.jsmxnm),
                                  jslx = p.Key.jslx,
-                                 sl = p.Max(m => m.sl),
-                                 ktsl = p.Max(m => m.ktsl),
-                                 tsl = p.Max(m => m.tsl),
+                                 sl = 1,
+                                 ktsl = 1,
+                                 tsl = 1,
                                  jsmxje = p.Sum(m => m.jsmxje),
-                                 dj = Math.Round(Convert.ToDecimal(p.Sum(m => m.dj)), 2, MidpointRounding.AwayFromZero),
+                                 dj =Math.Round(Convert.ToDecimal(p.Sum(m => m.jsmxje)), 2, MidpointRounding.AwayFromZero),
                                  feeType = p.Key.feeType,
                                  dw = "套",
                                  cfh = p.Key.cfh,
                                  mc = p.Key.ztmc,
                                  ztmc = p.Key.ztmc,
                                  ztId = p.Key.ztId,
-                                 ztsl = p.Key.ztsl,
+                                 //ztsl = p.Key.ztsl,
                                  sfmb = p.Key.sfmb,
                                  dlmc = p.Key.ztmc,
                                  czh = "",
@@ -498,23 +498,25 @@ namespace Newtouch.HIS.Web.Areas.OutpatientManage.Controllers
         /// <param name="tcfh"></param>
         public void UpdateChargeTbz(List<string> tcfh, List<string> typcfh)
         {
-            foreach (var cfh in typcfh)
+            if (typcfh!=null)
             {
-                //接口内容
-                var cancalreqObj = new
+                foreach (var cfh in typcfh)
                 {
-                    cfh = cfh,
-                    OrganizeId = OrganizeId,
-                    CreatorCode = this.UserIdentity.UserCode,
-                };
-                var apiRespPush = SitePDSAPIHelper.Request<APIRequestHelper.DefaultResponse>(
-              "/api/ResourcesOperate/OutpatientCancelDjYpReturn", cancalreqObj);
-                if (apiRespPush.code != APIRequestHelper.ResponseResultCode.SUCCESS)
-                {
-                    AppLogger.Info(string.Format("处方退费返还冻结库存更新API同步至PDS，处方号：{0}，结果：{1}、{2}", tcfh, apiRespPush.code, apiRespPush.sub_code));
+                    //接口内容
+                    var cancalreqObj = new
+                    {
+                        cfh = cfh,
+                        OrganizeId = OrganizeId,
+                        CreatorCode = this.UserIdentity.UserCode,
+                    };
+                    var apiRespPush = SitePDSAPIHelper.Request<APIRequestHelper.DefaultResponse>(
+                  "/api/ResourcesOperate/OutpatientCancelDjYpReturn", cancalreqObj);
+                    if (apiRespPush.code != APIRequestHelper.ResponseResultCode.SUCCESS)
+                    {
+                        AppLogger.Info(string.Format("处方退费返还冻结库存更新API同步至PDS，处方号：{0}，结果：{1}、{2}", tcfh, apiRespPush.code, apiRespPush.sub_code));
+                    }
                 }
             }
-
             var reqObj = new
             {
                 cfList = tcfh,

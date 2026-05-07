@@ -10,18 +10,18 @@
 
 <style>
     .dv-left {
-        width: 200px;
+        width: 16%;
         float: left;
     }
 
     .dv-left-tree {
         overflow-y: auto;
-        border-radius:4px;
-        background:white;
+        border-radius: 4px;
+        background: white;
     }
 
     .dv-left-title {
-        padding: 6px 10px;
+        /*padding: 6px 10px;*/
         border-bottom: 1px solid transparent;
         border-top-left-radius: 3px;
         border-top-right-radius: 3px;
@@ -30,8 +30,9 @@
     }
 
     .dv-right {
-        float: left;
-        margin-left: 5px;
+        width: 83.6%;
+        float: right;
+        margin-left: 2px;
     }
 
     .dv-right-order {
@@ -122,10 +123,10 @@
 <script type="text/javascript">
     $(".dv-body").height($(window).height());
     $(".dv-body").width($(window).width());
-    var rightWidth = $(".Newtouch_iframe", parent.document).width() - $(".dv-left").width() - 90;
-    $(".dv-right").width(rightWidth);
-    $(".dv-left").width(260);
-    $(".dv-left-tree").height($(window).height() - 70);
+    //var rightWidth = $(".Newtouch_iframe", parent.document).width() - $(".dv-left").width() - 90;
+    //$(".dv-right").width(rightWidth);
+   // $(".dv-left").width(260);
+    //$(".dv-left-tree").height($(window).height() - 70);
     var keyword = $("#txt_name").val();
     var kssj = $("#txt_ksrq").val();
     var jssj = $("#txt_jsrq").val();
@@ -150,7 +151,7 @@
 
     function getPatTreeList() {
         $("#PatTreeList").treeview({
-            height: $(window).height() - 175,
+            height: $(window).height() - 120,
             slimscroll: false,
             showcheck: false,
             url: "/NurseManage/InpatientMedReturn/GetPatWardTree?keyword=" + $('#keyword').val(),

@@ -35,5 +35,7 @@ namespace Newtouch.Domain.ValueObjects.Outpatient
 		public decimal je { get; set; }
 		public string klys { get; set; }
 		public string klks { get; set; }
+        public bool sfbz { get; set; }
+        public bool? tbz { get; set; }
 	}
 }

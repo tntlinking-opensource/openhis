@@ -227,7 +227,7 @@ namespace Newtouch.HIS.Web.Areas.OutpatientManage.Controllers
             //开关：预约挂号
             var brSwitch = (bool)_sysConfigRepo.GetBoolValueByCode("BespeakRegisterSwitch", OrganizeId, false);
             ViewBag.ISOpenBespeakRegister = brSwitch ? "true" : "false";
-
+            ViewBag.Xzqh = _outPatientSettleDmnService.GetOrgXzqh(this.OrganizeId);
             return View();
         }
 

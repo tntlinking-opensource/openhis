@@ -13,7 +13,7 @@ namespace Newtouch.Domain.IDomainServices
         /// <param name="mbId"></param>
         /// <param name="orgId"></param>
         /// <returns></returns>
-        PresTemplateBO SelectPresDetailByMbId(string mbId, string orgId);
+        PresTemplateBO SelectPresDetailByMbId(string mbId, string orgId,string cflx=null);
 
         /// <summary>
         /// 保存

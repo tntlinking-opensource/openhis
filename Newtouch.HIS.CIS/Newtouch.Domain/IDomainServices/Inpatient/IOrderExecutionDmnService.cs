@@ -103,7 +103,7 @@ namespace Newtouch.Domain.IDomainServices
         /// <param name="OrderList"></param>
         /// <param name="Vzxsj"></param>
         /// <returns></returns>
-        string IsOKOrderExecution(IList<ApiResponseVO> OrderList, DateTime Vzxsj, string user = null);
+        string IsOKOrderExecution(IList<ApiResponseVO> OrderList, DateTime Vzxsj,string orgId, string user = null);
         ///// <summary>
         /////  临时，长期，全部膳食项目执行
         ///// </summary>
@@ -122,7 +122,7 @@ namespace Newtouch.Domain.IDomainServices
         //void OrderExecutionSubmitALLYP(OperatorModel user, IList<ApiResponseVO> orderExeList, DateTime zxsj);
 
         #region 消息提醒
-        IList<SysMSGQueryVO> MSGQuery(string gh,string orgId, string ksname);
+        IList<SysMSGQueryVO> MSGQuery(string gh,string orgId);
 
 
         #endregion

@@ -3,7 +3,7 @@ var keyValue = $.request("keyValue");
 $(function () {
     if (!!keyValue) {
         $.ajax({
-            url: "/SystemManage/xt_xjzffs/GetFormJson",
+            url: "/SystemManage/SysForCashPay/GetFormJson",
             data: { keyValue: keyValue },
             dataType: "json",
             async: false,
@@ -18,7 +18,7 @@ function submitForm() {
         return false;
     }
     $.submitForm({
-        url: "/SystemManage/xt_xjzffs/SubmitForm?keyValue=" + keyValue,
+        url: "/SystemManage/SysForCashPay/SubmitForm?keyValue=" + keyValue,
         param: $("#form1").formSerialize(),
         success: function () {
             $.currentWindow().$("#gridList").resetSelection();

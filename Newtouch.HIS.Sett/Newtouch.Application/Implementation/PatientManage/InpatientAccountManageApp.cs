@@ -356,10 +356,10 @@ namespace Newtouch.HIS.Application.Implementation.PatientManage
             {
                 throw new FailedException("支付方式不能为空");
             }
-            if (string.IsNullOrEmpty(dto.zfje.ToString()) || dto.zfje >= 0)
-            {
-                throw new FailedException("无可退余额");
-            }
+            //if (string.IsNullOrEmpty(dto.zfje.ToString()) || dto.zfje >= 0)
+            //{
+            //    throw new FailedException("无可退余额");
+            //}
 
             InpatientAccountRevenueAndExpenseEntity payEntity = null;
             InpatientAccountEntity oldAccEntity = null;

@@ -617,6 +617,7 @@
         //contentHtml.querySelectorAll('span[innerid]')
         //获取当前点击的节点
         $(contentHtml).on('click', function () {
+            debugger;
             var target = ctl.CurrnetElement(function (element) {
                 if (element.getAttribute && element.getAttribute("innerid")) {
                     return true;
@@ -647,6 +648,9 @@
 
         //点击列表项时回调
         $('#list dl>div').on('click', function (e) {
+            debugger;
+            //let res = ctl.SelectSubDocument(modifyRecord[0].NativeHandle);
+            //var res = ctl.NavigateByUserTrackInfo(modifyRecord[0].NativeHandle.toString());
             var innerId = e.srcElement.parentElement.getAttribute('class')
             var target = $(contentHtml).find('[innerid=' + innerId + ']')
             var colorFlag = 0
@@ -1061,7 +1065,7 @@
             ctl.DCExecuteCommand('Copy', true, null);
         }
     }
-    EventBeforePaste();
+    //EventBeforePaste();
 </script>
 
 <script type="text/javascript">

@@ -74,6 +74,7 @@ namespace Newtouch.EMR.Web.Areas.MedicalRecordManage
         private static WebWriterControlEngine engine;
         private static string UploadURL = ConfigurationHelper.GetAppConfigValue("MRUploadURL");
         #endregion
+        
         #region DCwriter
 
         private WebWriterControlEngine GetControlEngine()
@@ -170,6 +171,7 @@ namespace Newtouch.EMR.Web.Areas.MedicalRecordManage
 
         #endregion
 
+        #region  dc编辑器病历文书操作
         [ValidateInput(false)]
         /// <summary>
         /// 根据模板ID新增病历
@@ -224,7 +226,7 @@ namespace Newtouch.EMR.Web.Areas.MedicalRecordManage
                     }
                     else
                     {
-                        var Zybrjbxx = getBlZybrjbxx(zyh);
+                        var Zybrjbxx = getBlZybrjbxx(zyh,false);
                         //var Zybrjbxx = GetZybrjbxxByZYH(zyh);
                         //engHTML = XMLDataBind(Zybrjbxx, currentFileName);
 
@@ -284,11 +286,11 @@ namespace Newtouch.EMR.Web.Areas.MedicalRecordManage
                             string BLID = "";
                             if (!string.IsNullOrWhiteSpace(mzh))
                             {
-                                BLID = _medicalRecordDmnService.BL_Save(OrganizeId, mb.bllx, mbbh, path, BLMC, this.UserIdentity, null, mzh);
+                                BLID = _medicalRecordDmnService.BL_Save(OrganizeId, mb.bllx, mbbh, path, BLMC, this.UserIdentity, null, mzh,".xml");
                             }
                             else
                             {
-                                BLID = BL_Save(mb.bllx, mbbh, zyh, path, BLMC, DataSource, xmlConten);
+                                BLID = BL_Save(mb.bllx, mbbh, zyh, path, BLMC, DataSource, xmlConten,".xml");
                                 eng.LoadDocument(currentFileName + BLMC + ".xml", null);
                                 XTextElementList xTextElements = eng.Document.GetAllElements();
                                 List<XTextElement> xTextElements_input = xTextElements.FindAll(n => n.GetType() == typeof(XTextInputFieldElement));
@@ -433,7 +435,7 @@ namespace Newtouch.EMR.Web.Areas.MedicalRecordManage
 
         [ValidateInput(false)]
         /// <summary>
-        /// 根据病历ID编辑ID
+        /// 根据病历ID编辑ID--修改病历
         /// </summary>
         /// <param name="blid"></param>
         /// <param name="zyh"></param>
@@ -776,7 +778,7 @@ namespace Newtouch.EMR.Web.Areas.MedicalRecordManage
             return View();
         }
         /// <summary>
-        /// 
+        /// 病历文书锁定-解锁，不可多人书写同一文书
         /// </summary>
         /// <param name="blid"></param>
         /// <param name="bllx"></param>
@@ -827,6 +829,19 @@ namespace Newtouch.EMR.Web.Areas.MedicalRecordManage
             }
             return Success("解锁成功");
         }
+        /// <summary>
+        /// 病历文书预览
+        /// </summary>
+        /// <param name="jzbl"></param>
+        /// <param name="blid"></param>
+        /// <param name="bllx"></param>
+        /// <param name="blid2"></param>
+        /// <param name="bllx2"></param>
+        /// <param name="blxtmc_yj"></param>
+        /// <param name="zyh"></param>
+        /// <param name="message"></param>
+        /// <param name="mzh"></param>
+        /// <returns></returns>
         public ActionResult PreView(string jzbl, string blid, string bllx, string blid2, string bllx2, string blxtmc_yj, string zyh, string message, string mzh = null)
         {
 
@@ -990,12 +1005,166 @@ namespace Newtouch.EMR.Web.Areas.MedicalRecordManage
             eng.Dispose();
             return View();
         }
+
+        /// <summary>
+        /// 病历打印视图
+        /// </summary>
+        /// <param name="jzbl"></param>
+        /// <param name="blid"></param>
+        /// <param name="bllx"></param>
+        /// <param name="blid2"></param>
+        /// <param name="bllx2"></param>
+        /// <param name="blxtmc_yj"></param>
+        /// <param name="zyh"></param>
+        /// <param name="message"></param>
+        /// <param name="mzh"></param>
+        /// <returns></returns>
+        public ActionResult PrintView(string jzbl, string blid, string bllx, string blid2, string bllx2, string blxtmc_yj, string zyh, string message, string mzh = null)
+        {
+            WebWriterControlEngine eng;
+            if (jzbl != "" && jzbl != null)
+            {
+                if (engine == null)
+                {
+                    eng = GetControlEngine();
+                }
+                else
+                {
+                    eng = engine;
+                }
+                ViewBag.mbqx = (int)EnummbqxFp.edit;
+                string Getaddress = Server.MapPath("~/File/BackupsBL/" + zyh + "/" + blid + ".xml");
+                eng.LoadDocument(Getaddress, null);
+                eng.Options.ContentRenderMode = WebWriterControlRenderMode.PagePreviewHtml;
+                //ViewBag.WriterControlHtml = eng.GetAllContentHtml();
+                byte[] bytes = Encoding.UTF8.GetBytes(eng.Document.InnerXML);
+                ViewBag.WriterControlXmlData = Convert.ToBase64String(bytes);
+                eng.Dispose();
+                ViewBag.message = message;
+                ViewBag.blid = blid2;
+                ViewBag.bllx = bllx2;
+                ViewBag.zyh = zyh;
+                ViewBag.mzh = mzh;
+                ViewBag.blxtmc_yj = blxtmc_yj;
+                ViewBag.ContentRenderMode = eng.Options.ContentRenderMode;
+            }
+            else
+            {
+
+
+
+                //如果找不到加载的xml就默认为空白的xml
+                ViewBag.blid = blid;
+                ViewBag.bllx = bllx;
+                ViewBag.zyh = zyh;
+                ViewBag.mzh = mzh;
+                ViewBag.mbqx = (int)EnummbqxFp.non;
+
+
+                string currentFileName = Server.MapPath(BlTemplatePath + "newFile.xml");
+                string bllj = "";
+                blxtmc_yj = "";
+                // 加载文件
+                //WebWriterControlEngine eng ;
+                if (engine == null)
+                {
+                    eng = GetControlEngine();
+                }
+                else
+                {
+                    eng = engine;
+                }
+                medicalRecordVO mr = new medicalRecordVO();
+                if (!string.IsNullOrWhiteSpace(mzh))
+                {
+                    mr = _medicalRecordDmnService.GetMedicalRecordbyId(blid, bllx);
+                }
+                else
+                {
+                    mr = _medicalRecordDmnService.GetMedicalRecord(blid, bllx);
+                }
+                bllj = mr.blxtml;
+                blxtmc_yj = mr.blxtmc_yj;
+
+                ViewBag.mbqx = (int)EnummbqxFp.non;
+                var qx = _blmblbDmnService.Getqxkz(this.UserIdentity.StaffId, mr.mbbh, bllx);
+                if (qx != null && qx.Count > 0)
+                {
+                    ViewBag.mbqx = qx.FirstOrDefault().ctrlLevel;
+                }
+                if (string.IsNullOrWhiteSpace(mr.blxtmc_yj) && !string.IsNullOrWhiteSpace(mzh))
+                {
+                    blxtmc_yj = _mzmeddocsrelationRepo.FindEntity(p => p.blId == blid).blmc;
+                }
+                else if (string.IsNullOrWhiteSpace(mr.blxtmc_yj))
+                {
+                    blxtmc_yj = _ZymeddocsrelationRepo.FindEntity(p => p.blId == blid).blmc;
+                }
+
+                int isLock = Convert.ToInt32(mr.IsLock);
+                ViewBag.isLocker = "";
+                if (isLock == 1)
+                {
+                    if (mr.LastModifierCode != this.UserIdentity.UserCode)
+                    {
+                        ViewBag.isLocker = mr.LastModifierCode + "正在编辑中";
+                    }
+                    else
+                    {
+                        LockRecord(blid, bllx, 2);
+                    }
+                }
+                currentFileName = Server.MapPath(bllj + blxtmc_yj.Trim() + ".xml");
+                if (System.IO.File.Exists(currentFileName) == false)//如果不存在就打开默认模板
+                {
+                    currentFileName = Server.MapPath(BlTemplatePath + "newFile.xml");
+                }
+                // 加载模板
+                eng.LoadDocument(currentFileName, null);
+                eng.Options.ContentRenderMode = WebWriterControlRenderMode.PagePreviewHtml;
+
+                //string oldstr = "span style=&quot;color:black;font-size:9pt;background-color:white";
+                //string tip = "style=\"position:relative;left:4px;top:1px";
+                eng.Options.LogUserEditTrack = true;
+                eng.Options.CurrentUserID = this.UserIdentity.UserCode;
+                eng.Options.CurrentUserName = this.UserIdentity.UserName;
+                eng.Options.CurrentUserPermissionLevel = 0;
+                eng.Options.ClientMachineName = "123";
+                eng.Options.ExcludeLogicDeleted = true;
+                eng.DocumentOptions.SecurityOptions.EnablePermission = true;
+                eng.DocumentOptions.SecurityOptions.EnableLogicDelete = true;
+                eng.DocumentOptions.SecurityOptions.ShowLogicDeletedContent = false;
+                eng.DocumentOptions.SecurityOptions.ShowPermissionMark = false;
+                eng.DocumentOptions.SecurityOptions.ShowPermissionTip = false;
+                eng.DocumentOptions.SecurityOptions.TrackVisibleLevel0.DeleteLineNum = 2;
+                eng.DocumentOptions.SecurityOptions.TrackVisibleLevel0.DeleteLineColorString = "Black";
+                eng.DocumentOptions.SecurityOptions.TrackVisibleLevel0.UnderLineColorString = "Yellow";
+                eng.DocumentOptions.SecurityOptions.TrackVisibleLevel0.UnderLineColorNum = 2;
+                eng.DocumentOptions.SecurityOptions.TrackVisibleLevel0.BackgroundColorString = "LightGrey";
+                //ViewBag.WriterControlHtml = eng.GetAllContentHtml();
+                byte[] bytes = Encoding.UTF8.GetBytes(eng.Document.InnerXML);
+                ViewBag.WriterControlXmlData = Convert.ToBase64String(bytes);
+                eng.Dispose();
+                ViewBag.isLock = isLock;
+                ViewBag.message = message;
+                ViewBag.blxtmc_yj = blxtmc_yj;
+                ViewBag.ContentRenderMode = eng.Options.ContentRenderMode;
+            }
+            return View();
+        }
+
         public ActionResult RecordList(string zyh, string mzh)
         {
             ViewBag.zyh = zyh;
             ViewBag.mzh = mzh;
             return View();
         }
+        /// <summary>
+        /// 历史病历文书treeV1
+        /// </summary>
+        /// <param name="zyh"></param>
+        /// <param name="mzh"></param>
+        /// <returns></returns>
         public ActionResult GetWSTreeList(string zyh, string mzh)
         {
             var treeList = new List<TreeViewModel>();
@@ -1053,7 +1222,12 @@ namespace Newtouch.EMR.Web.Areas.MedicalRecordManage
             return Content(treeList.TreeViewJson(null));
 
         }
-
+        /// <summary>
+        /// 历史病历文书treeV2
+        /// </summary>
+        /// <param name="zyh"></param>
+        /// <param name="mzh"></param>
+        /// <returns></returns>
         public ActionResult GetWSTreeListIndex(string zyh, string mzh)
         {
             var treeList = new List<TreeViewModel>();
@@ -1101,15 +1275,24 @@ namespace Newtouch.EMR.Web.Areas.MedicalRecordManage
             return Content(treeList.TreeViewJson(null));
         }
 
-
         public ActionResult Doctor()
         {
             return View();
         }
-
-
-        public ActionResult GetBFTreeListIndex(string zyh, string blxtmc_yj)
+        
+        /// <summary>
+        /// 备份历史病历记录
+        /// </summary>
+        /// <param name="zyh"></param>
+        /// <param name="blxtmc_yj"></param>
+        /// <returns></returns>
+        public ActionResult GetBFTreeListIndex(string zyh,string mzh, string blxtmc_yj,string doctype=null)
         {
+            if (!string.IsNullOrWhiteSpace(mzh)&&mzh!="null")
+            {
+                zyh = mzh.Trim();
+            }
+            int strlength =!string.IsNullOrWhiteSpace(doctype)? doctype.Length:4;
             DateTime limitdate = DateTime.Today;
             var treeList = new List<TreeViewModel>();
             string Getaddress = Server.MapPath(BlBackupFilePath);
@@ -1134,7 +1317,7 @@ namespace Newtouch.EMR.Web.Areas.MedicalRecordManage
             for (int i = 0; i < finfo.Length; i++)
             {
                 BackuptimetreeVO treelist = new BackuptimetreeVO();
-                string str = finfo[i].Name.Substring(0, finfo[i].Name.Length - 4);
+                string str = finfo[i].Name.Substring(0, finfo[i].Name.Length - strlength);
                 string[] sArray = str.Split(new char[2] { 'j', '-' });
 
                 if (sArray != null && sArray.Length >= 3 && sArray[2] == blxtmc_yj)
@@ -1198,8 +1381,19 @@ namespace Newtouch.EMR.Web.Areas.MedicalRecordManage
             var a = treeList.TreeViewJson(null);
             return Content(treeList.TreeViewJson(null));
         }
-
-        public string BL_Save(string bllx, string mbbh, string zyh, string path, string BLMC, string DataSource = null, string xmlConten = null)
+        
+        /// <summary>
+        /// 病历保存时相应表操作，数据存储
+        /// </summary>
+        /// <param name="bllx"></param>
+        /// <param name="mbbh"></param>
+        /// <param name="zyh"></param>
+        /// <param name="path"></param>
+        /// <param name="BLMC"></param>
+        /// <param name="DataSource"></param>
+        /// <param name="xmlConten"></param>
+        /// <returns></returns>
+        public string BL_Save(string bllx, string mbbh, string zyh, string path, string BLMC, string DataSource = null, string xmlConten = null,string doctype=null)
         {
             var medicalRecord = new medicalRecordVO();
             medicalRecord.ID = Guid.NewGuid().ToString();
@@ -1232,10 +1426,15 @@ namespace Newtouch.EMR.Web.Areas.MedicalRecordManage
             Entity.zt = "1";
             Entity.DataSource = DataSource;
             Entity.XmlConten = xmlConten;
+            Entity.doctype = doctype;
             _medicalRecordDmnService.MedicalRecordSave(medicalRecord, Entity);
             return medicalRecord.ID;
         }
-
+        
+        /// <summary>
+        /// 病历存储路径是否存在
+        /// </summary>
+        /// <param name="path"></param>
         public void IsExistDir(string path)
         {
             if (Directory.Exists(Server.MapPath(path)) == false)//如果不存在就创建file文件夹
@@ -1244,7 +1443,9 @@ namespace Newtouch.EMR.Web.Areas.MedicalRecordManage
             }
         }
 
-        #region 数据源初始化
+        #endregion
+
+        #region 病历编辑器-数据源初始化
         /// <summary>
         /// 根据住院号获取病人基本信息
         /// 实体必须是可序列化的才能在病历控件里绑定上数据所以使用ZybrjbxxVO
@@ -1346,7 +1547,7 @@ namespace Newtouch.EMR.Web.Areas.MedicalRecordManage
             return Zybrjbxx;
         }
         /// <summary>
-        /// 根据住院号获取病人基本信息
+        /// 根据住院号获取病人基本信息-病案首页
         /// </summary>
         /// <param name="zyh"></param>
         /// <returns></returns>
@@ -1420,8 +1621,20 @@ namespace Newtouch.EMR.Web.Areas.MedicalRecordManage
         {
             return _outpatientDmnService.GetPatMzbymzh(OrganizeId, mzh, this.UserIdentity.rygh);
         }
+
+        /// <summary>
+        /// 住院病历加载病人基本信息
+        /// </summary>
+        /// <param name="zyh"></param>
+        /// <returns></returns>
+        private blzybrjbxxVO getBlZybrjbxx(string zyh,bool newbz)
+        {
+            var data = _medicalRecordDmnService.GetBlZybrjbxx(this.OrganizeId, zyh, this.UserIdentity.UserName,newbz);
+            return data;
+        }
         #endregion
 
+        #region  数据源赋值病历文书
         private string XMLDataBind<T>(T data, string currentFileName)
         {
             WebWriterControlEngine eng;
@@ -1575,6 +1788,8 @@ namespace Newtouch.EMR.Web.Areas.MedicalRecordManage
                                         .Replace(oldstr + "&quot;&gt; &amp;#x5E38", oldstr + ";display:none&quot;&gt; &amp;#x5E38")
                                         .Replace(tip, tip + ";display:none ");
         }
+
+        #endregion
 
         #region 医保上传
         /// <summary>
@@ -2204,6 +2419,7 @@ namespace Newtouch.EMR.Web.Areas.MedicalRecordManage
 
         #endregion
 
+        #region  病历编辑器侧边浮层
         public ActionResult GetLisSqdhGridJson(string mzzyh, string type, string ztmc, string kssj, string jssj)
         {
             var data = _medicalRecordDmnService.GetLisSqdhData(this.OrganizeId, mzzyh, type, ztmc, kssj, jssj);
@@ -2252,6 +2468,9 @@ namespace Newtouch.EMR.Web.Areas.MedicalRecordManage
             return Content(data.ToJson());
         }
 
+        #endregion
+
+        #region  多份病历合并
         //合并病程
         public ActionResult MergeView(string jzbl, string blid, string bllx, string blid2, string bllx2, string blxtmc_yj, string zyh, string message, string mzh = null)
         {
@@ -2516,12 +2735,7 @@ namespace Newtouch.EMR.Web.Areas.MedicalRecordManage
             //         //result.Save("D:/File/save2/resul合并测试_bt3_9.xml");
             //         result.Save(saveUrl);
         }
-
-        private blzybrjbxxVO getBlZybrjbxx(string zyh)
-        {
-            var data = _medicalRecordDmnService.GetBlZybrjbxx(this.OrganizeId, zyh, this.UserIdentity.UserName);
-            return data;
-        }
+        
 
         public ActionResult UpdateLockzt(string blid)
         {
@@ -2535,140 +2749,244 @@ namespace Newtouch.EMR.Web.Areas.MedicalRecordManage
             //return Error("修改锁定状态失败");只针对护理记录单
             //}
         }
+        #endregion
 
-
-        public ActionResult PrintView(string jzbl, string blid, string bllx, string blid2, string bllx2, string blxtmc_yj, string zyh, string message, string mzh = null)
+        #region  新版编辑器
+        public ActionResult MedicalRecordEdiForAddV2()
         {
-            WebWriterControlEngine eng;
-            if (jzbl != "" && jzbl != null)
-            {
-                if (engine == null)
+            return View();
+        }
+        public ActionResult MedicalRecordEditV2()
+        {
+            return View();
+        }
+        //加载病历模板
+        public ActionResult LoadTemplateHtml(string mbbh, string zyh, string mzh = null)
+        {
+            //根据id获取模板
+            //如果找不到加载的xml就默认为空白的xml
+            BlTemplateVo vo = new BlTemplateVo();
+            string currentFileName = Server.MapPath(BlTemplatePath + "newFile.html");
+            var mb = _bl_mblbRepo.GetTemplateById(mbbh);
+            if (mb != null && !string.IsNullOrWhiteSpace(mb.mblj)) {
+                mb.mblj = mb.mblj.Replace("xml", "html");
+                currentFileName = Server.MapPath(mb.mblj);
+                // 加载模板
+                if (System.IO.File.Exists(currentFileName) == false)//如果不存在就打开默认模板
                 {
-                    eng = GetControlEngine();
+                    currentFileName = Server.MapPath(BlTemplatePath + "newFile.html");
+                }
+                if (mb.bllx == "5")
+                {
+                    vo.basyVo= GetBasyByZYH(zyh);
+                }
+                else if (!string.IsNullOrWhiteSpace(mzh))
+                {
+                    vo.mzjbxx= GetOutpatbyMzh(mzh);
                 }
                 else
                 {
-                    eng = engine;
+                    vo.zybrxx= getBlZybrjbxx(zyh, true);
                 }
-                ViewBag.mbqx = (int)EnummbqxFp.edit;
-                string Getaddress = Server.MapPath("~/File/BackupsBL/" + zyh + "/" + blid + ".xml");
-                eng.LoadDocument(Getaddress, null);
-                eng.Options.ContentRenderMode = WebWriterControlRenderMode.PagePreviewHtml;
-                //ViewBag.WriterControlHtml = eng.GetAllContentHtml();
-                byte[] bytes = Encoding.UTF8.GetBytes(eng.Document.InnerXML);
-                ViewBag.WriterControlXmlData = Convert.ToBase64String(bytes);
-                eng.Dispose();
-                ViewBag.message = message;
-                ViewBag.blid = blid2;
-                ViewBag.bllx = bllx2;
-                ViewBag.zyh = zyh;
-                ViewBag.mzh = mzh;
-                ViewBag.blxtmc_yj = blxtmc_yj;
-                ViewBag.ContentRenderMode = eng.Options.ContentRenderMode;
+            }
+            string xml = System.IO.File.ReadAllText(currentFileName);
+            vo.xmldata = xml;
+            vo.templateId = mb.Id;
+            vo.templateName = mb.mbmc;
+            return Content(vo.ToJson());
+        }
+        //病历保存
+        public ActionResult SavePatientBl(List<Blyyjgh> docData, string mbbh, string zyh, string mzh = null, string submitData=null )
+        {
+            string ywid = zyh.Trim();
+            if (!string.IsNullOrWhiteSpace(mzh))
+            {
+                ywid = mzh.Trim();
+            }
+            string DataSource = "";
+            var mbety = _bl_mblbRepo.FindEntity(mbbh);
+            if (mbety != null && mbety.EnableDataLoad == "1" && !string.IsNullOrWhiteSpace(mbety.DataSource))
+            {
+                DataSource = mbety.DataSource;
+            }
+            string path = BlFilePath + DateTime.Now.ToString("yyyy/MM/dd/") + ywid + "/";//win10电脑有问题
+            path = $"{BlFilePath}{DateTime.Now.ToString("yyyy")}/{DateTime.Now.ToString("MM")}/{DateTime.Now.ToString("dd")}/{ywid}/";
+            IsExistDir(path);
+            string BLMC = DateTime.Now.ToString("ddHHmm") + mbety.mbmc.Replace("模板", "").Trim();
+            byte[] decodedBytes = Convert.FromBase64String(submitData);
+            string xmlConten = Encoding.UTF8.GetString(decodedBytes);
+            string currentFileName = Server.MapPath(path);
+            System.IO.File.WriteAllText(currentFileName + BLMC + ".html", xmlConten);
+            string BLID = "";
+            if (!string.IsNullOrWhiteSpace(mzh))
+            {
+                BLID = _medicalRecordDmnService.BL_Save(OrganizeId, mbety.bllx, mbbh, path, BLMC, this.UserIdentity, null, mzh,".html");
             }
             else
             {
-
-
-
-                //如果找不到加载的xml就默认为空白的xml
-                ViewBag.blid = blid;
-                ViewBag.bllx = bllx;
-                ViewBag.zyh = zyh;
-                ViewBag.mzh = mzh;
-                ViewBag.mbqx = (int)EnummbqxFp.non;
-
-
-                string currentFileName = Server.MapPath(BlTemplatePath + "newFile.xml");
-                string bllj = "";
-                blxtmc_yj = "";
-                // 加载文件
-                //WebWriterControlEngine eng ;
-                if (engine == null)
-                {
-                    eng = GetControlEngine();
-                }
-                else
-                {
-                    eng = engine;
-                }
-                medicalRecordVO mr = new medicalRecordVO();
-                if (!string.IsNullOrWhiteSpace(mzh))
-                {
-                    mr = _medicalRecordDmnService.GetMedicalRecordbyId(blid, bllx);
-                }
-                else
-                {
-                    mr = _medicalRecordDmnService.GetMedicalRecord(blid, bllx);
-                }
-                bllj = mr.blxtml;
-                blxtmc_yj = mr.blxtmc_yj;
-
-                ViewBag.mbqx = (int)EnummbqxFp.non;
-                var qx = _blmblbDmnService.Getqxkz(this.UserIdentity.StaffId, mr.mbbh, bllx);
-                if (qx != null && qx.Count > 0)
-                {
-                    ViewBag.mbqx = qx.FirstOrDefault().ctrlLevel;
-                }
-                if (string.IsNullOrWhiteSpace(mr.blxtmc_yj) && !string.IsNullOrWhiteSpace(mzh))
-                {
-                    blxtmc_yj = _mzmeddocsrelationRepo.FindEntity(p => p.blId == blid).blmc;
-                }
-                else if (string.IsNullOrWhiteSpace(mr.blxtmc_yj))
-                {
-                    blxtmc_yj = _ZymeddocsrelationRepo.FindEntity(p => p.blId == blid).blmc;
-                }
-
-                int isLock = Convert.ToInt32(mr.IsLock);
-                ViewBag.isLocker = "";
-                if (isLock == 1)
-                {
-                    if (mr.LastModifierCode != this.UserIdentity.UserCode)
+                BLID = BL_Save(mbety.bllx, mbbh, zyh, path, BLMC, DataSource, xmlConten,".html");
+                _medicalRecordDmnService.BLJG_Delete(BLID, OrganizeId);
+                List<bl_ysjgnrEntity> bljgnrEntity = new List<bl_ysjgnrEntity>();
+                if (docData!=null) {
+                    foreach (var res in docData)
                     {
-                        ViewBag.isLocker = mr.LastModifierCode + "正在编辑中";
-                    }
-                    else
-                    {
-                        LockRecord(blid, bllx, 2);
+                        bl_ysjgnrEntity jget = new bl_ysjgnrEntity();
+                        jget.blid = BLID;
+                        jget.zyh = zyh;
+                        jget.bllx = mbety.bllx;
+                        jget.yscode = res.keyCode;
+                        jget.ysvalue = res.keyValue ?? "";
+                        jget.ysmc = res.keyName;
+                        jget.ysid = res.keyId;
+                        jget.OrganizeId = this.OrganizeId;
+                        bljgnrEntity.Add(jget);
                     }
                 }
-                currentFileName = Server.MapPath(bllj + blxtmc_yj.Trim() + ".xml");
-                if (System.IO.File.Exists(currentFileName) == false)//如果不存在就打开默认模板
+                if (bljgnrEntity.Count > 0)
+                    _medicalRecordDmnService.BLJG_Save(bljgnrEntity);
+            }
+            var data = new
+            {
+                BLID = BLID,
+                BLLX = mbety.bllx,
+                BLLJ= path,
+                blxtmc_yj= BLMC
+            };
+            return Content(data.ToJson());
+        }
+        //加载患者病历
+        public ActionResult LoadMedicalRecordHtml(string blid, string bllx, string zyh, string mzh = null, string submitData = null)
+        {
+            //如果找不到加载的html模板就默认为空白的html
+            string currentFileName = Server.MapPath(BlTemplatePath + "newFile.html");
+            string bllj = "";
+            string blxtmc_yj = "";
+            bool lockd = false; //病历书写占用锁定
+            //历史备份
+            string nameblxtmc = "";
+            string lujing = "";
+            string Getaddress = Server.MapPath(BlBackupFilePath);
+
+            medicalRecordVO mr = new medicalRecordVO();
+            if (!string.IsNullOrWhiteSpace(mzh))
+            {
+                mr = _medicalRecordDmnService.GetMedicalRecordbyId(blid, bllx);
+            }
+            else
+            {
+                mr = _medicalRecordDmnService.GetMedicalRecord(blid, bllx);
+            }
+            bllj = mr.blxtml;
+            blxtmc_yj = mr.blxtmc_yj;
+            //备份文件名称
+            nameblxtmc = DateTime.Now.ToString("yyyyMMddHHmmss") + "-" + zyh + "-" + mr.blxtmc_yj;
+            lujing = mr.blxtml;
+            if (mr.IsLock == 1 && mr.LastModifierCode != this.UserIdentity.UserCode)
+                lockd = true;
+            currentFileName = Server.MapPath(mr.blxtml + mr.blxtmc_yj.Trim() + ".html");
+            if (System.IO.File.Exists(currentFileName) == false)//如果不存在就打开默认模板
+            {
+                currentFileName = Server.MapPath(BlTemplatePath + "newFile.xml");
+            }
+            // 加载模板
+            string htmldata = System.IO.File.ReadAllText(currentFileName);
+            LockRecord(blid, bllx, 1);
+            if (!string.IsNullOrWhiteSpace(nameblxtmc.Trim()))
+            {
+                //判断路径是否存在，创建目录
+                string path = Getaddress + zyh;
+                if (Directory.Exists(path) == false)
                 {
-                    currentFileName = Server.MapPath(BlTemplatePath + "newFile.xml");
+                    Directory.CreateDirectory(path);
+                }
+                path = path + "\\";
+                //保存备份文件地址
+                System.IO.File.WriteAllText(path + nameblxtmc.Trim() + ".html", htmldata);
+            }
+            BlTemplateVo vo = new BlTemplateVo();
+            vo.xmldata = htmldata;
+            vo.templateId = blid;
+            vo.templateName = mr.blxtmc_yj;
+            vo.lockStatus= lockd;
+            vo.bllj = bllj;
+            return Content(vo.ToJson());
+        }
+        //更新病历
+        public ActionResult UpdatePatientBl(List<Blyyjgh> docData, string blid,string bllx,string bllj,string blxtmc_yj, string zyh, string mzh = null, string submitData = null)
+        {
+            string currentFileName = Server.MapPath(bllj);
+            byte[] decodedBytes = Convert.FromBase64String(submitData);
+            string xmldata = Encoding.UTF8.GetString(decodedBytes);
+            blxtmc_yj = blxtmc_yj.Trim();
+            System.IO.File.WriteAllText(currentFileName + blxtmc_yj.Trim() + ".html", xmldata);
+            var medicalRecord = new medicalRecordVO();
+            medicalRecord.ID = blid;
+            medicalRecord.bllx = bllx;
+            medicalRecord.blxtmc_hj = blxtmc_yj;
+            medicalRecord.blxtmc_yj = blxtmc_yj;
+            medicalRecord.LastModifierCode = this.UserIdentity.UserCode;
+            if (!string.IsNullOrWhiteSpace(mzh))
+            {
+                _medicalRecordDmnService.MedicalRecordSaveMz(medicalRecord, null);
+            }
+            else {
+                _medicalRecordDmnService.MedicalRecordSave(medicalRecord, null);
+                var relEty = _ZymeddocsrelationRepo.FindEntity(p => p.blId == blid && p.OrganizeId == this.OrganizeId && p.zyh == zyh);
+                relEty.LastModifyTime = DateTime.Now;
+                relEty.LastModifierCode = this.UserIdentity.rygh;
+                relEty.OldXmlConten = relEty.XmlConten;
+                relEty.XmlConten = xmldata;
+
+                _medicalRecordDmnService.BLJG_Delete(blid, OrganizeId);
+                List<bl_ysjgnrEntity> bljgnrEntity = new List<bl_ysjgnrEntity>();
+                if (docData != null) {
+                    foreach (var res in docData)
+                    {
+                        bl_ysjgnrEntity jget = new bl_ysjgnrEntity();
+                        jget.blid = blid;
+                        jget.zyh = zyh;
+                        jget.bllx = bllx;
+                        jget.yscode = res.keyCode;
+                        jget.ysvalue = res.keyValue ?? "";
+                        jget.ysmc = res.keyName;
+                        jget.ysid = res.keyId;
+                        jget.OrganizeId = this.OrganizeId;
+                        bljgnrEntity.Add(jget);
+                    }
+                }
+                if (bljgnrEntity.Count > 0)
+                    _medicalRecordDmnService.BLJG_Save(bljgnrEntity);
+                _ZymeddocsrelationRepo.Update(relEty);
+                //string mbId = relEty.mbId;
+            }
+            return Success();
+        }
+
+        public ActionResult LoadHistoryBackBl(string zyh,string backValue,string doctype)
+        {
+            if (!string.IsNullOrWhiteSpace(backValue) && backValue.Contains("|"))
+            {
+                string nameblxtmc = backValue.Split('|')[0];
+                string blid = backValue.Split('|')[1];
+                //查找备份
+                string backuplj = Server.MapPath(BlBackupFilePath + zyh + "/" + nameblxtmc.Trim() + doctype);
+                if (System.IO.File.Exists(backuplj) == false)//如果不存在就打开默认模板
+                {
+                    backuplj = Server.MapPath(BlTemplatePath + "newFile"+ doctype);
                 }
                 // 加载模板
-                eng.LoadDocument(currentFileName, null);
-                eng.Options.ContentRenderMode = WebWriterControlRenderMode.PagePreviewHtml;
-
-                //string oldstr = "span style=&quot;color:black;font-size:9pt;background-color:white";
-                //string tip = "style=\"position:relative;left:4px;top:1px";
-                eng.Options.LogUserEditTrack = true;
-                eng.Options.CurrentUserID = this.UserIdentity.UserCode;
-                eng.Options.CurrentUserName = this.UserIdentity.UserName;
-                eng.Options.CurrentUserPermissionLevel = 0;
-                eng.Options.ClientMachineName = "123";
-                eng.Options.ExcludeLogicDeleted = true;
-                eng.DocumentOptions.SecurityOptions.EnablePermission = true;
-                eng.DocumentOptions.SecurityOptions.EnableLogicDelete = true;
-                eng.DocumentOptions.SecurityOptions.ShowLogicDeletedContent = false;
-                eng.DocumentOptions.SecurityOptions.ShowPermissionMark = false;
-                eng.DocumentOptions.SecurityOptions.ShowPermissionTip = false;
-                eng.DocumentOptions.SecurityOptions.TrackVisibleLevel0.DeleteLineNum = 2;
-                eng.DocumentOptions.SecurityOptions.TrackVisibleLevel0.DeleteLineColorString = "Black";
-                eng.DocumentOptions.SecurityOptions.TrackVisibleLevel0.UnderLineColorString = "Yellow";
-                eng.DocumentOptions.SecurityOptions.TrackVisibleLevel0.UnderLineColorNum = 2;
-                eng.DocumentOptions.SecurityOptions.TrackVisibleLevel0.BackgroundColorString = "LightGrey";
-                //ViewBag.WriterControlHtml = eng.GetAllContentHtml();
-                byte[] bytes = Encoding.UTF8.GetBytes(eng.Document.InnerXML);
-                ViewBag.WriterControlXmlData = Convert.ToBase64String(bytes);
-                eng.Dispose();
-                ViewBag.isLock = isLock;
-                ViewBag.message = message;
-                ViewBag.blxtmc_yj = blxtmc_yj;
-                ViewBag.ContentRenderMode = eng.Options.ContentRenderMode;
+                string htmldata = System.IO.File.ReadAllText(backuplj);
+                var data = new
+                {
+                    htmldata = htmldata
+                };
+                return Content(data.ToJson());
             }
-            return View();
+            else
+            {
+                return Error("历史备份无效");
+            }
         }
+        #endregion
     }
 }

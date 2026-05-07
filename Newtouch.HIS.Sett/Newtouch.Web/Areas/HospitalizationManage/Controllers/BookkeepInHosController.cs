@@ -59,6 +59,7 @@ namespace Newtouch.HIS.Web.Areas.HospitalizationManage.Controllers
         private readonly ISysChargeTemplateRepo _sysChargeTemplateRepo;
         private readonly ISysChargeTemplateItemMappRepo _sysChargeTemplateItemMappRepo;
         private readonly IHospDrugBillingRepo _hospdrugbillingRepo;
+        
         #region HIS住院记账 选择计费项目（药品），填写数量等，直接往zy_xmjfb zy_ypjfb中写计费数据
 
 
@@ -152,6 +153,10 @@ namespace Newtouch.HIS.Web.Areas.HospitalizationManage.Controllers
                     throw new FailedException("病人不在院");
                 }
                 DateTime? cqrq = _PatientBasicInfoDmnService.IFCQRQISJZSJ(zyh,this.OrganizeId);
+                //项目计费表
+                List<HospItemBillingEntity> xmjfbEntitylist = new List<HospItemBillingEntity>();
+                //药品计费表
+                List<HospDrugBillingEntity> ypjfbEntitylist = new List<HospDrugBillingEntity>();
                 for (int i = 0; i < ItemFeeVO.Count; i++)
                 {
                     if (ItemFeeVO[i].tdrq> cqrq)
@@ -162,7 +167,6 @@ namespace Newtouch.HIS.Web.Areas.HospitalizationManage.Controllers
                     {
                         return Error("记账日期不能早于病人入院日期!");
                     }
-
                     if ((ItemFeeVO[i].cyrq != new DateTime(0001, 01, 01)) && ItemFeeVO[i].cyrq < ItemFeeVO[i].tdrq)
                     {
                         return Error("记账日期不能晚于病人出院日期!");
@@ -177,7 +181,6 @@ namespace Newtouch.HIS.Web.Areas.HospitalizationManage.Controllers
                         if (ItemFeeVO[i].zfxz=="9")
                         {
                             var mbmx = _sysChargeTemplateItemMappRepo.getmbmx(ItemFeeVO[i].sfxm, this.OrganizeId);
-
                             if (mbmx == null|| mbmx.Count==0)
                             {
                                 throw new FailedException("未找到对应收费组套明细");
@@ -211,7 +214,9 @@ namespace Newtouch.HIS.Web.Areas.HospitalizationManage.Controllers
                                 zyXmjfb.OrganizeId = OperatorProvider.GetCurrent().OrganizeId;
                                 zyXmjfb.ztbh = mbmx[k].sfmbbh;
                                 zyXmjfb.ztsl= ItemFeeVO[i].ztsl;
-                                _HospItemFeeApp.SubmitForm(zyXmjfb, null);
+                                zyXmjfb.Create(true, EFDBBaseFuncHelper.Instance.GetNewPrimaryKeyInt("zy_xmjfb"));
+                                xmjfbEntitylist.Add(zyXmjfb);
+                                //_HospItemFeeApp.SubmitForm(zyXmjfb, null);
                             }
                         }
                         else
@@ -238,9 +243,10 @@ namespace Newtouch.HIS.Web.Areas.HospitalizationManage.Controllers
                             zyXmjfb.zfbl = ItemFeeVO[i].zfbl;
                             zyXmjfb.cxzyjfbbh = 0;
                             zyXmjfb.OrganizeId = OperatorProvider.GetCurrent().OrganizeId;
-                            _HospItemFeeApp.SubmitForm(zyXmjfb, null);
+                            //_HospItemFeeApp.SubmitForm(zyXmjfb, null);
+                            zyXmjfb.Create(true, EFDBBaseFuncHelper.Instance.GetNewPrimaryKeyInt("zy_xmjfb"));
+                            xmjfbEntitylist.Add(zyXmjfb);
                         }
-                        
                         #endregion
                     }
                     else
@@ -272,12 +278,35 @@ namespace Newtouch.HIS.Web.Areas.HospitalizationManage.Controllers
                         zyYpjfb.OrganizeId = OperatorProvider.GetCurrent().OrganizeId;
                         zyYpjfb.cls = (short?)ItemFeeVO[i].cls;
                         zyYpjfb.zxks = ItemFeeVO[i].yfdm; //药品补记账  默认执行科室为
-                        _HospMedicinFeeApp.SubmitForm(zyYpjfb, null);
-                        _hospdrugbillingRepo.Updatezyaddfee(OrganizeId, ItemFeeVO[i].sl, ItemFeeVO[i].yfdm, ItemFeeVO[i].sfxm);
+                        zyYpjfb.Create(true, EFDBBaseFuncHelper.Instance.GetNewPrimaryKeyInt("zy_ypjfb"));
+                        //_HospMedicinFeeApp.SubmitForm(zyYpjfb, null);
+                        ypjfbEntitylist.Add(zyYpjfb);
+                        //_hospdrugbillingRepo.Updatezyaddfee(OrganizeId, ItemFeeVO[i].sl, ItemFeeVO[i].yfdm, ItemFeeVO[i].sfxm);
                         #endregion
                     }
                 }
-                _hospdrugbillingRepo.Updatezy_brxxexpand(OrganizeId, zyh);
+                //存在物资耗材做库存验证
+                var wzList = xmjfbEntitylist.Where(p => p.sfxm.Contains("wz")).ToList();
+                if (wzList.Count>0)
+                {
+                    var kclist= _BookkeepInHosDmnService.Verification(string.Join(",", wzList.Where(m => m.sfxm.Contains("wz")).Select(p => p.sfxm)),this.OrganizeId, ItemFeeVO[0].yfdm);
+                    foreach (var item in wzList) {
+                        var resultNum = kclist.Where(p => p.productCode == item.sfxm && p.kykc >= item.sl).Count();
+                        if(resultNum == 0)
+                            throw new FailedException("编码为："+item.sfxm +" 库存不足！");
+                    }
+                }
+                //保存
+                string result=_BookkeepInHosDmnService.SaveFee(xmjfbEntitylist, ypjfbEntitylist);
+                if (string.IsNullOrWhiteSpace(result))
+                {
+                    string jfbhs = string.Join(",", wzList.Where(m => m.sfxm.Contains("wz")).Select(p => p.jfbbh));
+                    _hospItemBillingRepo.Updatezyaddfee(OrganizeId, jfbhs,ItemFeeVO[0].yfdm,this.UserIdentity.UserCode);
+                    //更新cis住院患者预览右侧费用卡片信息
+                    _hospdrugbillingRepo.Updatezy_brxxexpand(OrganizeId, zyh);
+                }
+                else
+                    throw new FailedException(result);
             }
             else
             {

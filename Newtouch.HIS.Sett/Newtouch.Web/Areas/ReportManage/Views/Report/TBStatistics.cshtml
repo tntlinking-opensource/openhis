@@ -1,6 +1,9 @@
 ﻿@{
     ViewBag.Title = "";
     Layout = "~/Views/Shared/_Form.cshtml";
+    var reportUrl = Newtouch.Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("ReportUrl");
+    var ReportSystemCode = Newtouch.Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("ReportSystemCode");
+    var opr = Newtouch.Common.Operator.OperatorProvider.GetCurrent();
 }
 
 <div class="rows">
@@ -15,7 +18,7 @@
                 <th class="formTitle">结束日期：</th>
                 <td class="formValue">
                     <input id="jssj" type="text" class="form-control input-wdatepicker form-an"
-                           onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" value="@(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))" />
+                           onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" value="@(DateTime.Now.ToString("yyyy-MM-dd 23:59:59"))" />
                 </td>
                 <td class="formValue" style="padding-left:20px;">
                     <input type="button" id="btn_search" onclick="submit();" class="btn btn-primary btn-md" value="查询" style="width:55px" />
@@ -48,12 +51,13 @@
             return;
         }
         var url = getUrl();
-        var orgId = '@ViewBag.OrgId';
+        @*var orgId = '@ViewBag.OrgId';
         url += "&orgId=" + orgId;
         url += "&kssj=" + $('#kssj').val();
-        url += "&jssj=" + $('#jssj').val();
+        url += "&jssj=" + $('#jssj').val();*@
         setTimeout("$.loading(true, '正在请求报表页面...');", 10);
         $("#iframerightiframerightiframerightttt").attr('src', url);
+
     }
 
     $("#iframerightiframerightiframerightttt").load(function () {
@@ -63,11 +67,11 @@
     $(function () {
         var h = $(window).height() - 55
         $('#layout iframe').css('height', h);
-        
+        setTimeout(function () { submit(); }, 100);
     });
 
     function getUrl() {
-        var reportServerHOST = '@(ViewBag.ReportServerHOST)';
+        @*var reportServerHOST = '@(ViewBag.ReportServerHOST)';
         var srcUrl = reportServerHOST;
         srcUrl += 'ReportServer/Pages/ReportViewer.aspx?%2fHIS.Report.1%2f特病门诊统计';
 
@@ -78,7 +82,11 @@
             }
         }
 
-        return srcUrl;
+        return srcUrl;*@
+        var kssj = $("#kssj").val();
+        var jssj = $("#jssj").val();
+        var srcUrl2 = '@Html.Raw(reportUrl)' + "?tempCode=1314" + "&systemCode=" + '@Html.Raw(ReportSystemCode)' + "&hospitalCode=" + '@(opr.OrganizeId)' + "&orgId=" + '@(opr.OrganizeId)' + "&kssj=" + kssj + "&jssj=" + jssj;
+        return srcUrl2;
     }
 
 </script>

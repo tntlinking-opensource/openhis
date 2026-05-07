@@ -423,11 +423,13 @@ namespace Newtouch.EMR.Domain.BusinessObjects
         #endregion Model
 
     }
-
+    /// <summary>
+    /// 病历-住院基本信息
+    /// </summary>
     public class blzybrjbxxVO {
-      
+
         public string zyh { get; set; }
-       
+
         public string blh { get; set; }
         public string WardName { get; set; }
 
@@ -477,6 +479,16 @@ namespace Newtouch.EMR.Domain.BusinessObjects
         public string user { get; set; }
         public string curTime { get; set; }
 
+        //病历元素字段以中文首拼取名
+        public string bq { get; set; }
+        public DateTime? csny { get; set; }
+        public string ch { get; set; }
+        public string ks { get; set; }
+        public string ryzddm { get; set; }
+        public string ryzdmc { get; set; }
+        public string xb { get; set; }
+        public string kh { get; set; }
+        public string hy { get; set; }
     }
 
     public class blzybrjbxxParam {

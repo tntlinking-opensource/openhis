@@ -56,7 +56,7 @@
                 if ($grid) {
                     $grid.jqGrid('setGridParam', {
                         url: "/TemplateManage/InspectionTemplate/GetGPackageDetailByZtId",
-                        postData: { ztId: item.id }
+                        postData: { ztId: item.id, mbId: item.parentnodes }
                     }).trigger("reloadGrid");
                     $grid.jqGrid("setCaption", item.text);   //重置caption属性值
                 }
@@ -110,10 +110,10 @@
                     return;
                 }
         }
-        var pdnr = "";
+        var pdnr = ""; 
         $.najax({
             url: "/TemplateManage/InspectionTemplate/GetGPackageInfoByZtId",
-            data: { ztId: ztId },
+            data: { ztId: ztId, mbId: parentid },
             dataType: "json",
             type: "POST",
             async: false,
@@ -140,7 +140,7 @@
                                     $.each(data, function (index, item) {
                                         $.najax({
                                             url: "/TemplateManage/InspectionTemplate/GetGPackageDetailByZtId",
-                                            data: { ztId: ztId },
+                                            data: { ztId: ztId ,mbId:parentid},
                                             dataType: "json",
                                             type: "POST",
                                             async: false,
@@ -165,6 +165,7 @@
                             zje += data[i].zhje;
                         }
                         this.zhje = zje;
+                        this.mbId = parentid;
                         this.action = getActionDel(this.ztId);
                         $grid.jqGrid("addRowData", undefined, this, "first");
                         CalculateInsPresJYAmount($grid);

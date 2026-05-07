@@ -143,7 +143,7 @@ namespace Newtouch.CIS.Web.Areas.NurseManage.Controllers
         /// <param name="aa"></param>
         /// <returns></returns>
         [HandlerAjaxOnly]
-        public ActionResult GetPatWardTree(string aa)
+        public ActionResult GetPatWardTree(string aa,string keyword)
         {
             IsRehabAuthtoNurse = _sysConfigRepo.GetValueByCode("IsRehabAuthtoNurse", this.OrganizeId);
             var medicalInsurance = _sysConfigRepo.GetValueByCode("medicalInsurance", this.OrganizeId);
@@ -154,9 +154,10 @@ namespace Newtouch.CIS.Web.Areas.NurseManage.Controllers
                 patTree = _OrderAuditDmnService.GetPatTree(staffId);
             else
                 patTree = _OrderAuditDmnService.GetPatTree(staffId, IsRehabAuthtoNurse);
-
+            if(!string.IsNullOrWhiteSpace(keyword))
+                patTree = patTree.Where(p => p.zyh.Contains(keyword)).ToList();
             string[] aasz = new string[200];
-            if (aa != "")
+            if (!string.IsNullOrWhiteSpace(aa))
             {
                 aasz = aa.Split(',');
             }

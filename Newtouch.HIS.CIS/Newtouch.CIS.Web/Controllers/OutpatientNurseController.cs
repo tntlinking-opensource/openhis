@@ -18,6 +18,8 @@ namespace Newtouch.CIS.Web.Controllers
     {
         private readonly IOutpatientNurseDmnServise _OutpatientNurseDmnService;
         private readonly IOrderAuditDmnService _OrderAuditDmnService;
+
+        #region View 视图
         // GET: OutpatientNurse
         /// <summary>
         /// 皮试执行页面
@@ -55,7 +57,17 @@ namespace Newtouch.CIS.Web.Controllers
         {
             return View();
         }
-
+        /// <summary>
+        /// 门诊划价
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult OutpatientPricing()
+        {
+            return View();
+        }
+        #endregion
+        
+        #region 皮试
         //皮试页面树控件
         public ActionResult SkintestTree(string keyword, DateTime? kssj, DateTime? jssj, string type)
         {
@@ -134,7 +146,7 @@ namespace Newtouch.CIS.Web.Controllers
             }
 
         }
-
+        
         public ActionResult skintesfrom(Pagination pagination, DateTime? kssj, DateTime? jssj, string keyword)
         {
             IList<OutpatientNursequeryVO> list = new List<OutpatientNursequeryVO>();
@@ -164,8 +176,9 @@ namespace Newtouch.CIS.Web.Controllers
                 return Success("取消执行成功");
             }
         }
+        #endregion
 
-
+        #region 门诊病历打印
         /// <summary>
         /// 获取处方人员查询树
         /// </summary>
@@ -251,8 +264,9 @@ namespace Newtouch.CIS.Web.Controllers
             };
             return Content(data.ToJson());
         }
+        #endregion
 
-
+        #region 留观
         public ActionResult observationfrom(Pagination pagination, DateTime? kssj, DateTime? jssj, string keyword)
         {
             IList<ObservationFromVO> list = new List<ObservationFromVO>();
@@ -268,5 +282,11 @@ namespace Newtouch.CIS.Web.Controllers
             return Content(data.ToJson());
 
         }
+        #endregion
+
+        #region 门诊划价
+
+
+        #endregion
     }
 }

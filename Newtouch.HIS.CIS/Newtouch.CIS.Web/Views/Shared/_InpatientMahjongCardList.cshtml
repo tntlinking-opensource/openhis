@@ -201,7 +201,7 @@
             });
             $(this).find(".dv-cwmc").addClass("bedchoose");
             $(this).addClass("bedborderchoose");
-            currentobj = { "blh": $(this).find(".dv-patxm").attr('data-blh'), "zyh": $(this).find(".dv-patxm").attr('data-zyh'), "xm": $(this).find(".dv-patxm").attr('data-xm'), "sex": $(this).find(".dv-patxm").attr('data-sex'), "age": $(this).find(".dv-patxm").attr('data-age'), "brxzmc": $(this).find(".dv-patxm").attr('data-brxzmc'), "brxzdm": $(this).find(".dv-patxm").attr('data-brxzdm'), "ryrq": $(this).find(".dv-patxm").attr('data-ryrq') };
+            currentobj = { "blh": $(this).find(".dv-patxm").attr('data-blh'), "zyh": $(this).find(".dv-patxm").attr('data-zyh'), "deptCode": $(this).find(".dv-patxm").attr('data-deptCode'), "xm": $(this).find(".dv-patxm").attr('data-xm'), "sex": $(this).find(".dv-patxm").attr('data-sex'), "age": $(this).find(".dv-patxm").attr('data-age'), "brxzmc": $(this).find(".dv-patxm").attr('data-brxzmc'), "brxzdm": $(this).find(".dv-patxm").attr('data-brxzdm'), "ryrq": $(this).find(".dv-patxm").attr('data-ryrq'), "selbq": $("#sel_inpatientArea").val() };
             onSelectpatient(currentobj);
             clearTimeout(timer);
             timer = setTimeout(function () { initInpatStu(currentobj) }, 200);
@@ -209,8 +209,18 @@
         $('.ul-zbq').on("dblclick", "li", function () {
             clearTimeout(timer);
             sessionStorage.setItem('currentobj', JSON.stringify(currentobj));
-            top.top.$.Newtouchtab.tryCloseTab({ name: "医嘱管理", url: "/DoctorManage/DoctorsAdvice/Index" });
-            top.top.$.Newtouchtab.addTabWithOutMenu({ name: "医嘱管理", enName: "", url: "/DoctorManage/DoctorsAdvice/Index" });
+            if (nurseCenter) {
+                if (!window.parent.$('#page-wrapper').hasClass('nav-small'))
+                    window.parent.$("#make-small-nav").trigger("click");//菜单隐藏
+                window.parent.$('.open .submenu').css('display', 'none');
+                top.top.$.Newtouchtab.tryCloseTab({ name: "护士站-患者中心", url: "/NurseManage/InpatientList/IndexCenter" });
+                top.$.Newtouchtab.addTabWithOutMenu({ name: "护士站-患者中心", enName: "", url: "/NurseManage/InpatientList/IndexCenter" });
+                
+            } else {
+                top.top.$.Newtouchtab.tryCloseTab({ name: "医嘱管理", url: "/DoctorManage/DoctorsAdvice/Index" });
+                top.top.$.Newtouchtab.addTabWithOutMenu({ name: "医嘱管理", enName: "", url: "/DoctorManage/DoctorsAdvice/Index" });
+            }
+           
         });
     });
 
@@ -258,7 +268,7 @@
                 + '<span title="住院天数">&nbsp;' + v.zyts + '天</span>'
                 + '<span  style="width:9px;height:9px;background-color:yellow;float:right;border-top-right-radius:3px;margin-top:-1px;margin-right:-1px;display:' + v.display + '" title="预出院时间:' + $.getTime({ date: v.kssj }) + ' &#10医嘱内容:' + v.ztnr + '"> </span>'
                 + ' </div >'
-                + ' <div class="dv-patxm" data-blh=' + v.blh + ' data-zyh=' + v.zyh + ' data-age=' + v.nlshow + ' data-xm=' + v.xm + ' data-sex=' + v.sex + ' data-brxzdm=' + v.brxzdm + ' data-brxzmc=' + v.brxzmc + ' data-ryrq=' + v.ryrq.substring(0, 10) + '>'
+                + ' <div class="dv-patxm" data-blh=' + v.blh + ' data-zyh=' + v.zyh + ' data-age=' + v.nlshow + ' data-xm=' + v.xm + ' data-sex=' + v.sex + ' data-brxzdm=' + v.brxzdm + ' data-brxzmc=' + v.brxzmc + ' data-deptCode=' + v.deptCode + ' data-ryrq=' + v.ryrq.substring(0, 10) + '>'
                 + ' <img src="../../../../Content/img/' + ($.getGender(v.sex) == '男' ? "male.gif" : "female.png") + '" title="住院号:'+v.zyh+'" style="padding-right: 10px;"/><span title="病人姓名">' + v.xm + '</span>'
                 + '<span title="入院诊断：' + v.zdmc + '" style="color: #00868B">&nbsp;&nbsp;&nbsp;' + v.zdmc + '</span>'
                 + ' </div>'

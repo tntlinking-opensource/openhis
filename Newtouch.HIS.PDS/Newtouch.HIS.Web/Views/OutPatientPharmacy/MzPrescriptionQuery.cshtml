@@ -79,6 +79,7 @@
 
 <script type="text/javascript">
     var $gridList = $("#gridList");
+    var $gridListMX = $("#gridListMX");
     $(function () {
         dispenseMedicinGridList();
         gridInit();
@@ -94,7 +95,7 @@
         $gridList.dataGrid({
             multiselect: true,
             url: '/OutPatientPharmacy/GetMzcfGridJson',
-            height: $(window).height() - document.getElementById('gridList').offsetTop - 280,
+            height: $(window).height()/2-150, //- document.getElementById('gridListMX').offsetTop - 280,
             postData: {
                 ks: $("#ksdm").val(), keyword: $("#keyword").val(),
                 kssj: $("#kssj").val(), jssj: $("#jssj").val(), cflx: $("#cflx").val()
@@ -203,26 +204,26 @@
         $gridList.dataGrid({
             postData: { cfh: "" },
             url: '/OutPatientPharmacy/GetMzcfGridDetailJson',
-            height: $(window).height() - document.getElementById('gridListMX').offsetTop - 120,
+            height: $(window).height()/3-30,
             colModel: [
                 { label: '门诊号', name: 'mzh', align: 'center', width: 100 },
                 { label: '姓名', name: 'xm', align: 'center', width: 60 },
-                { label: '开单时间', name: 'kssj', align: 'left', width: 50, hidden: true },
-                { label: '药品代码', name: 'ypcode', align: 'center', width: 90 },
-                { label: '药品名称', name: 'ypmc', align: 'center', width: 120 },
+                { label: '开单时间', name: 'kssj', align: 'left', width: 150, formatter: "date", formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' }   },
+                { label: '药品代码', name: 'ypcode', align: 'center', width: 120 },
+                { label: '药品名称', name: 'ypmc', align: 'center', width: 180 },
                 { label: '单位', name: 'dw', align: 'center', width: 60 },
                 { label: '数量', name: 'sl', align: 'center', width: 50 },
                 {
-                    label: '单价', name: 'dj', align: 'center', width: 50, formatter: "number"
-                    , formatoptions: { decimalPlaces: 2, defaultValue: '0.0000' }
+                    label: '单价', name: 'dj', align: 'center', width: 80, formatter: "number"
+                    , formatoptions: { decimalPlaces: 4, defaultValue: '0.0000' }
                 },
                 {
-                    label: '费用', name: 'je', align: 'center', width: 60, formatter: "number"
+                    label: '费用', name: 'je', align: 'center', width: 80, formatter: "number"
                     , formatoptions: { decimalPlaces: 2, defaultValue: '0.0000' }
                 },
-                { label: '剂量', name: 'mcjl', align: 'center', width: 60 },
+                { label: '剂量', name: 'mcjl', align: 'center', width: 80 },
                 { label: '规格', name: 'gg', align: 'center', width: 100 },
-                { label: '频次', name: 'pcmc', align: 'center', width: 60 },
+                { label: '频次', name: 'pcmc', align: 'left', width: 80 },
 
             ],
             pager: "#gridPagerMX",

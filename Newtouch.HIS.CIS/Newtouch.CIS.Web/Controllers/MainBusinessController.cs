@@ -40,11 +40,17 @@ namespace Newtouch.CIS.Web.Controllers
             ViewBag.ISOpenKfcf = _sysConfigRepo.GetBoolValueByCode("openKfcf", this.OrganizeId);
             //开关：门诊是否开放常规项目处方
             ViewBag.ISOpenCgxmcf = _sysConfigRepo.GetBoolValueByCode("openCgxmcf", this.OrganizeId);
+            ViewBag.isOpenRationalUse = _sysConfigRepo.GetValueByCode("OpenRationalUse", OrganizeId);//是否开启合理用药
             //开关：门诊是否开放中药处方
             ViewBag.ISOpenZycf = _sysConfigRepo.GetBoolValueByCode("openZycf", this.OrganizeId);
             ViewBag.ISOpenZycfnew = _sysConfigRepo.GetBoolValueByCode("openZycfnew", this.OrganizeId);
+            //开关：门诊是否开放医用耗材
+            ViewBag.ISOpenWzhc = _sysConfigRepo.GetBoolValueByCode("openWzhccf", this.OrganizeId);
+            //开关：药品是否关联药房库存
             ViewBag.ISMedicineSearchRelatedKC = _sysConfigRepo.GetBoolValueByCode("IS_MedicineSearchRelatedKC", OrganizeId);
+            //康复处方打印开关
             ViewBag.ISPrintRehabPres = _sysConfigRepo.GetBoolValueByCode("IS_PrintRehabPres", OrganizeId) ?? true;
+            //治疗单打印开关
             ViewBag.ISPrintRehabTreatment = _sysConfigRepo.GetBoolValueByCode("IS_PrintRehabTreatment", OrganizeId);
             #region 抗生素相关
             ViewBag.IsQyKssKz = _sysConfigRepo.GetBoolValueByCode("openKssQxSwitch", OrganizeId);//是否启用抗生素
@@ -99,7 +105,7 @@ namespace Newtouch.CIS.Web.Controllers
             ViewBag.OrganizeCodeSd = _organizeDmnService.GetCodeByOrgId(OrganizeId);
             //ViewBag.OrganizeCodeSd = Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("OrganizeCodeSd");
             ViewBag.RemoteTreatRPTURL = Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("RemoteTreatRPTURL");
-
+          
 
             #region 滴速
             var frds = _sysConfigRepo.GetValueByCode("frequencyRelDroppingSpeed", OrganizeId);

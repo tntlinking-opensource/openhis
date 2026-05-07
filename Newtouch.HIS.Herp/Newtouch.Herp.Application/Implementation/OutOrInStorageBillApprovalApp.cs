@@ -43,7 +43,7 @@ namespace Newtouch.Herp.Application.Implementation
                     break;
                 default:
                     result.IsSucceed = false;
-                    result.ResultMsg = "未找到复合要求的审核过程";
+                    result.ResultMsg = "未找到符合要求的审核过程";
                     break;
             }
             return result.ResultMsg;

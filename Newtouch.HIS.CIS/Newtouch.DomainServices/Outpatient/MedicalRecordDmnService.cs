@@ -61,6 +61,12 @@ namespace Newtouch.DomainServices
         private readonly ITTCataloguesComparisonDmnService _tTCataloguesComparisonDmnService;
         private readonly IQhdZnshSqtxRepo _qhdznshsqtxRepo;
         private readonly ISysConfigRepo _sysConfigRepo;
+        private readonly IMRecordTemplateDmnService _mRecordTemplateDmnService;
+        private readonly IPresTemplateRepo _presTemplateEntityRepo;
+        private readonly IPrescriptionDetailRepo _prescriptionDetailEntityRepo;
+        private readonly IPresTemplateDmnService _presTemplateDmnService;
+        
+        
         public MedicalRecordDmnService(IDefaultDatabaseFactory databaseFactory) : base(databaseFactory)
         {
 
@@ -93,7 +99,7 @@ AND jz.zt='1' AND bl.zt='1'");
             {
                 sb.Append(@" AND DateDiff(mm,ghsj,getdate())<=@queryDate");
             }
-            sb.Append(@" order by ghsj desc");
+            sb.Append(@" order by ghczsj desc");
 
             var list = this.FindList<MedicalRecordTreeVO>(sb.ToString(), new[] { new SqlParameter("@blh", blh), new SqlParameter("@queryDate", queryDate), new SqlParameter("@orgId", orgId) });
             return list;
@@ -103,12 +109,12 @@ AND jz.zt='1' AND bl.zt='1'");
         /// </summary>
         /// <param name="jzId"></param>
         /// <returns></returns>
-        public NodeContentDto SelectNodeContent(string jzId)
+       public NodeContentDto SelectNodeContent(string jzId)
         {
             //患者就诊信息
             var jzEntity = _treatmentRepo.IQueryable().Where(a => a.jzId == jzId && a.zt == "1").FirstOrDefault();
             if (jzEntity == null)
-            {
+            { 
                 throw new FailedException("数据异常，未查询出患者就诊信息");
             }
             //病历
@@ -176,7 +182,7 @@ SELECT cf.cfId, cfmx.xmCode, cfmx.xmCode, cfmx.xmmc, cfmx.mczll,cfmx.pcCode, cfm
         isnull(cfmx.mczll,1)/isnull(sfxm.dwjls,1)*isnull(cfmx.sl,1)*isnull(sfxm.dj,0) je,   --根据最新的dwjls和dj，算出总额
         ";
                 }
-                else if (item.cflx == (int)EnumCflx.RegularItemPres)   //常规项目处方
+                else if (item.cflx == (int)EnumCflx.RegularItemPres|| item.cflx == (int)EnumCflx.Yyhc)   //常规项目处方
                 {
                     sql = @"
 SELECT cf.cfId, cfmx.xmCode, cfmx.xmCode, cfmx.xmmc, cfmx.mczll,cfmx.pcCode, cfmx.sl, cfmx.dw, cfmx.ztId,cfmx.ztmc , cfmx.ztsl ,
@@ -191,7 +197,7 @@ SELECT cf.cfId, cfmx.xmCode, cfmx.xmCode, cfmx.xmmc, cfmx.mczll,cfmx.pcCode, cfm
 cf.tbz,CONVERT(DECIMAL(9,2),(isnull(cfmx.sl,1)*isnull(sfxm.dj,0))) je,cfmx.ztId,cfmx.ztmc,   --根据最新的dj，算出总额
         ";
                 }
-                if (item.cflx == (int)EnumCflx.RehabPres || item.cflx == (int)EnumCflx.RegularItemPres || item.cflx == (int)EnumCflx.InspectionPres || item.cflx == (int)EnumCflx.ExaminationPres)
+                if (item.cflx == (int)EnumCflx.RehabPres || item.cflx == (int)EnumCflx.RegularItemPres || item.cflx == (int)EnumCflx.Yyhc || item.cflx == (int)EnumCflx.InspectionPres || item.cflx == (int)EnumCflx.ExaminationPres)
                 {
                     sql += @"
         isnull(sfxm.dj,0) dj,
@@ -212,7 +218,7 @@ cfmx.xzsybz,
 cfmx.cfmxId,
 cfmx.ts,
 cf.tbz,
-cfmx.zzfbz
+cfmx.zzfbz,cfmx.ztmbId
 FROM xt_cfmx cfmx
 INNER JOIN xt_cf(nolock) cf
     ON cf.cfId=cfmx.cfId
@@ -238,7 +244,7 @@ SELECT cf.cfId, cfmx.ypCode,cfmx.ypmc,cfmx.mcjl,cfmx.mcjldw
 ,cfmx.yfCode,cfmx.pcCode,(case when cfmx.sfzt=1 then cfmx.ztsl else cfmx.sl end) sl, 
         cfmx.zh,cf.tieshu,cf.cfyf,cf.djbz,
          case isnull(cfyp.dj,'1') when '1' then isnull(CONVERT(DECIMAL(9,4),(isnull(cfmx.sl,0)*(yp.lsj / yp.bzs * yp.mzcls))),0) else isnull(cfmx.sl,0)*isnull(cfyp.dj,0) end AS je,  --根据最新的dj算出je
-        isnull(cfyp.dj,isnull(CONVERT(DECIMAL(9,4),yp.lsj / yp.bzs * yp.mzcls,0),0)) AS dj,  --最新的dj
+        isnull(CONVERT(DECIMAL(9,4),cfyp.dj),isnull(CONVERT(DECIMAL(9,4),yp.lsj / yp.bzs * yp.mzcls,0),0)) AS dj,  --最新的dj
         pc.yzpcmc AS pcmc,
         isnull(yp.ypgg,cfyp.specName) ypgg ,
         yp.mzcls AS cls,
@@ -259,7 +265,7 @@ cfmx.ds,
 cfmx.zl,
 cfmx.xmmc,
 cf.tbz,
-cfmx.zzfbz,cfmx.ispsbz,cfmx.islgbz,cfmx.ztId,cfmx.ztmc,cfmx.sfzt,cfmx.gjybdm 
+cfmx.zzfbz,cfmx.ispsbz,cfmx.islgbz,cfmx.ztId,cfmx.ztmc,cfmx.sfzt,cfmx.gjybdm ,yp.jl jlzhxs,pc.zxcs
 FROM xt_cfmx cfmx
 INNER JOIN xt_cf(nolock) cf
     ON cf.cfId=cfmx.cfId
@@ -308,7 +314,7 @@ cfmx.ds,
 cfmx.zl,
 cfmx.xmmc,
 cf.tbz,
-cfmx.zzfbz,cfmx.ispsbz,cfmx.islgbz,cfmx.ztId,cfmx.ztmc,cfmx.sfzt 
+cfmx.zzfbz,cfmx.ispsbz,cfmx.islgbz,cfmx.ztId,cfmx.ztmc,cfmx.sfzt ,yp.jl jlzhxs,pc.zxcs
 FROM Newtouch_CIS..xt_dzcfmx cfmx
 INNER JOIN Newtouch_CIS..xt_dzcf(nolock) cf
     ON cf.cfId=cfmx.cfId
@@ -361,6 +367,13 @@ WHERE cfmx.zt='1' AND cf.zt='1'
             var contentDto = new NodeContentDto()
             {
                 //患者就诊信息
+                jzks = jzEntity.jzks,
+                mjzbz = jzEntity.mjzbz,
+                jzysmc = jzEntity.jzysmc,
+                jzys = jzEntity.jzys,
+                xb = jzEntity.xb,
+                nlshow = jzEntity.nlshow,
+                xm = jzEntity.xm,
                 mzh = jzEntity.mzh,
                 ghys = jzEntity.ghys,
                 zlkssj = jzEntity.zlkssj,
@@ -403,6 +416,106 @@ WHERE cfmx.zt='1' AND cf.zt='1'
             return contentDto;
         }
 
+        public NodeContentDto SelectNodeContentByBlmb(string mbId,string orgId)
+        {
+            List<NodeContentPresBO> boList = new List<NodeContentPresBO>();
+            //病历模板信息
+            var blmb = _mRecordTemplateDmnService.SelectTemplateDetailByMbId(mbId,orgId);
+            //查询模板下处方组套
+            foreach (var cfTemplateGroupPackageEntity in blmb.mbztList)
+            {
+                var sqlllll = "";
+                if (cfTemplateGroupPackageEntity.cflx == (int)EnumCflx.InspectionPres || cfTemplateGroupPackageEntity.cflx == (int)EnumCflx.ExaminationPres)
+                {
+                    
+                    sqlllll = @"
+                           select ztId mbId,OrganizeId,1 mblx,NULL kscode,case when type='1' then '4' else '5' end cflx,ztmc mbmc,NULL ysgh,CreateTime,
+                            CreatorCode,LastModifyTime,LastModifierCode,zt from [dbo].[jyjc_zt]  mb
+                        WHERE mb.ztId=@mbId
+                                AND mb.OrganizeId=@orgId
+                                                ";
+                }
+                else {
+                    //处方模板
+                    sqlllll = @"
+                           SELECT *
+                        FROM xt_cfmb mb
+                        WHERE mb.mbId=@mbId
+                                AND mb.OrganizeId=@orgId
+                                                ";
+                }
+               
+                var presTemplateEntity = this.FirstOrDefault<InspectionTemplateVO>(sqlllll, new[] { new SqlParameter("@mbId", cfTemplateGroupPackageEntity.mbId), new SqlParameter("@orgId", orgId) });
+                    
+                PrescriptionEntity presEntity = new PrescriptionEntity()
+                {
+                    cfId = presTemplateEntity.mbId,
+                    OrganizeId = orgId,
+                    cfh = presTemplateEntity.mbId,
+                    cflx = cfTemplateGroupPackageEntity.cflx,
+                };
+               
+                List<PrescriptionDetailQueryVO> presDetailEntityList = new List<PrescriptionDetailQueryVO>();
+                var mbDetailEntityList =
+                    _presTemplateDmnService.SelectPresDetailByMbId(cfTemplateGroupPackageEntity.mbId, orgId, cfTemplateGroupPackageEntity.cflx.ToString()).mbmxList;
+                foreach (var mbDetailEntity in mbDetailEntityList)
+                {
+                    PrescriptionDetailQueryVO cfmx = new PrescriptionDetailQueryVO()
+                    {
+                        cfmxId = mbDetailEntity.mxId,
+                        ztId = mbDetailEntity.mbId,
+                        ztmc = mbDetailEntity.ztmc,
+                        OrganizeId = mbDetailEntity.OrganizeId,
+                        xmmc = mbDetailEntity.xmmc,
+                        ypCode = mbDetailEntity.ypCode,
+                        ypmc = mbDetailEntity.ypmc,
+                        mczll = mbDetailEntity.mczll,
+                        mcjl = mbDetailEntity.mcjl,
+                        mcjldw = mbDetailEntity.mcjldw,
+                        pcCode = mbDetailEntity.pcCode,
+                        dw = mbDetailEntity.dw,
+                        sl = mbDetailEntity.sl,
+                        zl = mbDetailEntity.zl,
+                        px = mbDetailEntity.px,
+                        zh = mbDetailEntity.zh,
+                        bw = mbDetailEntity.bw,
+                        Remark = mbDetailEntity.Remark,
+                        zxks = mbDetailEntity.zxks,
+                        zxksmc = mbDetailEntity.zxksmc,
+                        yfCode = mbDetailEntity.yfCode,
+                        yfmc = mbDetailEntity.yfmc,
+                        jxCode = mbDetailEntity.jxCode,
+                        dj = mbDetailEntity.dj,
+                        ypgg = mbDetailEntity.ypgg,
+                        xmCode = mbDetailEntity.xmCode,
+                        dwjls = mbDetailEntity.dwjls,
+                        pcmc = mbDetailEntity.pcmc,
+                        
+                    };
+                    presDetailEntityList.Add(cfmx);
+                }
+                boList.Add(new NodeContentPresBO()
+                {
+                    presEntity = presEntity,
+                    presDetailList = presDetailEntityList
+                });
+            }
+            var contentDto = new NodeContentDto()
+            {
+                zs = blmb.zs,
+                xbs = blmb.xbs,
+                jws = blmb.jws,
+                yjs = blmb.yjs,
+                gms = blmb.gms,
+                hy = blmb.hy,
+                ct = blmb.ct,
+                clfa = blmb.clfa,
+                xyzdList = blmb.xyzdList,
+                zyzdList = blmb.zyzdList,
+                cfBoList = boList
+            };
+            return contentDto;
+        }
         /// <summary>
         /// 保存就诊记录、诊断、病历、处方、处方明细
         /// </summary>
@@ -925,10 +1038,10 @@ WHERE cfmx.zt='1' AND cf.zt='1'
                 {
                     throw new FailedException("数据异常，未查到该就诊记录");
                 }
-                jzEntity.zt = "0";
-                jzEntity.Modify();
+                //jzEntity.zt = "0";
+                //jzEntity.Modify();
 
-                db.Update(jzEntity);
+                //db.Update(jzEntity);
 
                 //诊断
                 var jzzdList = _wmDiagnosisRepo.IQueryable().Where(a => a.jzId == jzId && a.OrganizeId == orgId).ToList();
@@ -1100,7 +1213,7 @@ where zyzd.zdlx = 1 and jzId = @jzId and zyzd.zt = '1'", new[] { new SqlParamete
                                 ztId = cfmx.ztId,
                                 ztmc = cfmx.ztmc,
                                 ztsl = cfmx.ztsl,
-                                sl = Convert.ToDecimal(cfmx.sl)
+                                sl = Convert.ToDecimal(cfmx.zl)
                             }).Where(p => p.sl > 0).ToList();
                             dto.AddTreamentItems = list;
                             dtoList.Add(dto);
@@ -1109,6 +1222,7 @@ where zyzd.zdlx = 1 and jzId = @jzId and zyzd.zt = '1'", new[] { new SqlParamete
                     case (int)EnumCflx.RegularItemPres:
                     case (int)EnumCflx.InspectionPres:
                     case (int)EnumCflx.ExaminationPres:
+                    case (int)EnumCflx.Yyhc:
                         {
                             var dto = new PrescriptionAPIDto
                             {
@@ -1267,7 +1381,7 @@ where zyzd.zdlx = 1 and jzId = @jzId and zyzd.zt = '1'", new[] { new SqlParamete
             var apiRespPush = new APIRequestHelper.DefaultResponse();
             try
             {
-                var items = rpDetail.Where(c => c.sfzt == null && c.ztId == null && c.xmCode == null).Select(p => new
+                var items = rpDetail.Where(c => c.sfzt == null && (c.ztId ==""  ||c.ztId==null) && c.xmCode == null).Select(p => new
                 {
                     Yfbm = p.zxks,
                     Cfh = cfh,
@@ -1590,7 +1704,7 @@ where zyzd.zdlx = 1 and jzId = @jzId and zyzd.zt = '1'", new[] { new SqlParamete
 
                 db.Commit();
 
-                if (cf.cflx == (int)EnumCflx.RehabPres || cf.cflx == (int)EnumCflx.RegularItemPres || cf.cflx == (int)EnumCflx.InspectionPres || cf.cflx == (int)EnumCflx.ExaminationPres)
+                if (cf.cflx == (int)EnumCflx.RehabPres || cf.cflx == (int)EnumCflx.RegularItemPres ||cf.cflx == (int)EnumCflx.Yyhc || cf.cflx == (int)EnumCflx.InspectionPres || cf.cflx == (int)EnumCflx.ExaminationPres)
                 {
                     apicflx = 2;    //1药品 2项目
                 }
@@ -1733,6 +1847,14 @@ where zyzd.zdlx = 1 and jzId = @jzId and zyzd.zt = '1'", new[] { new SqlParamete
             }
             var sqtxXmYpInfoVO = this.FirstOrDefault<SqtxXmYpInfoVO>(sb.ToString(), new[] { new SqlParameter("@code", code), new SqlParameter("@cxlx", cxlx), new SqlParameter("@orgId", orgId) });
             return sqtxXmYpInfoVO;
+        }
+        public string GetYpjx(string code, string orgId)
+        {
+            var sb = new StringBuilder();
+            sb.Append(@" SELECT t1.jxmc  FROM NewtouchHIS_Base.dbo.xt_ypjx t1 inner join  NewtouchHIS_Base.dbo.xt_yp t2 on t1.jxCode = t2.jx WHERE t2.ypCode = @code AND t2.OrganizeId = @orgId AND t2.zt = '1'");
+            
+           var ypJxmc = this.FirstOrDefault<string>(sb.ToString(), new[] { new SqlParameter("@code", code), new SqlParameter("@orgId", orgId) });
+            return  ypJxmc;
         }
 
         #region 门诊日志查询
@@ -2750,8 +2872,8 @@ where b.yzh=c.lissqdh and b.OrganizeId=c.OrganizeId
 for xml path('')),1,1,'') as ztmc,
 syncstatus,max(sqsj) sqsj ,blh FROM (select distinct a.OrganizeId,hzxm xm,yzh lissqdh,sqdh,ztId,ztmc,
 case syncStatus when '0' then '已申请' when '1' then '已接收' when '2' then '已完成' else '待申请' end syncStatus
-,CONVERT(varchar(100), a.CreateTime, 20) sqsj,b.blh,row_number() over(partition by a.ztmc order by a.CreateTime desc) rn  from zy_lsyz a 
-left join  zy_brxxk b on a.zyh=b.zyh and a.organizeId=b.organizeId and a.zt=b.zt where  yzlx='6' and a.zyh=@zymzh  and a.OrganizeId=@orgId and a.zt=1";
+,CONVERT(varchar(100), a.CreateTime, 20) sqsj,b.blh,row_number() over(partition by a.ztmc order by a.CreateTime desc) rn  from zy_lsyz a with(nolock)
+left join  zy_brxxk b on a.zyh=b.zyh and a.organizeId=b.organizeId and a.zt=b.zt where  yzlx='6' and a.zyh=@zymzh  and a.OrganizeId=@orgId and a.zt=1 and yzzt='2'";
                 if (!string.IsNullOrEmpty(ztmc))
                 {
                     sql += " and ztmc like @ztmc ";
@@ -2794,18 +2916,18 @@ where  t.OrganizeId=q.OrganizeId and q.sqdh=y.cfh
 for xml path('')),1,1,'') as ztmc,q.sqdh,q.xmzwmc,q.xmywmc,q.jyjg,q.gdbj,q.ckzdx,q.ckzgx,q.ckz,q.sqdlx
 from(
 select c.id,c.sqdh,c.xmzwmc,c.xmywmc,c.jyjg,c.gdbj,c.ckzdx,c.ckzgx,c.ckz,a.OrganizeId ,b.cflx sqdlx
-from xt_jz a
-left join xt_cf b on a.jzid=b.jzid  and b.zt=1 and a.OrganizeId=b.OrganizeId
-left join [NewtouchHIS_Sett]..mz_cf d on b.cfh=d.cfh and d.zt=1 and b.OrganizeId=d.OrganizeId
-left join [Newtouch_Interface].[dbo].[Lis_Report_MZ] c on  c.sqdh=d.cfh and b.OrganizeId=c.OrganizeId
+from xt_jz a with(nolock)
+left join xt_cf b with(nolock) on a.jzid=b.jzid  and b.zt=1 and a.OrganizeId=b.OrganizeId
+left join [NewtouchHIS_Sett]..mz_cf d with(nolock) on b.cfh=d.cfh and d.zt=1 and b.OrganizeId=d.OrganizeId
+left join [Newtouch_Interface].[dbo].[Lis_Report_MZ] c with(nolock) on  c.sqdh=d.cfh and b.OrganizeId=c.OrganizeId
 where a.zt=1 and b.cflx='4' and d.sqdzt='2' 
 and a.mzh=@mzh and a.OrganizeId=@orgid
 union all
 select c.id,c.ReqNO sqdh,c.ExamName xmzwmc,''xmywmc,c.DiagName jyjg,''gdbj,''ckzdx,''ckzgx,''ckz,a.OrganizeId ,b.cflx sqdlx
-from xt_jz a
-left join xt_cf b on a.jzid=b.jzid  and b.zt=1 and a.OrganizeId=b.OrganizeId
-left join [NewtouchHIS_Sett]..mz_cf d on b.cfh=d.cfh and d.zt=1 and b.OrganizeId=d.OrganizeId
-left join [Newtouch_Interface].[dbo].[PACS_RIS_REPORT] c on c.ReqNO=d.cfh and b.OrganizeId=c.OrganizeId
+from xt_jz a with(nolock)
+left join xt_cf b with(nolock) on a.jzid=b.jzid  and b.zt=1 and a.OrganizeId=b.OrganizeId
+left join [NewtouchHIS_Sett]..mz_cf d  with(nolock) on b.cfh=d.cfh and d.zt=1 and b.OrganizeId=d.OrganizeId
+left join [Newtouch_Interface].[dbo].[PACS_RIS_REPORT] c with(nolock) on c.ReqNO=d.cfh and b.OrganizeId=c.OrganizeId
 where a.zt=1 and b.cflx='5' and d.sqdzt='2' 
 and a.mzh=@mzh and a.OrganizeId=@orgid
 )q 
@@ -2898,13 +3020,13 @@ where  b.cflx='5' and a.mzh=@zymzh  and a.OrganizeId=@orgId and a.zt=1 and d.zt=
             else
             {
                 sql = @"select OrganizeId,xm,lissqdh,sqdh,
-stuff((select distinct ','+b.ztmc from zy_lsyz b
+stuff((select distinct ','+b.ztmc from zy_lsyz b with(nolock)
 where b.yzh=c.lissqdh and b.OrganizeId=c.OrganizeId
 for xml path('')),1,1,'') as ztmc,
 syncstatus,max(sqsj) sqsj FROM (select OrganizeId,hzxm xm,yzh lissqdh,sqdh,ztId,ztmc,
 case syncStatus when '2' then '等待报告' when '3' then '己出报告' when '4' then '已取消' else '待申请' end syncStatus,CONVERT(varchar(100), a.CreateTime, 20) sqsj,row_number() over(partition by a.yzh order by a.CreateTime desc) rn  
-from zy_lsyz a
-where  yzlx='7' and a.zyh=@zymzh  and a.OrganizeId=@orgId and a.zt=1";
+from zy_lsyz a with(nolock)
+where  yzlx='7' and a.zyh=@zymzh  and a.OrganizeId=@orgId and a.zt=1 and yzzt='2'";
                 if (!string.IsNullOrEmpty(ztmc))
                 {
                     sql += " and ztmc like @ztmc ";
@@ -3068,6 +3190,7 @@ WHERE zt = '1' and organizeId = @orgId and sfxmCode = @sfxmCode";
             paraList.Add(new SqlParameter("@mjzbz", mjzbz ?? ""));
             paraList.Add(new SqlParameter("@jiuzhenbz", jiuzhenbz ?? ""));
             paraList.Add(new SqlParameter("@keyword", "%%"));
+            paraList.Add(new SqlParameter("@zzhz", "0"));
             //
             pagination = pagination ?? new Pagination();
             pagination.page = pagination.page <= 0 ? 1 : pagination.page;
@@ -3094,7 +3217,7 @@ WHERE zt = '1' and organizeId = @orgId and sfxmCode = @sfxmCode";
             paraList.Add(outParameter4);
 
             var list = this.FindList<OutPatientRegistrationInfoDTO>(@"exec NewtouchHIS_Sett..usp_interface_OutPatientRegistrationQuery @orgId, @lastUpdateTime
-, @outpatientNumber, @ksCode, @ysgh, @mjzbz, @jiuzhenbz, @keyword
+, @outpatientNumber, @ksCode, @ysgh, @mjzbz, @jiuzhenbz, @keyword,@zzhz
 ,@page ,@rows ,@sidx ,@sord
 ,@records out ,@flag out ,@msg out", paraList.ToArray());
 

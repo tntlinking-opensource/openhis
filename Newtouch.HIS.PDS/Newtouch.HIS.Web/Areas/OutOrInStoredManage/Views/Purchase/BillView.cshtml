@@ -25,7 +25,7 @@
                 </td>
                 <th class="formTitle">订单时间：</th>
                 <td class="formValue" colspan="3">
-                    <input id="kssj" type="text" class="form-control input-wdatepicker" style="width:42%; margin-top:10px;float:left;" value="@DateTime.Now.AddMonths(-1).ToString("yyyy-MM-dd")" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd' })" />
+                    <input id="kssj" type="text" class="form-control input-wdatepicker" style="width:42%; margin-top:10px;float:left;" value="@DateTime.Now.ToString("yyyy-MM-01")" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd' })" />
                     <span style="margin-left:1%;float:left">—</span>
                     <input id="jssj" type="text" class="form-control input-wdatepicker" style="width:43%; margin-top:10px;float:left;margin-left:1%;" value="@DateTime.Now.ToString("yyyy-MM-dd")" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd' })" />
                 </td>
@@ -69,8 +69,6 @@
         var searInfo = new gridList();
         //加载数据
         //searInfo.init(obj);
-
-
 
         //查询
         $("#btn_search").click(function () {

@@ -46,7 +46,7 @@
 <script lang="javascript">
 
     var zyh = $.request("zyh");
-
+    var doctype = $.request("doctype");
     $("#kssj").change(function () {
         $("#gridPatientList").jqGrid('setGridParam', {
             postData: getSearchPostData(),
@@ -131,6 +131,7 @@
     }
 
     $("#yzmc").click(function () {
+        
         rowIds = $('#gridPatientList').jqGrid('getGridParam', 'selarrrow');
         if (rowIds.length < 1) {
             alert("请至少选择一条医嘱导出！");
@@ -141,7 +142,10 @@
                 var rowData = $("#gridPatientList").jqGrid('getRowData', rowIds[k]);
                 jg += (rowData.yznr == undefined ? " " : rowData.yznr) + "，";
             };
-            $.currentWindow().document.getElementById('myWriterControl').DCExecuteCommand('Spechars', true, jg);
+            if(doctype==".html")
+                $.currentWindow().insertDataAtCursor(jg);
+            else
+                $.currentWindow().document.getElementById('myWriterControl').DCExecuteCommand('Spechars', true, jg);
         };
     });
 
@@ -156,7 +160,11 @@
                 var rowData = $("#gridPatientList").jqGrid('getRowData', rowIds[k]);
                 jg += (rowData.yznr == undefined ? " " : rowData.yznr) + " " + (rowData.yl == undefined ? " " : rowData.yl) + " " + (rowData.yf == undefined ? " " : rowData.yf) + " " + (rowData.pc == undefined ? " " : rowData.pc) + "，";
             };
-            $.currentWindow().document.getElementById('myWriterControl').DCExecuteCommand('Spechars', true, jg);
+            if(doctype==".html")
+                $.currentWindow().insertDataAtCursor(jg);
+            else
+                $.currentWindow().document.getElementById('myWriterControl').DCExecuteCommand('Spechars', true, jg);
+            
         };
     });
 
@@ -171,7 +179,10 @@
                 var rowData = $("#gridPatientList").jqGrid('getRowData', rowIds[k]);
                 jg += (rowData.yznr == undefined ? " " : rowData.yznr) + " " + (rowData.yl == undefined ? " " : rowData.yl) + " " + (rowData.yf == undefined ? " " : rowData.yf) + " " + (rowData.pc == undefined ? " " : rowData.pc) + " " + (rowData.yzt == undefined ? " " : rowData.yzt) + "，";
             };
-            $.currentWindow().document.getElementById('myWriterControl').DCExecuteCommand('Spechars', true, jg);
+            if(doctype==".html")
+                $.currentWindow().insertDataAtCursor(jg);
+            else
+                $.currentWindow().document.getElementById('myWriterControl').DCExecuteCommand('Spechars', true, jg);
         };
     });
 

@@ -175,7 +175,7 @@ DECLARE @rkdshCount BIGINT;
             try
             {
                 var sql = new StringBuilder(
-                    "DECLARE @tjshCount BIGINT, @rkdshCount BIGINT, @ckdshCount BIGINT, @sldshCount BIGINT, @expiryDrugCount BIGINT;");
+                    "DECLARE @tjshCount BIGINT, @rkdshCount BIGINT, @ckdshCount BIGINT, @sldshCount BIGINT, @expiryDrugCount BIGINT,@todayDrugCount BIGINT;");
                 sql.AppendLine("--调价审核 ");
                 sql.AppendLine("SELECT @tjshCount=COUNT(yptjId) FROM dbo.xt_yptj(NOLOCK) WHERE shzt='" +
                                (int)EnumSLDDeliveryStatus.None +
@@ -188,7 +188,7 @@ DECLARE @rkdshCount BIGINT;
                     "INNER JOIN NewtouchHIS_Base.dbo.V_S_xt_yp yp ON yp.ypCode=mx.Ypdm AND yp.OrganizeId=dj.OrganizeId ");
                 sql.AppendLine(
                     "INNER JOIN NewtouchHIS_Base.dbo.V_S_xt_ypsx ypsx ON ypsx.ypId=yp.ypId AND ypsx.OrganizeId=yp.OrganizeId ");
-                sql.AppendLine("WHERE dj.Rkbm=@yfbmCode AND dj.OrganizeId=@OrganizeId AND dj.shzt='" +
+                sql.AppendLine("WHERE dj.Rkbm=@yfbmCode AND dj.OrganizeId=@OrganizeId AND dj.zt='1' AND dj.shzt='" +
                                (int)EnumDjShzt.WaitingApprove + "' AND dj.Czsj BETWEEN CONVERT(varchar(7), getdate() , 120) + '-1' AND DATEADD(HOUR,1, GETDATE()) ");
                 sql.AppendLine(") a ");
                 sql.AppendLine("--出库待审核 ");
@@ -211,8 +211,11 @@ DECLARE @rkdshCount BIGINT;
                 sql.AppendLine("--过期药品数量 ");
                 sql.AppendLine(
                     "SELECT @expiryDrugCount=COUNT(a.kcId) FROM NewtouchHIS_PDS.dbo.xt_yp_kcxx(NOLOCK) a WHERE a.kcsl > 0 AND a.yxq < GETDATE() AND a.yfbmCode=@yfbmCode AND a.OrganizeId=@OrganizeId ");
+                sql.AppendLine("--1个月过期药品数量 ");
                 sql.AppendLine(
-                    "SELECT ISNULL(@tjshCount, 0) tjshCount, ISNULL(@rkdshCount, 0) rkdshCount, ISNULL(@ckdshCount, 0) ckdshCount, ISNULL(@sldshCount, 0) sldshCount, ISNULL(@expiryDrugCount, 0) expiryDrugCount;");
+                    "SELECT @todayDrugCount=COUNT(a.kcId) FROM NewtouchHIS_PDS.dbo.xt_yp_kcxx(NOLOCK) a WHERE a.kcsl > 0 and a.zt='1' AND DATEDIFF(MONTH, GETDATE(),a.yxq) <='1'  AND a.yfbmCode=@yfbmCode AND a.OrganizeId=@OrganizeId ");
+                sql.AppendLine(
+                    "SELECT ISNULL(@tjshCount, 0) tjshCount, ISNULL(@rkdshCount, 0) rkdshCount, ISNULL(@ckdshCount, 0) ckdshCount, ISNULL(@sldshCount, 0) sldshCount, ISNULL(@expiryDrugCount, 0) expiryDrugCount,ISNULL(@todayDrugCount, 0) todayDrugCount;");
                 var param = new DbParameter[]
                 {
                     new SqlParameter("@yfbmCode", Constants.CurrentYfbm.yfbmCode),
@@ -246,7 +249,7 @@ DECLARE @rkdshCount BIGINT;
                 ago = ago == 0 ? -31 : ago;
                 var sql = new StringBuilder();
                 sql.AppendLine(
-                    "DECLARE @tjshCount BIGINT, @tjypCount BIGINT, @rkdshCount BIGINT, @ckdshCount BIGINT, @sldshCount BIGINT, @mzdpCount BIGINT, @mzdfCount BIGINT,@zydpCount BIGINT,@zydfCount BIGINT, @zydtCount BIGINT,@expiryDrugCount BIGINT;");
+                    "DECLARE @tjshCount BIGINT, @tjypCount BIGINT, @rkdshCount BIGINT, @ckdshCount BIGINT, @sldshCount BIGINT, @mzdpCount BIGINT, @mzdfCount BIGINT,@zydpCount BIGINT,@zydfCount BIGINT, @zydtCount BIGINT,@expiryDrugCount BIGINT,@todayDrugCount BIGINT;");
                 sql.AppendLine("--调价审核 ");
                 sql.AppendLine("SELECT @tjshCount=COUNT(tj.yptjId)  ");
                 sql.AppendLine("FROM dbo.xt_yptj(NOLOCK) tj ");
@@ -302,10 +305,13 @@ FROM (
                 sql.AppendLine("--过期药品数量 ");
                 sql.AppendLine(
                     "SELECT @expiryDrugCount=COUNT(a.kcId) FROM NewtouchHIS_PDS.dbo.xt_yp_kcxx(NOLOCK) a WHERE a.kcsl > 0 AND a.yxq < GETDATE() AND a.yfbmCode=@yfbmCode AND a.OrganizeId=@OrganizeId ");
+                sql.AppendLine("--1个月过期药品数量 ");
+                sql.AppendLine(
+                    "SELECT @todayDrugCount=COUNT(a.kcId) FROM NewtouchHIS_PDS.dbo.xt_yp_kcxx(NOLOCK) a WHERE a.kcsl > 0 and a.zt='1' AND DATEDIFF(MONTH, GETDATE(),a.yxq) <='1'  AND a.yfbmCode=@yfbmCode AND a.OrganizeId=@OrganizeId ");
                 sql.AppendLine(
                     "SELECT ISNULL(@tjshCount, 0) tjshCount, ISNULL(@tjypCount, 0) tjypCount, ISNULL(@rkdshCount, 0) rkdshCount, ISNULL(@ckdshCount, 0) ckdshCount, ISNULL(@sldshCount, 0) sldshCount ");
                 sql.AppendLine(
-                    ", ISNULL(@mzdpCount, 0) mzdpCount, ISNULL(@mzdfCount, 0) mzdfCount, ISNULL(@zydpCount, 0) zydpCount, ISNULL(@zydfCount, 0) zydfCount, ISNULL(@zydtCount, 0) zydtCount, ISNULL(@expiryDrugCount, 0) expiryDrugCount; ");
+                    ", ISNULL(@mzdpCount, 0) mzdpCount, ISNULL(@mzdfCount, 0) mzdfCount, ISNULL(@zydpCount, 0) zydpCount, ISNULL(@zydfCount, 0) zydfCount, ISNULL(@zydtCount, 0) zydtCount, ISNULL(@expiryDrugCount, 0) expiryDrugCount, ISNULL(@todayDrugCount, 0) todayDrugCount; ");
                 var param = new DbParameter[]
                 {
                     new SqlParameter("@yfbmCode", Constants.CurrentYfbm.yfbmCode),
@@ -842,6 +848,7 @@ SELECT CONVERT(INT,a.zxdwsl/a.zhyz) sl,a.ypmc, a.gg, a.dw, a.ycmc, a.jl, a.jldw,
                             Yfbm = yfbmCode ?? "",
                             OrganizeId = organizeId ?? "",
                             Cfh = cfxx.cfh ?? "",
+                            CfmxId = p.Id.ToString(),
                             CreatorCode = p.CreatorCode ?? ""
                         };
                         var result =

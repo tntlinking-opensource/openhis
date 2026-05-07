@@ -46,5 +46,6 @@ namespace Newtouch.EMR.Domain.ValueObjects
         public string mblj { get; set; }
         public int? LoadWay { get; set; }
         public int? IsLock { get; set; }
+        public string doctype { get; set; }
     }
 }

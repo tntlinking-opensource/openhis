@@ -163,7 +163,7 @@ namespace Newtouch.CIS.Web.Controllers
                 };
                 return Content(list.ToJson());
             }
-            pagination.sidx = "operatingTime desc";
+            pagination.sidx = "operatingTime";
             pagination.sord = "";
             var reqObj = new
             {
@@ -191,7 +191,8 @@ namespace Newtouch.CIS.Web.Controllers
             var apiRespList = new List<TreatEntityObj>();
             foreach (var item in apiResp.data.list)
             {
-                if (item.ghsj.AddDays(unTreateDays) < DateTime.Now)
+                var ds = item.ghsj.Date;
+                if (item.ghsj.Date.AddDays(unTreateDays) < DateTime.Now)
                 {
                     continue;
                 }
@@ -229,6 +230,7 @@ namespace Newtouch.CIS.Web.Controllers
                     ghlybz = item.ghlybz,
                     grbh=item.grbh,
                     zzbs = zzhz == true ? "转诊" : "",
+                    queno=item.queno
                 });
             }
 

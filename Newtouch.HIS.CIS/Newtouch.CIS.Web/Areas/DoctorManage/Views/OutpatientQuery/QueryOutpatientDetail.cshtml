@@ -1,4 +1,4 @@
-﻿
+﻿@using Newtouch.Infrastructure;
 @{
     ViewBag.Title = "查询门诊详细资料";
     Layout = "~/Views/Shared/_Index.cshtml";
@@ -43,7 +43,7 @@
             -moz-opacity: 0.92;
             opacity: 0.92;
         }
-   </style>
+</style>
 <form name="form1">
     <div class="panel panel-default">
         <div class="panel-heading navb-bg">
@@ -132,12 +132,12 @@
                 { label: '门诊号码', name: 'mzh', width: 100, align: 'center' },
                 { label: '患者姓名', name: 'xm', align: 'center', width: 110 },
                 { label: '性别', name: 'xb', align: 'center', width: 50 },
-                { label: '病人性质', name: 'brxzmc', align: 'center', width: 70 },
-                { label: '就诊科室', name: 'jzks', width: 80, align: 'center' },
+                { label: '病人性质', name: 'brxzmc', align: 'center', width: 100 },
+                { label: '就诊科室', name: 'jzks', width: 100, align: 'center' },
                 { label: '处方数', name: 'cfs', align: 'center', width: 50 },
-                { label: '处方金额', name: 'cfje', align: 'center', width: 50 },
+                { label: '处方金额', name: 'cfje', align: 'center', width: 80 },
                 { label: '检查数', name: 'jcs', align: 'center', width: 50 },
-                { label: '检查金额', name: 'jcje', align: 'center', width: 50 },
+                { label: '检查金额', name: 'jcje', align: 'center', width: 80 },
                 { label: '附加项目', name: 'fjxm', align: 'left', width: 50 },
             ],
             pager: "#gridPager",
@@ -160,7 +160,7 @@
         function btn_selectrow(rowId) {
             $('#gridDJMXInfo').jqGrid("clearGridData");//每次单击，先清空明细 再重新加载所有选中行明细
             $.najax({
-                type: "Get",
+                type: "Post",
                 url: "/DoctorManage/OutpatientQuery/GetOutpatientDetailMX",
                 data: { mzh: $("#gridList").jqGrid('getRowData', rowId).mzh },
                 dataType: "json",
@@ -172,20 +172,38 @@
                 }
             });
             //单据明细
-            
+
     }
         $('#gridDJMXInfo').newtouchLocalDataGrid({
             height: $(window).height() - 200,
             unwritten: false,
             sortable: false,
             colModel: [
-                { label: '类别', name: 'lb', width: 40, align: 'center' },
-                { label: '医生', name: 'ys', width: 60, align: 'center' },
+                {
+                    label: '类别', name: 'cflx', width: 100, align: 'center', formatter: function (val) {
+                        return $.enum.getDescByValue("EnumCflx", val);
+                    }
+                },
+                { label: '处方号', name: 'cfh', width: 120, align: 'center' },
+                { label: '医生', name: 'ys', width: 80, align: 'center' },
                 { label: '开单日期', name: 'kdrq', align: 'center', width: 120, formatter: function (val) { return $.getTime({ date: val }); } },
                 { label: '项目名称', name: 'xmmc', width: 300, align: 'center' },
                 { label: '总量', name: 'zl', width: 80, align: 'center' },
                 { label: '药品用法', name: 'ypyf', width: 90, align: 'center' },
-                { label: '金额', name: 'je', width: 100, align: 'left' },
+                { label: '频次', name: 'yzpcmcsm', width: 90, align: 'center' },
+                { label: '单位', name: 'dw', width: 90, align: 'center' },
+                { label: '金额', name: 'je', width: 100, align: 'center' },
+                {
+                    label: '收费状态', name: 'sfbz', width: 90, align: 'left', formatter: function (val, options, rowObject) {
+                        if (rowObject["tbz"])
+                            return "已退费";
+                        else if (rowObject["sfbz"])
+                            return "已收费";
+                        else
+                            return "未收费";
+                    }
+                },
+                { label: '收费状态', name: 'tbz', width: 90, align: 'center',hidden:true }
             ]
         });
 

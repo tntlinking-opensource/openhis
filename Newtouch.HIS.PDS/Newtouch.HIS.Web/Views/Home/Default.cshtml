@@ -29,7 +29,11 @@
             float: left;
             width: 20%;
         }
-
+        .dashboard-statss {
+            float: left;
+            /*width: 16.6%;*/
+            width: 20%;
+        }
         .dashboard-stats-item {
             position: relative;
             overflow: hidden;
@@ -129,7 +133,7 @@
                 <div class="panel-body" style="width:100%" id="dv_needDeal"></div>
             </div>
         </div>
-        <div class="rows" sstyle="overflow: hidden;">
+        <div class="rows" style="overflow: hidden;">
             <div style="float: left; width: 64%;">
                 <div style="height: 380px; border: 1px solid #e6e6e6; background-color: #fff;">
                     <div class="panel panel-default">
@@ -324,6 +328,7 @@
                     $("#h_zydfCount").html(ajaxresp.zydfCount);
                     $("#h_zydtCount").html(ajaxresp.zydtCount);
                     $("#h_expriedDrugCount").html(ajaxresp.expiryDrugCount);
+                    $("#h_todayDrugCount").html(ajaxresp.todayDrugCount);
                 }
             }
         });

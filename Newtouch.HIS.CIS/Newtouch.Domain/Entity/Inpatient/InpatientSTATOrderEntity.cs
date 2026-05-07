@@ -246,6 +246,7 @@ namespace Newtouch.Domain.Entity
         public string zxsjd { get; set; }
 
         public string nlmddm { get; set; }
+        public string ztmbId { get; set; }
         public string ztId { get; set; }
         public string ztmc { get; set; }
 

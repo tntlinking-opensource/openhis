@@ -112,7 +112,7 @@
 </div>
 <script type="text/javascript">
 
-
+    var nurseCenter = false;
     var isshowSign = '@isShowSign';
     $(function () {
         rows = 12;
@@ -348,7 +348,7 @@
         if (isshowSign && isshowSign === '1') {
             isSign = "1";
         }
-        top.top.$.Newtouchtab.addTabWithOutMenu({ name: zyh + "-长期医嘱", enName: "", url: "/SystemManage/YzPreView/YzPreView?zyh=" + keyValue + "&orgId=" + '@curOpr.OrganizeId' + "&isSign=" + isSign + "&yzlx=" + "长期医嘱", AppId: "EMR" });
+        top.top.$.Newtouchtab.addTabWithOutMenu({ name: keyValue + "-长期医嘱", enName: "", url: "/SystemManage/YzPreView/YzPreView?zyh=" + keyValue + "&orgId=" + '@curOpr.OrganizeId' + "&isSign=" + isSign + "&yzlx=" + "长期医嘱", AppId: "EMR" });
         //window.open("/ReportManage/Report/PrintCqyzReport?zyh=" + keyValue+ "&isShowSign=" + isSign,"height=500, width=1195,top=100, left=50, toolbar =no, menubar=no, scrollbars=yes, resizable=yes, location=no, status=no");
     }
 
@@ -363,7 +363,7 @@
         if (isshowSign && isshowSign === '1') {
             isSign = "1";
         }
-        top.top.$.Newtouchtab.addTabWithOutMenu({ name: zyh + "-临时医嘱", enName: "", url: "/SystemManage/YzPreView/YzPreView?zyh=" + keyValue + "&orgId=" + '@curOpr.OrganizeId' + "&isSign=" + isSign + "&yzlx=" + "临时医嘱", AppId: "EMR" });
+        top.top.$.Newtouchtab.addTabWithOutMenu({ name: keyValue + "-临时医嘱", enName: "", url: "/SystemManage/YzPreView/YzPreView?zyh=" + keyValue + "&orgId=" + '@curOpr.OrganizeId' + "&isSign=" + isSign + "&yzlx=" + "临时医嘱", AppId: "EMR" });
         //window.open("/ReportManage/Report/PrintLsyzReport?zyh=" + keyValue+ "&isShowSign=" + isSign, "height=500, width=1195,top=100, left=50, toolbar =no, menubar=no, scrollbars=yes, resizable=yes, location=no, status=no");
     }
     //右键菜单事件
@@ -420,7 +420,6 @@
                                                  type: "POST",
                                                  loadingtext: "历史医嘱引用中，请稍等...",
                                                  success: function (resp) {
-                                                     debugger;
                                                      if (resp.data == "T")
                                                      {
                                                          $.modalMsg("引用成功", 'success');

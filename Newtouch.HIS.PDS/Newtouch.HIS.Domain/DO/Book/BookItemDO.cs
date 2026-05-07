@@ -31,6 +31,10 @@ namespace Newtouch.HIS.Domain.DO
         /// 处方号
         /// </summary>
         public string Cfh { get; set; }
+        /// <summary>
+        /// 处方明细Id
+        /// </summary>
+        public string CfmxId { get; set; }
 
         /// <summary>
         /// 医嘱执行ID

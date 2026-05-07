@@ -1,4 +1,5 @@
-﻿using Newtouch.Tools;
+﻿using Newtouch.EMR.Domain.IRepository;
+using Newtouch.Tools;
 using System.Web.Mvc;
 
 namespace Newtouch.EMR.Web.Controllers
@@ -8,6 +9,8 @@ namespace Newtouch.EMR.Web.Controllers
     /// </summary>
     public class ClientsDataController : FrameworkBase.MultiOrg.Web.Controllers.ClientsDataController
     {
+        private readonly IBlysRepo _blysRepo;
+
         /// <summary>
         /// 
         /// </summary>
@@ -47,6 +50,8 @@ namespace Newtouch.EMR.Web.Controllers
         {
             var data = new
             {
+                ysdataList = _blysRepo.GetYsTreeV2(OrganizeId, ""),//病历元素
+                ysmxdataList = _blysRepo.GetYsMX(OrganizeId, ""), //元素明细
                 itemDetails = this.GetItemDetailsList(),
                 enums = this.GetEnumList("Newtouch.EMR.Infrastructure"),
             };

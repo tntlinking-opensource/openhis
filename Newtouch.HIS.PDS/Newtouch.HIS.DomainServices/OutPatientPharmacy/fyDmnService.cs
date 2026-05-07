@@ -152,7 +152,7 @@ namespace Newtouch.HIS.DomainServices
         /// <param name="userCode"></param>
         /// <param name="organizeId"></param>
         /// <returns></returns>
-        public string ExecOutpatientDispensingDrugV2(string cfh, string yfbmCode, string userCode, string organizeId, string ypdm,string zsm, int? sfcl)
+        public string ExecOutpatientDispensingDrugV2(string cfh, string yfbmCode, string userCode, string organizeId,string zsm)
         {
             var param = new DbParameter[]
             {
@@ -160,9 +160,7 @@ namespace Newtouch.HIS.DomainServices
                 new SqlParameter("@OrganizeId", organizeId),
                 new SqlParameter("@yfbmCode", yfbmCode),
                 new SqlParameter("@userCode",userCode ),
-                new SqlParameter("@ypdm",ypdm),
                 new SqlParameter("@zsm",zsm??""),
-                new SqlParameter("@sfcl",sfcl??null),
             };
             return FirstOrDefault<string>(TSqlDispensing.mz_yp_delivery, param);
         }
@@ -545,6 +543,7 @@ namespace Newtouch.HIS.DomainServices
 select 
 cfmx.ypCode, cfmx.ypmc, cfmx.gg, RTRIM(LTRIM(mxph.ph)) ph, RTRIM(LTRIM(mxph.pc)) pc
 ,ISNULL(CONVERT(NUMERIC(6,2),mxph.sl/(CASE yp.mzzybz WHEN '0' THEN yp.bzs WHEN '1' THEN yp.mzcls WHEN '2' THEN yp.zycls WHEN '3' THEN yp.mzcls END)),0) sl
+,dbo.f_getYfbmYpComplexYpSlandDwV2(mxph.sl,@YfbmCode,cfmx.ypCode,@OrganizeId,'1' ) slstr
 ,cfmx.dw
 ,dbo.f_getYfbmYpComplexYpSlandDw(mxph.sl, mxph.yp, cfmx.ypCode, cfmx.OrganizeId) slstr
 ,cfmx.dj, cfmx.je, cfmx.jl, cfmx.jldw, cfmx.yfmc, cfmx.bz, cfmx.ycmc, cfmx.czh, cfmx.operateType,cfmx.CreateTime
@@ -969,7 +968,7 @@ and sfxm.sfxmmc like '%' + @xmmc + '%'  ";
         public IList<MzcfcxList> GetMzcfList(Pagination pagination, MzcfcxVo req)
         {
             var parms = new List<SqlParameter> { };
-            var strSql = new StringBuilder(@" select distinct c.mzh,c.xm,b.CreateTime kssj,a.zje,a.cftag
+            var strSql = new StringBuilder(@" select  c.mzh,c.xm,b.CreateTime kssj,a.zje,a.cftag
     ,case  a.cftag when 'JI' then '精神I类处方' 
 			   when 'JII' then '精神II类处方' 
 			   when 'MZ' then '麻醉处方' 
@@ -1075,37 +1074,6 @@ and jz.xm=@xm
                 new SqlParameter("@xm", xm),
             };
             return FindList<DzcfBrxxDTO>(sql, param);
-        }
-
-        /// <summary>
-        /// 同步所有收费但是没有同步到PDS的处方
-        /// </summary>
-        public string SyncPDSCfFromSett(string organizeId)
-        {
-            
-            
-                var strSql = new StringBuilder();
-                strSql.Append(@"UPDATE p 
-SET p.[jsnm] = jsmx.[jsnm],
-    p.[cfnm] = s.[cfnm],
-    p.[sfsj] = s.[jsrq],
-    p.[Fph] = js.[fph]
-FROM [NewtouchHIS_PDS].[dbo].[mz_cf] p with(nolock) 
-JOIN [NewtouchHIS_Sett].[dbo].[mz_cf] s  with(nolock)  ON p.[cfh] = s.[cfh] and p.OrganizeId=s.OrganizeId and s.zt='1'
-JOIN [NewtouchHIS_Sett].[dbo].[mz_cfmx] m  with(nolock)  ON s.[cfnm] = m.[cfnm] and m.OrganizeId=s.OrganizeId and m.zt='1'
-JOIN [NewtouchHIS_Sett].[dbo].[mz_jsmx] jsmx  with(nolock)  ON m.[cfmxId] = jsmx.[cf_mxnm] and jsmx.OrganizeId=m.OrganizeId and jsmx.zt='1'
-JOIN [NewtouchHIS_Sett].[dbo].[mz_js] js  with(nolock) ON jsmx.[jsnm] = js.[jsnm] and js.OrganizeId=jsmx.OrganizeId and js.zt='1'
-WHERE  p.cfnm ='0' and p.zt='1' and p.OrganizeId=@OrganizeId
-    AND s.[cfzt] = '1'
-	AND p.[CreateTime] >= DATEADD(DAY, -30, GETDATE())");
-                var paraList = new DbParameter[]
-                {
-                        new SqlParameter("@OrganizeId",organizeId)
-                };
-
-            int num = ExecuteSqlCommand(strSql.ToString(), paraList);
-            return "同步成功, "+ num +" 条数据被影响";
-            
         }
         #endregion
     }

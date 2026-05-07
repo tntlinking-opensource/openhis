@@ -534,7 +534,7 @@
             //treeGrid: true,
             treeGridModel: "adjacency",
             ExpandColumn: "dlCode",
-            postData: { keyword: $("#txt_keyword_sfdl1").val(), organizeId: "*" },
+            postData: { keyword: $("#txt_keyword_sfdl1").val(), organizeId: "*",zt:'' },
             url: "/ChargeCategory/GetTreeGridJson",
             height: $(window).height() - 128,
             colModel: [
@@ -609,7 +609,7 @@
         $.modalOpen({
             id: "Form",
             title: "新增大类",
-            url: "/CommonLibrary/SysCommonMedicineAdd?orgId=*",
+            url: "/CommonLibrary/SysCommonChargeCategoryForm?orgId=*",
             width: "550px",
             height: "700px",
             callBack: function (iframeId) {
@@ -761,7 +761,7 @@
     function btn_add3() {
         $.modalOpen({
             id: "Form",
-            title: "系统药品添加",
+            title: "系统耗材添加",
             url: "/CommonLibrary/SysCommonStuffAdd?orgId=*" ,
             width: "1300px",
             height: "800px",
@@ -811,7 +811,7 @@
     function gridList4() {
         var $gridList = $("#gridList4");
         $gridList.dataGrid({
-            postData: { keyword: $("#txt_keyword_sfxm1").val(), organizeId: "*", sfdl: $("#sfdl").val() },
+            postData: { keyword: $("#txt_keyword_sfxm1").val(), organizeId: "*", sfdl: $("#sfdl").val(),zt:'' },
             url: "/SysChargeItem/GetGridJson",
             height: $(window).height() - 128,
             colModel: [

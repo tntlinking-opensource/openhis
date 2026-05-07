@@ -147,7 +147,7 @@ namespace Newtouch.HIS.Web.Areas.OutpatientManage.Controllers
             return Success("提交成功");
         }
 
-        public ActionResult PatSearchInfo(Pagination pagination, string blh, string xm,string zjh=null, string zjlx = null)
+        public ActionResult PatSearchInfo(Pagination pagination, string blh, string xm,string zjh=null,string zjlx=null)
         {
             var data = new
             {

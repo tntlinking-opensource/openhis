@@ -7,9 +7,10 @@ function gridList() {
         treeGrid: true,
         treeGridModel: "adjacency",
         url: "/SystemManage/SysForCashPay/GetfsGridJson",
+        postData: { keyword: $("#txt_keyword").val() },
         height: $(window).height() - 96,
         colModel: [
-            { label: "主键", name: "id", hidden: true, key: true },
+            { label: "主键", name: "xjzffsbh", hidden: true, key: true },
             { label: '代码', name: 'xjzffs', width: 100, align: 'left' },
             { label: '现金支付方式', name: 'xjzffsmc', width: 220, align: 'left' },
             {
@@ -22,9 +23,9 @@ function gridList() {
                     }
                 }
             },
-            { label: '建档人员', name: 'jdry', width: 100, align: 'left' },
+            { label: '创建人', name: 'CreatorCode', width: 100, align: 'left' },
             {
-                label: '建档日期', name: 'jdrq', width: 100, align: 'left',
+                label: '创建日期', name: 'CreateTime', width: 100, align: 'left',
                 formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d' }
             }
         ]
@@ -48,7 +49,7 @@ function btn_add() {
     });
 }
 function btn_edit() {
-    var keyValue = $("#gridList").jqGridRowValue().id;
+    var keyValue = $("#gridList").jqGridRowValue().xjzffsbh;
     $.modalOpen({
         id: "Form",
         title: "修改信息",
@@ -63,7 +64,7 @@ function btn_edit() {
 function btn_delete() {
     $.deleteForm({
         url: "/SystemManage/SysForCashPay/DeleteForm",
-        param: { keyValue: $("#gridList").jqGridRowValue().id },
+        param: { keyValue: $("#gridList").jqGridRowValue().xjzffsbh },
         success: function () {
             $.currentWindow().$("#gridList").resetSelection();
             $.currentWindow().$("#gridList").trigger("reloadGrid");
@@ -85,6 +86,7 @@ function submitForm() {
     if (!$('#form1').formValid()) {
         return false;
     }
+    var keyValue = $("#gridList").jqGridRowValue().xjzffsbh;
     $.submitForm({
         url: "/SystemManage/SysForCashPay/SubmitForm?keyValue=" + keyValue,
         param: $("#form1").formSerialize(),

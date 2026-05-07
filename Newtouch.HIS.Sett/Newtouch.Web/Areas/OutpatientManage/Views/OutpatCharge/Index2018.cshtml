@@ -83,6 +83,8 @@
     </div>
 </div>
 <div id="rightPart" class="rows">
+    <!--医保限制弹窗-->
+    
     <div id="dv_baseInfoAndItem">
         <div class="panel panel-default">
             <div class="panel-heading navb-bg">
@@ -241,7 +243,7 @@
     var openAllCfSettPz = '@openCfSettPz';
     var openszsh = '@openszsh';//yibao事中审核开关
     var cqYibaolixiuUpload = '@CqYibaolixiuUpload';
-    //
+    var OrgXzhq = "@ViewBag.Xzqh"; //机构所在地区性质区划代码 判断异地使用
 	var cardInfo;//= { 'prm_aac001': '0000000001', 'prm_ykb065': '12' };
 	var accountInfo;//重庆医保账户信息
     var patInfo;//重庆医保患者信息
@@ -1431,7 +1433,7 @@
                         }
                         /* 逐一撤销 */
                         mxscobj.chrg_bchno = hcdata.data[i].pch;
-                        if (cqPatInfo.xzqh.slice(0, 3) != "150") {
+                        if (cqPatInfo.xzqh.slice(0, 4) != OrgXzhq.slice(0, 4)) {
                             mxscobj.chrg_bchno = "0000";
                         }
                         if (cqPatInfo.ybVer == "shanghaiV5") {
@@ -1464,7 +1466,7 @@
                                     if (tfReturn) {
                                         if (tfReturn.infcode == "0" || tfReturn.infcode == 0) {
                                             var cxpch = hcdata.data[i].pch;
-                                            if (cqPatInfo.xzqh.slice(0, 3) != "150") {
+                                            if (cqPatInfo.xzqh.slice(0, 4) != OrgXzhq.slice(0, 4)) {
                                                 cxpch = "0000";
                                             }
                                             $.ajax({
@@ -1532,7 +1534,7 @@
             operatorId: '@(opr.rygh)', operatorName: '@(opr.UserName)',
             insuplc_admdvs: cqPatInfo.xzqh
         };
-	    if (cqPatInfo.xzqh.slice(0, 3) != "150")
+	    if (cqPatInfo.xzqh.slice(0, 4) != OrgXzhq.slice(0, 4))
 	    {
 	        jylsh = "0000";
 	    }
@@ -1882,7 +1884,6 @@
     function CQybjs_confirm(xmzje) {
         var xmzje = openAllCfSettPz === 'True' ? xmzje : MZJS.getTotalXmzje();
         var ybjyFeeReturn = openAllCfSettPz === 'True' ? MZJS.ybjyFeeReturn : MZJS.getTotalYbjyFeeReturn();
-
         CQHisSubmit(xmzje, true, ybjyFeeReturn);
     }
 
@@ -1949,6 +1950,31 @@
                 //refreshFeeList();
             }
         });
+        // 弹窗内容
+        var message = "<table border='1' style='width:100%; text-align:left; border-collapse:collapse; margin-top:20px;'>";
+        message += "<thead><tr><th style='background-color:#f2f2f2; padding:10px;'>名称</th><th style='background-color:#f2f2f2; padding:10px;'>医保限用标志</th></tr></thead><tbody>";
+        let hasValidYybz = false;  // 用于检查是否存在有效的yybz
+        gridMxList.forEach(function(item) {
+            // 只有yybz不为空时，才添加到表格
+            if (item.yybz !== ''&& item.yybz !== null) {
+                hasValidYybz = true;  // 如果发现至少一个yybz不为空，则标记为true
+                message += "<tr>";
+                message += "<td style='padding:10px; font-weight:bold; background-color:#e6f7ff;'>" + item.sfxmmc + "</td>"; // 使药品名显眼
+                message += "<td style='padding:10px;'>" + item.yybz + "</td>";
+                message += "</tr>";
+            }
+        });
+        message += "</tbody></table>";
+      // 当有有效的yybz且病人不是自费时
+        if (hasValidYybz && patModel.brxz !== '0') {
+            $.modalAlert(message, 'warning');
+        }
+
+
+    }
+    //关闭显示
+    function closePopup() {
+        document.getElementById("customPopup").style.display = 'none';
     }
     //多处方结算
     function SubmitAllCfSett(xmzje, isYbjyjz, ybjyFeeReturn, feeRelated, outTradeNo)
@@ -2002,18 +2028,18 @@
 				//		//console.log(repjson.data.jsonref);
 				//	}
 				//});
-				//物资库存扣减
-				//$.ajax({
-				//	type: "POST",
-				//	url: "/OutpatientManage/OutpatCharge/Sumwzdj",
-				//	data: { cfh: cfhList },
-				//	dataType: "json",
-				//	async: true,
-				//	success: function (repjson) {
-				//		//console.log(repjson.data.mesagssjsosn);
-				//		//console.log(repjson.data.jsonref);
-				//	}
-                //});
+				//物资医用耗材库存扣减
+				$.ajax({
+					type: "POST",
+					url: "/OutpatientManage/OutpatCharge/Sumwzdj",
+					data: { cfh: cfhList },
+					dataType: "json",
+					async: true,
+					success: function (repjson) {
+						//console.log(repjson.data.mesagssjsosn);
+						//console.log(repjson.data.jsonref);
+					}
+                });
                 paySettlementNo = "";
                 paySettlementNo = ajaxresp.data.jsnm;
                 CQPrintBSBill(ajaxresp.data.jsnm);
@@ -2222,6 +2248,18 @@
                     //        }
                     //    });
                     //}
+                    //物资医用耗材库存扣减
+                    $.ajax({
+                        type: "POST",
+                        url: "/OutpatientManage/OutpatCharge/Sumwzdj",
+                        data: { cfh: cfhList },
+                        dataType: "json",
+                        async: true,
+                        success: function (repjson) {
+                            //console.log(repjson.data.mesagssjsosn);
+                            //console.log(repjson.data.jsonref);
+                        }
+                    });
                     paySettlementNo = "";
                     paySettlementNo = ajaxresp.data.jsnm;
                     /* 设置处方HIS结算成功状态 */
@@ -2705,7 +2743,6 @@
         }
     };
     MZJS.waitSubmitItems = function () {
-        debugger
         var xmzje = '0.00';
         var currcfnm = MZJS.getCurrentCfnm();
         $.each(gridMxList, function (i, item) {
@@ -3136,9 +3173,9 @@
         //个人基本信息赋值
         patModel = ajaxresp.data.OutpatAccInfoDto;
         setPatInfoModel(ajaxresp.data.OutpatAccInfoDto);
-        //重置 是否必须全结
-        isYbjyjz = openYbSett && patModel.brxz != '0';
-        isXnhjyjz = openXnhSett && patModel.brxz === '8' && patModel.CardType === "@((int)EnumCardType.XNHJYK)";
+        //重置 是否必须全结 brxzlb医保交易标志 0 自费 1医保
+        isYbjyjz = openYbSett && patModel.brxzlb != '0';//&& patModel.brxz != '0';
+        isXnhjyjz = openXnhSett && patModel.CardType === "@((int)EnumCardType.XNHJYK)" && patModel.brxzlb != '0';//patModel.brxz === '8';
         settOnce = ybSettOnce && (isYbjyjz | isXnhjyjz);
         respmzh = patModel.mzh;
         sItemList = null;
@@ -3361,14 +3398,34 @@
         for (var i = 0; i <= gridMxList.length; i++) {
             $("#gridFeeList").newtouchLocalDataGrid(null, gridMxList[gridMxList.length - i]);
         }
-        if (openszsh === 'True' && isYbjyjz && patModel.brxz != "yb4" && patModel.brxz != "yb19" && patModel.brxz != "yb23") {
+        if (openszsh === 'True' && isYbjyjz) {
             ybszsh();
         }
     }
 
     function ybszsh()
     {
+        var error = "";
         var rcszsh = { "zyh": patModel.mzh, "operatorId": '@(opr.UserCode)', "operatorName": '@(opr.UserName)', "orgId": '@opr.OrganizeId', insuplc_admdvs: cqPatInfo.xzqh, "txlx": "mz" }
+        $.ajax({
+            url: "http://127.0.0.1:33333/api/YiBao/DetailAuditFront_3101",//事前审核
+            dataType: "json",
+            data: rcszsh,
+            type: "POST",
+            async: false,
+            success: function (ajaxdata) {
+                var bfDataReturn = eval('(' + ajaxdata + ')');
+                if (bfDataReturn.infcode === 0 || bfDataReturn.infcode === "0") {
+                    if (bfDataReturn.output.result.length > 0) {
+                        for (var i = 0; i < bfDataReturn.output.result.length; i++) {
+                            if (bfDataReturn.output.result[i].vola_cont) {
+                                error += "【" + bfDataReturn.output.result[i].vola_cont + "】";
+                            }
+                        }
+                    } 
+                }
+            }
+        })
         $.ajax({
             type: "POST",
             url: "http://127.0.0.1:33333/api/YiBao/Undereview_3102",
@@ -3378,10 +3435,9 @@
             success: function (data) {
                 var bfDataReturn = eval('(' + data + ')');
                 if (bfDataReturn.infcode === 0 || bfDataReturn.infcode === "0") {
-                    var error = "";
                     if (bfDataReturn.output.result.length > 0) {
                         for (var i = 0; i < bfDataReturn.output.result.length; i++) {
-                            if (bfDataReturn.output.result[i].vola_cont != null || bfDataReturn.output.result[i].vola_cont != "") {
+                            if (bfDataReturn.output.result[i].vola_cont) {
                                 error += "【" + bfDataReturn.output.result[i].vola_cont + "】";
                             }
                         }
@@ -3464,6 +3520,7 @@
                 zlcs: this.zxcs,
                 gjybdm: this.xnhybdm, //暂用此字段代替国家码
                 cflx: this.cflx,
+                yybz:this.yybz,
             };
             gridMxList.unshift(newRowData);   //作为新项添加 //”数组最前端“
         });

@@ -11,7 +11,8 @@
     <br />
     <input type="button" id="sfz" name="sfz" class="btn btn-primary" style="width:180px;height:40px;font-size:25px;margin-left:100px;margin-top:20px;" value="刷身份证" onclick="sfzOnClick()" /><br />
     <input type="button" id="sl" name="sl" class="btn btn-primary" style="width:180px;height:40px;font-size:25px;margin-left:100px;margin-top:20px;" value="刷脸" onclick="slOnClick()" /><br />
-    <input type="button" id="sm" name="sm" class="btn btn-primary" style="width:180px;height:40px;font-size:25px;margin-left:100px;margin-top:20px;" value="扫电子医保码" onclick="smOnClick()" /> <br />
+    <input type="button" id="sm" name="sm" class="btn btn-primary" style="width:180px;height:40px;font-size:25px;margin-left:100px;margin-top:20px;" value="扫电子医保码" onclick="smOnClick()" /> 
+    <input id="ckzddzsm" type="checkbox" /><label for="zddzsm">(刷脸/电子凭证一体机)扫码</label><br />
     <input type="button" id="ck" name="ck" class="btn btn-primary" style="width:180px;height:40px;font-size:25px;margin-left:100px;margin-top:20px;" value="刷医保磁卡" onclick="ckOnClick()" />
 </div>
 
@@ -62,10 +63,14 @@
     function smOnClick(patid) {
         debugger;
         zffs = "sm";
+        var sbytj = "N";
+        if ($('#ckzddzsm').is(':checked')) {
+            sbytj = "Y";
+        }
         $.modalOpen({
             id: "ZFToYBForm",
             title: "自费转医保",
-            url: "/PatientManage/Inpatient/ZFToYBForm?zyh=" + zyh + "&ryfs=" + ryfs + "&ydsfz=" + ydsfz + "&newzyh=" + newzyh + "&zffs=" + zffs,
+            url: "/PatientManage/Inpatient/ZFToYBForm?zyh=" + zyh + "&ryfs=" + ryfs + "&ydsfz=" + ydsfz + "&newzyh=" + newzyh + "&sbytj=" + sbytj + "&zffs=" + zffs,
             width: "550px",
             height: "380px",
             btn: ['', '关闭'],

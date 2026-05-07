@@ -45,9 +45,17 @@ namespace Newtouch.HIS.Repository
         /// </summary>
         /// <param name="keyValue"></param>
         /// <returns></returns>
-        public IList<SysChargeCategoryEntity> GetList(string orgId)
-        {
-            return this.IQueryable().Where(a => a.OrganizeId == orgId).OrderByDescending(a => a.CreateTime).ToList();
+        public IList<SysChargeCategoryEntity> GetList(string orgId,string zt)
+        {    
+            var query = this.IQueryable().Where(a => a.OrganizeId == orgId);
+
+            if (!string.IsNullOrEmpty(zt)) // 
+            {
+                query = query.Where(a => a.zt == zt); // 添加 zt 的条件
+            }
+
+            return query.OrderByDescending(a => a.CreateTime).ToList();
+
         }
 
         /// <summary>

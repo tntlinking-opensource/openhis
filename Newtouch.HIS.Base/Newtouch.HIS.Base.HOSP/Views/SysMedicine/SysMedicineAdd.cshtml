@@ -42,7 +42,7 @@
                         <td class="formTitle">
                             <span class="required">*</span>组织机构：
                         </td>
-                        <td class="formValue" colspan="3">
+                        <td class="formValue">
                             <select id="OrganizeId" name="OrganizeId" class="form-control required">
                                 <option value="">==请选择==</option>
                             </select>
@@ -51,6 +51,14 @@
                         <td class="formValue">
                             <input type="text" id="ypflMc" name="ypflMc" class="form-control" />
                             <input type="text" style="display:none;" id="ypflCode" name="ypflCode" class="form-control" />
+                        </td>
+                        <td class="formTitle">
+                            <span class="required">*</span>大类：
+                        </td>
+                        <td class="formValue">
+                            <select id="dlCode" name="dlCode" class="form-control required">
+                                <option value="">==请选择==</option>
+                            </select>
                         </td>
                     </tr>
                     <tr>
@@ -67,12 +75,10 @@
                             <input type="text" id="py" name="py" class="form-control required" />
                         </td>
                         <td class="formTitle">
-                            <span class="required">*</span>大类：
+                            <span class="required">*</span>编码：
                         </td>
                         <td class="formValue">
-                            <select id="dlCode" name="dlCode" class="form-control required">
-                                <option value="">==请选择==</option>
-                            </select>
+                            <input type="text" id="ypCode" name="ypCode" class="form-control required" disabled="disabled" />
                         </td>
                     </tr>
                     <tr>
@@ -83,10 +89,10 @@
                             <input type="text" id="spm" name="spm" class="form-control" />
                         </td>
                         <td class="formTitle">
-                            <span class="required">*</span>编码：
+                            <span class="required">*</span>药品规格：
                         </td>
                         <td class="formValue">
-                            <input type="text" id="ypCode" name="ypCode" class="form-control required" disabled="disabled" />
+                            <input type="text" id="ypgg" name="ypgg" class="form-control required" />
                         </td>
                         <td class="formTitle">
                             <span class="required">*</span>药厂名称：
@@ -106,18 +112,19 @@
                         <td class="formValue" style="display:none">
                             <input type="text" id="xnhybdm" name="xnhybdm" class="form-control" />
                         </td>
-                        <td class="formTitle">
-                            <span class="required">*</span>药品规格：
-                        </td>
-                        <td class="formValue">
-                            <input type="text" id="ypgg" name="ypgg" class="form-control required" />
-                        </td>
+
                         <td class="formTitle">
                             <span class="required">*</span>剂型：
                         </td>
                         <td class="formValue">
                             <input type="text" id="jxmc" name="jxmc" autocomplete="off" class="form-control required" />
                             <input type="text" style="display:none;" id="jx" name="jx" class="form-control" />
+                        </td>
+                        <td class="formTitle">抗生素：</td>
+                        <td class="formValue">
+                            <label><input type="radio" name="isKss" class="optionsRadios formClearIgnore" value="1" />是</label>&nbsp;&nbsp;&nbsp;
+                            <label><input type="radio" name="isKss" class="optionsRadios formClearIgnore" checked="checked" value="0" />否</label>
+                            <input type="hidden" id="kssId" name="kssId" class="form-control required" />
                         </td>
                     </tr>
                     <tr>
@@ -144,49 +151,51 @@
                                 <option value="">==请选择==</option>
                             </select>
                         </td>
-                        <td class="formTitle">抗生素：</td>
+                        <td class="formTitle"> 默认用法：</td>
                         <td class="formValue">
-                            <label><input type="radio" name="isKss" class="optionsRadios formClearIgnore" value="1" />是</label>&nbsp;&nbsp;&nbsp;
-                            <label><input type="radio" name="isKss" class="optionsRadios formClearIgnore" checked="checked" value="0" />否</label>
-                            <input type="hidden" id="kssId" name="kssId" class="form-control required" />
+                            <input type="text" id="mryfmc" name="mryfmc" autocomplete="off" class="form-control" />
+                            <input type="text" style="display:none;" id="mryf" name="mryf" class="form-control" />
                         </td>
                     </tr>
                     <tr>
                         <td class="formTitle"><span class="required">*</span>医保标志：</td>
                         <td class="formValue">
-                            <div class="ckbox">
+                            @*<div class="ckbox">*@
                                 <!-- 医保标志：即便有医保代码对照，也需要打上医保标志才会跟医保交互 -->
                                 <select id="ybbz" name="ybbz" class="form-control required">
                                     <option value="">==请选择==</option>
                                     <option value="1">是</option>
                                     <option value="0">否</option>
                                 </select>
-                            </div>
+                            @*</div>*@
                         </td>
                         <td class="formTitle">
                             国家医保代码：
                         </td>
-                        <td class="formValue" colspan="2">
+                        <td class="formValue">
                             <input type="text" id="gjybdm" name="gjybdm" class="form-control" />
                         </td>
-                    </tr>
-                    <tr>
                         <td class="formTitle">
                             国家医保名称：
                         </td>
                         <td class="formValue">
                             <input type="text" id="gjybmc" name="gjybmc" class="form-control" />
                         </td>
+                    </tr>
+                    <tr>
                         <td class="formTitle">省医保代码：</td>
                         <td class="formValue">
                             <input type="text" id="ybdm" name="ybdm" class="form-control" />
                         </td>
+                        <td class="formTitle">医保规格：</td>
+                        <td class="formValue">
+                            <input type="text" id="ybgg" name="ybgg" class="form-control" />
+                        </td>
                         <td class="formTitle">
-                            默认用法：
+                            库存预警值：
                         </td>
                         <td class="formValue">
-                            <input type="text" id="mryfmc" name="mryfmc" autocomplete="off" class="form-control" />
-                            <input type="text" style="display:none;" id="mryf" name="mryf" class="form-control" />
+                            <input type="text" id="kcyjz" name="kcyjz"  class="form-control"  placeholder="按最小单位设置值"/>
                         </td>
                     </tr>
                     <tr>
@@ -210,10 +219,8 @@
                         <td class="formValue">
                             <input type="text" id="zfbl" name="zfbl" class="form-control" />
                         </td>
-                        <td class="formTitle">医保规格：</td>
-                        <td class="formValue">
-                            <input type="text" id="ybgg" name="ybgg" class="form-control" />
-                        </td>
+                        
+                       
                     </tr>
                     <tr>
                         <th class="formTitle" valign="top" style="padding-top: 5px;">

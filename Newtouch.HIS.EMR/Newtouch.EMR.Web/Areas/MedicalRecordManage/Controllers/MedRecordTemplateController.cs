@@ -19,6 +19,9 @@ using DCSoft.Writer;
 using System.IO;
 using Newtouch.EMR.Domain.ValueObjects;
 using System.Text;
+using System.Xml;
+using System.Xml.Xsl;
+using System.Xml.Linq;
 
 namespace Newtouch.EMR.Web.Areas.MedicalRecordManage
 {
@@ -33,6 +36,7 @@ namespace Newtouch.EMR.Web.Areas.MedicalRecordManage
         private readonly ICommonDmnService _CommonDmnService;
         public static string BlTemplatePath = ConfigurationHelper.GetAppConfigValue("BlTemplatePath");
 
+        #region View
         public ActionResult FormQX()
         {
             return View();
@@ -57,7 +61,14 @@ namespace Newtouch.EMR.Web.Areas.MedicalRecordManage
         {
             return View();
         }
+        //openVer
+        public ActionResult MedicalOpenEditor()
+        {
+            return View();
+        }
+        #endregion
 
+        #region 病历模板管理
         public ActionResult GetGridJson(Pagination pagination, string keyword)
         {
             OperatorModel user = this.UserIdentity;
@@ -91,7 +102,8 @@ namespace Newtouch.EMR.Web.Areas.MedicalRecordManage
                 data.mbqx = mod.mbqx;
                 data.Memo = mod.blxtml + mod.blxtmc;
                 data.zt = "true";
-                data.mblj= ConfigurationHelper.GetAppConfigValue("BlTemplatePath"); 
+                data.mblj= ConfigurationHelper.GetAppConfigValue("BlTemplatePath");
+                data.LoadWay = Convert.ToInt32(EnummbqxTempLoadWay.DcWriter);
                 if (data.mbqx == Convert.ToInt32( Enummbqx.prv))
                 {
                     data.ysgh = this.UserIdentity.rygh;
@@ -194,6 +206,7 @@ namespace Newtouch.EMR.Web.Areas.MedicalRecordManage
             var data = _SysStaffRepo.GetValidStaffListByOrganizeId(OrganizeId);
             return Content(data.ToJson());
         }
+        #endregion
 
         #region 权限控制
         public ActionResult GetblmbDuty(string mbId)
@@ -220,7 +233,6 @@ namespace Newtouch.EMR.Web.Areas.MedicalRecordManage
             return Success();
         }
         #endregion
-
 
         public ActionResult TemplateEdit()
         {
@@ -312,7 +324,7 @@ namespace Newtouch.EMR.Web.Areas.MedicalRecordManage
             }
         }
 
-        #region 
+        #region  dc版
         [ValidateInput(false)]
         public ActionResult MoreHandleDCWriterServicePage()
         {
@@ -409,6 +421,7 @@ namespace Newtouch.EMR.Web.Areas.MedicalRecordManage
 
         }
 
+        #region  dc5.0实现方式
         public ActionResult GetTemplateXml(string templateUrl)
         {
             string[] arr = templateUrl.Split('\\');
@@ -489,7 +502,61 @@ namespace Newtouch.EMR.Web.Areas.MedicalRecordManage
             System.IO.File.WriteAllText($"{ml}{filename}", xmlString);
             return Success();
         }
+        #endregion
 
+        #endregion
+
+        #region openeditor
+        public ActionResult GetTemplateHtml(string templateUrl)
+        {
+            templateUrl = templateUrl.Replace("xml","html");
+            string[] arr = templateUrl.Split('\\');
+            string filename = arr.LastOrDefault();
+            string ml = AppDomain.CurrentDomain.BaseDirectory;
+            var tempaleUrl = "";
+            for (var item = 1; item < arr.Length; item++)
+            {
+                if (arr[item].Contains(".html"))
+                {
+                    var xmlfile = ml + tempaleUrl + arr[item];
+                    var t = System.IO.File.Exists((xmlfile));
+                    if (!System.IO.File.Exists((xmlfile)))
+                    {
+                        var d = $"{ml}{tempaleUrl}{filename}";
+                        System.IO.File.WriteAllText($"{ml}{tempaleUrl}{filename}", "<body data-hm-papersize=\"A4_portrait$top:5mm#right:5mm#bottom:5mm#left:5mm\" meta_json=\"\" style=\"\" class=\"\"><table class=\"dashed-border font-normal\" style=\"width: 100%; table-layout: auto;\" data-hm-table=\"true\" hm-table-id=\"ef00d3b996d222f2e8e56ef5e19a40486\" _paperheader=\"true\"><colgroup><col style=\"width: 17.1897%;\"><col style=\"width: 37.9707%;\"><col style=\"width: 19.8396%;\"><col style=\"width: 25%;\"></colgroup><tbody><tr><td style=\"width: 100%; text-align: center;\" colspan=\"4\"><p><br></p></td></tr><tr><td style=\"width: 100%; text-align: center;\" colspan=\"4\">页眉</td></tr><tr><td style=\"width: 17.1897%; border-bottom: 1px solid black;\"><br></td><td style=\"width: 37.9707%; border-bottom: 1px solid black;\"><br></td><td style=\"width: 19.8396%; border-bottom: 1px solid black;\"><br></td><td style=\"width: 25%; border-bottom: 1px solid black;\"><br></td></tr></tbody></table><p><br><span data-cke-bookmark=\"1\" style=\"display: none;\">&nbsp;</span>　　</p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p><table class=\"dashed-border font-normal\" style=\"width: 100%; table-layout: auto;\" data-hm-table=\"true\" hm-table-id=\"e5765dc780bff98a90954d12e022e605d\" _paperfooter=\"true\"><colgroup><col style=\"width: 100%;\"></colgroup><tbody><tr><td style=\"width: 100%; text-align: center; border-top-width: 1px; border-top-style: solid;\">第<span contenteditable=\"false\" class=\"page\"> </span>页</td></tr></tbody></table></body>");
+                    }
+                    tempaleUrl += arr[item];
+                }
+                else
+                {
+                    if (!System.IO.Directory.Exists(ml + tempaleUrl + arr[item]))
+                    {
+                        System.IO.Directory.CreateDirectory(ml + tempaleUrl + arr[item]);
+                    }
+                    tempaleUrl += arr[item] + "\\";
+
+                }
+            }
+            string xml = System.IO.File.ReadAllText($"{ml}{tempaleUrl}");
+            BlTemplateVo vo = new BlTemplateVo();
+            vo.xmldata = xml;
+            return Content(vo.ToJson());
+        }
+        public ActionResult SaveTemplateHtml(string templateUrl, string templateData)
+        {
+            string filename = templateUrl.Replace("xml", "html");
+            byte[] decodedBytes = Convert.FromBase64String(templateData);
+            string xmlString = Encoding.UTF8.GetString(decodedBytes);
+            string ml = AppDomain.CurrentDomain.BaseDirectory;
+            ml = ml.Substring(0, ml.Length - 1);
+            if (!System.IO.Directory.Exists(ml + "File"))
+            {
+                System.IO.Directory.CreateDirectory(ml + "File");
+            }
+            var d = $"{ml}{filename}";
+            System.IO.File.WriteAllText($"{ml}{filename}", xmlString);
+            return Success();
+        }
         #endregion
     }
 }

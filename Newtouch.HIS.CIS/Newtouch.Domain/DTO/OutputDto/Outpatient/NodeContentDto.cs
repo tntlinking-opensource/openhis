@@ -8,6 +8,15 @@ namespace Newtouch.Domain.DTO.OutputDto
     public class NodeContentDto
     {
         #region 患者就诊信息
+
+        public string jzysmc { get; set; }
+        public string jzys { get; set; }
+        public string xb { get; set; }
+        public string nlshow { get; set; }
+        
+        public int mjzbz { get; set; }
+        public string xm { get; set; }
+        public string jzks { get; set; }
         /// <summary>
         /// 
         /// </summary>
@@ -24,6 +33,8 @@ namespace Newtouch.Domain.DTO.OutputDto
         /// 
         /// </summary>
         public string ghksmc { get; set; }
+        
+   
 
         /// <summary>
         /// 

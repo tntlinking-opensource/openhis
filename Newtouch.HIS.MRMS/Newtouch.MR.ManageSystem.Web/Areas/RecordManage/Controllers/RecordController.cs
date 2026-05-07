@@ -54,7 +54,7 @@ namespace Newtouch.MR.ManageSystem.Web.Areas.RecordManage.Controllers
             return View();
         }
 
-        #region 获取EMR
+        #region 病历签收功能页
         public ActionResult PatList(Pagination pagination, string keyword, string zyh, string type, string cyts, string blzt,string kssj,string jssj)
         {
             var chargeQueryList = new
@@ -97,6 +97,42 @@ namespace Newtouch.MR.ManageSystem.Web.Areas.RecordManage.Controllers
             return Content(treeList.TreeGridJson(null));
         }
 
+
+        #endregion
+
+        #region  开源版编辑器
+        public ActionResult PreViewV2()
+        {
+            return View();
+        }
+
+        public ActionResult LoadMedicalRecordHtml(string blid, string bllx, string zyh)
+        {
+            string currentFileName = ConfigurationHelper.GetAppConfigValue("DcWriterFileRoter") + "\\File\\Template\\" + "newFile.html";
+            string bllj = "";
+            string blxtmc_yj = "";
+            var MedicalRecord = _RecordDmnService.GetMedicalRecord(blid, bllx, OrganizeId);
+            bllj = MedicalRecord.blxtml;
+            blxtmc_yj = MedicalRecord.blxtmc_yj;
+            if (string.IsNullOrWhiteSpace(MedicalRecord.blxtmc_yj))
+            {
+                blxtmc_yj = _RecordDmnService.GetZymeddocsrelation(blid, OrganizeId).blmc;
+            }
+            currentFileName = ConfigurationHelper.GetAppConfigValue("DcWriterFileRoter") + bllj + blxtmc_yj.Trim() + ".html";
+            currentFileName = currentFileName.Replace("~", "");
+            currentFileName = currentFileName.Replace("/", "\\");
+            if(System.IO.File.Exists(currentFileName) == false)//如果不存在就打开默认模板
+            {
+                currentFileName = ConfigurationHelper.GetAppConfigValue("DcWriterFileRoter") + "\\File\\Template\\" + "newFile.html";
+            }
+            // 加载模板
+            string htmldata = System.IO.File.ReadAllText(currentFileName);
+            BlTemplateVo vo = new BlTemplateVo();
+            vo.xmldata = htmldata;
+            vo.templateId = blid;
+            vo.templateName = blxtmc_yj;
+            return Content(vo.ToJson());
+        }
 
         #endregion
 
@@ -160,7 +196,7 @@ namespace Newtouch.MR.ManageSystem.Web.Areas.RecordManage.Controllers
                 XMLDataBind(Zybrjbxx, eng);
 
                 eng.Options.ContentRenderMode = WebWriterControlRenderMode.PagePreviewHtml;
-
+                var d = eng.GetAllContentHtml();
                 string oldstr = "span style=&quot;color:black;font-size:9pt;background-color:white";
                 string tip = "style=\"position:relative;left:4px;top:1px";
                 ViewBag.WriterControlHtml = eng.GetAllContentHtml().Replace(oldstr + "&quot;&gt; 常", oldstr + ";display:none&quot;&gt; 常")

@@ -132,7 +132,7 @@ namespace Newtouch.HIS.Web.Controllers
                     {
                         zhmc = jobjar["zhmc"].ToString(),
                         zhcode = jobjar["zhcode"].ToString(),
-                        ord = int.Parse(jobjar["ord"].ToString()),
+                        ord = string.IsNullOrWhiteSpace(jobjar["ord"].ToString()) ? (int?)null: int.Parse(jobjar["ord"].ToString()),
                         zlxm = jobjar["zlxm"].ToString(),
                         zlxmmc = jobjar["zlxmmc"].ToString(),
                         price = decimal.Parse(jobjar["price"].ToString()),

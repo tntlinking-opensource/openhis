@@ -11,6 +11,7 @@ using Newtouch.Tools;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Newtouch.Domain.Entity.Outpatient;
 
 namespace Newtouch.CIS.Web.Areas.TemplateManage.Controllers
 {
@@ -57,6 +58,7 @@ namespace Newtouch.CIS.Web.Areas.TemplateManage.Controllers
             var data = _mRecordTemplateDmnService.SelectTemplateDetailByMbId(mbId, this.OrganizeId);
             data.xyzdList = data.xyzdList.OrderBy(a => a.zdlx).ToList();   //主诊断排在前面
             data.zyzdList = data.zyzdList.OrderBy(a => a.zdlx).ToList();   //主诊断排在前面
+            
 
             return Content(data.ToJson());
         }
@@ -65,14 +67,14 @@ namespace Newtouch.CIS.Web.Areas.TemplateManage.Controllers
         /// 保存
         /// </summary>
         /// <returns></returns>
-        public ActionResult SaveData(MRTemplateEntity blmbObject, List<WMDiagnosisHtmlVO> xyzdList, List<TCMDiagnosisHtmlVO> zyzdList)
+        public ActionResult SaveData(MRTemplateEntity blmbObject, List<WMDiagnosisHtmlVO> xyzdList, List<TCMDiagnosisHtmlVO> zyzdList,List<CfTemplateGroupPackageEntity> mbztList)
         {
             blmbObject.OrganizeId = this.OrganizeId;
             if (blmbObject.mblx == (int)EnumCfMbLx.department)
             {
                 blmbObject.ks = this.UserIdentity.DepartmentCode;   //科室
             }
-            _mRecordTemplateDmnService.SaveData(blmbObject, xyzdList, zyzdList);
+            _mRecordTemplateDmnService.SaveData(blmbObject, xyzdList, zyzdList,mbztList);
             return Success();
         }
 

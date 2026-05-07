@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
+using Newtouch.Domain.Entity.Outpatient;
 
 namespace Newtouch.DomainServices
 {
@@ -22,6 +23,7 @@ namespace Newtouch.DomainServices
         private readonly IMRTemplateRepo _mRTemplateRepo;
         private readonly IMRTemplateWMDiagnosisRepo _mrTemplateWMDiagnosisRepo;
         private readonly IMRTemplateTCMDiagnosisRepo _mrTemplateTCMDiagnosisRepo;
+        private readonly ICfTemplateGroupPackageRepo _cfTemplateGroupPackageRepo;
         public MRecordTemplateDmnService(IDefaultDatabaseFactory databaseFactory) : base(databaseFactory)
         {
 
@@ -43,8 +45,7 @@ namespace Newtouch.DomainServices
             {
                 mbSql = @" select mbId,mbmc,CreateTime,LastModifyTime 
  from [xt_blmb] blmb
- left join NewtouchHIS_Base..V_S_Sys_Staff staff on staff.gh=blmb.CreatorCode and staff.OrganizeId=blmb.OrganizeId
- where blmb.zt='1'  and mblx=@mblx  and staff.DepartmentCode=@deptCode and blmb.OrganizeId=@orgId 
+ where blmb.zt='1'  and mblx=@mblx  and  blmb.ks=@deptCode and blmb.OrganizeId=@orgId 
        order by blmb.CreateTime desc";
                 par.Add(new SqlParameter("@deptCode", deptCode));
             }
@@ -107,7 +108,18 @@ namespace Newtouch.DomainServices
                     zyzdList.Add(zdVo);
                 }
             }
-
+            var mbztList = _cfTemplateGroupPackageRepo.IQueryable().Where(a => a.mbId == mbId && a.OrganizeId == orgId && a.zt == "1").OrderBy(a => a.CreateTime).ThenBy(a => a.cflx).ToList();
+            foreach (var item in mbztList) {
+                var NztId = item.ztId;
+                var Nztmc= item.ztmc;
+                var NmbId= item.mbId;
+                var Nmbmc= item.mbmc;
+                item.mbId = NztId;
+                item.mbmc = Nztmc;
+                item.ztId = NmbId;
+                item.ztmc = Nmbmc;
+            }
+            //var mbztList =_cfTemplateGroupPackageRepo.IQueryable().Where(a => a.mbId == mbId && a.OrganizeId == orgId && a.zt == "1").Select(a => new CfTemplateGroupPackageEntity { mbztId=a.mbztId, OrganizeId=a.OrganizeId, ztId=a.mbId, ztmc=a.mbmc, mbId=a.ztId, mbmc=a.ztmc, CreateTime=a.CreateTime, CreatorCode=a.CreatorCode, LastModifyTime=a.LastModifyTime, LastModifierCode=a.LastModifierCode, zt=a.zt,cflx=a.cflx }).OrderBy(a => a.cflx).ThenByDescending(a => a.CreateTime).ToList();
             var bo = new MRTemplateBO()
             {
                 //模板
@@ -124,6 +136,7 @@ namespace Newtouch.DomainServices
                 xyzdList = xyzdList,
                 //中医诊断
                 zyzdList = zyzdList,
+                mbztList = mbztList
             };
             return bo;
 
@@ -134,7 +147,7 @@ namespace Newtouch.DomainServices
         /// </summary>
         /// <param name="blmbObject"></param>
         /// <param name="zdList"></param>
-        public void SaveData(MRTemplateEntity blmbObject, List<WMDiagnosisHtmlVO> xyzdList, List<TCMDiagnosisHtmlVO> zyzdList)
+        public void SaveData(MRTemplateEntity blmbObject, List<WMDiagnosisHtmlVO> xyzdList, List<TCMDiagnosisHtmlVO> zyzdList,List<CfTemplateGroupPackageEntity> mbztList)
         {
             using (var db = new EFDbTransaction(this._databaseFactory).BeginTrans())
             {
@@ -146,7 +159,8 @@ namespace Newtouch.DomainServices
 
                     db.Delete<MRTemplateWMDiagnosisEntity>(a => a.mbId == blmbObject.mbId && a.OrganizeId == blmbObject.OrganizeId);
                     db.Delete<MRTemplateTCMDiagnosisEntity>(a => a.mbId == blmbObject.mbId && a.OrganizeId == blmbObject.OrganizeId);
-
+                    db.Delete<CfTemplateGroupPackageEntity>(a =>
+                        a.mbId == blmbObject.mbId && a.OrganizeId == blmbObject.OrganizeId);
                 }
                 else
                 {
@@ -192,6 +206,22 @@ namespace Newtouch.DomainServices
                         diagnosisEntity.Create();
 
                         db.Insert(diagnosisEntity);
+                    }
+                }
+                if (mbztList != null)
+                {
+                    foreach (var item in mbztList)
+                    {
+                        CfTemplateGroupPackageEntity mbzt = new CfTemplateGroupPackageEntity();
+                        mbzt.mbztId = Guid.NewGuid().ToString();
+                        mbzt.OrganizeId = blmbObject.OrganizeId;
+                        mbzt.mbId = blmbObject.mbId;
+                        mbzt.mbmc = blmbObject.mbmc;
+                        mbzt.ztId = item.mbId;
+                        mbzt.ztmc = item.mbmc;
+                        mbzt.cflx = item.cflx;
+                        mbzt.Create();
+                        db.Insert(mbzt);
                     }
                 }
                 db.Commit();

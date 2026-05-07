@@ -1,29 +1,29 @@
-﻿
+﻿@using Newtouch.Infrastructure
 @{
-    ViewBag.Title = "MedicalSkillExecution";
+    ViewBag.Title = "医技管理-医技科室执行";
     Layout = "~/Views/Shared/_Index.cshtml";
 }
 <style>
-        .form .formTitle {
-            position: relative;
-            left: 0px;
-            text-align: right;
-            white-space: nowrap;
-            font-weight: normal;
-            width: 60px;
-            padding-right: 10px;
-            padding-left: 5px;
-        }
-    </style>
+    .form .formTitle {
+        position: relative;
+        left: 0px;
+        text-align: right;
+        white-space: nowrap;
+        font-weight: normal;
+        width: 60px;
+        padding-right: 10px;
+        padding-left: 5px;
+    }
+</style>
 <form name="form1">
     <div class="panel panel-default">
         <table class="form">
             <tr>
                 <th class="formTitle" id="thshrq" style="width:50px">审核时间：</th>
                 <td class="formValue" colspan="3" style="width:330px">
-                    <input id="txtkssj" type="text" class="form-control input-wdatepicker formClearIgnore" style="width: 42%; float: left;" value="@DateTime.Now.ToString("yyyy-MM-dd 00:00:00")" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />
+                    <input id="txtkssj" type="text" class="form-control input-wdatepicker formClearIgnore" style="width: 42%; float: left;" value="@DateTime.Now.ToString("yyyy-MM-01 00:00:00")" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />
                     <span style="margin-left: 2%; float: left;">—</span>
-                    <input id="txtjssj" type="text" class="form-control input-wdatepicker formClearIgnore" style="width: 41%; float: left; margin-left: 2%;" value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />
+                    <input id="txtjssj" type="text" class="form-control input-wdatepicker formClearIgnore" style="width: 41%; float: left; margin-left: 2%;" value="@DateTime.Now.ToString("yyyy-MM-dd 23:59:59")" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />
                 </td>
                 <th class="formTitle" style="width:50px">执行状态：</th>
                 <td class="formValue" style="width:110px">
@@ -33,26 +33,26 @@
                 <th class="formTitle">患者类型：</th>
                 <td class="formValue">
                     <select class="form-control" id="hzlx">
-                        <option value="qb" selected>全部</option>
+                        <option value="qb" >全部</option>
                         <option value="mz">门诊</option>
-                        <option value="zy">住院</option>
+                        <option value="zy" selected>住院</option>
                     </select>
                 </td>
                 <th class="formTitle">费用类型：</th>
                 <td class="formValue">
                     <select class="form-control" id="fylx">
                         <option value="qb" selected>全部</option>
-                        <option value="jy">检查</option>
-                        <option value="jc">检验</option>
+                        <option value="jy" >检验</option>
+                        <option value="jc">检查</option>
                     </select>
                 </td>
-                <th class="formTitle">申请单类型：</th>
+                <th class="formTitle" >申请单类型：</th>
                 <td class="formValue">
                     <select class="form-control" id="sqdlx">
-                        <option value="" selected>全部</option>
+                        <option value="qb" selected>全部</option>
                     </select>
                 </td>
-                
+
             </tr>
             <tr>
                 <td class="formValue" colspan="3">
@@ -67,7 +67,7 @@
                 <td></td>
                 <th></th>
                 <td></td>
-                <td class="formValue" colspan="2">
+                <td class="formValue" >
                     <input type="button" id="btn_Exec" class="btn btn-primary btn-md" style="margin-left: 0px; " value="批量执行" />
                     <input type="button" id="btn_CancalExec" class="btn btn-primary btn-md" style="margin-left: 0px; background:red" value="取消执行" />
                 </td>
@@ -86,10 +86,27 @@
             initLayout("MyTabGrid");
         });
         $("#btn_CancalExec").hide();
-       
+        sqdlxinit();
         gridListData();
     });
-    
+
+    function sqdlxinit() {
+        $("#sqdlx").empty();
+        $("#sqdlx").append("<option value='qb'>全部</option>");
+        var type = $("#fylx").val()=="jy"?@((int)EnumjyjcmbLx.jy):$("#fylx").val()=="jc"?@((int)EnumjyjcmbLx.jc):0;
+        $.najax({
+            url: "/TemplateManage/InspectionTemplate/SelectGridList?type=" + type,
+            dataType: "json",
+            type: "POST",
+            success: function (resp) {
+                $.each(resp, function () {
+                    var option = "<option value='" + this.mbId + "'>" + this.mbmc + "</option>";
+                    $("#sqdlx").append(option);
+                });
+            }
+        });
+    }
+
     var checkTrigger = false;
     var list = new Array();
     var liststu = false;
@@ -110,7 +127,7 @@
                 { label: '身份证', name: 'zjh', align: 'center', width: 120 },
                 { label: 'cflx', name: 'cflx', align: 'center', width: 80 ,hidden:true},
                 { label: '费用类型', name: 'cflxstr', align: 'center', width: 80 },
-                { label: '申请单号', name: 'sqdh', align: 'center', width: 120 },
+                { label: '申请单号', name: 'sqdh', align: 'center', width: 130 },
                 { label: '申请单类型', name: 'sqdlx', align: 'center', width: 70 },
                 { label: '项目名称', name: 'ztmc', width: 90, align: 'left' },
                 { label: '规格', name: 'gg', width: 50, align: 'left' },
@@ -118,8 +135,8 @@
                 { label: '费用数量', name: 'sl', width: 50, align: 'left' },
                 { label: 'dj', name: 'dj', width: 50, align: 'left', hidden: true },
                 { label: '金额', name: 'je', width: 50, align: 'left' },
-                { label: '执行人', name: 'zxr', width: 80, align: 'left' },
-                { label: '执行日期', name: 'zxrq', width: 80, align: 'left', formatter: "date", formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' }  },
+                { label: '执行人', name: 'zxr', width: 70, align: 'left' },
+                { label: '执行日期', name: 'zxrq', width: 120, align: 'left', formatter: "date", formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' }},
                 { label: '执行科室', name: 'zxksmc', width: 100, align: 'left' },
                 { label: '记账人', name: 'jzr', width: 80, align: 'left' },
                 { label: '记账时间', name: 'kdrq', width: 120, align: 'left', formatter: "date", formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } },
@@ -135,6 +152,19 @@
             pager: "#gridPager",
             sortname: " kdrq asc,sqdh",
             viewrecords: true,
+            gridComplete: function () {
+                if ($('input[name="optionsRadios"]:checked').val() == 0) {
+                    //$("#gridList").jqGrid("showCol", "sqdh");
+                    $("#gridList").jqGrid("hideCol", "zxr");
+                    $("#gridList").jqGrid("hideCol", "zxrq");
+                    $("#gridList").jqGrid("hideCol", "zxksmc");
+                } else {
+                    //$("#gridList").jqGrid("hideCol", "sqdh");
+                    $("#gridList").jqGrid("showCol", "zxr");
+                    $("#gridList").jqGrid("showCol", "zxrq");
+                    $("#gridList").jqGrid("showCol", "zxksmc");
+                }
+            },
             onSelectRow: function (rowIndex, s) {
                 if (!checkTrigger) {
                     var len = 0;
@@ -190,6 +220,7 @@
             btn_search();
         });
     }
+    //查询
     function btn_search()
     {
         $('#gridList').jqGrid("clearGridData");//先清空明细
@@ -198,7 +229,11 @@
             url: '@Url.Action("GetJyjcExecGridJson")'
         }).trigger('reloadGrid');
     }
+    $("#fylx").change(function(){
+        sqdlxinit();
+    })
 
+    //grid 参数
     function getSearchPostData() {
         var keyword = $("#txt_keyword").val();
         var kssj = $("#txtkssj").val();
@@ -211,7 +246,7 @@
             keyword: keyword, kssj: kssj, jssj: jssj, hzlx: hzlx, fylx: fylx, sqdlx: sqdlx,zxzt:zxzt
         };
     };
-
+    //执行状态变更
     $("input[name='optionsRadios']").click(function () {
         var yzxz = $('input[name="optionsRadios"]:checked').val();
         if (yzxz == 0) {
@@ -224,7 +259,7 @@
         }
         btn_search();
     });
-
+    //执行
     $("#btn_Exec").click(function () {
         var selRowIds = $("#gridList").jqGrid('getGridParam', 'selarrrow');
         if (selRowIds.length == 0) {
@@ -273,7 +308,7 @@
             }
         });
     });
-
+    //取消执行
     $("#btn_CancalExec").click(function () {
         var selRowIds = $("#gridList").jqGrid('getGridParam', 'selarrrow');
         if (selRowIds.length == 0) {

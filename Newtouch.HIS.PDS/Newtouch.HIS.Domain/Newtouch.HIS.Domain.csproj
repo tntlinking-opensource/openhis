@@ -264,6 +264,7 @@
     <Compile Include="IRepository\PharmacyDrugStorage\ISysMedicineTemporaryProfitLossRepo.cs" />
     <Compile Include="IRepository\PharmacyDrugStorage\ISysPharmacyDepartmentMedicineRepo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ValueObjects\DrugStorage\BillFphVo.cs" />
     <Compile Include="ValueObjects\DrugStorage\DepartmentMedicineVO.cs" />
     <Compile Include="ValueObjects\DrugStorage\HandOutMedicineListVO.cs" />
     <Compile Include="ValueObjects\DrugStorage\HandOutMedicinesrmVO.cs" />

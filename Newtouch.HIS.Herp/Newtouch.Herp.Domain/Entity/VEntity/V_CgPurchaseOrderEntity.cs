@@ -172,5 +172,10 @@ namespace Newtouch.Herp.Domain.Entity.VEntity
         /// 备注
         /// </summary>
         public string remark { get; set; }
+        /// <summary>
+        /// 供应商
+        /// </summary>
+        public string supplierId { get; set; }
+        public string supplierName { get; set; }
     }
 }

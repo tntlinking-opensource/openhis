@@ -1,5 +1,6 @@
 using DotNetDBF;
 using FrameworkBase.MultiOrg.Domain.IDomainServices;
+using FrameworkBase.MultiOrg.Domain.IRepository;
 using Newtouch.Common;
 using Newtouch.Core.Common;
 using Newtouch.Core.Common.Exceptions;
@@ -32,10 +33,11 @@ namespace Newtouch.HIS.Web.Areas.ReportManage.Controllers
         private readonly IHospFeeDmnService _hospFeeDmnService;
         private readonly IPatientBasicInfoDmnService _patientBasicInfoDmnService;
 	    private readonly IRptrptMzRjbRepo _rptrptMzRjbRepo;
+        private readonly ISysConfigRepo _sysConfigRepo;
 
-		#region
+        #region
 
-		public ActionResult RevenueDetailesByPatientReportCompare() {
+        public ActionResult RevenueDetailesByPatientReportCompare() {
             ReportingServiceCom();
             return View();
         }
@@ -662,9 +664,11 @@ namespace Newtouch.HIS.Web.Areas.ReportManage.Controllers
         public ActionResult OutpatientDailyFee()
         {
             ReportingServiceCom();
-	        RptrptMzRjbEntity mzRjbEntity= _rptrptMzRjbRepo.GetLastMzrjEntity(this.OrganizeId, this.UserIdentity.UserCode);
-            ViewBag.usercode = UserIdentity.UserCode;
+            var DailyFeeHbOpen = _sysConfigRepo.GetValueByCode("DailyFeeHbOpen",this.OrganizeId);//日结报表是否合并所有收费员收费记录
+            RptrptMzRjbEntity mzRjbEntity= _rptrptMzRjbRepo.GetLastMzrjEntity(this.OrganizeId, DailyFeeHbOpen == "ON"? "":this.UserIdentity.UserCode);
+            ViewBag.usercode = DailyFeeHbOpen == "ON" ?"": UserIdentity.UserCode;
 			ViewBag.kssj = mzRjbEntity.jssj.ToString("yyyy-MM-dd HH:mm:ss");
+            ViewBag.isfirst = string.IsNullOrWhiteSpace(mzRjbEntity.Id) ?"True" :"False";
             ViewBag.OrgId = this.OrganizeId;
             return View();
         }
@@ -676,7 +680,8 @@ namespace Newtouch.HIS.Web.Areas.ReportManage.Controllers
 	    }
 	    public ActionResult turnInFeeSelect(string keyword)
 	    {
-			var rjList = _rptrptMzRjbRepo.GetLastMzrjEntityList(this.OrganizeId, this.UserIdentity.UserCode, keyword);
+            var DailyFeeHbOpen = _sysConfigRepo.GetValueByCode("DailyFeeHbOpen", this.OrganizeId);
+            var rjList = _rptrptMzRjbRepo.GetLastMzrjEntityList(this.OrganizeId, DailyFeeHbOpen == "ON" ? "" : this.UserIdentity.UserCode, keyword);
 			return Content(rjList.ToJson());
 	    }
 		/// <summary>

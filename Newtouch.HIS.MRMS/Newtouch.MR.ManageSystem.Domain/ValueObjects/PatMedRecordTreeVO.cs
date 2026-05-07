@@ -32,5 +32,6 @@ namespace Newtouch.MR.ManageSystem.Domain.ValueObjects
         /// 文件读取编辑权限控制标志 EnummbqxFp
         /// </summary>
         public int? ctrlLevel { get; set; }
+        public string doctype { get; set; }
     }
 }

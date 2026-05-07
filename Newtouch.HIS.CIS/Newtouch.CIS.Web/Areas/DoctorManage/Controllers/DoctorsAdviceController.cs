@@ -49,13 +49,16 @@ namespace Newtouch.CIS.Web.Areas.DoctorManage.Controllers
             ViewBag.bwhide = _sysConfigRepo.GetBoolValueByCode("bwhide", OrganizeId, false);//住院项目录入部位显示隐藏配置                                           
             ViewBag.IsOpenJyJcSwitch = _sysConfigRepo.GetBoolValueByCode("OpenZYJyJcSwitch", this.OrganizeId, false);//是否开放检验检查
             ViewBag.IsOpenRehabSwitch = _sysConfigRepo.GetBoolValueByCode("OpenZYRehabSwitch", this.OrganizeId, false);//是否开放康复医嘱
+            
+            ViewBag.ISOpenWzhc = _sysConfigRepo.GetBoolValueByCode("openWzhccf", this.OrganizeId);//开关：是否开放医用耗材
             ViewBag.sfxmService = _sysConfigRepo.GetValueByCode("sfxmService", this.OrganizeId) == "" ? "cg" : _sysConfigRepo.GetValueByCode("sfxmService", this.OrganizeId);//是否开常规项目
             ViewBag.ISOpenSsyz = _sysConfigRepo.GetBoolValueByCode("ISOpenSsyzSwitch", this.OrganizeId, false);//是否开放膳食医嘱																					  
             ViewBag.ISWithRehabSuggestion = _sysConfigRepo.GetBoolValueByCode("IS_WithRehabSuggestion", this.OrganizeId, false);//康复处方是否引用治疗建议
-                                                                                                                                //临时频次
-            var frequencyStr = _sysConfigRepo.GetValueByCode("FrequencyStr", OrganizeId) ?? "";
+                                                                                                                                
+            var frequencyStr = _sysConfigRepo.GetValueByCode("FrequencyStr", OrganizeId) ?? "";//临时频次串 分割的频次编码字符串例如：00,01
             ViewBag.isqfswith = _sysConfigRepo.GetValueByCode("accountqfexecute_switch", OrganizeId);//欠费医嘱开立、执行开关
             ViewBag.isopenPriorReview = _sysConfigRepo.GetValueByCode("OpenPriorReview", OrganizeId);//是否开启事前审核接口
+            ViewBag.openYjzxSwitch = _sysConfigRepo.GetValueByCode("openYjzxSwitch", OrganizeId); //开关：医技管理是否启用 
             if (!string.IsNullOrWhiteSpace(frequencyStr))
             {
                 var FequencyList = frequencyStr.Split(',');
@@ -98,6 +101,7 @@ namespace Newtouch.CIS.Web.Areas.DoctorManage.Controllers
             #endregion 抗生素相关
             //影像配置
             ViewBag.PACSCode = _sysConfigRepo.GetValueByCode("PACSCode", OrganizeId);
+            ViewBag.isOpenRationalUse = _sysConfigRepo.GetValueByCode("OpenRationalUse", OrganizeId);//是否开启合理用药
 
             #region 滴速
             var frds = _sysConfigRepo.GetValueByCode("frequencyRelDroppingSpeed", OrganizeId);
@@ -114,6 +118,7 @@ namespace Newtouch.CIS.Web.Areas.DoctorManage.Controllers
         public ActionResult AdviceList()
         {
             ViewBag.isopenPriorReview = _sysConfigRepo.GetValueByCode("OpenPriorReview", OrganizeId);//是否开启事前审核接口
+            ViewBag.isOpenRationalUse = _sysConfigRepo.GetValueByCode("OpenRationalUse", OrganizeId);//是否开启合理用药
             return View();
         }
 
@@ -121,7 +126,6 @@ namespace Newtouch.CIS.Web.Areas.DoctorManage.Controllers
         {
             return View();
         }
-
         public ActionResult ZyyzQueryAdviceList()
         {
             return View();
@@ -473,8 +477,13 @@ namespace Newtouch.CIS.Web.Areas.DoctorManage.Controllers
 
         #endregion
 
-        //根据住院号获取LIS/PACS报告完成数量
 
+        #region  lis pacs 报告
+        /// <summary>
+        /// //根据住院号获取LIS/PACS报告完成数量
+        /// </summary>
+        /// <param name="zyh"></param>
+        /// <returns></returns>
         public ActionResult CountLISztzy(string zyh)
         {
             var num = _iDoctorserviceDmnService.CountLISztzy(OrganizeId, zyh);
@@ -484,6 +493,6 @@ namespace Newtouch.CIS.Web.Areas.DoctorManage.Controllers
             };
             return Content(data.ToJson());
         }
-
+        #endregion
     }
 }

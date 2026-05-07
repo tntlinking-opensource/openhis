@@ -47,7 +47,7 @@ SELECT product.[Id],product.[OrganizeId],product.[name], wzdw.name minUnit,produ
 ,product.[zczh],product.[py],product.[imageUrl],product.[brand],product.[gg],product.[supplierId]
 ,supplier.name supplierName,product.[zxqds],product.[jj],product.[lsj]
 ,product.[sflkc],product.[sffy],product.[sfgt],product.[zt],product.[CreatorCode],product.[CreateTime]
-,product.[LastModifyTime],product.[LastModifierCode],product.gjybdm
+,product.[LastModifyTime],product.[LastModifierCode],product.gjybdm,product.kcyjz
 FROM [dbo].[wz_product](NOLOCK) product
 LEFT JOIN dbo.gys_supplier(NOLOCK) supplier ON supplier.Id=product.supplierId AND supplier.OrganizeId=product.OrganizeId AND supplier.zt='1'
 LEFT JOIN NewtouchHIS_Base.dbo.wz_type(NOLOCK) wzt ON wzt.Id=product.typeId AND wzt.zt='1'
@@ -191,7 +191,7 @@ SELECT @@ROWCOUNT;
 SELECT wz.[Id],wz.[OrganizeId],wz.[name],wz.[typeId],wz.[zczh],wz.[py],wz.[imageUrl],wz.[brand],wz.[gg],
 wz.[supplierId],gys.name supplierName,wz.[minUnit],wz.[zxqds],wz.[jj],wz.[lsj],wz.[sflkc],wz.[sffy],wz.[sfgt],
 wz.[zt],wz.[CreatorCode],wz.[CreateTime],wz.[LastModifyTime],wz.[LastModifierCode],wz.[productCode],
-wz.[hcgjybdm],wz.[iswzsame],wz.[zfxz],wz.[zfbl],wz.[gjybdm],wz.[ybdm],wz.[zblb],wz.[hslb]
+wz.[hcgjybdm],wz.[iswzsame],wz.[zfxz],wz.[zfbl],wz.[gjybdm],wz.[ybdm],wz.[zblb],wz.[hslb],wz.kcyjz
 FROM [NewtouchHIS_herp].[dbo].[wz_product](NOLOCK) wz
 LEFT JOIN dbo.gys_supplier(NOLOCK) gys ON wz.supplierId=gys.Id AND gys.zt='1'
 WHERE wz.OrganizeId=@OrganizeId

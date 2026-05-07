@@ -101,6 +101,40 @@ and organizeid=@orgId and zt='1'";
             }
 
         }
+        /// <summary>
+        /// 退费退回耗材库存
+        /// </summary>
+        /// <param name="OrganizeId"></param>
+        /// <param name="jfbbhs"></param>
+        /// <param name="userCode"></param>
+        public void Updatezy_wzkcReturn(string OrganizeId, string jfbbhs, string userCode)
+        {
+            this.ExecuteSqlCommand("exec Newtouch_CIS..物资处方退费库存量退还 @jfbbhs,@OrganizeId,@userCode,NULL ", new SqlParameter("@jfbbhs", jfbbhs)
+                ,new SqlParameter("@OrganizeId", OrganizeId),new SqlParameter("@userCode", userCode));
+        }
+
+        /// <summary>
+        /// 住院退费退回医生站开立耗材库存
+        /// </summary>
+        /// <param name="OrganizeId"></param>
+        /// <param name="jfbbhs"></param>
+        /// <param name="userCode"></param>
+        public void Updatezyyz_wzkcReturn(List<HospItemBillingEntity> entityList, string OrganizeId, string userCode)
+        {
+            foreach (var item in entityList)
+            {
+                var ss = item.tdrq.ToString("yyyy-MM-dd HH:mm:ss");
+                this.ExecuteSqlCommand("exec Newtouch_CIS..物资处方退费库存量退还 @jfbbhs,@OrganizeId,@userCode,@zxrq ", new SqlParameter("@jfbbhs", item.yzwym)
+                ,new SqlParameter("@zxrq", item.tdrq.ToString("yyyy-MM-dd HH:mm:ss")), new SqlParameter("@OrganizeId", OrganizeId), new SqlParameter("@userCode", userCode));
+            }
+        }
+        public int getHckcWith(string orgId)
+        {
+            string sql = @" select COUNT(1)  from Newtouch_CIS..Sys_Config where code='openWzhckc' and organizeid=@orgId  and value='ON' and zt='1'";
+            SqlParameter[] para ={
+                new SqlParameter("@orgId",orgId) };
+            return this.FirstOrDefault<int>(sql, para);
+        }
     }
 }
 

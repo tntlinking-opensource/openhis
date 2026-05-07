@@ -122,24 +122,49 @@
                     <td class="formTitle sjd"><span class="required">*</span>时间点：</td>
                     <td class="formValue sjd" colspan="4">
                         <div>
-                            <label class="radio-inline">
-                                <input type="radio" name="optionsSj" value="3">3
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="optionsSj" value="7" checked>7
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="optionsSj" value="11">11
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="optionsSj" value="15">15
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="optionsSj" value="19">19
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="optionsSj" value="23">23
-                            </label>
+                            @if (@ViewBag.ScdCode == "1")
+                            {
+                                <label class="radio-inline">
+                                    <input type="radio" name="optionsSj" value="3">3
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="optionsSj" value="7" checked>7
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="optionsSj" value="11">11
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="optionsSj" value="15">15
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="optionsSj" value="19">19
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="optionsSj" value="23">23
+                                </label>
+                            }
+                            else
+                            {
+                                <label class="radio-inline">
+                                    <input type="radio" name="optionsSj" value="2">2
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="optionsSj" value="6" checked>6
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="optionsSj" value="10">10
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="optionsSj" value="14">14
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="optionsSj" value="18">18
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="optionsSj" value="22">22
+                                </label>
+                            }
+
                         </div>
                     </td>
                     @*<td class="formTitle"><span class="required">*</span>病区：</td>
@@ -375,8 +400,40 @@
                 },
                 { label: "twclfs", name: "twclfs", hidden: true, editable: true },
                 { label: "体温(℃)", editwidth: "75%", required: false, name: "tw", width: 50, align: 'left', editable: true },
-                { label: "起搏器", name: "qbq", width: 65, align: 'left', editwidth: "75%", editable: true},
-                { label: "呼吸机", name: "hxj", width: 65, align: 'left', editwidth: "75%", editable: true},
+                {
+                    label: "起搏器", name: "qbqtext", width: 65, align: 'left', edittype: 'select', editwidth: "65%", editable: true, editoptions: {
+                        value: { 1: '是', 0: '否' },
+                        dataEvents: [
+                           {
+                               type: 'change',
+                               fn: function (e) {
+                                   var row = $(e.target).closest('tr.jqgrow');
+                                   var rowid = row.attr('id');
+                                   //用作保存选中的值
+                                   $("#" + rowid + "_qbq").val($(this).val());
+                               }
+                           }
+                        ]
+                    }
+                },
+                { label: "qbq", name: "qbq", hidden: true, editable: true },
+                {
+                    label: "呼吸机", name: "hxjtext", width: 65, align: 'left', edittype: 'select', editwidth: "65%", editable: true, editoptions: {
+                        value: { 1: '是', 0: '否' },
+                        dataEvents: [
+                           {
+                               type: 'change',
+                               fn: function (e) {
+                                   var row = $(e.target).closest('tr.jqgrow');
+                                   var rowid = row.attr('id');
+                                   //用作保存选中的值
+                                   $("#" + rowid + "_hxj").val($(this).val());
+                               }
+                           }
+                        ]
+                    }
+                },
+                { label: "hxj", name: "hxj", hidden: true, editable: true },
                 { label: "心率(次/分)", name: "xl", width: 65, align: 'left', editwidth: "75%", editable: true },
                 { label: "脉搏(次/分)", name: "mb", width: 65, align: 'left', editwidth: "75%", editable: true },
                 { label: "呼吸(次/分)", name: "hx", width: 65, align: 'left', editwidth: "75%", editable: true },
@@ -448,13 +505,19 @@
     }
 
     function initInlineFunc(rowid) {
+        debugger;
         //默认显示腋温
         var currenttwclfs = $("#" + rowid + "_twclfs").val();
         $("#" + rowid + "_twclfstext").val(currenttwclfs);
         if (currenttwclfs=="") {
             $("#" + rowid + "_twclfstext").val('2');
             $("#" + rowid + "_twclfs").val('2');
-        } 
+        }
+        var currentqbq1 = $("#" + rowid + "_qbq").val();
+        var currentqbq = $("#" + rowid + "_qbq").val()=="true"?"1":"0";
+        $("#" + rowid + "_qbqtext").val(currentqbq);
+        var currenthxj = $("#" + rowid + "_hxj").val() == "true" ? "1" : "0";
+        $("#" + rowid + "_hxjtext").val(currenthxj);
         //病人状态下拉框
         //$("#" + rowid + "_brzt").parent().next().children('select').html('');
         //$("#" + rowid + "_brzt").val();
@@ -772,8 +835,7 @@
 
         if ('@ViewBag.MutipatientNursingInputFlag' == '0') {
             headdata.sjd = $("[name=optionsSj]:checked").val() || null;
-            if (!(headdata.sjd == "3" || headdata.sjd == "7" || headdata.sjd == "11" || headdata.sjd == "15"
-                || headdata.sjd == "19" || headdata.sjd == "23")) {
+            if (!(headdata.sjd)) {
                 $.modalAlert("请选择时间点", "warning");
                 return false;
             }

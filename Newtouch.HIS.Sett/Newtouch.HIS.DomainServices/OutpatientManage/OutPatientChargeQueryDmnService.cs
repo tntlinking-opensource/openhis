@@ -349,10 +349,10 @@ and mzjszffs.OrganizeId = @orgId";
                 //return jj;
             }
             var sql = @"select cfh,fph,jszt,'' gg,0.00 zfbl,'' pc,sfxm,ypmc,dw,dlmc, 
-	sum(dj) dj, case when ztId is not null then 1 else  sum(sl) end sl, sum(je) AS je,case when ztId is not null then 1 else sum(klsl) end klsl ,sum(klje) klje,sum(ytsl) ytsl,sum(ytje) ytje,ysmc,ksmc from (
+	case when len(ztId)>0 then sum(convert(decimal(18,4),dj*sl)) else sum(dj) end dj, case when len(ztId)>0 then 1 else  sum(sl) end sl, sum(je) AS je,case when ztId is not null then 1 else sum(klsl) end klsl ,sum(klje) klje,case when sum(ytje)>0 and len(ztId)>0 then '1' else sum(ytsl) end ytsl,sum(ytje) ytje,ysmc,ksmc from (
 	SELECT cf.cfh cfh,fph,jszt, (case when xm.ztId is not null then xm.ztId else xm.sfxm end) sfxm, (case when xm.ztmc is not null then xm.ztmc else sfxm.sfxmmc end) AS ypmc,
 	(case when xm.ztId is not null then '组套' else xm.dw end) AS dw, (case when xm.ztId is not null then '项目组套组合' else sfdl.dlmc end) dlmc, 
-	sum(xm.dj) dj, sum(jsmx.sl) sl, sum(jsmx.sl*xm.dj) AS je,sum(xm.sl) klsl,sum(xm.je) klje,sum(xm.sl-jsmx.sl) ytsl,sum(xm.je-(jsmx.sl*xm.dj)) ytje,xm.ysmc,xm.ksmc,xm.ztId,xm.ztmc 
+	convert(decimal(18,4),sum(xm.dj)) dj, sum(xm.sl) sl, sum(jsmx.sl*xm.dj) AS je,sum(xm.sl) klsl,sum(xm.je) klje,sum(xm.sl-jsmx.sl) ytsl,sum(xm.je-(jsmx.sl*xm.dj)) ytje,xm.ysmc,xm.ksmc,xm.ztId,xm.ztmc 
 	--into #js_pay
 	FROM dbo.mz_jsmx jsmx
 	INNER JOIN dbo.mz_xm(NOLOCK) xm ON xm.xmnm=jsmx.mxnm AND xm.OrganizeId=jsmx.OrganizeId

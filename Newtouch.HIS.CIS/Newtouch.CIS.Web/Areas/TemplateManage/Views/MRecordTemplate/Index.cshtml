@@ -29,7 +29,7 @@
         top: 13px;
     }
 </style>
-<div style="float:left; width:17.4%; height:500px; border:solid 1px #ddd;">
+<div style="float:left; width:17.4%; height:98%; border:solid 1px #ddd;">
     <div class="ui-layout-west">
         <ul id="beveltabs">
             <li><a href="#" name="#personal" data-type=@Html.Raw(((int)EnumCfMbLx.personal).ToString())>个人</a></li>
@@ -50,7 +50,7 @@
     </div>
     <input type="text" id="mbId" hidden />
 </div>
-<div style="width:80.5%; float:right; margin-right: 10px; border:solid 1px #ddd; height:500px;">
+<div style="width:80.5%; float:right; margin-right: 10px; border:solid 1px #ddd; height:100%;">
     <div class="panel panel-default">
         <div class="panel-heading">
             病历详情
@@ -111,15 +111,15 @@
                             </table>
                         </td>
                     </tr>
-                    <tr style="display:none;">
+                    <tr>
                         <th class="formTitle">中医诊断：</th>
                         <td class="formValue" colspan="4">
                             <table id="tablezyzd">
                                 <tr>
                                     <th class="formTitle">主</th>
                                     <td class="formValue">
-                                        <input type="checkbox" id="chk1" class="chkValue" style="float:left;" /><label style="float:left;margin-top:3px;">疑似</label>
-                                        <input type="text" id="zd1" name="zd1" class="form-control activeValue focusInput zdText" style="width:70%;" />
+                                        <input type="checkbox" id="chk2" class="chkValue" style="float:left;" /><label style="float:left;margin-top:3px;">疑似</label>
+                                        <input type="text" id="zd2" name="zd2" class="form-control activeValue focusInput zdText" style="width:70%;" />
                                         <i class="fa fa-times" aria-hidden="true" hidden></i>
                                     </td>
                                     <th class="formTitle">症候</th>
@@ -134,12 +134,38 @@
                             </table>
                         </td>
                     </tr>
+                    <tr>
+                        <th class="formTitle">处方模板组套：</th>
+                        <td class="formValue">
+                            <input id="txtZutaoSel" type="text" class="form-control" placeholder="请输入组套名称或编码" />
+                        </td>
+                        <td>
+                            &nbsp;&nbsp;&nbsp;
+                            <i class="fa fa-minus-circle fa-lg" id="btn_Remove" style="cursor:pointer;" onclick="btn_removeItem()"></i>
+                            处方类型: 
+                            <select id="cflx" class="vitalsignschange">
+                                <option value="0">=请选择=</option>
+                                <option value="1"> 西药处方</option>
+                                <option value="2"> 中药处方</option>
+                                <option value="3"> 康复处方</option>
+                                <option value="6"> 常规项目处方</option>
+                                <option value="4"> 检验处方</option>
+                                <option value="5"> 检查处方</option>
+                            </select>
+                        </td>
+                        <td ></td>
+                        <td></td>
+                    </tr>
                 </table>
             </form>
+            <div style="background-color: #fff; width: 90%; margin-left:5px; border:solid 1px #ddd">
+                <table id="groupPackageListGridList"></table>
+            </div>
         </div>
+       
     </div>
     <form id="form2">
-        <table class="form" style="margin-top:30px;">
+        <table class="form" style="margin-top:2px;">
             <tr>
                 <th class="formTitle"><span class="required">*</span>模板名称: </th>
                 <td class="formValue">
@@ -149,6 +175,7 @@
             </tr>
         </table>
     </form>
+    
 
     @Html.Partial("_BottomButtonsView", new Newtouch.HIS.Web.Core.Models.BottomButtonViewModel()
 {
@@ -165,10 +192,12 @@
 <script type="text/javascript">
     var ybnhlx = null;
     $(function ($) {
+        initGroupPackageGrid([]);
         $("#beveltabs a:first").trigger('click');
     });
 
     $("#beveltabs a").on("click", function (e) {
+        
         $($(this).attr('name') + "Tree").treeview({
             height: $(window).height() - 100,
             slimscroll: false,
@@ -248,7 +277,8 @@
                             $('#tablezyzd .zhText').val('');
                             $('#tablezyzd .zhText').attr("data-zhCode",'');
                         }
-
+                        $("#groupPackageListGridList").clearGridData();
+                        initGroupPackageGrid(ajaxresp.mbztList);    //收费项目
                     }
                 });
             }
@@ -362,6 +392,134 @@
     $('#form1').on('click', '.minusToggleCircle', function(){
         $(this).closest('tr').remove();
     })
+    
+    cfzutaoFloatingSelector();
+    
+    //处方模板组套
+    function cfzutaoFloatingSelector(){
+        //默认options
+        var defaults = {
+            width: 350,
+            height: 280,
+            focusautotrigger: true,
+            caption: "选择组套",
+            url: '/PresTemplate/GetCfmbList',
+            ajaxparameters: function ($thisinput) {
+                return "mblx="+ $('#current').attr('data-type') + "&cflx="+$("#cflx").val()+"&expandCflx=null&mbKeyword=" + $.trim($thisinput.val());
+            },
+            itemdbclickhandler: function ($thistr) {
+                var returnFlag = false;
+                var allData = $("#groupPackageListGridList").getRowData_AllLine(undefined, true);
+                $.each(allData, function () {
+                    if(!returnFlag){
+                        var mbId = this["mbId"];
+                        if (mbId && mbId  == $thistr.attr('data-mbId')) {
+                            returnFlag = true;
+                            return;
+                        }
+                    }
+                });
+                if (returnFlag) {
+                    $.modalAlert("不可重复添加", 'warning');
+                    return;
+                }
+                btn_addItem($thistr);
+
+            },
+            colModel: [
+                { label: 'cfmbId', name: 'mbId', hidden: true },
+                { label: '模板名称', name: 'mbmc', widthratio: 30 },
+                {
+                    label: '处方类型',
+                    name: 'cflx',
+                    widthratio: 20,
+                    formatter: function(value, options, row) {
+                        // 将数字值转换为汉字
+                        const prescriptionTypes = {
+                            1: "西药处方",
+                            2: "中药处方",
+                            4: "检验处方",
+                            5: "检查处方",
+                            3: "康复处方",
+                            6: "常规项目处方",
+                        };
+                        return prescriptionTypes[value] || "未知类型"; // 默认值为 "未知类型"
+                    }
+                },
+                { label: '描述', name: 'Description', widthratio: 30, hidden: true},
+                { label: '注意事项', name: 'Remark', widthratio: 30 ,hidden: true}
+            ]
+        };
+        var options = $.extend(defaults, options);
+
+        $('#txtZutaoSel').newtouchFloatingSelector(options);
+    }
+
+    //处方组套浮层
+    //$('#txtZutaoSel').cfzutaoFloatingSelector({
+    //    mblx:  0,
+    //    cflx:$("#cflx").val(),
+    //    itemdbclickhandler: function ($thistr) {
+    //        var returnFlag = false;
+    //        var allData = $("#groupPackageListGridList").getRowData_AllLine(undefined, true);
+    //        $.each(allData, function () {
+    //            if(!returnFlag){
+    //                var mbId = this["mbId"];
+    //                if (mbId && mbId  == $thistr.attr('data-mbId')) {
+    //                    returnFlag = true;
+    //                    return;
+    //                }
+    //            }
+    //        });
+    //        if (returnFlag) {
+    //            $.modalAlert("不可重复添加", 'warning');
+    //            return;
+    //        }
+    //        btn_addItem($thistr);
+    //    }
+    //});
+
+    function initGroupPackageGrid(data) {
+        $('#groupPackageListGridList').newtouchLocalDataGrid({
+            height: 200, // 增加高度，确保内容不会被挤压
+            unwritten: false,
+            caption: "组套信息",
+            colModel: [
+                { label: 'mbId', name: 'mbId', width: 120, hidden: true, align: 'left' },
+                { label: '模板名称', name: 'mbmc', width: 200, align: 'left'  },  // 调整宽度
+                { label: '处方类型', name: 'cflx', width: 120, align: 'left',
+                    formatter: function(value, options, row) {
+                        debugger;
+                            // 如果值是数字，则转换为汉字
+                            if (typeof value === 'number' || Number.isInteger(value)) {
+                                const prescriptionTypes = {
+                                    1: "西药处方",
+                                    2: "中药处方",
+                                    4: "检验处方",
+                                    5: "检查处方",
+                                    3: "康复处方",
+                                    6: "常规项目处方",
+                                };
+                                return prescriptionTypes[value] || "未知类型";
+                            }
+                            // 如果不是数字，直接返回原值
+                            return value;
+                      }
+                },
+            ]
+        }, data);
+    }
+
+
+    function btn_addItem($thistr) {
+        $('#groupPackageListGridList').newtouchLocalDataGrid(null, [{
+            mbId: $thistr.attr('data-mbId'),        // 对应表格中的 cfmbId
+            mbmc: $thistr.attr('data-mbmc'),        // 对应表格中的 模板名称 (mbmc)
+            cflx: $thistr.attr('data-cflx'),                          // 用汉字替代数字，显示处方类型
+            Description: $thistr.attr('data-Description'),  // 对应表格中的 描述
+            Remark: $thistr.attr('data-Remark')     // 对应表格中的 注意事项
+        }]);
+    }
 
     //保存
     function newtouch_event_f8(){
@@ -421,10 +579,29 @@
                 zyzdArray.push(zdObj)
             }
         }
+        //组套
+        var mbztlist = $("#groupPackageListGridList").jqGrid('getRowData_AllLine', null, true);
+        debugger;
+        const prescriptionTypes = {
+            "西药处方": 1,
+            "中药处方": 2,
+            "检验处方": 4,
+            "检查处方": 5,
+            "康复处方": 3,
+            "常规项目处方": 6,
+        };
+
+        for (var i = 0; i < mbztlist.length; i++) {
+            if (prescriptionTypes[mbztlist[i].cflx] !== undefined) {
+                mbztlist[i].cflx = prescriptionTypes[mbztlist[i].cflx]; // 转换为数字
+            } else {
+                mbztlist[i].cflx = "未知类型"; // 未找到对应汉字时设置为“未知类型”
+            }
+        }
         $.najax({
             url: "/MRecordTemplate/SaveData",
             dataType: "json",
-            data: { blmbObject: blmbObject, xyzdList: xyzdArray, zyzdList:zyzdArray},
+            data: { blmbObject: blmbObject, xyzdList: xyzdArray, zyzdList:zyzdArray, mbztlist: mbztlist},
             type: "POST",
             success: function (data) {
                 $.modalAlert("保存成功", 'success');
@@ -434,11 +611,13 @@
                 newtouch_globalevent_f4();
             }
         });
+       
     }
-
+    
     //新增模板
     function newtouch_event_f3(){
         newtouch_globalevent_f4();
+        $("#groupPackageListGridList").clearGridData();
     }
 
     function newtouch_event_f4(){
@@ -467,5 +646,14 @@
             }
         });
     }
+
+ 
+    //删除项目
+    function btn_removeItem() {
+        var rowid = $("#groupPackageListGridList").jqGrid("getGridParam", "selrow");
+        $('#groupPackageListGridList').jqGrid("delRowData", rowid);
+    }
+
+
 
 </script>

@@ -9,6 +9,9 @@
     //开关：是否开放检验检查
     var IsOpenJyJcSwitch = ViewBag.IsOpenJyJcSwitch as bool?;
 
+    //合理用药接口
+    var isOpenRationalUse = (ViewBag.isOpenRationalUse); //是否开启合理用药审核接口
+
     //开关：门诊是否开放膳食医嘱
     var ISOpenSsyz = (ViewBag.ISOpenSsyz as bool?);
 
@@ -17,9 +20,8 @@
     //开关：是否开康复医嘱
     var IsOpenRehabSwitch = ViewBag.IsOpenRehabSwitch as bool?;
 
-    var zyJYPrinturl = SysConfigReader.OrgReportLink("ZYJYPrint");//检验
-    var zyJCPrinturl = SysConfigReader.OrgReportLink("ZYJCPrint");//检查
-    var zyzcyPrinturl = SysConfigReader.OrgReportLink("zyzycfPrint");//中草药
+    //开关：是否开放医用耗材处方
+    var iSOpenWzhc = (ViewBag.ISOpenWzhc as bool?);
     //欠费医嘱执行开关
     var ISOpenqfswith = (ViewBag.isqfswith);
     var isopenPriorReview = (ViewBag.isopenPriorReview);
@@ -36,9 +38,9 @@
 <script src="@SiteUrl.GetStaticResourceScriptUrl("~/js/wdtree/tree.js")"></script>
 <link href="@SiteUrl.GetStaticResourceScriptUrl("~/js/wdtree/tree.css")" rel="stylesheet" />
 <style>
-	#gridtyyzPager_center, #gridmedicinePager_center, #gridwordPager_center, #gridTakePager_center, #gridsfxmPager_center, #gridssyzPager_center, #gridzycfPager_center {
-		display: none;
-	}
+    #gridtyyzPager_center, #gridmedicinePager_center, #gridwordPager_center, #gridTakePager_center, #gridsfxmPager_center, #gridkfxmPager_center, #gridyyhcPager_center, #gridssyzPager_center, #gridzycfPager_center {
+        display: none;
+    }
 
 	.ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
 		border: 1px solid #ddd;
@@ -94,7 +96,22 @@
 		padding: 2px 0;
 		text-align: center;
 	}
+    #dv_gridyyhc td {
+        padding: 0;
+    }
 
+    #dv_gridyyhc th {
+        padding: 5px 0;
+    }
+
+    #dv_gridyyhc select[role=select] {
+        padding: 0;
+    }
+
+    #dv_gridyyhc input[role=textbox] {
+        padding: 2px 0;
+        text-align: center;
+    }
 	#dv_gridssyz td {
 		padding: 0;
 	}
@@ -128,40 +145,49 @@
 	#dv_gridTCMmedicine select[role=select] {
 		padding: 0;
 	}
+    ul.nav > li {
+        width: 10%;
+        text-align: center;
+    }
+
 </style>
 @*导航栏*@
 <ul class="nav nav-tabs navb-bg" id="myTab" style="position:fixed;top:0;z-index:100009;width:99%">
-	<li role="presentation"><a href="#linkyzcx" role="tab" data-toggle="tab">医嘱查询</a></li>
+    <li role="presentation"><a href="#linkyzcx" role="tab" data-toggle="tab">医嘱查询</a></li>
 
-	@if (!isOnlyLook)
-	{
-		<li role="presentation"><a href="#linkyplr" role="tab" data-toggle="tab">药品录入</a></li>
-		if (ISOpenzcyyz == true)
-		{
-			<li role="presentation"><a href="#linkzylr" role="tab" data-toggle="tab">中草药</a></li>
-		}
+    @if (!isOnlyLook)
+    {
+        <li role="presentation"><a href="#linkyplr" role="tab" data-toggle="tab">药品录入</a></li>
+        if (ISOpenzcyyz == true)
+        {
+            <li role="presentation"><a href="#linkzylr" role="tab" data-toggle="tab">中草药</a></li>
+        }
 
-		<li role="presentation"><a href="#linkcydy" role="tab" data-toggle="tab">出院带药</a></li>
-		<li role="presentation"><a href="#linkwzlr" role="tab" data-toggle="tab">文字录入</a></li>
-		<li role="presentation"><a href="#linkxmlr" role="tab" data-toggle="tab">项目录入</a></li>
-		if (IsOpenRehabSwitch == true)
-		{
-			<li role="presentation"><a href="#linkkfyz" role="tab" data-toggle="tab">康复医嘱</a></li>
-		}
-		if (IsOpenJyJcSwitch == true)
-		{
-			<li role="presentation" id="lijy"><a href="#linkjy" role="tab" data-toggle="tab">检验</a></li>
-			<li role="presentation" id="lijc"><a href="#linkjc" role="tab" data-toggle="tab">检查</a></li>
-		}
-		if (ISOpenSsyz == true)
-		{
-			<li role="presentation"><a href="#linkssyz" role="tab" data-toggle="tab">膳食医嘱</a></li>
-		}
-	}
+        <li role="presentation"><a href="#linkcydy" role="tab" data-toggle="tab">出院带药</a></li>
+        <li role="presentation"><a href="#linkwzlr" role="tab" data-toggle="tab">文字录入</a></li>
+        <li role="presentation"><a href="#linkxmlr" role="tab" data-toggle="tab">项目录入</a></li>
+        if (iSOpenWzhc == true)
+        {
+            <li role="presentation"><a href="#linkhclr" role="tab" data-toggle="tab">耗材</a></li>
+        }
+        if (IsOpenRehabSwitch == true)
+        {
+            <li role="presentation"><a href="#linkkfyz" role="tab" data-toggle="tab">康复医嘱</a></li>
+        }
+        if (IsOpenJyJcSwitch == true)
+        {
+            <li role="presentation" id="lijy"><a href="#linkjy" role="tab" data-toggle="tab">检验</a></li>
+            <li role="presentation" id="lijc"><a href="#linkjc" role="tab" data-toggle="tab">检查</a></li>
+        }
+        if (ISOpenSsyz == true)
+        {
+            <li role="presentation"><a href="#linkssyz" role="tab" data-toggle="tab">膳食医嘱</a></li>
+        }
+    }
 
 </ul>
 
-<div id="divPatientBasicInfo" style="position: fixed;top: 0px;z-index: 100009;width: 29%;line-height: 40px;font-size: 18px;white-space: nowrap;text-overflow: ellipsis;background: #e9f6fe;right: 1.2%;text-align:right;padding-right: 18px;display:none;color:#07bbf1;">
+<div id="divPatientBasicInfo" style="position: fixed;top: 0px;z-index: 100009;width: 20%;line-height: 40px;font-size: 18px;white-space: nowrap;text-overflow: ellipsis;background: #e9f6fe;right: 1.2%;text-align:right;padding-right: 18px;display:none;color:#07bbf1;">
 </div>
 	<div class="panel-body"  id="jemxsm"  style="z-index: 1;background: white;margin-top:40px; position: absolute;left: 85%;width: 120px;height: 300px;display: none;border: solid 1px #ddd">
 		<table>
@@ -190,31 +216,35 @@
 	@Html.Partial("~/Views/Shared/InpatientInfo.cshtml")
 	@Html.Partial("_InspectTemplateTreeForm")
 	@*@Html.Partial("_PresTemplateTreeForm")*@
-	<div class="tab-content">
-		@if (isOnlyLook)
-		{
-			@Html.Partial("AdviceListLook", new { }, new ViewDataDictionary { { "kssj", kssj } });
-		}
-		else
-		{
-			@Html.Partial("AdviceList")
-			@Html.Partial("~/Areas/DoctorManage/Views/Orginal/Index.cshtml")@*项目录入*@
-			@Html.Partial("~/Areas/DoctorManage/Views/Medicine/Index.cshtml")@*药品录入*@
-			@Html.Partial("~/Areas/DoctorManage/Views/Words/Index.cshtml")@*文字录入*@
-			@Html.Partial("~/Areas/DoctorManage/Views/Takemedicine/Index.cshtml")@*出院带药*@
-			@Html.Partial("~/Areas/DoctorManage/Views/Medicine/TCMMedicine.cshtml")@*中草药*@
-			if (IsOpenJyJcSwitch == true)
-			{
-				@Html.Partial("~/Areas/DoctorManage/Views/Apply/Inspection.cshtml")
-				@Html.Partial("~/Areas/DoctorManage/Views/Apply/Examination.cshtml")
-			}
-			if (IsOpenRehabSwitch == true)
-			{
-				@Html.Partial("~/Areas/DoctorManage/Views/Rehab/Index.cshtml")@*康复医嘱*@
-			}
-			@Html.Partial("~/Areas/DoctorManage/Views/DietaryAdvice/Index.cshtml")
-		}
-	</div>
+    <div class="tab-content">
+        @if (isOnlyLook)
+        {
+            @Html.Partial("AdviceListLook", new { }, new ViewDataDictionary { { "kssj", kssj } });
+        }
+        else
+        {
+            @Html.Partial("AdviceList")
+            @Html.Partial("~/Areas/DoctorManage/Views/Orginal/Index.cshtml")@*项目录入*@
+            @Html.Partial("~/Areas/DoctorManage/Views/Medicine/Index.cshtml")@*药品录入*@
+            @Html.Partial("~/Areas/DoctorManage/Views/Words/Index.cshtml")@*文字录入*@
+            @Html.Partial("~/Areas/DoctorManage/Views/Takemedicine/Index.cshtml")@*出院带药*@
+            @Html.Partial("~/Areas/DoctorManage/Views/Medicine/TCMMedicine.cshtml")@*中草药*@
+            if (IsOpenJyJcSwitch == true)
+            {
+                @Html.Partial("~/Areas/DoctorManage/Views/Apply/Inspection.cshtml")@*检验检查医嘱*@
+                @Html.Partial("~/Areas/DoctorManage/Views/Apply/Examination.cshtml")
+            }
+            if (iSOpenWzhc == true)
+            {
+                @Html.Partial("~/Areas/DoctorManage/Views/Orginal/ConsumablesIndex.cshtml")@*物资耗材医嘱*@
+            }
+            if (IsOpenRehabSwitch == true)
+            {
+                @Html.Partial("~/Areas/DoctorManage/Views/Rehab/Index.cshtml")@*康复医嘱*@
+            }
+            @Html.Partial("~/Areas/DoctorManage/Views/DietaryAdvice/Index.cshtml")@*膳食医嘱*@
+        }
+    </div>
 </div>
 <script>
     window.alldataArray = [];
@@ -232,7 +262,7 @@
 
     function showPatientBasicInfo() {
         if (!$('#divPatientBasicInfo').is(':visible')) {
-            $('#myTab').css('width', '70%');
+            $('#myTab').css('width', '78%');
             $('#divPatientBasicInfo').show();
         }
 
@@ -331,6 +361,7 @@
     }
 
     function transferPage($thishref) {
+        debugger;
         switch ($thishref) {
             case "#linkyzcx":
                 $('.dv-home-patInfo').hide();
@@ -359,6 +390,15 @@
                     window.alldataArray.xmyz = new Array();
                 }
                 init_ItemPrescription();
+                break;
+            case "#linkhclr":
+                $('.dv-home-patInfo').show();
+                window.SetCurrentPageyzlx(@Html.Raw(((int)EnumYzlx.yyhc).ToString()));
+                if (!(window.alldataArray && window.alldataArray.hcyz)) {
+                    window.alldataArray.hcyz = new Array();
+                }
+                init_hcPrescription();
+                break;
                 break;
         	case "#linkkfyz":
 	            $('.dv-home-patInfo').show();
@@ -496,7 +536,11 @@
                 if ($("#gridsfxm").jqGrid('getDataIDs').length > 0) {
                     SaveItemMedicine(null);
                 }
-            }else if (relatedTargetHref.indexOf('#linkkfyz') != -1 && $("#gridsfxm:visible").length == 1) {
+            }else if(relatedTargetHref.indexOf('#linkhclr')!= -1 &&  $("#gridyyhc:visible").length == 1){
+                if ($("#gridyyhc").jqGrid('getDataIDs').length > 0) {
+                    SaveYyhcMedicine(null);
+                }
+            } else if (relatedTargetHref.indexOf('#linkkfyz') != -1 && $("#gridkfxm:visible").length == 1) {
             	if ($("#gridkfxm").jqGrid('getDataIDs').length > 0) {
 		            SaveRehabMedicine(null);
 	            }
@@ -579,12 +623,13 @@
     //计算频次数量
     function getpcsl(zxcs, zxzq, zxzqdw)
     {
+        debugger;
         if (isNaN(zxzqdw) || zxzqdw=="") {
             $.modalAlert("执行周期单位不能为空", 'error');
             return;
         }
         var rtnsl;
-        switch (zxzqdw) {
+        switch (zxzqdw) {//1：天，2：小时，3：分钟
             case "1":
                 rtnsl = (zxcs / zxzq);
                 break;
@@ -604,6 +649,7 @@
     //计算药品数量
     function getypsl(jlzhxs, zyzhxs, ypjl, dwlb, zxcs, zxzq, zxzqdw, ts, qzfs)
     {
+        debugger;
         var zysl = 0;
         if (isNaN(dwlb) || dwlb == "") {
             $.modalAlert("单位类别不能为空", 'error');
@@ -616,7 +662,10 @@
         if (qzfs == "day") {
             zysl = Number(Math.ceil(qzint * getpcsl(zxcs, zxzq, zxzqdw)));
         } else if (qzfs == "times") {
-            zysl = Number(Math.ceil(qzint) * getpcsl(zxcs, zxzq, zxzqdw));
+            if(zxzq>1)//按大包装售卖情况
+                zysl = Number(Math.ceil(qzint * getpcsl(zxcs, zxzq, zxzqdw)));
+            else
+                zysl = Number(Math.ceil(qzint) * getpcsl(zxcs, zxzq, zxzqdw));
         }
         return zysl;
     }
@@ -632,6 +681,7 @@
                 $("#gridTake").clearGridData();
                 $("#gridword").clearGridData();
                 $("#gridsfxm").clearGridData();
+                $("#gridyyhc").clearGridData();
                 $("#gridkfxm").clearGridData();
                 $("#gridTCMmedicine").clearGridData();
                 $("#gridmedicine").clearGridData();
@@ -642,7 +692,35 @@
                 $('#alreadyJCAppliedList').clearGridData();
                 $('#alreadyJCAppliedGroupList').clearGridData();
                 $('#gridssyz').clearGridData();
+                //合理用药
+                debugger
+                if ( '@(isOpenRationalUse)' === 'ON'){
+                    $.ajax({
+                        url: "/DoctorManage/Medicine/GetYzHlyy",
+                        dataType: "json",
+                        data: { reqdoctorservices: gridTakeData,yzh:resp.data},
+                        type: "POST",
+                        cache: false,
+                        async: false,
+                        success: function (reqdata) {
+                            if (reqdata.data) {
+                                if (reqdata.message != "" ) {
+                                    // 判断 Cfstate 是否为 "1" 或 "2"
+                                    if (reqdata.data.Cfstate === "1" || reqdata.data.Cfstate === "2") {
+                                        
+                                        // 你可以根据需要进一步处理 infoList，如果需要进行筛选可以在此处进行
+                                        HlyyDrugInfo(reqdata.data);  // 传递 InfoList 数据
+                                        $('#drugInfoModal').modal('show');
+                                    }
+                                } else {
+                                    $.modalMsg(reqdata.message, 'error');
+                                }
+                            }
+                        }
+                    });
 
+                }
+                
                 //事前提醒
                 switch("@medicalInsurance")
                 {
@@ -655,7 +733,6 @@
                 if ((gridTakeData[0].yzlx ==@Html.Raw(((int)EnumYzlx.jc).ToString())|| gridTakeData[0].yzlx ==@Html.Raw(((int)EnumYzlx.jy).ToString())) && resp.data)
                 {
                     var tempCode=gridTakeData[0].yzlx ==@Html.Raw(((int)EnumYzlx.jc).ToString())? "29":"30";
-                    rpturl = gridTakeData[0].yzlx ==@Html.Raw(((int)EnumYzlx.jc).ToString()) ? '@Html.Raw(zyJCPrinturl)' : '@Html.Raw(zyJYPrinturl)';
                     $.ajax({
                         url: '/MedicalRecord/GetBarCodeBycfh',
                         data: { cfh: resp.data },
@@ -664,8 +741,6 @@
 
                             var uri = '@reportUrl' + "?tempCode="+tempCode + "&systemCode=" + '@Html.Raw(ReportSystemCode)'+"&zyh="+currentobj.zyh+ "&orgId=" + '@curOpr.OrganizeId' + "&yzdh=" +  resp.data+"&barcode="+aaa;
                             window.open(uri);
-                            //rpturl = rpturl + "&zyh=" + currentobj.zyh + "&yzdh=" + resp.data + "&barcode=" + aaa;
-                            //window.open(rpturl, "_blank", "height=500, width=1195,top=100, left=50, toolbar =no, menubar=no, scrollbars=yes, resizable=yes, location=no, status=no");
                         }
                     });
                 } else {
@@ -675,10 +750,6 @@
                     if (gridTakeData[0].yzlx ==@Html.Raw((int)EnumYzlx.zcy).ToString()) {
                         var uri = '@reportUrl' + "?tempCode=44"+ "&systemCode=" + '@Html.Raw(ReportSystemCode)'+"&zyh="+currentobj.zyh+ "&orgId=" + '@curOpr.OrganizeId' + "&yzhs=" + resp.data+"&clbz=1";
                         window.open(uri);
-
-                        @*rpturl = '@Html.Raw(zyzcyPrinturl)';
-                        rpturl = rpturl + "&zyh=" + currentobj.zyh + "&yzhs=" + resp.data;
-                        window.open(rpturl, "_blank", "height=500, width=1195,top=100, left=50, toolbar =no, menubar=no, scrollbars=yes, resizable=yes, location=no, status=no");*@
 
                     }
                 }

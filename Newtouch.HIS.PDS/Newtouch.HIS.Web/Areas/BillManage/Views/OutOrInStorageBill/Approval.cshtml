@@ -2,7 +2,7 @@
 @using Newtouch.Infrastructure;
 @using Newtouch.HIS.Web.Core.Extensions;
 @{
-    ViewBag.Title = "出入库单查询";
+    ViewBag.Title = "出入库单据审核";
     Layout = "~/Views/Shared/_Index.cshtml";
 
     var djlxItemStrs = Constants.CurrentYfbm.yfbmjb != "1" ?
@@ -85,7 +85,7 @@
                     </td>
                     <th class="formTitle">至：</th>
                     <td class="formValue">
-                        <input id="txtEndDate" type="text" class="form-control input-wdatepicker " value="@DateTime.Now.AddHours(1).ToString("yyyy-MM-dd HH:mm:ss")" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />
+                        <input id="txtEndDate" type="text" class="form-control input-wdatepicker " value="@DateTime.Now.AddHours(1).ToString("yyyy-MM-dd 23:59:59")" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />
                     </td>
                     <th class="formTitle">发票号：</th>
                     <td class="formValue">

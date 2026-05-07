@@ -450,6 +450,7 @@
     <Compile Include="ValueObjects\DaySettleManage\DaySettleDetailVO.cs" />
     <Compile Include="ValueObjects\DaySettleManage\YBdzsqList.cs" />
     <Compile Include="ValueObjects\HisZdInfoVO.cs" />
+    <Compile Include="ValueObjects\HospitalizationManage\HospItemFeeVO.cs" />
     <Compile Include="ValueObjects\HospitalizationManage\InpatientHosPatAccPayVO.cs" />
     <Compile Include="ValueObjects\HospitalizationManage\RequestApprovalVO.cs" />
     <Compile Include="ValueObjects\HospitalizationManage\AccountingExecuteVO.cs" />

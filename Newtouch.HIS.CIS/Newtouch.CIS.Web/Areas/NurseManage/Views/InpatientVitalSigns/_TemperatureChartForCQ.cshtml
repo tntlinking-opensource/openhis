@@ -156,6 +156,7 @@
     };
 
     function search(kssj, jssj, zyh) {
+        debugger;
         tempData = null; //
         tempKssj = null;
         $('#tablBaseInfo td label').html('');
@@ -231,12 +232,12 @@
 
                     var drawData = [];
                     var lastday = "";
-                    var billIndexData = data.list.filter((f, p) => { return f.nowpage == billIndex });
-                    for (var i = 0; i < billIndexData.length; i++) {
+                    var billIndexData = data.list.filter((f, p) => { return f.nowpage == billIndex });//第一页数据
+                    for (var i = 0; i < billIndexData.length; i++) {//循环每一页 默认一页七天数据记录
                         var item = billIndexData[i];
                         var dd = $.getDate({ date: item.rq });
                         
-                        //时间改为从数据库获取
+                        //时间改为从数据库获取 (rqCellValueArr 当前页码七天日期yyyy-mm-dd)
                         if (lastday != item.rq) {
                             rqCellValueArr.push(dd);
                             if (i == 0) {
@@ -503,13 +504,13 @@
             var thistddown = "";
             var thistdxl = "";
             var rqData = $.jsonWhere(data, function (v) { return v.rq && $.getDate({ date: v.rq }) == rqCellValueArr[i] });
-            var thistz = "";
-            var thissg = "";
-            var thisxybhd = 0;
+            var thistz = ""; //体重
+            var thissg = ""; //身高
+            var thisxybhd = 0; //血氧饱和度
             var thisxybhdpart2 = 0;
             var thisxyll = 0;
-            var thisdbcs = 0;
-            var thisps = "";
+            var thisdbcs = 0;    //大便次数
+            var thisps = "";      //皮试
             var thisttpf = "";    //疼痛评分
             var thiszrl = 0;    //总入量(ml)
             var thiszcl = 0;    //总出量(ml)
@@ -801,9 +802,13 @@
                 for (var j = 0; j < 6; j++) {
                     left = contentStartLeft + i * sspacewidth * 6 + j * sspacewidth;
                     top = origin.y + spc * 3;
-
-                    $div = $('<div style="position:absolute;text-align:center;left:' + left + 'px;top:' + top + 'px;width:' + sspacewidth + 'px;height:' + spc + 'px;line-height:' + spc + 'px;">'
-                        + (4 * (j + 1) - 1) + '</div>'); //三测单时间点设置  2,6,10,/3.7.11
+                    if ("@ViewBag.ScdCode" == "1") {//奇数
+                        $div = $('<div style="position:absolute;text-align:center;left:' + left + 'px;top:' + top + 'px;width:' + sspacewidth + 'px;height:' + spc + 'px;line-height:' + spc + 'px;">'
+                       + (4 * (j + 1) - 1) + '</div>'); //三测单时间点设置  3.7.11
+                    } else {//偶数
+                        $div = $('<div style="position:absolute;text-align:center;left:' + left + 'px;top:' + top + 'px;width:' + sspacewidth + 'px;height:' + spc + 'px;line-height:' + spc + 'px;">'
+                       + (4 * (j + 1) - 2) + '</div>'); //三测单时间点设置  2,6,10,
+                    }
                     $div.appendTo($board);
                 }
             }

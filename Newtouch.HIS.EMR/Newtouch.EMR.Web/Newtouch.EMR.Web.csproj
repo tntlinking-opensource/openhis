@@ -90,7 +90,7 @@
     </Reference>
     <Reference Include="MsgPack, Version=0.8.0.0, Culture=neutral, PublicKeyToken=a2625990d5dc0167, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\openhis\his-dll-common\dlls\MsgPack.dll</HintPath>
+      <HintPath>..\..\his-dll-common\dlls\MsgPack.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -563,6 +563,11 @@
     <Content Include="Areas\MedicalRecordManage\Views\MedicalRules\Index.cshtml" />
     <Content Include="Areas\MedicalRecordManage\Views\MedicalRules\Form.cshtml" />
     <Content Include="Areas\MedicalRecordManage\Views\MedicalRecord\PrintView.cshtml" />
+    <Content Include="Areas\MedicalRecordManage\Views\MedRecordTemplate\testbl.cshtml" />
+    <Content Include="Areas\MedicalRecordManage\Views\MedRecordTemplate\MedicalOpenEditor.cshtml" />
+    <Content Include="Areas\MedicalRecordManage\Views\MedRecordTemplate\testbl - 复制.cshtml" />
+    <Content Include="Areas\MedicalRecordManage\Views\MedicalRecord\MedicalRecordEdiForAddV2.cshtml" />
+    <Content Include="Areas\MedicalRecordManage\Views\MedicalRecord\MedicalRecordEditV2.cshtml" />
     <None Include="Properties\PublishProfiles\emr.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -616,6 +621,7 @@
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
+    <Content Include="Views\Shared\_IndexOpenEditor.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -6,6 +6,7 @@
     var isShowSign = SysConfigReader.String("IS_ShowSigner");
     //时间
     var kssj = ViewData["kssj"];
+    var curOpr = Newtouch.Common.Operator.OperatorProvider.GetCurrent();
 }
 <style>
     /*已执行*/
@@ -95,11 +96,12 @@
             <td>未执行长期/临时</td>
         </tr>
     </table>
+    @Html.Partial("~/Areas/DoctorManage/Views/Apply/ReportTree.cshtml")
     @*<div id="printgoon" class="ckbox" style="float:right;padding-right:5px;margin-top:10px;margin-left:10px;">
-        <div>
-            <input id="ck_printgoon" name="ck_printgoon" type="checkbox"><label for="ck_printgoon">续打</label>
-        </div>
-    </div>*@
+            <div>
+                <input id="ck_printgoon" name="ck_printgoon" type="checkbox"><label for="ck_printgoon">续打</label>
+            </div>
+        </div>*@
     @Html.Partial("_BottomButtonsYzPrintView", new Newtouch.HIS.Web.Core.Models.BottomButtonViewModel()
 {
     ShowKeyList = new int[] { 2, 3 },
@@ -142,7 +144,6 @@
         });
     });
 
-
     function gridPatientList() {
         $('#gridPatientList').dataGrid({
             url:"@Url.Action("AdviceGridView")",
@@ -150,7 +151,8 @@
             postData: getSearchPostData(),
             unwritten: false,
             pager: '#gridPatPager',
-            sortname: 'zh,yzlb,yzlx,kssj desc',
+            //sortname: 'zh,yzlb,yzlx,kssj desc',
+            sortname: 'yzh desc,px,kssj desc,zh',
             rowNum: 100,
             rownumbers: true,
             colModel: [
@@ -174,6 +176,7 @@
 				{ label: '执行科室', name: 'deptName', align: 'center', width: 60 },
                 { label: 'yztag', name: 'yztag', align: 'center', hidden: true },
                 { label: '精麻', name: 'yztagName', align: 'center', width: 30 },
+                { label: '医嘱号', name: 'yzh', align: 'center', width: 60 , hidden: true},
                 {
                     label: '药品总量', name: 'zycldw', align: 'center', width: 30
                 },
@@ -565,7 +568,9 @@
            // yzContinuePrint(zyh,"2",isSign)
         }
         else{
-            window.open("/ReportManage/Report/PrintCqyzReport?zyh=" + zyh + "&isShowSign=" + isSign, "height=500, width=1195,top=100, left=50, toolbar =no, menubar=no, scrollbars=yes, resizable=yes, location=no, status=no");
+            top.top.$.Newtouchtab.addTabWithOutMenu({ name: zyh+"-长期医嘱", enName: "", url: "/SystemManage/YzPreView/YzPreView?zyh=" + zyh+ "&orgId="+'@curOpr.OrganizeId'+"&isSign="+isSign+"&yzlx="+"长期医嘱", AppId: "EMR" });
+           
+           // window.open("/ReportManage/Report/PrintCqyzReport?zyh=" + zyh + "&isShowSign=" + isSign, "height=500, width=1195,top=100, left=50, toolbar =no, menubar=no, scrollbars=yes, resizable=yes, location=no, status=no");
         }
     }
     //打印临时医嘱
@@ -581,7 +586,9 @@
             yzContinuePrint(zyh,"1",isSign)
         }
         else{
-            window.open("/ReportManage/Report/PrintLsyzReport?zyh=" + zyh + "&isShowSign=" + isSign, "height=500, width=1195,top=100, left=50, toolbar =no, menubar=no, scrollbars=yes, resizable=yes, location=no, status=no");
+            top.top.$.Newtouchtab.addTabWithOutMenu({ name: zyh+"-临时医嘱", enName: "", url: "/SystemManage/YzPreView/YzPreView?zyh=" + zyh+ "&orgId="+'@curOpr.OrganizeId'+"&isSign="+isSign+"&yzlx="+"临时医嘱", AppId: "EMR" });
+           
+           // window.open("/ReportManage/Report/PrintLsyzReport?zyh=" + zyh + "&isShowSign=" + isSign, "height=500, width=1195,top=100, left=50, toolbar =no, menubar=no, scrollbars=yes, resizable=yes, location=no, status=no");
         }
       
     }

@@ -5,6 +5,7 @@ using Newtouch.HIS.Domain.IRepository;
 using Newtouch.Infrastructure;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 
 namespace Newtouch.HIS.Repository
@@ -120,7 +121,96 @@ namespace Newtouch.HIS.Repository
 
             return query.ToList();
         }
+        /// <summary>
+        /// 变更耗材库存
+        /// </summary>
+        /// <param name="OrganizeId"></param>
+        /// <param name="sl"></param>
+        /// <param name="yfbm"></param>
+        /// <param name="ypdm"></param>
+        public void Updatezyaddfee(string orgId,string jfbhs, string yfbm, string userCode)
+        {
+            try
+            {
+                string sql = @" IF EXISTS(SELECT 1 FROM tempdb..sysobjects where id=object_id(N'tempdb..#zyjsfy') and type='U')
+BEGIN
+	DROP TABLE #zyjsfy;
+END
+IF EXISTS(SELECT 1 FROM tempdb..sysobjects where id=object_id(N'tempdb..#zyjzkcxx') and type='U')
+BEGIN
+	DROP TABLE #zyjzkcxx;
+END
+--1.取计费物资数据
+SELECT jfbbh,sfxm,sl
+INTO #zyjsfy
+FROM zy_xmjfb with(nolock)
+WHERE OrganizeId=@orgId  AND zt='1' and jfbbh in (select col from f_split(@jfbhs,',')) 
 
+IF(EXISTS(SELECT 1 FROM #zyjsfy))
+BEGIN
+	BEGIN TRY
+		BEGIN TRANSACTION
+			DECLARE @sfxm VARCHAR(50),@jfbbh VARCHAR(50),@sl NUMERIC(6,2);
+			--2.循环计费数
+			WHILE(EXISTS(SELECT 1 FROM #zyjsfy))
+			BEGIN
+				IF EXISTS(SELECT 1 FROM tempdb..sysobjects where id=object_id(N'tempdb..#zyjzkcxx') and type='U')
+				BEGIN
+					DROP TABLE #zyjzkcxx;
+				END
+				SELECT TOP 1 @jfbbh=jfbbh, @sfxm=sfxm, @sl=sl FROM #zyjsfy;
+				--3.取当前物资库存批次批号信息
+				SELECT Id,kcsl,djsl,yxq,productCode,pc,ph
+				INTO #zyjzkcxx 
+				FROM Newtouch_CIS..dept_kcxx a
+				WHERE ks=@ks and OrganizeId=@orgId and productCode=@sfxm and zt='1'
+
+				DECLARE @curKcxxKcId VARCHAR(50),@curKcxxsl int
+				DECLARE @sysl INT;
+				SET @sysl=@sl;
+				--4.循环批次扣减库存
+				WHILE EXISTS(SELECT 1 FROM #zyjzkcxx ) AND @sysl>0
+				BEGIN
+					SELECT TOP 1 @curKcxxKcId=Id, @curKcxxsl=kcsl-djsl FROM #zyjzkcxx order by yxq
+					IF @curKcxxsl>=@sl
+					BEGIN
+						UPDATE Newtouch_CIS..dept_kcxx  SET kcsl-=@sysl, LastModifyTime=GETDATE(), LastModifierCode=@userCode WHERE Id=@curKcxxKcId AND zt='1'
+						--存储库存使用记录
+						insert into Newtouch_CIS..dept_kcxx_djjl(OrganizeId,ks,cfh,sfxmcode,pc,ph,sl,isfs,zt,CreateTime,CreatorCode)
+						select @orgId,@ks,@jfbbh,productCode,pc,ph,@sysl sl,1 isfs,1 zt,GETDATE() createtime, @userCode CreatorCode from #zyjzkcxx where Id=@curKcxxKcId
+						SET @sysl=0;
+					END
+					ELSE
+					BEGIN
+						UPDATE Newtouch_CIS..dept_kcxx SET kcsl-=@curKcxxsl, LastModifyTime=GETDATE(), LastModifierCode=@userCode WHERE Id=@curKcxxKcId AND zt='1'
+						--存储库存使用记录
+						insert into Newtouch_CIS..dept_kcxx_djjl(OrganizeId,ks,cfh,sfxmcode,pc,ph,sl,isfs,zt,CreateTime,CreatorCode)
+						select @orgId,@ks,@jfbbh,productCode,pc,ph,@sysl sl,1 isfs,1 zt,GETDATE() createtime, @userCode CreatorCode from #zyjzkcxx where Id=@curKcxxKcId
+						SET @sysl-=@curKcxxsl; 
+					END
+					DELETE FROM #zyjzkcxx WHERE Id=@curKcxxKcId; 
+				END
+				DELETE FROM #zyjsfy WHERE jfbbh=@jfbbh;  
+			END
+			COMMIT TRANSACTION
+	END TRY 
+	BEGIN CATCH 
+		ROLLBACK TRANSACTION
+		SELECT ERROR_MESSAGE();
+	END CATCH 
+END";
+                SqlParameter[] para ={
+                new SqlParameter("@orgId",orgId),
+                 new SqlParameter("@jfbhs",jfbhs),
+                 new SqlParameter("@ks",yfbm),
+                 new SqlParameter("@userCode",userCode)
+                };
+                int i = this.ExecuteSqlCommand(sql, para);
+            }
+            catch (Exception ex)
+            {
+            }
+        }
     }
 }
 

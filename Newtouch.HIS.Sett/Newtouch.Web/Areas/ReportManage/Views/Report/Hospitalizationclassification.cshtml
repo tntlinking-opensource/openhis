@@ -125,10 +125,10 @@
         //})
 
         var url = '@Html.Raw(reportUrl)' + "?tempCode=1219" + "&systemCode=" + '@Html.Raw(ReportSystemCode)';
-		url += " &zyh=" + $('#zyh').val();
-		url += " &orgId=" + OrgId;
-		url += " &kssj=" + $('#ksrq').val();
-		url += " &jssj=" +$('#jsrq').val();
+		url += "&zyh=" + $('#zyh').val();
+		url += "&orgId=" + OrgId;
+		url += "&kssj=" + $('#ksrq').val();
+		url += "&jssj=" +$('#jsrq').val();
         
         setTimeout("$.loading(true, '正在请求报表页面...');", 10);
         $("#iframerightiframerightiframerightttt").attr('src', url);

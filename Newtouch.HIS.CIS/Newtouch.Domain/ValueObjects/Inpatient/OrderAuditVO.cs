@@ -87,6 +87,7 @@ namespace Newtouch.Domain.ValueObjects
         public decimal? je { get; set; }
         public int? sl { get; set; }
         public int? Px { get; set; }
+        public string slstr { get; set; }
     }
 
     public class yzinfoVo

@@ -24,6 +24,8 @@ using Newtouch.Domain.ValueObjects.Apply;
 using Newtouch.Domain.Entity.Inpatient;
 using Newtouch.Domain.Entity;
 using Newtouch.Infrastructure.EF;
+using Newtouch.Domain.ViewModels;
+using System.IO;
 
 namespace Newtouch.CIS.Web.Areas.NurseManage.Controllers
 {
@@ -41,10 +43,15 @@ namespace Newtouch.CIS.Web.Areas.NurseManage.Controllers
         private readonly IMedicalAdviceBindingFeeRepo _medicalAdviceBindingFeeRepo;
         private readonly IInpatientLongTermOrderRepo _InpatientLongTermOrderRepo;
         private readonly IInpatientSTATOrderRepo _inpatientSTATOrderRepo;
+        private readonly IXtjyjcFileUploadRepo _xyjyjcfileuploadRepo;
         int lyxh = 0;
         private string IsRehabAuthtoNurse;
         private bool isNurse;
         private bool isRehabDoctor;
+
+        private readonly string[] AllowedImageExtensions = { ".jpg", ".jpeg", ".png", ".gif", ".bmp" };
+        private readonly string[] AllowedPdfExtensions = { ".pdf" };
+        private readonly int MaxFileSize = 10 * 1024 * 1024; // 10MB
 
         /// <summary>
         /// 文字医嘱需要执行
@@ -66,7 +73,7 @@ namespace Newtouch.CIS.Web.Areas.NurseManage.Controllers
             iskfyzjf = _sysConfigRepo.GetValueByCode("iskfyzjf", OrganizeId);
             ViewBag.isqfswith = _sysConfigRepo.GetValueByCode("accountqfexecute_switch", OrganizeId);//欠费医嘱开立、执行开关
         }
-
+        #region 医嘱执行页面
         /// <summary>
         /// 获取待执行医嘱列表
         /// </summary>
@@ -117,6 +124,7 @@ namespace Newtouch.CIS.Web.Areas.NurseManage.Controllers
         }
         public ActionResult BindingFeeForm()
         {
+            ViewBag.openWzhckc = _sysConfigRepo.GetValueByCode("openWzhckc", OrganizeId);//耗材是否启用库存逻辑
             return View();
         }
         /// <summary>
@@ -125,14 +133,16 @@ namespace Newtouch.CIS.Web.Areas.NurseManage.Controllers
         /// <param name="aa"></param>
         /// <returns></returns>
         [HandlerAjaxOnly]
-        public ActionResult GetPatWardTree(string aa, DateTime zxsj)
+        public ActionResult GetPatWardTree(string aa, DateTime zxsj, string keyword)
         {
             var staffId = UserIdentity.StaffId;
             var wardTree = _OrderExecutionDmnService.GetWardTree(staffId);
             var patTree = _OrderExecutionDmnService.GetPatTree(staffId, zxsj, wnes, OrganizeId);//wnes ? _OrderExecutionDmnService.GetPatTreeIncludeWzyz(staffId, zxsj)
                                                                                                 //: _OrderExecutionDmnService.GetPatTree(staffId, zxsj);
+            if (!string.IsNullOrWhiteSpace(keyword))
+                patTree = patTree.Where(p => p.zyh.Contains(keyword)).ToList();
             string[] aasz = new string[200];
-            if (aa != "")
+            if (!string.IsNullOrWhiteSpace(aa))
             {
                 aasz = aa.Split(',');
             }
@@ -183,8 +193,9 @@ namespace Newtouch.CIS.Web.Areas.NurseManage.Controllers
                 treeList.Add(tree);
             }
             return Content(treeList.TreeViewJson(null));
-        } 
-         
+        }
+        #endregion
+
         #region 执行当前
         /// <summary>
         /// 执行当前医嘱
@@ -215,7 +226,7 @@ namespace Newtouch.CIS.Web.Areas.NurseManage.Controllers
             {
                 var user = UserIdentity;
                 //可以执行的医嘱
-                var isOkOrderExecutionresult = _OrderExecutionDmnService.IsOKOrderExecution(orderListAll, Vzxsj, UserIdentity.rygh);
+                var isOkOrderExecutionresult = _OrderExecutionDmnService.IsOKOrderExecution(orderListAll, Vzxsj,this.OrganizeId, UserIdentity.rygh);
                 if (isOkOrderExecutionresult.Split('|')[0] != "T") return isOkOrderExecutionresult;
                 //药品医嘱(推送药房)
                 IList<ApiResponseVO> orderYpList = orderListAll.Where(a => (a.yzlx == Convert.ToInt32(EnumYzlx.Yp) || a.yzlx == Convert.ToInt32(EnumYzlx.Cydy) || a.yzlx == Convert.ToInt32(EnumYzlx.zcy))
@@ -350,7 +361,7 @@ namespace Newtouch.CIS.Web.Areas.NurseManage.Controllers
         }
 
         /// <summary>
-        /// 执行医嘱时，验证入院日期
+        /// 执行医嘱时，验证入院日期+物资耗材库存判断
         /// </summary>
         /// <param name="patlist"></param>
         public void Validatepatryrq(string patlist, DateTime Vzxsj)
@@ -388,6 +399,7 @@ namespace Newtouch.CIS.Web.Areas.NurseManage.Controllers
             }
         }
         #endregion
+
         #region pacs 接口
         public ActionResult pushApplicationform(IList<ApiResponseVO> orderList)
         {
@@ -470,7 +482,6 @@ namespace Newtouch.CIS.Web.Areas.NurseManage.Controllers
         }
         #endregion
 
-
         #region 医技执行
         public ActionResult MedicalSkillExecution()
         {
@@ -480,6 +491,22 @@ namespace Newtouch.CIS.Web.Areas.NurseManage.Controllers
         {
             return View();
         }
+        public ActionResult ApplyFormUploadForm()
+        {
+            return View();
+        }
+        /// <summary>
+        /// 医技科室待执行申请单
+        /// </summary>
+        /// <param name="pagination"></param>
+        /// <param name="kssj"></param>
+        /// <param name="jssj"></param>
+        /// <param name="fylx"></param>
+        /// <param name="hzlx"></param>
+        /// <param name="sqdlx"></param>
+        /// <param name="zxzt"></param>
+        /// <param name="keyword"></param>
+        /// <returns></returns>
         public ActionResult GetJyjcExecGridJson(Pagination pagination, DateTime kssj, DateTime jssj, string fylx, string hzlx,
             string sqdlx, string zxzt, string keyword = null)
         {
@@ -500,6 +527,7 @@ namespace Newtouch.CIS.Web.Areas.NurseManage.Controllers
         public ActionResult jyjcExec(List<jyjcExecReq> jyjclist)
         {
             _doctorserviceDmnService.jyjcExec(jyjclist, OrganizeId, UserIdentity.rygh);
+            _doctorserviceDmnService.UpdatejyjcExecIsjf(jyjclist.Select(m => m.sqdh).ToList(), OrganizeId, UserIdentity.rygh,"1");
             return Success();
         }
         /// <summary>
@@ -510,9 +538,20 @@ namespace Newtouch.CIS.Web.Areas.NurseManage.Controllers
         public ActionResult CancaljyjcExec(List<string> jyjclist)
         {
             _doctorserviceDmnService.CancaljyjcExec(jyjclist, OrganizeId, UserIdentity.rygh);
+            _doctorserviceDmnService.UpdatejyjcExecIsjf(jyjclist, OrganizeId, UserIdentity.rygh, "0");
             return Success();
         }
-
+        /// <summary>
+        /// 执行记录查询
+        /// </summary>
+        /// <param name="pagination"></param>
+        /// <param name="kssj"></param>
+        /// <param name="jssj"></param>
+        /// <param name="fylx"></param>
+        /// <param name="hzlx"></param>
+        /// <param name="sqdlx"></param>
+        /// <param name="keyword"></param>
+        /// <returns></returns>
         public ActionResult GetJyjcExecRecordJson(Pagination pagination, DateTime kssj, DateTime jssj, string fylx, string hzlx,
            string sqdlx, string keyword = null)
         {
@@ -525,7 +564,160 @@ namespace Newtouch.CIS.Web.Areas.NurseManage.Controllers
             };
             return Content(data.ToJson());
         }
+        /// <summary>
+        /// 医技科室报告
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public ActionResult ApplyFormUpload(FileUploadModel model)
+        {
+            var uploadedFiles = new List<UploadedFile>();
+            var errorMessages = new List<string>();
+            if (ModelState.IsValid)
+            {
+                List<XtjyjcFileUploadEntity> entityLists = new List<XtjyjcFileUploadEntity>();
+                if (model.Files != null && model.Files.Any())
+                {
+                    foreach (var file in model.Files)
+                    {
+                        if (file != null && file.ContentLength > 0)
+                        {
+                            // 验证文件大小
+                            if (file.ContentLength > MaxFileSize)
+                            {
+                                errorMessages.Add($"{file.FileName} 文件过大，最大允许10MB");
+                                continue;
+                            }
+
+                            // 验证文件类型
+                            var fileExtension = Path.GetExtension(file.FileName).ToLower();
+                            if (!AllowedImageExtensions.Contains(fileExtension) &&
+                                !AllowedPdfExtensions.Contains(fileExtension))
+                            {
+                                errorMessages.Add($"{file.FileName} 文件类型不支持，仅支持图片和PDF格式");
+                                continue;
+                            }
+
+                            try
+                            {
+                                // 生成唯一文件名
+                                var fileName = file.FileName;
+                                var fileUrl = "~/ReportUploads/" + DateTime.Now.ToString("yyyyMMdd") + "/" + model.sqdh+"/";
+                                var path = Path.Combine(Server.MapPath("~/ReportUploads/"+ DateTime.Now.ToString("yyyyMMdd") + "/"+model.sqdh), fileName);
+                                // 确保上传目录存在
+                                Directory.CreateDirectory(Path.GetDirectoryName(path));
+
+                                // 保存文件
+                                file.SaveAs(path);
+
+                                entityLists.Add(new XtjyjcFileUploadEntity
+                                {
+                                    OrganizeId = this.OrganizeId,
+                                    Sqdh = model.sqdh,
+                                    FileName= fileName.Split('.')[0],
+                                    FileSize= file.ContentLength,
+                                    FileType = fileExtension,
+                                    ContentType = file.ContentType,
+                                    FileUrl = fileUrl
+                                });
+                            }
+                            catch (Exception ex)
+                            {
+                                errorMessages.Add($"{file.FileName} 上传失败: {ex.Message}");
+                            }
+                        }
+                    }
+                    _xyjyjcfileuploadRepo.SubmitForm(entityLists);
+                }
+            }
+            var reportList = _xyjyjcfileuploadRepo.IQueryable().Where(p=>p.Sqdh==model.sqdh && p.OrganizeId==this.OrganizeId&&p.zt=="1").ToList() ;
+            foreach (var data in reportList)
+            {
+                uploadedFiles.Add(new UploadedFile
+                {
+                    FileName = data.FileUrl+data.FileName+data.FileType,
+                    OriginalName = data.FileName+data.FileType,
+                    Size = data.FileSize,
+                    ContentType = data.ContentType,
+                    Id=data.Id
+                });
+            }
+
+            ViewBag.UploadedFiles = uploadedFiles;
+            ViewBag.ErrorMessages = errorMessages;
+            ViewBag.sqdh = model.sqdh;
+            ViewBag.Success = uploadedFiles.Any();
+            return View("ApplyFormUpload", model);
+        }
+        /// <summary>
+        /// 删除报告
+        /// </summary>
+        /// <param name="reportId"></param>
+        /// <returns></returns>
+        public ActionResult DeleteReprot(string reportId)
+        {
+            _xyjyjcfileuploadRepo.DeleteForm(reportId);
+            return Success();
+        }
+        /// <summary>
+        /// 报告下载
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        public ActionResult Download(string fileName)
+        {
+            //var path = Path.Combine(Server.MapPath("~/Uploads"), fileName);
+            var path = Server.MapPath(fileName);
+            if (System.IO.File.Exists(path))
+            {
+                var fileBytes = System.IO.File.ReadAllBytes(path);
+                var contentType = GetContentType(fileName);
+                return File(fileBytes, contentType, fileName);
+            }
+            return HttpNotFound();
+        }
+
+        private string GetContentType(string fileName)
+        {
+            var extension = Path.GetExtension(fileName).ToLower();
+            switch (extension)
+            {
+                case ".jpg":
+                case ".jpeg":
+                    return "image/jpeg";
+                case ".png":
+                    return "image/png";
+                case ".gif":
+                    return "image/gif";
+                case ".pdf":
+                    return "application/pdf";
+                default:
+                    return "application/octet-stream";
+            }
+        }
+        public class UploadedFile
+        {
+            public string FileName { get; set; }
+            public string OriginalName { get; set; }
+            public int Size { get; set; }
+            public string ContentType { get; set; }
+            public string Id { get; set; }
+
+            public string GetFileSize()
+            {
+                if (Size < 1024) return $"{Size} B";
+                if (Size < 1024 * 1024) return $"{Size / 1024.0:F1} KB";
+                return $"{Size / (1024.0 * 1024.0):F1} MB";
+            }
+
+            public bool IsImage()
+            {
+                return ContentType.StartsWith("image/");
+            }
+        }
         #endregion
+
+        #region 附属医嘱
         /// <summary>
         /// 保存操作
         /// </summary>
@@ -597,5 +789,6 @@ namespace Newtouch.CIS.Web.Areas.NurseManage.Controllers
             var data = _doctorserviceDmnService.DeleteBind(zyh, yzid, yzxz, this.OrganizeId);
             return Success(data);
         }
+        #endregion
     }
 }

@@ -17,6 +17,7 @@
     var RegularItemPres = @Html.Raw(((int)EnumCflx.RegularItemPres).ToString());
     var WMPres = @Html.Raw(((int)EnumCflx.WMPres).ToString());
     var TCMPres = @Html.Raw(((int)EnumCflx.TCMPres).ToString());
+    var Yyhc= @Html.Raw(((int)EnumCflx.Yyhc).ToString());
 
     $(function () {
         gridList();
@@ -56,20 +57,20 @@
                 { label: 'mxId', name: 'mxId', hidden: true },
                 { label: 'px', name: 'px', hidden: true },
                 { label: '组号', name: 'zh', width: 60, align: 'left', hidden: cflx == WMPres ? null : true },
-                { label: '项目名称', name: 'xmmc', width: 120, align: 'left', hidden: (cflx == RehabPres || cflx == RegularItemPres) ? null : true },
+                { label: '项目名称', name: 'xmmc', width: 120, align: 'left', hidden: (cflx == RehabPres || cflx == RegularItemPres|| cflx == Yyhc) ? null : true },
                 { label: '药品名称', name: 'ypmc', width: 120, align: 'left', hidden: cflx == WMPres ? null : cflx == TCMPres ? null : true },
                 { label: '规格', name: 'ypgg', width: 100, align: 'left', hidden: cflx == WMPres ? null : cflx == TCMPres ? null : true },
                 { label: '剂量（单位）', name: 'mcjl', width: 90, align: 'left', hidden: cflx == WMPres ? null : cflx == TCMPres ? null : true },
-                { label: '用法', name: 'yfmc', width: 70, align: 'left', hidden: (cflx == RehabPres || cflx == RegularItemPres) ? true : null},
+                { label: '用法', name: 'yfmc', width: 70, align: 'left', hidden: (cflx == RehabPres || cflx == RegularItemPres|| cflx == Yyhc) ? true : null},
                 { label: '单价', name: 'dj', width: 60, align: 'left' , hidden: cflx == TCMPres ? true : null, formatter: "number"
                     , formatoptions: { decimalPlaces: 2, defaultValue: '0.00' }},
-                { label: '每次治疗量', name: 'mczll', width: 70, align: 'left', hidden: (cflx == RehabPres || cflx == RegularItemPres) ? null : true },
+                { label: '每次治疗量', name: 'mczll', width: 70, align: 'left', hidden: (cflx == RehabPres || cflx == RegularItemPres|| cflx == Yyhc) ? null : true },
                 { label: 'pcCode', name: 'pcCode', hidden: true },
                 { label: '频次', name: 'pcmc', width: 70, align: 'left', hidden: cflx == TCMPres ? true : null},
                 { label: '数量', name: 'sl', width: 50, align: 'left' , hidden: cflx == TCMPres ? true : null},
-                { label: '部位', name: 'bw', width: 160, align: 'left', hidden: (cflx == RehabPres || cflx == RegularItemPres) ? null : true  },
+                { label: '部位', name: 'bw', width: 160, align: 'left', hidden: (cflx == RehabPres || cflx == RegularItemPres|| cflx == Yyhc) ? null : true  },
                 { label: '总量（单位）', name: 'zl', width: 100, align: 'left', hidden: (cflx == RehabPres || cflx == RegularItemPres) ? null : true, formatter: function (val, a, b) {
-                    if((cflx == RehabPres || cflx == RegularItemPres)){
+                    if((cflx == RehabPres || cflx == RegularItemPres|| cflx == Yyhc)){
                         return (b.mczll * b.sl) + '(' + b.dw + ')';
                     }
                     else{
@@ -78,7 +79,7 @@
                 }
                 },
                 { label: '执行科室', name: 'zxks', hidden: true },
-                { label: '执行科室名称', name: 'zxksmc', width: 80, hidden: (cflx == RehabPres) ? null : true },
+                { label: '执行科室名称', name: 'zxksmc', width: 80, hidden: (cflx == RehabPres|| cflx == Yyhc) ? null : true },
                 { label: '是否医保', name: 'sfyb', width:80},
             ], onSelectRow: function (rowid, status) {
                 if (status === true) {
@@ -116,6 +117,7 @@
             $.modalAlert("请选择明细进行复制", 'warning');
             return;
         }
+        debugger
         var newMxList = new Array();
         $.each(data, function () {
             var thisMxId = this.mxId;
@@ -128,6 +130,7 @@
         });
         templatePresData.mbmxList = newMxList;
         callback(templatePresData);
+
     }
 </script>
 

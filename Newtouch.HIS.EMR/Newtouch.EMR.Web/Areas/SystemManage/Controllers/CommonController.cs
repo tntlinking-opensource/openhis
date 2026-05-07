@@ -210,7 +210,6 @@ namespace Newtouch.EMR.Web.Areas.SystemManage.Controllers
         }
         public ActionResult GetYsMXList(string YsId)
         {
-            var treeList = new List<TreeGridModel>();
             var dataList = _blysRepo.GetYsMX(OrganizeId, YsId); 
             return Content(dataList.ToJson());
         }

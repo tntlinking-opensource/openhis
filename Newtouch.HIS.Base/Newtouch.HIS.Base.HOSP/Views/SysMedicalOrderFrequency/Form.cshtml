@@ -53,13 +53,22 @@
                     <tr>
                         <th class="formTitle"><span class="required">*</span>执行周期时间单位：</th>
                         <th class="formValue">
-                            <input type="text" class="form-control required" id="zxzqdw"  />
+                            @*<input type="text" class="form-control required" id="zxzqdw"  />*@
+                            <select class="form-control required" id="zxzqdw">
+                                <option value="1">天</option>
+                                <option value="2">小时</option>
+                                <option value="3">分钟</option>
+                            </select>
                         </th>
                     </tr>
                     <tr>
                         <th class="formTitle">周标志：</th>
                         <td class="formValue">
-                            <input class="form-control" id="zbz" value="" type="text" required />
+                            @*<input class="form-control" id="zbz" value="" type="text" required />*@
+                            <select class="form-control required" id="zbz">
+                                <option value="1">是</option>
+                                <option value="0">否</option>
+                            </select>
                         </td>
                     </tr>
                     <tr>

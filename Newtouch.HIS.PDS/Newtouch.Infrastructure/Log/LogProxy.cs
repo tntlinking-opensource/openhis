@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Newtouch.Common.Operator;
 using NLog.Client;

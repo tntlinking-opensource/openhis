@@ -497,7 +497,16 @@
 	}
 
 	function getItemsl(dwjls, mczll, zxcs, zxzq, zxzqdw) {
-		var qzint = Number(getpcsl(zxcs, zxzq, zxzqdw));
+	    //康复
+	    var ts = 1;
+	    if (zxzqdw == "1") {
+	        ts = Number(Math.ceil(zxzq));
+	    }
+	    var qzint=1;
+	    if(zxzq>1)
+	        qzint = Number(Math.ceil(ts * getpcsl(zxcs, zxzq, zxzqdw)));
+	    else
+	        qzint = Number(getpcsl(zxcs, zxzq, zxzqdw));
 		return qzint * Math.floor(mczll / dwjls);
 	}
 	//新医嘱 按钮

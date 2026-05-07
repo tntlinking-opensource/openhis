@@ -444,7 +444,8 @@
 		});
 	}
 
-	function ondblClickRowData(rowid){
+    function ondblClickRowData(rowid) {
+        debugger
 		var rowData = $gridList.jqGrid('getRowData', rowid);
 		jzlx = rowData.jzlx;
 		if (jzlx == "0") {

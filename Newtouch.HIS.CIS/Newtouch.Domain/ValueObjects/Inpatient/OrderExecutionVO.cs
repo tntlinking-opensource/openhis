@@ -105,6 +105,9 @@ namespace Newtouch.Domain.ValueObjects
         public int? sl { get; set; }
         public string yzh { get; set; }
         public string isfsyz { get; set; }
+        public string slstr { get; set; }
+        public string deptCode { get; set; }
+        public string xmdm { get; set; }
     }
 
     public class ApiResponseVO
@@ -160,5 +163,18 @@ namespace Newtouch.Domain.ValueObjects
         /// 药品来源 1：医生站科室备药库存  2：药房库存
         /// </summary>
         public string yply { get; set; }
+        /// <summary>
+        /// 科室
+        /// </summary>
+        public string deptCode { get; set; }
+        public string xmdm { get; set; }
+        public int sl { get; set; }
+    }
+
+    public class HospItemFeeVO {
+        public string ks { get; set; }
+        public string productCode { get; set; }
+        public string productName { get; set; }
+        public int kykc { get; set; }
     }
 }

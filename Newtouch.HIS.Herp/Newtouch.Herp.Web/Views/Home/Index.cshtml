@@ -92,6 +92,99 @@
     "skin-green-light"
             ];
         });
+        var requexx = "";
+        var times;
+        var kcyjypcode = "", gqyjypcode = "";
+        $(function () {
+            $('#txtb').hide();
+            if (requexx != 1) {
+                MSGQuery();
+            }
+            else {
+                clearTimeout(times);
+            }
+        })
+        //图标闪烁
+        function blink(selector) {
+            $(selector).fadeOut('slow', function () {
+                $(this).fadeIn('slow', function () {
+                    blink(this);
+                });
+            });
+        }
+        function MSGQuery() {
+            $('#txtb').stop().fadeIn();
+            $('#txtb').stop().fadeOut();
+            $('#txtb').hide();
+            $.ajax({
+                url: "/Home/getmesquery",
+                datatype: "json",
+                async: false,
+                type: "post",
+                success: function (rst) {
+                    var da = JSON.parse(rst);
+                    if (da != "" && da != null) {
+                        $("#badge1").text(da.kcyj + da.gqyj);
+                        $("#badge2").text(da.kcyj == 0 ? "" : da.kcyj);
+                        $("#badge3").text(da.gqyj == 0 ? "" : da.gqyj);
+                        if (da.rows != "") {
+                            $('#txtb').show();
+                            blink('#txtb');
+                        }
+                        var rows = da.rows
+                        //1:库存预警 2:过期预警
+                        for (var i = 0; i < rows.length; i++) {
+                            if (rows[i].typeas == "1") {
+                                kcyjypcode += rows[i].ypCode + ",";
+                            }
+                            else if (rows[i].typeas == "2") {
+                                gqyjypcode += rows[i].ypCode + ",";
+                            }
+                        }
+                    } else {
+                        requexx = 1;
+                    }
+                }
+            })
+        }
+        $("#kcyj").click(function () {
+            kcyj();
+        });
+
+        $("#gqyj").click(function () {
+            gqyj();
+        });
+
+        function kcyj() {
+            //$("#badge2").text("");
+            var badge2 = Number($("#badge2").text());
+            var badge3 = Number($("#badge3").text());
+            var badge1 = badge2 + badge3;
+            $("#badge1").text(badge1 == 0 ? "" : badge1);
+            if (badge1 == 0) {
+                $('#txtb').stop().fadeIn();
+                $('#txtb').stop().fadeOut();
+                $('#txtb').hide();
+            }
+            //sessionStorage.setItem('kcyjyp', kcyjypcode);
+            top.top.$.Newtouchtab.addTabWithOutMenu({ name: "库存量查询（消息提醒）", enName: "", url: "/BillManage/PurchasingPlan/PurchasingPlan" });
+        }
+        //已过期
+        function gqyj() {
+            //$("#badge3").text("");
+            var badge2 = Number($("#badge2").text());
+            var badge3 = Number($("#badge3").text());
+            var badge1 = badge2 + badge3;
+            $("#badge1").text(badge1 == 0 ? "" : badge1);
+            if (badge1 == 0) {
+                $('#txtb').stop().fadeIn();
+                $('#txtb').stop().fadeOut();
+                $('#txtb').hide();
+            }
+            //sessionStorage.setItem('gqyjyp', gqyjypcode);
+            top.top.$.Newtouchtab.addTabWithOutMenu({ name: "过期药品查询（消息提醒）", enName: "", url: "/StorageManage/Storage/ExpiredStorageQuery" });
+        }
+
         function Onload() {
             //Create the new tab
             var tab_pane = $("<div />", {

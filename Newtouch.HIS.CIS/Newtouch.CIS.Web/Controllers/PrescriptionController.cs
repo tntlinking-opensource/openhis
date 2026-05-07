@@ -30,6 +30,7 @@ namespace Newtouch.CIS.Web.Controllers
         private readonly ISysConfigRepo _sysConfigRepo;
         // GET: Prescription
 
+        #region View
         /// <summary>
         /// 西医处方
         /// </summary>
@@ -74,6 +75,11 @@ namespace Newtouch.CIS.Web.Controllers
             return View();
         }
 
+        public ActionResult ConsumablesPrescription()
+        {
+            return View();
+        }
+
         /// <summary>
         /// 历史处方列表
         /// </summary>
@@ -82,6 +88,7 @@ namespace Newtouch.CIS.Web.Controllers
         {
             return View();
         }
+        #endregion
 
         /// <summary>
         /// 历史处方树

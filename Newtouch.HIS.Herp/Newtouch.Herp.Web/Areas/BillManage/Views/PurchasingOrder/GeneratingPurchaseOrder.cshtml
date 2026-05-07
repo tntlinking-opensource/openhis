@@ -14,7 +14,7 @@
         float: left;
         margin-bottom: 0;
         margin-top: 75px;
-        width: 35.5%;
+        width: 25.5%;
         position: absolute;
         top: 0;
         left: 0;
@@ -27,7 +27,7 @@
     #dv_right {
         z-index: 100;
         float: right;
-        width: 64%;
+        width: 74%;
         position: absolute;
         margin-top: 75px;
         top: 0;
@@ -128,8 +128,8 @@
             height: $(window).height() - 185,
             postData: getSearchPostData(),
             colModel: [
-                { label: '科室', name: 'rkbmmc', width: 80 },
-                { label: '计划单号', name: 'cgdh', width: 130 },
+                { label: '科室', name: 'rkbmmc', width: 70 ,align:"left"},
+                { label: '计划单号', name: 'cgdh', width: 130, align: "left" },
                 { label: '提交时间', name: 'LastModifyTime', width: 90, align: 'center', formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d' } }
             ],
             pager: "#gridPager",
@@ -217,6 +217,8 @@
                 { label: 'zxqds', name: 'zxqds', hidden: true },
                 { label: 'unitId', name: 'unitId', hidden: true },
                 { label: 'zxdwmc', name: 'zxdwmc', hidden: true },
+                { label: 'supplierId', name: 'supplierId', hidden: true },
+                { label: 'supplierName', name: 'supplierName', hidden: true },
                 { label: "pdId", name: "pdId", hidden: true }
             ],
             pager: "#gridmxPager",
@@ -261,8 +263,18 @@
     function InitGys($thistr, rowid) {
         $("#sel_gys_" + rowid).bindSelect({ url: "/SupplierManage/Supplier/GetSuppliers", id: "Id", text: "name" });
         $("#sel_gys_" + rowid).change(function () {
-            $("#" + rowid + "_gysId").val($(this).val());
+            //$("#" + rowid + "_gysId").val($(this).val());
         });
+        var gysId = $GridMxList.jqGrid('getRowData', rowid).supplierId;
+        var gysName = $GridMxList.jqGrid('getRowData', rowid).supplierName;
+        //var ss = $("#sel_gys_" + rowid).find("option:selected").text();
+        //var gysId = $("#sel_gys_" + rowid).val();
+       
+        //$("#sel_gys_" + rowid).val(gysId);
+        //$("#sel_gys_" + rowid).trigger("change");
+        var dsss = " option[value='" + gysId + "']";
+        $("#sel_gys_" + rowid + " option[value='" + gysId + "']").prop("selected", true);
+        $("#sel_gys_" + rowid).trigger('change');
     }
 
     //行编辑验证
@@ -278,6 +290,7 @@
 
     //提交采购
     function newtouch_event_f8() {
+        debugger;
         var rowIds = $GridMxList.getDataIDs();
         if (rowIds == undefined || rowIds.length <= 0) {
             $.modalMsg("请选择采购计划明细！", 'warning', 1500);

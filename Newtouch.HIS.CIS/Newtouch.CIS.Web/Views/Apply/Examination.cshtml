@@ -11,6 +11,7 @@
     <div style="background-color: #fff;">
         <table id="gridjc"></table>
     </div>
+    @*divGridjc-旧版*@
     <div id="divGridjc" style="display:none;">
         <table id="alreadyJCAppliedList"></table>
     </div>
@@ -317,7 +318,7 @@
             }
         });
     }
-    //保存
+    //保存(旧版操作)
     function SaveJC(savetodb, justUpdateAlldataArray) {
         //获取所有行Id，遍历使编辑框处于保存状态
         var rowIds = $("#alreadyJCAppliedList").jqGrid('getDataIDs');
@@ -408,7 +409,8 @@
             caption: "已开申请单明细，申请单总金额：0.00",
             editurl: "clientArray",
             colModel: [
-                { label: '组套ID', name: 'ztId', width: 60, align: 'left', key: true, editable: true, hidden: true },
+                { label: '组套ID', name: 'ztId', width: 60, align: 'left', key: true, editable: true,hidden:true },
+                { label: 'mbId', name: 'mbId', width: 60, align: 'left', hidden: true },
                 { label: '组套名称', name: 'ztmc', width: 150, align: 'left' },
                 { label: '部位', name: 'bw', editable: true, width: 150, align: 'left' },
                 {
@@ -484,13 +486,10 @@
 
     //组套保存
     function SaveJCbyZT(savetodb, justUpdateAlldataArray) {
+        debugger;
         var gridjcData ;
         //获取所有行Id，遍历使编辑框处于保存状态
         var rowIds = $("#alreadyJCAppliedGroupList").jqGrid('getDataIDs');
-        if (rowIds.length < 1) {
-            $.modalAlert("缺少检查单数据", "warning");
-            return;
-        }
         for (var i = 0; i < rowIds.length; i++) {
             var saveResult = $("#alreadyJCAppliedGroupList").saveRow(rowIds[i], null, null, null, function (callbackRowId) { }, null, null);
 
@@ -499,23 +498,6 @@
                 return;   //保存失败，则return
             }
         }
-        $.najax({
-            url: "/TemplateManage/InspectionTemplate/GetGPackageDetailByZtIdArray",
-            data: { ztId: rowIds },
-            dataType: "json",
-            type: "POST",
-            async: false,
-            success: function (data) {
-                gridjcData = data;
-                $.each(gridjcData, function () {
-                    this.bw = $("#alreadyJCAppliedGroupList").getRowData(this.ztId).bw;
-                    this.bwff = $("#alreadyJCAppliedGroupList").getRowData(this.ztId).bwff;
-                    this.lcyx = $('#txt_jc_lcyx').val();
-                    this.sqbz = $('#txt_jc_sqbz').val();
-                });
-            }
-        });
-
         //清空临床印象、申请备注
         $('#txt_jc_lcyx').val('');
         $('#txt_jc_sqbz').val('');
@@ -526,10 +508,28 @@
             }
             return true;
         });
-        $.each(gridjcData, function () {
-            this.cfh = thsNewJcCfh;
-            window.alldataArray.jccf.push(this);
-        });
+        if (rowIds.length > 0) {
+            var mbId = $("#alreadyJCAppliedGroupList").getRowData(rowIds[0]).mbId;
+            $.najax({
+                url: "/TemplateManage/InspectionTemplate/GetGPackageDetailByZtIdArray",
+                data: { ztId: rowIds,mbId:mbId },
+                dataType: "json",
+                type: "POST",
+                async: false,
+                success: function (data) {
+                    gridjcData = data;
+                    $.each(gridjcData, function () {
+                        this.bw = $("#alreadyJCAppliedGroupList").getRowData(this.ztId).bw;
+                        this.bwff = $("#alreadyJCAppliedGroupList").getRowData(this.ztId).bwff;
+                        this.lcyx = $('#txt_jc_lcyx').val();
+                        this.sqbz = $('#txt_jc_sqbz').val();
+                        this.ztmbId = mbId;
+                        this.cfh = thsNewJcCfh;
+                        window.alldataArray.jccf.push(this);
+                    });
+                }
+            });
+        }
 
         if (!(justUpdateAlldataArray == true)) {
             if (savetodb == '1') {

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtouch.Domain.Entity.Outpatient;
 
 namespace Newtouch.Domain.IDomainServices
 {
@@ -25,7 +26,7 @@ namespace Newtouch.Domain.IDomainServices
         /// <param name="blmbObject"></param>
         /// <param name="zdList"></param>
         /// <param name="cfDto"></param>
-        void SaveData(MRTemplateEntity blmbObject, List<WMDiagnosisHtmlVO> zdList, List<TCMDiagnosisHtmlVO> zyzdList);
+        void SaveData(MRTemplateEntity blmbObject, List<WMDiagnosisHtmlVO> zdList, List<TCMDiagnosisHtmlVO> zyzdList,List<CfTemplateGroupPackageEntity> mbztList);
 
 
         /// <summary>

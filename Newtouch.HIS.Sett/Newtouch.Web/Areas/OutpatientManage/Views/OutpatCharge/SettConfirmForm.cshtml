@@ -27,7 +27,7 @@
     }
     //医保所属地，区分系统将执行何处医保逻辑
     var medicalInsurance = SysConfigReader.String("Outpatient_MedicalInsurance");
-    var sfyxzk = SysConfigReader.Bool("Outpatient_Charge_Open_Zk", false);
+    var sfyxzk = SysConfigReader.Bool("Outpatient_Charge_Open_Zk");
 
     var sfyxdzzf = SysConfigReader.Bool("Outpatient_Charge_Open_Dzzf", false);
     //结算金额分币误差控制
@@ -744,8 +744,7 @@
         $.loading(false);
     }
 
-    function initPage() {
-        debugger
+    function initPage() {debugger
         if (sfyxzk=== 'True') {
             $(".trUseZk").show();
         }else
@@ -838,7 +837,7 @@
             }
         }
         var PatZfList=getzfArrayData();
-        var xjwc=(ovpraseFloat($("#zqysk").html())-ovpraseFloat($("#djje").html())).toFixed(2);
+        var xjwc=(ovpraseFloat($("#zqysk").html())-ovpraseFloat($("#djje").html())-ovpraseFloat($("#yjjzfje").html())).toFixed(2);
         return {
             sfrq: sfrq, fph: fph
             , zje: ovpraseFloat(zje).toFixed(2), orglxjzfys: orglxjzfys, zkje: zkje, zkbl: zkbl, xjzfys: ovpraseFloat(xjzfys).toFixed(2)
@@ -1252,7 +1251,7 @@
 
     //多种支付方式
     $('#tablezf .plusToggleCircle').click(function (){
-        
+        debugger
         var isAdd=verifyZfje();
         if(isAdd==false)
         {
@@ -1274,8 +1273,9 @@
         $newTr.appendTo($(this).closest('table'));  
         binddzffsFloatingSelector(number);
         var djje= ovpraseFloat($("#djje").html()) ;
+        var yjjzf = ovpraseFloat($("#yjjzfje").html());//预交金抵扣
         var hjssk= ovpraseFloat($('#hjssk').html());
-        $("#djjess"+number).val(ovpraseFloat(djje-hjssk).toFixed(2));
+        $("#djjess"+number).val(ovpraseFloat(yjjzf+djje-hjssk).toFixed(2));
         setzfje();
     });
 
@@ -1283,8 +1283,9 @@
     function verifyZfje(num)
     {
         var djje= ovpraseFloat($("#djje").html()) ;
+        var yjjzf = ovpraseFloat($("#yjjzfje").html());//预交金抵扣
         var hjssk= ovpraseFloat($('#hjssk').html());
-        if(hjssk>=djje)
+        if(hjssk>=(djje+yjjzf))
         {
             return false;
         }

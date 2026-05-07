@@ -31,7 +31,7 @@ namespace Newtouch.HIS.Domain.Entity.V
 		/// <summary>
 		/// 发票号
 		/// </summary>
-		public string Fph { get; set; }
+		public string fph { get; set; }
 
 		/// <summary>
 		/// 开票日期

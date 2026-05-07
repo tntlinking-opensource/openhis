@@ -111,6 +111,9 @@ namespace Newtouch.HIS.Domain.DTO.InputDto.OutpatientAccounting
         /// </summary>
         public string xnhybdm { get; set; }
         public int? cflx { get; set; }
+        
+        ///医保限制用药提醒
+        public string yybz { get; set; }
     }
 
     public class GuiAnChargeRightDto : ChargeRightDto

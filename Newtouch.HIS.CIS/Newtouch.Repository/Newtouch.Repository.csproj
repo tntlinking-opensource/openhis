@@ -69,6 +69,7 @@
   <ItemGroup>
     <Compile Include="AdmissionNoticeRepo.cs" />
     <Compile Include="BlctglRepo.cs" />
+    <Compile Include="CfTemplateGroupPackageRepo.cs" />
     <Compile Include="Clinic\ClinicApplyRepo.cs" />
     <Compile Include="ComDiagnosisRepo.cs" />
     <Compile Include="Inpatient\Drug_withdrawalzy_tyjlRepo.cs" />
@@ -111,7 +112,14 @@
     <Compile Include="Pacs_ExamBodyPartsRepo.cs" />
     <Compile Include="PrepareMedicineStockInfoRepo.cs" />
     <Compile Include="QueueRepo.cs" />
+    <Compile Include="DeptStorageManage\KcKcjzRepo.cs" />
+    <Compile Include="DeptStorageManage\KcPdxxmxRepo.cs" />
+    <Compile Include="DeptStorageManage\KcPdxxRepo.cs" />
+    <Compile Include="DeptStorageManage\KcSyxxRepo.cs" />
+    <Compile Include="DeptStorageManage\KcSyyyRepo.cs" />
+    <Compile Include="DeptStorageManage\KfKcxxRepo.cs" />
     <Compile Include="SysBespeakRegisterRepo.cs" />
+    <Compile Include="SysManage\XtjyjcFileUploadRepo.cs" />
     <Compile Include="SysManage\XtjyjcExecRepo.cs" />
     <Compile Include="SysMedicineProfitLossReasonRepo.cs" />
     <Compile Include="SysNationalityRepo.cs" />

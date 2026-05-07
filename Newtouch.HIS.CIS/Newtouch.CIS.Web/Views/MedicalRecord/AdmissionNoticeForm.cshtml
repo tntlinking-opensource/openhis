@@ -133,7 +133,7 @@
         });
     });
     function dayin() {
-        var uri = '@Html.Raw(reportUrl)' + "?tempCode=25&orgId=" + '@curOpr.OrganizeId' + "&mzh=" + mzh;
+        var uri = '@Html.Raw(reportUrl)' + "?tempCode=25&systemCode=CIS&orgId=" + '@curOpr.OrganizeId' + "&mzh=" + mzh;
         if (uri) {
             window.open(uri);
         }

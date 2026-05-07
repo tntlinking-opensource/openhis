@@ -346,9 +346,9 @@
                         return;
                     }
                 }
-            }, error: function () {
+            }, error: function (request, error, ex) {
                 $.loading(false);
-                $.modalAlert("服务异常：", 'error');
+                $.modalAlert("医保服务【4102】(医疗保障基金结算清单信息状态修改服务)不可访问：[" + ex + "]", 'error');
                 return;
             }
         });
@@ -386,7 +386,7 @@
                 success: function (data) {
                     var tfReturn = eval('(' + data + ')');
                     if (tfReturn) {
-                        if (tfReturn.infcode === 0) {
+                        if (tfReturn.infcode === 0 || tfReturn.infcode === "0") {
                             $.loading(false);
                             $('#btn_search').trigger('click');
                             $.modalAlert("住院号为:" + zyh + "，上传成功", 'warning');

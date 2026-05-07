@@ -6,6 +6,7 @@ using Newtouch.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace Newtouch.HIS.Repository
 {
@@ -143,6 +144,13 @@ WHERE   (name LIKE @searchKeyword or code like @searchKeyword or pcode like @sea
                     return null;
                 }
             }
-
+        
+        public  int GetBaseLastYpId()
+        {
+            var sql = @"select max(ypId) from xt_yp_base";
+            
+            return  FirstOrDefault<int>(sql);
         }
+
+    }
     }

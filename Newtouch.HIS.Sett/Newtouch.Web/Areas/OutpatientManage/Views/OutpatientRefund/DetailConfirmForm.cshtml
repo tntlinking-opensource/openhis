@@ -69,7 +69,8 @@
                 <li>退费人员：<span>@(Newtouch.Common.Operator.OperatorProvider.GetCurrent().UserName)</span></li>
                 <li>退费日期：<span>@(DateTime.Now.ToString("yyyy-MM-dd"))</span></li>
                 <li>退费时间：<span>@(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))</span></li>
-                <li>合计退费：<span id="tje"></span></li>
+                <li>合计退费：<span id="tje"></span>&nbsp;&nbsp;&nbsp;<span id="mzyjj"  style="display:none;"><input type="checkbox" checked="checked" id="yjjth" name="yjjth" /> 退回预交账户 </span>
+                </li>
             </ul>
         </div>
     </div>
@@ -82,7 +83,8 @@
         var thisJszb = JSON.parse(thisJszb);
         var data = JSON.parse(data);
     }
-
+    //if (thisJszb.xjzffsmc.indexOf("预交账户")!==-1)
+    //    $("#mzyjj").show();
     $(function () {
         if (!!!thisJszb || !!!data) {
             return;
@@ -105,8 +107,10 @@
             //非全自费结算记录
             strTje += '（实退' + thisJszb.jsxjzf.toFixed(2) + '）';
         }
-        if (thisJszb.xjzffsmc === '支付宝' || thisJszb.xjzffsmc === '微信') {
+        if (thisJszb.xjzffsmc.split(":").length - 1 == 1 && (thisJszb.xjzffsmc.indexOf("支付宝") !== -1 || thisJszb.xjzffsmc.indexOf("微信") !== -1 || (thisJszb.xjzffsmc.indexOf("预交账户") !== -1))) {
             strTje += '（原路退回）';
+        } else {
+            strTje += '（退现金）';
         }
         $('#tje').html(strTje);
     });

@@ -1462,6 +1462,67 @@ namespace Newtouch.HIS.DomainServices
                     db.Update(ghEnitty);
                 }
 
+                //如果之前是预交金支付，要还款(单一支付方式情况 多种组合支付暂只能退现金)
+                var preYjjPayEntity = db.IQueryable<OutpatientSettlementPaymentModelEntity>(p => p.jsnm == jsnm && p.zfje > 0 && p.zt=="1").ToList();
+                if (preYjjPayEntity.Count ==1 && preYjjPayEntity[0].xjzffs== xtzffs.ZYYJZHZF) {
+                    int zhcode = (int)preYjjPayEntity.FirstOrDefault().zh;
+                    //给预交金账户充值- 部分退情况先全退回账户再insert预交金扣减记录
+                    var accountEntity =
+                        db.IQueryable<SysAccountEntity>(p => p.patid == oldJszbEntity.patid && p.zhCode == zhcode && p.zt=="1")
+                            .FirstOrDefault();
+                    if (accountEntity != null)
+                    {
+                        var zhszEntity = new SysAccountRevenueAndExpenseEntity()
+                        {
+                            OrganizeId = oldJszbEntity.OrganizeId,
+                            patid= oldJszbEntity.patid,
+                            zhCode = accountEntity.zhCode,
+                            szje = preYjjPayEntity.FirstOrDefault().zfje,
+                            zhye = accountEntity.zhye + preYjjPayEntity.FirstOrDefault().zfje,
+                            pzh = null,
+                            szxz = (int)EnumSZXZ.mzjsth,
+                            xjzffs = Constants.xtzffs.ZYYJZHZF,
+                            jsnm = newDcJszbEntity.jsnm,
+                            zt = "1",
+                        };
+                        zhszEntity.Create(true);
+                        db.Insert(zhszEntity);
+                        if (newJszbEntity.xjzf > 0)
+                        {
+                            var newzhszEntity = new SysAccountRevenueAndExpenseEntity()
+                            {
+                                OrganizeId = oldJszbEntity.OrganizeId,
+                                patid = oldJszbEntity.patid,
+                                zhCode = accountEntity.zhCode,
+                                szje = 0- newJszbEntity.xjzf,
+                                zhye = accountEntity.zhye + preYjjPayEntity.FirstOrDefault().zfje- newJszbEntity.xjzf,
+                                pzh = null,
+                                szxz = (int)EnumSZXZ.mzjs,
+                                xjzffs = Constants.xtzffs.ZYYJZHZF,
+                                jsnm = newJszbEntity.jsnm,
+                                zt = "1",
+                            };
+                            newzhszEntity.Create(true);
+                            db.Insert(newzhszEntity);
+                            //insert mz_jszffs 
+                            var newmzzfEntity = new OutpatientSettlementPaymentModelEntity()
+                            {
+                                mzjszffsbh = EFDBBaseFuncHelper.Instance.GetNewPrimaryKeyInt("mz_jszffs"),
+                                OrganizeId = oldJszbEntity.OrganizeId,
+                                jsnm = newJszbEntity.jsnm,
+                                xjzffs = xtzffs.ZYYJZHZF,
+                                zfje = newJszbEntity.xjzf,
+                                zh= accountEntity.zhCode,
+                                zt = "1",
+                            };
+                            newmzzfEntity.Create();
+                            db.Insert(newmzzfEntity);
+                        }
+                        //更新账户余额
+                        accountEntity.zhye = accountEntity.zhye + preYjjPayEntity.FirstOrDefault().zfje - newJszbEntity.xjzf;
+                        db.Update(accountEntity);
+                    }
+                }
                 db.Commit();
             }
             newJszbInfo = new
@@ -2775,7 +2836,7 @@ where cf.zt=1  and cf.cfh =@cfh  and gh.mzh=@mzh and cf.organizeid=@orgId and cf
 		{
 			foreach (var item in cfh)
 			{
-				string sql = "exec NewtouchHIS_herp..herp_物资扣减库存量 @cfh,@orgId,@rygh";
+                string sql = "exec Newtouch_CIS..物资扣减库存量 @cfh,@orgId,@rygh";//"exec NewtouchHIS_herp..herp_物资扣减库存量 @cfh,@orgId,@rygh";
 				var pars = new List<SqlParameter>();
 				pars.Add(new SqlParameter("@cfh", item));
 				pars.Add(new SqlParameter("@orgId", orgId));
@@ -2790,7 +2851,7 @@ where cf.zt=1  and cf.cfh =@cfh  and gh.mzh=@mzh and cf.organizeid=@orgId and cf
 		{
 			foreach (var item in cfh)
 			{
-				string sql = "exec NewtouchHIS_herp..herp_物资处方退费库存量退还 @cfh,@orgId,@rygh";
+				string sql = "exec Newtouch_CIS..物资处方退费库存量退还 @cfh,@orgId,@rygh,NULL";
 				var pars = new List<SqlParameter>();
 				pars.Add(new SqlParameter("@cfh", item));
 				pars.Add(new SqlParameter("@orgId", orgId));

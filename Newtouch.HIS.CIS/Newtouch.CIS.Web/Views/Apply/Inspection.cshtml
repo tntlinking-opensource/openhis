@@ -7,6 +7,7 @@
     <div style="background-color: #fff;">
         <table id="gridjy"></table>
     </div>
+    @*divGridjy-旧版*@
     <div id="divGridjy" style="display:none;">
         <table id="alreadyJYAppliedList"></table>
     </div>
@@ -288,6 +289,7 @@
             editurl: "clientArray",
             colModel: [
                 { label: '组套ID', name: 'ztId', width: 60, align: 'left', key: true, hidden: true },
+                { label: 'mbId', name: 'mbId', width: 60, align: 'left', hidden: true },
                 { label: '组套名称', name: 'ztmc', width: 300, align: 'left' },
                 {
                     label: '金额', name: 'zhje', width: 100, align: 'center', formatter: "number"
@@ -303,27 +305,9 @@
 
     function SaveInspectionbyZt(savetodb, justUpdateAlldataArray) {
         //作为一个新处方
+        var gridjyData;
         var rowIds = $("#alreadyJYAppliedGroupList").jqGrid('getDataIDs');
-        if (rowIds.length < 1) {
-            $.modalAlert("缺少检验单数据", "warning");
-            return;
-        }
-        $.najax({
-            url: "/TemplateManage/InspectionTemplate/GetGPackageDetailByZtIdArray",
-            data: { ztId: rowIds },
-            dataType: "json",
-            type: "POST",
-            async: false,
-            success: function (data) {
-                gridjyData = data;
-                $.each(gridjyData, function () {
-                    this.lcyx = $('#txt_jy_lcyx').val();
-                    this.sqbz = $('#txt_jy_sqbz').val();
-                });
-
-            }
-        });
-
+       
         //清空临床印象、申请备注
         $('#txt_jc_lcyx').val('');
         $('#txt_jc_sqbz').val('');
@@ -334,11 +318,27 @@
             }
             return true;
         });
+        if (rowIds.length > 0) {
+            var mbId = $("#alreadyJYAppliedGroupList").getRowData(rowIds[0]).mbId;
+            $.najax({
+                url: "/TemplateManage/InspectionTemplate/GetGPackageDetailByZtIdArray",
+                data: { ztId: rowIds, mbId: mbId },
+                dataType: "json",
+                type: "POST",
+                async: false,
+                success: function (data) {
+                    gridjyData = data;
+                    $.each(gridjyData, function () {
+                        this.lcyx = $('#txt_jy_lcyx').val();
+                        this.sqbz = $('#txt_jy_sqbz').val();
+                        this.ztmbId = mbId;
+                        this.cfh = thsNewJyCfh;
+                        window.alldataArray.jycf.push(this);
+                    });
 
-        $.each(gridjyData, function () {
-            this.cfh = thsNewJyCfh;
-            window.alldataArray.jycf.push(this);
-        });
+                }
+            });
+        }
         if (!(justUpdateAlldataArray == true)) {
             if (savetodb == '1') {
                 if (SaveData(false, function () {

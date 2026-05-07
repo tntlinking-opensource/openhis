@@ -235,11 +235,17 @@ namespace Newtouch.Infrastructure
         /// </summary>
         [Description("常规项目处方")]
         RegularItemPres = 6,
-
+        /// <summary>
+        /// 电子处方
+        /// </summary>
 		[Description("电子处方")]
 		Dzcf =7,
-
-	}
+        /// <summary>
+        /// 医用耗材
+        /// </summary>
+        [Description("医用耗材")]
+        Yyhc = 8
+    }
 
     public enum EnumYpyf
     {
@@ -502,12 +508,7 @@ namespace Newtouch.Infrastructure
         /// 已执行
         /// </summary>
         [Description("已执行")]
-        yzx = 1,
-        /// <summary>
-        /// 取消执行
-        /// </summary>
-        [Description("取消执行")]
-        yqx = 2
+        yzx = 1
        
     } 
     /// <summary>
@@ -543,5 +544,175 @@ namespace Newtouch.Infrastructure
         ycx = 5,
         [Description("已发药")]
         yfy = 6,
+    }
+    /// <summary>
+    /// 损益标志
+    /// </summary>
+    public enum EnumSybz
+    {
+        /// <summary>
+        /// 报损
+        /// </summary>
+        [Description("报损")]
+        Loss = 0,
+
+        /// <summary>
+        /// 报溢
+        /// </summary>
+        [Description("报溢")]
+        Profit = 1,
+    }
+    public enum EnumOutOrInStorageBillType
+    {
+        /// <summary>
+        /// 外部入库
+        /// </summary>
+        [Description("外部入库")]
+        Wbrk = 1,
+
+        /// <summary>
+        /// 外部出库
+        /// </summary>
+        [Description("外部出库")]
+        Wbck = 2,
+
+        /// <summary>
+        /// 直接出库
+        /// </summary>
+        [Description("直接出库")]
+        Zjck = 3,
+
+        /// <summary>
+        /// 申领出库
+        /// </summary>
+        [Description("申领出库")]
+        Slck = 4,
+
+        /// <summary>
+        /// 内部退货
+        /// </summary>
+        [Description("内部退货")]
+        Nbth = 5,
+
+        /// <summary>
+        /// 报损报溢
+        /// </summary>
+        [Description("报损报溢")]
+        Bsby = 6,
+
+        /// <summary>
+        /// 配送至科室
+        /// </summary>
+        [Description("出库至科室")] //单据号ckZKS111111111111
+        chukuzhikeshi = 7,
+
+        /// <summary>
+        /// 科室申领
+        /// </summary>
+        [Description("科室申领")]
+        kssl = 8,
+
+        /// <summary>
+        /// 科室申领出库
+        /// </summary>
+        [Description("科室申领出库")]
+        ksSlck = 9,
+
+        /// <summary>
+        /// 采购计划
+        /// </summary>
+        [Description("采购计划")]
+        purchasingPlan = 10,
+
+        /// <summary>
+        /// 采购订单
+        /// </summary>
+        [Description("采购订单")]
+        purchasingOrder = 11,
+    }
+    /// <summary>
+    /// 有效/无效
+    /// </summary>
+    public enum Enumzt
+    {
+        /// <summary>
+        /// 无效
+        /// </summary>
+        [Description("无效")]
+        Disable = 0,
+
+        /// <summary>
+        /// 有效
+        /// </summary>
+        [Description("有效")]
+        Enable = 1
+
+    }
+    /// <summary>
+    /// 审核状态
+    /// </summary>
+    public enum EnumAuditState
+    {
+
+        /// <summary>
+        /// 待处理
+        /// </summary>
+        [Description("待处理")]
+        Waiting = 0,
+
+        /// <summary>
+        /// 审核通过
+        /// </summary>
+        [Description("审核通过")]
+        Adopt = 1,
+
+        /// <summary>
+        /// 审核不通过
+        /// </summary>
+        [Description("审核不通过")]
+        Refuse = 2,
+
+        /// <summary>
+        /// 已作废
+        /// </summary>
+        [Description("已作废")]
+        Cancelled = 3,
+
+        /// <summary>
+        /// 暂存
+        /// </summary>
+        [Description("暂存")]
+        Temporary = 4,
+    }
+    /// <summary>
+    /// 库存显示
+    /// </summary>
+    public enum EnumKCXS
+    {
+        /// <summary>
+        /// None
+        /// </summary>
+        [Description("全部")]
+        None = -1,
+        /// <summary>
+        /// 显示零库存
+        /// </summary>
+        [Description("显示零库存")]
+        Xslkc = 0,
+        /// <summary>
+        /// 不显示理论数量为零
+        /// </summary>
+        [Description("不显示理论数量为零")]
+        Bxsllslwl = 1,
+        /// <summary>
+        /// 不显示实际数量为零
+        /// </summary>
+        [Description("不显示实际数量为零")]
+        Bxssjslwl = 2,
+        /// <summary>
+        /// 不显示实际数量为零
+        /// </summary>
+        [Description("不显示两者都为零")]
+        Bxslzdwl = 4
     }
 }

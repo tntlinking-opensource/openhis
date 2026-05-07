@@ -375,12 +375,12 @@ namespace Newtouch.HIS.DomainServices
         public List<YPFYPatientInfoVO> SelectDispenseDrugDetail(HospitalizationDispenseDrugParam req)
         {
             string sql = @"
-SELECT o.*, dbo.f_getYfbmYpComplexYpSlandDw(o.zxdwsl, @yfbmCode, o.ypCode, @OrganizeId) slStr , o.zxdwsl as sl
+SELECT o.*, dbo.f_getYfbmYpComplexYpSlandDwV2(o.zxdwsl, @yfbmCode, o.ypCode, @OrganizeId,'2') slStr , o.zxdwsl as sl
 FROM (
 	SELECT SUM(c.sl) zxdwsl, a.zyh, c.ypCode,a.yzId, a.zxId, a.patientName, a.cw, a.yl, a.yldw, a.pcmc, a.zh, a.zlff, a.dj, a.je, a.yzxz,
 	CASE when a.yzxz = '1' then '临时' when a.yzxz = '2' then '长期' else '/' end yzxzmc,
     CASE WHEN a.yzxz = '1' THEN lsyz.yzh WHEN a.yzxz = '2' THEN cqyz.yzh ELSE NULL END AS yzh,
-	yp.ycmc,(case when cqyz.yzzt=4 then '[停]'+yp.ypmc else yp.ypmc end) ypmc, ypsx.ypgg,c.CreatorCode pyry, c.CreateTime pyrq, RTRIM(LTRIM(c.ph)) ph, RTRIM(LTRIM(c.pc)) pc,a.ts,ypsx.gjybdm
+	yp.ycmc,(case when cqyz.yzzt=4 or lsyz.yzzt=4 then '[停]'+yp.ypmc else yp.ypmc end) ypmc, ypsx.ypgg,c.CreatorCode pyry, c.CreateTime pyrq, RTRIM(LTRIM(c.ph)) ph, RTRIM(LTRIM(c.pc)) pc,a.ts,ypsx.gjybdm
 	FROM NewtouchHIS_PDS.dbo.zy_ypyzxx(NOLOCK) a 
 	INNER JOIN NewtouchHIS_PDS.dbo.zy_ypyzzxph(NOLOCK) c ON c.zxId=a.zxId AND c.yzId=a.yzId AND c.ypCode=a.ypCode AND c.zt='1' AND c.gjzt='0' AND c.OrganizeId=a.OrganizeId
 	INNER JOIN NewtouchHIS_Base.dbo.v_s_xt_yp yp ON yp.ypCode=a.ypCode AND yp.OrganizeId=a.OrganizeId
@@ -406,7 +406,7 @@ FROM (
     AND ISNULL(a.cw, '') LIKE '%' + @cw + '%'
     AND(a.yzId = @yzId OR '' = @yzId)
     AND c.zyypxxId = a.Id
-    GROUP BY lsyz.yzh,cqyz.yzh, a.yzId,c.ypCode, a.zyh, a.zxId, a.patientName, a.cw, a.yl, a.yldw, a.pcmc, a.zh, a.zlff, a.dj, a.je, a.yzxz, yp.ycmc, yp.ypmc, ypsx.ypgg,c.CreatorCode, c.CreateTime, c.ph, c.pc, a.ts,cqyz.yzzt,ypsx.gjybdm
+    GROUP BY lsyz.yzh,cqyz.yzh, a.yzId,c.ypCode, a.zyh, a.zxId, a.patientName, a.cw, a.yl, a.yldw, a.pcmc, a.zh, a.zlff, a.dj, a.je, a.yzxz, yp.ycmc, yp.ypmc, ypsx.ypgg,c.CreatorCode, c.CreateTime, c.ph, c.pc, a.ts,cqyz.yzzt,lsyz.yzzt,ypsx.gjybdm
 ) o
 ORDER BY o.yzh, o.zxId, o.ypmc";
             var param = new DbParameter[]
@@ -1476,7 +1476,7 @@ a.Id, a.yzId, a.zxId, a.ypCode, b.yzxz, b.zlff, c.ycmc, b.dj, c.djdw, a.CreateTi
 select (case when a.operateType='1' then '发药' when a.operateType='2' then '退药' end) czlx,
 b.zyh,b.patientName,b.cw,b.ypCode,c.ypmc,b.pcmc,ISNULL(CONVERT(VARCHAR(50),b.zh),'') zh, b.yl, b.yldw, CONCAT(b.yl,b.yldw) ylStr
 ,(case when b.yzxz = '1' then '临时' when b.yzxz = '2' then '长期' else '/' END) yzxzmc,b.zlff,c.ycmc,CONCAT(b.dj,'元/',c.djdw) djStr,
-(case when a.operateType='1' then dbo.f_getYfbmYpComplexYpSlandDw(SUM(d.sl), @yfbmCode, b.ypCode, @OrganizeId) when a.operateType='2' then dbo.f_getYfbmYpComplexYpSlandDw(SUM(a.sl), @yfbmCode, b.ypCode, @OrganizeId) end) slStr,
+(case when a.operateType='1' then dbo.f_getYfbmYpComplexYpSlandDwV2(SUM(d.sl), @yfbmCode, b.ypCode, @OrganizeId,'2') when a.operateType='2' then dbo.f_getYfbmYpComplexYpSlandDwV2(SUM(a.sl), @yfbmCode, b.ypCode, @OrganizeId,'2') end) slStr,
 (case when a.operateType='1' then CONVERT(NUMERIC(11,2),ISNULL(SUM(b.dj/b.zhyz*d.sl),0)) when a.operateType='2' then CONVERT(NUMERIC(11,2),ISNULL(SUM(b.dj/b.zhyz*a.sl),0)) end) je,
 a.Id,a.yzId,a.zxId,a.CreateTime,a.CreatorCode,d.pc,e.jxmc,ypsx.ypgg,a.zytyapplyno,b.bqCode
 from zy_ypyzczjl a with(nolock),NewtouchHIS_PDS.dbo.zy_ypyzxx b with(nolock)
@@ -1524,7 +1524,7 @@ a.Id, a.yzId, a.zxId, a.ypCode, b.yzxz, b.zlff, c.ycmc, b.dj, c.djdw, a.CreateTi
             select '退药' as czlx,
 	            s.zyh,s.patientName,s.cw,s.ypCode,s.ypmc,s.pcmc,s.zh, s.yl, s.yldw, CONCAT(s.yl,s.yldw) ylStr,
                 (case when s.yzxz = '1' then '临时' when s.yzxz = '2' then '长期' else '/' END) yzxzmc,s.zlff,s.ycmc, CONCAT(s.dj,'元/',s.djdw) djStr,
-	            dbo.f_getYfbmYpComplexYpSlandDw(SUM(s.sl),@yfbmCode, s.ypCode, @OrganizeId) slStr,
+	            dbo.f_getYfbmYpComplexYpSlandDwV2(SUM(s.sl),@yfbmCode, s.ypCode, @OrganizeId,'2') slStr,
 	            CONVERT(NUMERIC(11,2),ISNULL(SUM(s.dj/s.zhyz*s.sl),0)) je,
 	            s.Id,s.yzId,s.zxId,s.CreateTime,s.CreatorCode,s.pc,s.jxmc,s.ypgg,s.zytyapplyno,s.bqCode 
             from (
@@ -1605,9 +1605,9 @@ FROM (
 	SELECT d.patientName, d.zyh, d.cw, d.yzId, d.zxId, d.ypCode, yp.ypmc, ypsx.ypgg,ISNULL(CONVERT(VARCHAR(50),d.zh),'') zh 
 	,CASE when d.yzxz = '1' then '临时' when d.yzxz = '2' then '长期' else '/' end yzxzmc
 	,yp.ycmc, CONVERT(INT,ISNULL(d.zxdwsl/d.zhyz,0)) sl, CONVERT(INT,d.zxdwsl) zxdwsl, dbo.f_getyfbmDw(@yfbmCode, d.ypCode, @OrganizeId) bmdw
-	,dbo.f_getYfbmYpComplexYpSlandDw(d.zxdwsl, @yfbmCode, d.ypCode, @OrganizeId) slStr, CONCAT(d.yl,d.yldw) ylStr
+	,dbo.f_getYfbmYpComplexYpSlandDwV2(d.zxdwsl, @yfbmCode, d.ypCode, @OrganizeId,'2') slStr, CONCAT(d.yl,d.yldw) ylStr
 	,d.dj, LTRIM(RTRIM(d.ph)) ph, LTRIM(RTRIM(d.pc)) pc, rdbd.zhyz, rdb.applyNo, rdbd.Id rdbdId
-	,rdbd.tysl ,dbo.f_getYfbmYpComplexYpSlandDw(rdbd.tysl*rdbd.zhyz, @yfbmCode, d.ypCode,@OrganizeId) tyslStr, rdb.zytyapplyno
+	,rdbd.tysl ,dbo.f_getYfbmYpComplexYpSlandDwV2(rdbd.tysl*rdbd.zhyz, @yfbmCode, d.ypCode,@OrganizeId,'2') tyslStr, rdb.zytyapplyno
 	FROM (
 		SELECT SUM(s.zxdwsl) zxdwsl, MAX(s.pc) pc, MAX(s.ph) ph, s.ypCode, s.yzId, MAX(s.zxId) zxId, s.zyh, s.fybz, s.zhyz
 		,s.patientName, s.cw, s.yl, s.yldw, s.pcmc, s.zh, s.zlff, s.dj, s.je, s.yzxz,s.lyxh
@@ -2047,14 +2047,14 @@ where ksby.zt=1  and ksby.OrganizeId=@OrgId
             if (req.yzxz == "1")
             {
                 strSql.AppendLine(@"select yz.zyh,hzxm,WardCode,bq.bqmc,DeptCode,yzh cfh,'1' yzxz,'临时' yzxzmc
-	,yz.ysgh,staff.Name ysmc,sum(CONVERT(decimal(12,2),(yz.sl*yp.lsj))) je,yz.yzlx,yz.yzlx yzlxstr,yzxx.zxrq kssj,yzxx.fybz,yzxx.lyxh
+	,yz.ysgh,staff.Name ysmc,sum(CONVERT(decimal(12,2),(yz.sl*yp.lsj))) je,yz.yzlx,yz.yzlx yzlxstr,kssj,yzxx.fybz,yzxx.lyxh
 from Newtouch_CIS..zy_lsyz  (nolock) yz
 join NewtouchHIS_PDS..zy_ypyzxx (nolock) yzxx on yz.Id=yzxx.yzId and yzxx.OrganizeId=yz.OrganizeId
 left join NewtouchHIS_Base..V_S_xt_yp yp on yp.ypCode=yz.xmdm and yp.OrganizeId=yz.OrganizeId
 left join NewtouchHIS_Base..V_S_xt_bq bq on bq.bqCode=yz.WardCode and bq.OrganizeId=yz.OrganizeId
 left join NewtouchHIS_Base..V_S_Sys_Staff staff on staff.gh=yz.ysgh and staff.OrganizeId=yz.OrganizeId
 where yz.OrganizeId=@OrganizeId and yz.zt=1 
-	and yzxx.zxrq>=@kssj and yzxx.zxrq<=@jssj
+	and yz.kssj>=@kssj and yz.kssj<=@jssj
 	");
                 
             }
@@ -2067,7 +2067,7 @@ left join NewtouchHIS_Base..V_S_xt_yp yp on yp.ypCode=yz.xmdm and yp.OrganizeId=
 left join NewtouchHIS_Base..V_S_xt_bq bq on bq.bqCode=yz.WardCode and bq.OrganizeId=yz.OrganizeId
 left join NewtouchHIS_Base..V_S_Sys_Staff staff on staff.gh=yz.ysgh and staff.OrganizeId=yz.OrganizeId
 where yz.OrganizeId=@OrganizeId and yz.zt=1 
-	and yzxx.zxrq>=@kssj and yzxx.zxrq<=@jssj
+	and yz.kssj>=@kssj and yz.kssj<=@jssj
 ");
             }
             if (!string.IsNullOrWhiteSpace(req.bq))
@@ -2081,7 +2081,7 @@ where yz.OrganizeId=@OrganizeId and yz.zt=1
                 parms.Add(new SqlParameter("@keyword", "%" + req.keyword + "%"));
             }
             if (req.yzxz == "1")
-                strSql.AppendLine(@" group by yz.zyh,hzxm,yz.zh,WardCode,bq.bqmc,DeptCode,yzh ,yz.ysgh ,yz.ysgh,staff.Name ,yz.yzlx,yzxx.zxrq,yzxx.fybz,yzxx.lyxh ");
+                strSql.AppendLine(@" group by yz.zyh,hzxm,yz.zh,WardCode,bq.bqmc,DeptCode,yzh ,yz.ysgh ,yz.ysgh,staff.Name ,yz.yzlx,kssj,yzxx.fybz,yzxx.lyxh ");
             else
                 strSql.AppendLine(@" group by yz.zyh,hzxm,yz.zh,WardCode,bq.bqmc,DeptCode,yzh ,yz.ysgh,yz.ysgh,staff.Name ,yz.yzlx,yzxx.zxrq,yzxx.fybz,yzxx.lyxh");
 

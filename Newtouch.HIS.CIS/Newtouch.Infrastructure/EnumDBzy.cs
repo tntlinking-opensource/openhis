@@ -65,17 +65,17 @@ namespace Newtouch.Infrastructure
         [Description("项目")]
         sfxm = 5,
         /// <summary>
-        /// 项目
+        /// 检验
         /// </summary>
         [Description("检验")]
         jy = 6,
         /// <summary>
-        /// 项目
+        /// 检查
         /// </summary>
         [Description("检查")]
         jc = 7,
         /// <summary>
-        /// 项目
+        /// 膳食医嘱
         /// </summary>
         [Description("膳食医嘱")]
         ssyz = 8,
@@ -93,9 +93,14 @@ namespace Newtouch.Infrastructure
 	    /// 康复
 	    /// </summary>
 	    [Description("康复")]
-	    rehab = 11
+	    rehab = 11,
+        /// <summary>
+	    /// 物资耗材
+	    /// </summary>
+	    [Description("耗材")]
+        yyhc = 12
 
-	}
+    }
     /// <summary>
     /// 医嘱状态
     /// </summary>

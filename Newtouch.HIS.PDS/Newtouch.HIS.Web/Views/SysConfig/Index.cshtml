@@ -1,7 +1,9 @@
-﻿
+﻿@using Newtouch.Common.Operator
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Index.cshtml";
+    var opeator = OperatorProvider.GetCurrent();
 }
 <script>
     $(function () {
@@ -80,6 +82,28 @@
             }
         });
     }
+    function btn_sync() {
+        $.modalConfirm("确定要同步所有系统参数吗？", function (r) {
+            if (r) {
+                $.loading(true, '数据同步中...');
+                $.najax({
+                    url: "/Home/SyncSysConfigParams",
+                    type: "POST",
+                    data: {orgId: '@(opeator.OrganizeId)'},
+                    dataType: "json",
+                    async: false,
+                    success: function (data) {
+                        $.modalAlert("同步成功", data.state);
+                        $('#btn_search').trigger('click');
+                        $.loading(false);
+                    }
+                });
+            } else {
+
+            }
+        });
+    }
+    
 
     function btn_ShowAllConfig() {
         $.modalOpen({
@@ -103,6 +127,9 @@
         </div>
         <div class="btn-group">
             <a id="NF-add" authorize="yes" class="btn btn-primary dropdown-text" onclick="btn_add()"><i class="fa fa-plus"></i>新建项目</a>
+        </div>
+        <div class="btn-group">
+            <a class="btn btn-primary" onclick="btn_sync()"><i class="fa fa-pencil-square-o"></i>同步</a>
         </div>
         <div class="operate">
             <ul class="nav nav-pills">

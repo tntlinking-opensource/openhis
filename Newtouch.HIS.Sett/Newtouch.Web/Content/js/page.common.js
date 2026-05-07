@@ -61,7 +61,7 @@ $.fn.sfxmFloatingSelector = function (options) {
             { label: 'yfbmCode', name: 'yfbmCode', hidden: true },
             {
                 label: '药房', name: 'yfbmmc', formatter: function (cellvalue, a, b) {
-                    return b.yzlx === '1' && !!cellvalue ? cellvalue : '';
+                    return b.yzlx === '1' || b.yzlx === '3' && !!cellvalue ? cellvalue : '';
                 }, widthratio: 10, hidden: true
             },
             {
@@ -72,7 +72,7 @@ $.fn.sfxmFloatingSelector = function (options) {
             {
                 label: '库存', name: 'clkcsl', formatter: function (cellvalue, a, b) {
                     //给的kcsl是最小单位的，这里要显示门诊/住院单位的数量
-                    return b.yzlx === '1' ? (!!b.kcsl && !!b.cls ? (parseInt(b.kcsl / b.cls)) : '无') : '';
+                    return b.yzlx === '1' || b.yzlx === '3' ? (!!b.kcsl && !!b.cls ? (parseInt(b.kcsl / b.cls)) : '无') : '';
                 }, widthratio: 6, hidden: true
             },
             {

@@ -239,7 +239,7 @@ where a.OrganizeId = @orgId and a.zt = '1' and b.zt = '1'
         /// 收费模板页面index list
         /// </summary>
         /// <returns></returns>
-        public IList<SysChargeTemplateGridVO> Search(Pagination pagination, string keyword, string organizeId)
+        public IList<SysChargeTemplateGridVO> Search(Pagination pagination, string keyword, string organizeId,string yxbz)
         {
             var sql = @"SELECT  SUM(ISNULL(sfxm.dj, '0.00') * ISNULL(xm.sl, 0)) zje ,
                         mb.sfmb ,
@@ -254,9 +254,10 @@ where a.OrganizeId = @orgId and a.zt = '1' and b.zt = '1'
                                                       AND xm.OrganizeId = mb.OrganizeId
                         LEFT JOIN NewtouchHIS_Base..V_S_xt_sfxm sfxm ON sfxm.sfxmCode = xm.sfxm
                                                                         AND sfxm.OrganizeId = xm.OrganizeId
-                WHERE mb.OrganizeId = @orgId";
+                WHERE mb.OrganizeId = @orgId and mb.zt=@yxbz";
             var pars = new List<SqlParameter>();
             pars.Add(new SqlParameter("@orgId", organizeId));
+            pars.Add(new SqlParameter("@yxbz", yxbz));
             if (!string.IsNullOrWhiteSpace(keyword))
             {
                 sql += " and (sfmbmc like @searchkeyword or sfmb like @searchkeyword)";

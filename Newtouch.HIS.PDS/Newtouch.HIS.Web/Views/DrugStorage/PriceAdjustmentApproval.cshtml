@@ -215,7 +215,7 @@
         }
         var ypCodeStr = "";
         for (var i = 0; i < rowsDataArray.length; i++) {
-            if (rowsDataArray[i].Isgq === '已过期') {
+            if (rowsDataArray[i].Isgq === '已过期' && operationType=="4") {
                 $.modalAlert(rowsDataArray[i].ypCode + " 已过期，执行时间需大于当前时间", 'warning');
                 return;
             }

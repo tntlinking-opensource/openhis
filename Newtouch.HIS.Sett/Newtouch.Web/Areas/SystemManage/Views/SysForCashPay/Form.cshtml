@@ -3,8 +3,8 @@
     ViewBag.Title = "Form";
     Layout = "~/Views/Shared/_Form.cshtml";
 }
-<script type="text/javascript" src="@SiteUrl.GetStaticResourceScriptUrl("~/Content/js/SystemManage/SysForCashPay/Form.js",false)"></script>
-<link href="@SiteUrl.GetStaticResourceScriptUrl("~/Content/css/Shared/Form.css",false)" rel="stylesheet" />
+@*<script type="text/javascript" src="@SiteUrl.GetStaticResourceScriptUrl("~/Content/js/SystemManage/SysForCashPay/Form.js",false)"></script>*@
+@*<link href="@SiteUrl.GetStaticResourceScriptUrl("~/Content/css/Shared/Form.css",false)" rel="stylesheet" />*@
 <form id="form1">
     <div class="container">
         <div class="row">
@@ -57,3 +57,37 @@
         </div>
     </div>
 </form>
+
+
+<script>
+
+
+    var keyValue = $.request("keyValue");
+    $(function () {
+        if (!!keyValue) {
+            $.ajax({
+                url: "/SystemManage/SysForCashPay/GetFormJson",
+                data: { keyValue: keyValue },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#form1").formSerialize(data);
+                }
+            });
+        }
+    })
+    function submitForm() {
+        if (!$('#form1').formValid()) {
+            return false;
+        }
+        $.submitForm({
+            url: "/SystemManage/SysForCashPay/SubmitForm?keyValue=" + keyValue,
+            param: $("#form1").formSerialize(),
+            success: function () {
+                $.currentWindow().$("#gridList").resetSelection();
+                $.currentWindow().$("#gridList").trigger("reloadGrid");
+                $.loading(false);
+            }
+        })
+    }
+</script>

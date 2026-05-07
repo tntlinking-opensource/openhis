@@ -1,4 +1,5 @@
-﻿@using Newtouch.Common.Operator;
+﻿@using Newtouch.Common.Operator
+@using Newtouch.Herp.Infrastructure
 @{
     var opr = OperatorProvider.GetCurrent();
     var loginFromFlag = ViewBag.loginFromFlag;
@@ -39,7 +40,7 @@
         <li class="dropdown profile-dropdown">
             <a href="#" class="dropdown" data-toggle="dropdown">
                 <i class="fa fa-user" style="float: left; margin-right: 5px; width: 25px; font-size: x-large; padding-top: 5px;"></i>
-                <span class="hidden-xs" style="width: 110px;">@opr.UserCode【@opr.UserName】</span>
+                <span class="hidden-xs" style="width: 110px;">@opr.UserCode【@Constants.CurrentKf.currentKfName】</span>
             </a>
             <ul class="dropdown-menu pull-right">
                 <li><a href="javascript:void(0);" onclick="KfChange()"><i class="fa fa-exchange"></i>切换库房</a></li>
@@ -56,3 +57,22 @@
         </li>
     </ul>
 </div>
+<div class="nav-no-collapse pull-right" id="header-dic">
+    <ul class="nav nav-pills nav-stacked">
+        <li role="presentation" class="active">
+            <a href="#" class="hidden-xs" style="padding-top:15px" data-toggle="dropdown">消息列表<span class="badge" id="badge1"></span></a>
+            <ul class="dropdown-menu pull-right" style="width:100%;" id="uldiv">
+                <li style="height:25px;"><a style="width:100%;text-align:center;" id="kcyj">库存预警<span class="badge" style="margin-left:5px;" id="badge2"></span></a></li>
+                <li style="height:25px;"><a style="width:100%;text-align:center;" id="gqyj">过期预警<span class="badge" style="margin-left:5px;" id="badge3"></span></a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<div class="nav-no-collapse pull-right" id="header-dic">
+    <ul class="nav nav-pills nav-stacked">
+        <li role="presentation" class="active" id="countentli">
+            <span style="float:left; padding-top:15px;" id="txtb"><img src="~/Content/img/消息提醒.png" width="20" height="20" /></span>
+        </li>
+    </ul>
+</div>
+

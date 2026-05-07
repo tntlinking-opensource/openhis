@@ -1,6 +1,6 @@
 ﻿@using Newtouch.Infrastructure;
 @{
-    ViewBag.Title = "中药处方";
+    ViewBag.Title = "中药处方-新版";
     Layout = null;
     //药品检索，药品是否关联药房库存
     var isMedicineSearchRelatedKC = (ViewBag.ISMedicineSearchRelatedKC as bool?) ?? false;
@@ -24,13 +24,14 @@
 </style>
 <div id="linkzycfnew" role="tabpanel" class="tab-pane" style="width:96.5%;height:100%; float:right; margin-right: 10px; border:solid 1px #ddd; margin-top: 3px;">
     <div class="contentPanel">
-        <div style="background-color: #fff;">
+        <div style="background-color: #fff;width:100%;display: flex">
             <table id="gridzycfnew"></table>
             <div id="gridzycfnewPager"></div>
         </div>
     </div>
     <div id="bottom" style="border-top: solid 1px #ddd; height: 80px; margin-bottom:1px;">
         <form id="formTCM" style="float:left; width:50%; position: relative; top: 0%;">
+
             <table class="form" id="tableTCMPresAmount">
                 <tr>
                     <th class="formTitle"><span class="required">*</span>付数：</th>
@@ -43,12 +44,11 @@
                     </td>
                     <th class="formTitle">代煎方式：</th>
                     <td class="formValue">
-                        <select id="djfs" name="djfs" class="form-control">
-                        </select>
+                        <select id="djfs" name="djfs" class="form-control"></select>
                     </td>
                     <th class="formTitle">代煎费：</th>
                     <td class="formValue">
-                        <input type="text" id="djf" name="djf" value="0"  disabled="disabled" class="form-control required" />
+                        <input type="text" id="djf" name="djf" value="0" disabled="disabled" class="form-control required" />
                     </td>
                 </tr>
                 <tr>
@@ -60,7 +60,7 @@
                     <td class="formValue">
                         <input type="text" id="cfzt" name="cfzt" class="form-control required" />
                     </td>
-                    <td colspan="2" >
+                    <td colspan="2">
                         <div class="ckbox" style="margin-left:38px;">
                             <input id="djbz" name="djbz" type="checkbox"><label for="djbz">是否代煎</label>
                         </div>
@@ -161,6 +161,7 @@
             $('#daijiantieshu').val('0');
         }
         else {
+            $("#gridzycfnew").clearGridData(); //先清
             //再次打开该页面
             $("#gridzycfnew").jqGrid('setGridParam', {
                 datatype: 'local',
@@ -186,6 +187,13 @@
             //未提交到数据库的处方，这里length 0 也没问题
             $('span.bbit-tree-node-text[data-value="' + triggereditcfh + '"]').trigger('click');
         }
+        var isdzcf = '0';
+        $.jsonWhere(window.alldataArray.zycf, function (v) {
+            if (v.cfh == triggereditcfh && v.isdzcf != '') {
+                isdzcf = v.isdzcf;
+            }
+        });
+        $("#isdzcfzy").val(isdzcf);
     }
 
     //处方列表
@@ -194,12 +202,14 @@
         $gridzycfnew.jqGrid({
             datatype: 'local',
             data: zylocaldata,
+            width:$(window).width()-90,
             height: $(window).height() - 230,
             //altRows: true,//隔行换色
-            shrinkToFit: false,   //true:按比例初始化列宽度 false:使用colModel指定的宽度
+            shrinkToFit:true,   //true:按比例初始化列宽度 false:使用colModel指定的宽度
             rownumbers: true,  //是否显示序号
             editurl: "clientArray",  //行编辑不向服务器提交数据
             unwritten: false,
+            multiselect: true, // 启用多选框
             colModel: [
                 { label: 'cfId', name: 'cfId', hidden: true },
                 { label: 'ybwym', name: 'ybwym', hidden: true },
@@ -209,20 +219,57 @@
                 { label: 'cfh', name: 'cfh', width: 120, align: 'center', hidden: true },
                 { label: 'ypCode', name: 'ypCode', width: 100, editwidth: '100%', align: 'center', editable: true, hidden: true },
                 {
-                    label: '<span class="required">*</span>名称', name: 'ypmc', width: 90, editwidth: '100%', align: 'center', editable: true, editoptions: {
+                    label: '<span class="required">*</span>名称', name: 'ypmc', width: 80, editwidth: '100%', align: 'center', editable: true, editoptions: {
                         dataEvents: [
                             {
                                 type: 'keydown',
                                 fn: function (e) {
                                     if (e.keyCode == 13) {
                                         var rowid = $(e.target).closest('tr.jqgrow').attr('id');
-                                        $("#" + rowid + "_sl").focus();
+                                        $("#" + rowid + "_mcjl").focus();
                                     }
                                 }
                             }
                         ]
                     }},
-                { label: '<span class="required">*</span>规格', name: 'ypgg', width: 80, editwidth: '100%', align: 'center', editable: true },
+                { label: '<span class="required">*</span>规格', name: 'ypgg', width: 50, editwidth: '100%', align: 'center', editable: true },
+                { label: '<span class="required">*</span>单价', name: 'dj', width: 50, editwidth: '100%', align: 'center', editable: true},
+                 {
+                     label: '<span class="required">*</span>剂量', name: 'mcjl', width: 50, editwidth: '100%', align: 'center', editable: true,  editoptions: {
+                         dataEvents: [
+                                 {
+                                     type: 'change',
+                                     fn: function (e) {
+                                         var cellval = $(this).val();
+                                         if(cellval.replace(/(^\s*)|(\s*$)/g, "") == ""){
+                                             $.modalAlert("剂量为空，请确认。", 'warning');
+                                             return;
+                                         }
+                                         if(isNaN(cellval)){
+                                             $.modalAlert("剂量：请填写数字", 'warning');
+                                             $(this).val('')
+                                             return;
+                                         }
+                                         var row = $(e.target).closest('tr.jqgrow');
+                                         var rowid = row.attr('id');
+                                         CalculateTCMEachLineSlANDJe(rowid);
+                                     }
+                                 },
+                                 {
+                                     type: 'keydown',
+                                     fn: function (e) {
+                                         if (e.keyCode == 13) {
+                                             var rowid = $(e.target).closest('tr.jqgrow').attr('id');
+                                             $("#" + rowid + "_sl").focus();
+                                         }
+                                     }
+                                 }
+                         ]
+                     }
+                 },
+                {
+                     label: '<span class="required">*</span>单位', name: 'mcjldw', width: 40, editwidth: '100%', align: 'center', editable: true
+                },
                 {
                     label: '<span class="required">*</span>数量', name: 'sl', width: 40, editwidth: '100%', align: 'center', editable: true, editoptions: {
                         dataEvents: [
@@ -243,7 +290,7 @@
                                     }
                                     $("#" + rowid + "_Remark").focus();
                                     CalculateTCMEachLineJe(rowid);   //计算明细金额和处方金额
-                                    
+
                                 }
                             },
                             {
@@ -259,18 +306,13 @@
                     }
                 },
                 {
-                    label: '<span class="required">*</span>单位', name: 'mcjldw', width: 40, editwidth: '100%', align: 'center', editable: true
-                },
-                { label: '<span class="required">*</span>单价', name: 'dj', width: 50, editwidth: '100%', align: 'center', editable: true},
-                {
-                    label: '嘱托', name: 'Remark', width: 80, editwidth: '100%', frozen: true,align: 'center', editoptions: {
+                    label: '嘱托', name: 'Remark', width: 50, editwidth: '100%', frozen: true,align: 'center', editoptions: {
                         dataEvents: [
                             {
                                 type: 'keydown',
                                 fn: function (e) {
                                     if (e.keyCode == 13) {
                                         var rowid = $(e.target).closest('tr.jqgrow').attr('id');
-                                        debugger;
                                         //var saveResult = $gridzycfnew.saveRow(rowid, null, null, null, function (callbackRowId) { }, null, null);
                                         //if (!saveResult) {
                                         //    return;
@@ -283,7 +325,7 @@
                     }, editable: true
                 },
                 {
-                    label: '说明', name: 'zysm', width: 80, editwidth: '100%', align: 'center', editable: true, cellattr: addCellAttr,editoptions:{
+                    label: '说明', name: 'zysm', width: 70, editwidth: '100%', align: 'center', editable: true, cellattr: addCellAttr,editoptions:{
                         dataEvents: [{
                             type: 'keydown',
                             fn: function (e) {
@@ -295,31 +337,8 @@
                         }]
                     }
                 },
-                {
-                    label: '<span class="required">*</span>剂量', name: 'mcjl', width: 55, editwidth: '100%', align: 'center', editable: true, hidden: true, editoptions: {
-                        dataEvents: [
-                                {
-                                    type: 'change',
-                                    fn: function (e) {
-                                        var cellval = $(this).val();
-                                        if(cellval.replace(/(^\s*)|(\s*$)/g, "") == ""){
-                                            $.modalAlert("剂量为空，请确认。", 'warning');
-                                            return;
-                                        }
-                                        if(isNaN(cellval)){
-                                            $.modalAlert("剂量：请填写数字", 'warning');
-                                            $(this).val('')
-                                            return;
-                                        }
-                                        var row = $(e.target).closest('tr.jqgrow');
-                                        var rowid = row.attr('id');
-                                        CalculateTCMEachLineSlANDJe(rowid);
-                                    }
-                                }
-                        ]
-                    }
-                },
-                
+
+
                 { label: '天数', name: 'ts', width: 60, editwidth: '100%', align: 'center', editable: true, hidden: true,editoptions: {
                     dataEvents: [
                             {
@@ -335,10 +354,10 @@
                             }
                     ]
                 }},
-                
+
                 { label: '<span class="required">*</span>单位', name: 'dw', width: 50, editwidth: '100%', align: 'center', editable: true, hidden:true },
-                { label: '<span class="required">*</span>金额', name: 'je', width: 60, editwidth: '100%', align: 'center', editable: true, hidden: true},
-                
+                { label: '<span class="required">*</span>金额', name: 'je', width: 60, editwidth: '100%', align: 'center', editable: true},
+
                 {
                     label: '转自费', name: 'iszzf', width: 80, editwidth: '100%', align: 'center', edittype: "select", editable: true,hidden: true, editoptions: {
                         dataEvents: [
@@ -356,22 +375,22 @@
                 },
                 { label: 'zzfbz', name: 'zzfbz', editwidth: '', align: 'center', editable: true, hidden: true },
 
-                { label: 'cfId2', name: 'cfId2', hidden: true },
-                { label: 'ybwym2', name: 'ybwym2', hidden: true },
-                { label: 'xzsybz2', name: 'xzsybz2', hidden: true },
-                { label: 'cfmxId2', name: 'cfmxId2', hidden: true },
-                { label: 'zxks2', name: 'zxks2', editable: true, hidden: true },
-                { label: 'cfh2', name: 'cfh2', width: 120, align: 'center', hidden: true },
+                { label: 'cfId2', name: 'cfId2', width: 100, editwidth: '100%', align: 'center', editable: true, hidden: true },
+                { label: 'ybwym2', name: 'ybwym2', width: 100, editwidth: '100%', align: 'center', editable: true, hidden: true },
+                { label: 'xzsybz2', name: 'xzsybz2',  width: 100, editwidth: '100%', align: 'center', editable: true,hidden: true },
+                { label: 'cfmxId2', name: 'cfmxId2',  width: 100, editwidth: '100%', align: 'center', editable: true,hidden: true },
+                { label: 'zxks2', name: 'zxks2',  width: 100, editwidth: '100%', align: 'center', editable: true, hidden: true },
+                { label: 'cfh2', name: 'cfh2',  width: 100, editwidth: '100%', align: 'center', editable: true, hidden: true },
                 { label: 'ypCode2', name: 'ypCode2', width: 100, editwidth: '100%', align: 'center', editable: true, hidden: true },
                 {
-                    label: '<span class="required">*</span>名称', name: 'ypmc2', width: 110, editwidth: '100%', align: 'center', editable: true, editoptions: {
+                    label: '<span class="required">*</span>名称', name: 'ypmc2', width: 80, editwidth: '100%', align: 'center', editable: true, editoptions: {
                         dataEvents: [
                             {
                                 type: 'keydown',
                                 fn: function (e) {
                                     if (e.keyCode == 13) {
                                         var rowid = $(e.target).closest('tr.jqgrow').attr('id');
-                                        $("#" + rowid + "_sl2").focus();
+                                        $("#" + rowid + "_mcjl2").focus();
                                     }
                                 }
                             }
@@ -379,7 +398,46 @@
                     }
                 },
 
-                { label: '<span class="required">*</span>规格', name: 'ypgg2', width: 80, editwidth: '100%', align: 'center', editable: true },
+                { label: '<span class="required">*</span>规格', name: 'ypgg2', width: 50, editwidth: '100%', align: 'center', editable: true },
+                  { label: '<span class="required">*</span>单价', name: 'dj2', width: 50, editwidth: '100%', align: 'center', editable: true},
+                  {
+                      label: '<span class="required">*</span>剂量', name: 'mcjl2', width: 50, editwidth: '100%', align: 'center', editable: true,  editoptions: {
+                          dataEvents: [
+                              {
+                                  type: 'change',
+                                  fn: function (e) {
+                                      var cellval = $(this).val();
+                                      if (cellval.replace(/(^\s*)|(\s*$)/g, "") == "") {
+                                          $.modalAlert("剂量为空，请确认。", 'warning');
+                                          return;
+                                      }
+                                      if (isNaN(cellval)) {
+                                          $.modalAlert("剂量：请填写数字", 'warning');
+                                          $(this).val('')
+                                          return;
+                                      }
+                                      var row = $(e.target).closest('tr.jqgrow');
+                                      var rowid = row.attr('id');
+                                      CalculateTCMEachLineSlANDJe(rowid);
+                                  }
+                              },
+                                 {
+                                     type: 'keydown',
+                                     fn: function (e) {
+                                         if (e.keyCode == 13) {
+                                             var rowid = $(e.target).closest('tr.jqgrow').attr('id');
+                                             $("#" + rowid + "_sl2").focus();
+                                         }
+                                     }
+                                 }
+                          ]
+                      }
+                  },
+
+                  {
+                      label: '<span class="required">*</span>单位', name: 'mcjldw2', width: 40, editwidth: '100%', align: 'center', editable: true
+                  },
+
                 {
                     label: '<span class="required">*</span>数量', name: 'sl2', width: 40, editwidth: '100%', align: 'center', editable: true, editoptions: {
                         dataEvents: [
@@ -413,10 +471,7 @@
                         ]
                     }
                 },
-                {
-                    label: '<span class="required">*</span>单位', name: 'mcjldw2', width: 40, editwidth: '100%', align: 'center', editable: true
-                },
-                { label: '<span class="required">*</span>单价', name: 'dj2', width: 50, editwidth: '100%', align: 'center', editable: true},
+
                 {
                     label: '嘱托', name: 'Remark2', width: 50, editwidth: '100%', align: 'center', editoptions: {
                         dataEvents: [
@@ -433,7 +488,7 @@
                     }, editable: true
                 },
                 {
-                    label: '说明', name: 'zysm2', width: 100, editwidth: '100%', align: 'center', editable: true,editoptions: {
+                    label: '说明', name: 'zysm2', width: 70, editwidth: '100%', align: 'center', editable: true,editoptions: {
                         dataEvents: [
                             {
                                 type: 'keydown',
@@ -447,30 +502,6 @@
                                         }
                                         addTCMRowData(rowid);   //新增一条明细
                                     }
-                                }
-                            }
-                        ]
-                    }
-                },
-                {
-                    label: '<span class="required">*</span>剂量', name: 'mcjl2', width: 55, editwidth: '100%', align: 'center', editable: true, hidden: true, editoptions: {
-                        dataEvents: [
-                            {
-                                type: 'change',
-                                fn: function (e) {
-                                    var cellval = $(this).val();
-                                    if (cellval.replace(/(^\s*)|(\s*$)/g, "") == "") {
-                                        $.modalAlert("剂量为空，请确认。", 'warning');
-                                        return;
-                                    }
-                                    if (isNaN(cellval)) {
-                                        $.modalAlert("剂量：请填写数字", 'warning');
-                                        $(this).val('')
-                                        return;
-                                    }
-                                    var row = $(e.target).closest('tr.jqgrow');
-                                    var rowid = row.attr('id');
-                                    CalculateTCMEachLineSlANDJe(rowid);
                                 }
                             }
                         ]
@@ -496,7 +527,7 @@
                 },
 
                 { label: '<span class="required">*</span>单位', name: 'dw2', width: 50, editwidth: '100%', align: 'center', editable: true, hidden: true },
-                { label: '<span class="required">*</span>金额', name: 'je2', width: 60, editwidth: '100%', align: 'center', editable: true, hidden: true },
+                { label: '<span class="required">*</span>金额', name: 'je2', width: 60, editwidth: '100%', align: 'center', editable: true },
 
                 {
                     label: '转自费', name: 'iszzf2', width: 80, editwidth: '100%', align: 'center', edittype: "select", editable: true, hidden: true, editoptions: {
@@ -514,7 +545,7 @@
                     }
                 },
                 { label: 'zzfbz2', name: 'zzfbz2', editwidth: '', align: 'center', editable: true, hidden: true },
-                { label: '操作', name: 'action', width: 50, align: 'center' }
+                { label: '操作', name: 'action', width: 50, align: 'left' }
             ],
             editinputwidthborder: false,    //是否需要边框 默认为true
             editinputborderradius: false,   //是否需要边框圆角 默认true（有圆角）
@@ -570,22 +601,22 @@
                         }
                         newTCMPresData();
                     }
-            });
+            })
 
         $("#gridzycfnewPager_center").html('');
         $("#tip_zyyfly").empty();
         $("#gridzycfnewPager_right").append('<span style="color:red;">药房：</span><select id="tip_zyyfly"></select>');
-        $("#gridzycfnewPager_right").append('<span style="color:red;">特殊处方1：</span><select id="tip_jmcf"><option value="">==请选择==</option><option value="LXGB">离休干部</option><option value="TBCF">特病处方</option></select>');
-        
+        $("#gridzycfnewPager_right").append('<span style="color:red;">特殊处方：</span><select id="tip_jmcf"><option value="">==请选择==</option><option value="LXGB">离休干部</option><option value="TBCF">特病处方</option></select>');
+        $("#gridzycfnewPager_right").append('<span>电子处方：</span><select id="isdzcfzy"><option value="0">否</option><option value="1">是</option></select>');
 
-        $('#gview_gridzycfnew').css("width", "1256px");
-        
-        $('#gbox_gridzycfnew').css("width", "1256px");
-        $('.ui-jqgrid-hdiv').css("width", "1256px");
-        $('.ui-jqgrid-bdiv').css("width", "1256px");
+        $('#gview_gridzycfnew').css("width",  $(".Newtouch_iframe", parent.document).width());
+
+        $('#gbox_gridzycfnew').css("width",  $(".Newtouch_iframe", parent.document).width());
+        $('#linkzycfnew .ui-jqgrid-hdiv').css("width",  $(".Newtouch_iframe", parent.document).width());
+        $('#linkzycfnew .ui-jqgrid-bdiv').css("width",  $(".Newtouch_iframe", parent.document).width());
         //$('.ui-jqgrid-hdiv').css("width", "1200px");
 
-       
+
         $.ajax({
             type: "POST",
             dataType: "json", //返回json格式的数据
@@ -594,20 +625,20 @@
             async: false,
             success: function (ret) {
                 var res=false;
-                var currYfdm = sessionStorage.getItem('curremzyf');
+                var currZyfdm = sessionStorage.getItem('currentzyf');
                 $.each(ret, function () {
-                    if((this.mzzybz=="1" && res==false && !currYfdm) ||(currYfdm==this.yfbmCode && res==false)){
+                    if(!currZyfdm && this.yfbmmc.indexOf('中')!=-1)
                         var option = "<option value='" + this.yfbmCode +"|"+ this.mzzybz + "' selected>" + this.yfbmmc + "</option>";
-                        res=true;
-                    }
+                    else if(currZyfdm && currZyfdm==this.yfbmCode)
+                        var option = "<option value='" + this.yfbmCode +"|"+ this.mzzybz + "' selected>" + this.yfbmmc + "</option>";
                     else
-                        var option = "<option value='" + this.yfbmCode +"|"+ this.mzzybz + "'>" + this.yfbmmc + "</option>";
+                        var option = "<option value='" + this.yfbmCode +"|"+ this.mzzybz+ "'>" + this.yfbmmc + "</option>";
                     $("#tip_zyyfly").append(option);
                 });
             }
         });
         $("#tip_zyyfly").change(function(){
-            sessionStorage.setItem("curremzyf", $("#tip_zyyfly").val().split('|')[0]);
+            sessionStorage.setItem("currentzyf", $("#tip_zyyfly").val().split('|')[0]);
         });
     }
     function EnableTCMnewInlineEditBox(){
@@ -626,9 +657,6 @@
     }
     //初始化 浮层
 	function initTCMInlineFunc(rowid) {
-
-		
-
         //部分列只读
         $("#" + rowid + "_dj").css('background-color','#f6f7fb').attr('readonly','true');
         $("#" + rowid + "_ypgg").css('background-color','#f6f7fb').attr('readonly','true');
@@ -647,7 +675,7 @@
         } else {
             $("#" + rowid + "_Remark").parent().next().children('select').val(0).trigger("change");
         }
-        
+
 
         //根据贴数和剂量算出来的
 
@@ -660,19 +688,21 @@
             djDecimalPlaces: 4,
             searchType: '@(isMedicineSearchRelatedKC ? "yp.kc" : "yp")', //药品是否显示库存
             ajaxparameters: function ($thisinput) {
+                
                  var flag = false;
                 //限制用药的话，flag=true
                 if (window.currPatientInfo.brxzCode != "" &&'@ViewBag.ControlbrxzCode'.indexOf(window.currPatientInfo.brxzCode) > -1) {
                     flag = true;
                 }
-                var mzzybz=$('#tip_zyyfly option:selected').val().split('|')[1];
+                var mzzybz=$('#tip_zyyfly option:selected').val().split('|')[1];//药房部门 0：不发药 1：门诊用药 2：住院用药 3：门诊住院通用
                 if(mzzybz=="3")
                     mzzybz="1";
+                if($("#isdzcfzy").val() == "1")
+                    mzzybz="9";//走电子处方目录
                 return "onlyybflag=" + flag + "&mzzybz="+mzzybz+"&dllb=1&sfdllx=TCM&keyword=" + $.trim($thisinput.val())+"&ypyfbmCode="+$('#tip_zyyfly option:selected').val().split('|')[0];
 			},
-			
-			itemdbclickhandler: function ($this) {
 
+			itemdbclickhandler: function ($this) {
 				$.ajax({
 					url: "/SystemManage/SysBaseData/GetPermissions",
 					dataType: "json",
@@ -778,21 +808,27 @@
                 }
 			}
 
-		
+
 
         });
         $("#" + rowid + "_ypmc2").sfxmFloatingSelector({
             djDecimalPlaces: 4,
             searchType: '@(isMedicineSearchRelatedKC ? "yp.kc" : "yp")', //药品是否显示库存
             ajaxparameters: function ($thisinput) {
+                
                  var flag = false;
                 //限制用药的话，flag=true
                 if (window.currPatientInfo.brxzCode != "" &&'@ViewBag.ControlbrxzCode'.indexOf(window.currPatientInfo.brxzCode) > -1) {
                     flag = true;
                 }
-                return "onlyybflag=" + flag + "&mzzybz=1&dllb=1&sfdllx=TCM&keyword=" + $.trim($thisinput.val());
+                var mzzybz=$('#tip_zyyfly option:selected').val().split('|')[1];//药房部门 0：不发药 1：门诊用药 2：住院用药 3：门诊住院通用
+                if(mzzybz=="3")
+                    mzzybz="1";
+                if($("#isdzcfzy").val() == "1")
+                    mzzybz="9";//走电子处方目录
+                return "onlyybflag=" + flag + "&mzzybz="+mzzybz+"&dllb=1&sfdllx=TCM&keyword=" + $.trim($thisinput.val())+"&ypyfbmCode="+$('#tip_zyyfly option:selected').val().split('|')[0];
 			},
-			
+
 			itemdbclickhandler: function ($this) {
 
 				$.ajax({
@@ -904,7 +940,7 @@
                 }
 			}
 
-		
+
 
         });
         //嘱托浮层
@@ -920,7 +956,7 @@
                 $("#" + rowid + "_Remark2").val($this.attr('data-ztmc'));
             },
         });
-		
+
     }
 
     //计算明细里的数量
@@ -1079,9 +1115,11 @@
 
     //新处方 按钮
     function newTCMPresData() {
+        var cfh= GetNewPresNo();
         var dataRow = {
             cfId: null, //尚未保存到数据库
-            cfh: GetNewPresNo(),
+            cfh: cfh,
+            cfh2: cfh,
             ybwym:GetGuid(19,62),
             action: getTCMActionStr()
         };
@@ -1103,6 +1141,7 @@
         var dataRow = {
             cfId: selRowData.cfId,
             cfh: selRowData.cfh,
+            cfh2: selRowData.cfh,
             ybwym:GetGuid(19,62),
             action: getTCMActionStr()
         };
@@ -1132,6 +1171,7 @@
 
     //保存
     function SaveTCMPres(savetodb, justUpdateAlldataArray) {
+        debugger
         //获取所有行Id，遍历使编辑框处于保存状态
         var rowIds = $("#gridzycfnew").jqGrid('getDataIDs');
         for (var i = 0; i < rowIds.length; i++) {
@@ -1170,6 +1210,7 @@
             return;
         }
         var gridzycfnewData = $("#gridzycfnew").jqGrid('getRowData_AllLine', null, true);
+        var zycfnewData = new Array();
         $.each(gridzycfnewData, function () {    //去掉action
             delete this.action;   //去掉action
             delete this.jqRowId;   //去掉jqRowId
@@ -1262,8 +1303,8 @@
                 this.klrq = matchedHisCf[0].klrq;
             }
             this.cftag = $("#tip_jmcf").val();
+            this.isdzcf = $("#isdzcfzy").val();
         });
-
         if (!saveResult) {
             EnableTCMnewInlineEditBox();    //重启启用编辑 否则下次Save时会返回false
             return;   //保存失败，则return
@@ -1282,11 +1323,45 @@
         });
         $.each(gridzycfnewData, function(){
             window.alldataArray.zycf.push(this);
+            if(this.ypCode2){
+                var cfmx = {
+                    Remark: this.Remark2,
+                    cfId: this.cfId2,
+                    cfh: this.cfh2,
+                    cfmxId: this.cfmxId2,
+                    cftag: this.cftag,
+                    cfyf: this.cfyf,
+                    cfzhdysj: this.cfzhdysj,
+                    cfzt: this.cfzt,
+                    dj: this.dj2,
+                    djbz: this.djbz,
+                    djfs: this.djfs,
+                    djts: this.djts,
+                    dw: this.dw2,
+                    isdzcf: this.isdzcf,
+                    iszzf: this.iszzf2,
+                    je: this.je2,
+                    klrq: this.klrq,
+                    mcjl: this.mcjl2,
+                    mcjldw: this.mcjldw2,
+                    sendtohisResult: this.sendtohisResult,
+                    sfbz: this.sfbz,
+                    sl: this.sl2,
+                    ts: this.ts2,
+                    tieshu: this.tieshu,
+                    xzsybz: this.xzsybz2,
+                    ybwym:this.ybwym2,
+                    ypCode:this.ypCode2,
+                    ypgg:this.ypgg2,
+                    ypmc:this.ypmc2,
+                    zxks:this.zxks2,
+                    zysm:this.zysm2,
+                    zzfbz:this.zzfbz2
+                };
+                window.alldataArray.zycf.push(cfmx);
+            }
         });
-
-
         zylocaldata = new Array();
-
         if(!(justUpdateAlldataArray == true)){
             if(savetodb == '1'){
                 if (SaveData(false, function(){

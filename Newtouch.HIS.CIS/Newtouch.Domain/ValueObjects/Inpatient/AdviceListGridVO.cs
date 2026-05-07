@@ -11,6 +11,8 @@ namespace Newtouch.Domain.ValueObjects.Inpatient
     /// </summary>
    public class AdviceListGridVO
     {
+        public string zyh { get; set; }
+        public string xm { get; set; }
         public string yzlb { get; set; }
         public string Id { get; set; }
         public int yzlx { get; set; }
@@ -45,5 +47,9 @@ namespace Newtouch.Domain.ValueObjects.Inpatient
         /// 是否附属医嘱
         /// </summary>
         public string isfsyz { get; set; }
+        /// <summary>
+        /// 医嘱号
+        /// </summary>
+        public string yzh { get; set; }
     }
 }

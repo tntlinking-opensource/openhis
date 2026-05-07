@@ -20,6 +20,7 @@ namespace Newtouch.HIS.Web.Areas.SystemManage.Controllers
         private readonly ISysChargeItemDmnService _sysChargeItemDmnService;
         private readonly ISysDepartmentRepo _SysDepartmentRepo;
         private readonly ISysConfigRepo _sysConfigRepo;
+        private readonly ISysFeeDmnService _sysFeeDmnService;
 
         #region 收费模板
 
@@ -35,11 +36,22 @@ namespace Newtouch.HIS.Web.Areas.SystemManage.Controllers
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="sfmbbh"></param>
+        /// <returns></returns>
+        public ActionResult ChargeTemplate_EditForm()
+        {
+            return View();
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="keyword"></param>
         /// <returns></returns>
-        public ActionResult ChargeTemplate_GetGridJson(Pagination pagination, string keyword)
+        public ActionResult ChargeTemplate_GetGridJson(Pagination pagination, string keyword, string yxbz)
         {
-            var list = _sysChargeItemDmnService.Search(pagination, keyword, this.OrganizeId);
+            var list = _sysChargeItemDmnService.Search(pagination, keyword, this.OrganizeId,yxbz);
             var data = new
             {
                 rows = list,
@@ -50,16 +62,7 @@ namespace Newtouch.HIS.Web.Areas.SystemManage.Controllers
             return Content(data.ToJson());
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sfmbbh"></param>
-        /// <returns></returns>
-        public ActionResult ChargeTemplate_EditForm()
-        {
-            return View();
-        }
-
+    
 
         /// <summary>
         /// 
@@ -101,7 +104,11 @@ namespace Newtouch.HIS.Web.Areas.SystemManage.Controllers
             return Content(data.ToJson());
 
         }
-
+        public ActionResult deleteid(string keyValue)
+        {
+            _sysFeeDmnService.DeleteById(keyValue, this.OrganizeId);
+            return Success("删除成功");
+        }
         #endregion
 
         #region

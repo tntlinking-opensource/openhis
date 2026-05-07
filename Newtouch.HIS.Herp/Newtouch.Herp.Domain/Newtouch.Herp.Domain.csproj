@@ -256,6 +256,7 @@
     <Compile Include="ValueObjects\RelProductAndsfxmVO.cs" />
     <Compile Include="ValueObjects\SelectVo.cs" />
     <Compile Include="ValueObjects\SupplierContactVO.cs" />
+    <Compile Include="ValueObjects\SysMSGQueryVO.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Newtouch.Herp.Infrastructure\Newtouch.Herp.Infrastructure.csproj">

@@ -178,13 +178,13 @@ SELECT [Id]
 SELECT DISTINCT cf.CardNo, cf.xm
 FROM dbo.mz_cf(NOLOCK) cf
 INNER JOIN dbo.mz_cfmx(NOLOCK) cfmx ON cfmx.cfh=cf.cfh AND cfmx.OrganizeId=cf.OrganizeId AND cfmx.zt='1' 
-INNER JOIN dbo.mz_cfmxph(NOLOCK) mxph ON mxph.fyyf=cf.lyyf AND mxph.cfh=cf.cfh AND mxph.yp=cfmx.ypCode AND mxph.zt='1' AND mxph.gjzt='0' AND mxph.OrganizeId=cf.OrganizeId
+--INNER JOIN dbo.mz_cfmxph(NOLOCK) mxph ON mxph.fyyf=cf.lyyf AND mxph.cfh=cf.cfh AND mxph.yp=cfmx.ypCode AND mxph.zt='1' AND mxph.gjzt='0' AND mxph.OrganizeId=cf.OrganizeId
 WHERE cf.OrganizeId=@OrganizeId
 AND cf.zt='1'
 AND cf.lyyf=@yfbmCode
 AND cf.jsnm>0 
 AND cf.fybz=@fybz 
-AND cfmx.Id=mxph.cfmxId
+--AND cfmx.Id=mxph.cfmxId
 ");
             var param = new List<DbParameter>
             {
@@ -329,10 +329,10 @@ AND cf.zt = @zt
         {
             const string sql = @"
 SELECT * 
-FROM dbo.mz_cf(NOLOCK) cf,vout.mzh
-INNER JOIN dbo.mz_cfmx(NOLOCK) cfmx ON cfmx.cfh=cf.cfh AND cfmx.OrganizeId=cf.OrganizeId AND cfmx.zt='1' 
-INNER JOIN dbo.mz_cfmxph(NOLOCK) mxph ON mxph.fyyf=cf.lyyf AND mxph.cfh=cf.cfh AND mxph.yp=cfmx.ypCode AND mxph.zt='1' AND mxph.gjzt='0' AND mxph.OrganizeId=cf.OrganizeId
-INNER JOIN [NewtouchHIS_Sett].[dbo].[V_invoiceEBillOutpatient] vout on vout.busNo=cf.jsnm
+FROM dbo.mz_cf(NOLOCK) cf
+--INNER JOIN dbo.mz_cfmx(NOLOCK) cfmx ON cfmx.cfh=cf.cfh AND cfmx.OrganizeId=cf.OrganizeId AND cfmx.zt='1' 
+--INNER JOIN dbo.mz_cfmxph(NOLOCK) mxph ON mxph.fyyf=cf.lyyf AND mxph.cfh=cf.cfh AND mxph.yp=cfmx.ypCode AND mxph.zt='1' AND mxph.gjzt='0' AND mxph.OrganizeId=cf.OrganizeId
+--INNER JOIN [NewtouchHIS_Sett].[dbo].[V_invoiceEBillOutpatient] vout on vout.busNo=cf.jsnm
 WHERE cf.CardNo=@CardNo
 AND cf.OrganizeId=@OrganizeId
 AND cf.xm=@xm

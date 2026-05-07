@@ -274,7 +274,8 @@
                 { label: '用法', name: 'yfmc', align: 'center', width: 30 },
                 { label: '频次', name: 'yzpcmc', align: 'center', width: 30 },
                 { label: '单价', name: 'dj', align: 'center', width: 50 },
-                { label: '数量', name: 'sl', align: 'center', width: 50 },
+                { label: '数量', name: 'sl', align: 'center', width: 50 ,hidden:true},
+                { label: '数量', name: 'slstr', align: 'center', width: 50 },
                 { label: '金额', name: 'je', align: 'center', width: 50 },
                 { label: '停止/作废时间', name: 'tzsj', align: 'center', width: 100, formatter: function (val) { if (val != null) return $.getTime({ date: val }); else return ""; } },
                 {
@@ -305,11 +306,12 @@
                 , { label: 'yfztbs', name: 'yfztbs', align: 'center', hidden: true },
                 {
                     label: '操作', name: '', align: 'center', width: 70, formatter: function (val, row, option) {
-                        if (option.ispscs == "1" && !option.psjg) {
-                            return "<a class='btn btn-default' onclick='PSLR(\"" + option.yzid + "\")'>皮试补录</a>"
-                        }
-                        else
-                            return "";
+                        return "<a class='btn btn-default' onclick='PSLR(\"" + option.yzid + "\")'>皮试补录</a>"
+                        //if (option.ispscs == "1" && !option.psjg) {
+                        //    return "<a class='btn btn-default' onclick='PSLR(\"" + option.yzid + "\")'>皮试补录</a>"
+                        //}
+                        //else
+                        //    return "";
                     }
                 }
             ],
@@ -568,10 +570,10 @@
             $.modalAlert("该医嘱无需皮试", 'warning');
             return;
         }
-        if (rowData.ispscs == "1" && (rowData.psjg == "0" || rowData.psjg == "1")) {
-            $.modalAlert("当前结果无法修改，请转至皮试结果录入页。", 'warning');
-            return;
-        }
+        //if (rowData.ispscs == "1" && (rowData.psjg == "0" || rowData.psjg == "1")) {
+        //    $.modalAlert("当前结果无法修改，请转至皮试结果录入页。", 'warning');
+        //    return;
+        //}
         zyh = rowData.zyh;
         yzid = rowData.yzid;
         yzxz = rowData.yzxz;

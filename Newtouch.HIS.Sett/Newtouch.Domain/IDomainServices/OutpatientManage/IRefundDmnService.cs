@@ -78,7 +78,7 @@ namespace Newtouch.HIS.Domain.IDomainServices
         /// <param name="xm"></param>
         /// <param name="orgId"></param>
         /// <returns></returns>
-        List<OutpatAccInfoDto> GetBasicInfoSearchListInRegister(Pagination pagination, string blh, string xm, string orgId,string zjh, string zjlx);
+        List<OutpatAccInfoDto> GetBasicInfoSearchListInRegister(Pagination pagination, string blh, string xm, string orgId,string zjh,string zjlx);
 
         /// <summary>
         /// 病人门诊登记，浮层查询病人信息

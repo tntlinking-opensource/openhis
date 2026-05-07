@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "MZCBFYFX";
+    ViewBag.Title = "住院诊断信息表";
     Layout = "~/Views/Shared/_Form.cshtml";
     var reportUrl = Newtouch.Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("ReportUrl");
     var ReportSystemCode = Newtouch.Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("ReportSystemCode");
@@ -9,30 +9,33 @@
 <div class="rows">
 	<div class="panel panel-default">
 		<table class="form">
-			<tr>
-				<th class="formTitle">开始日期：</th>
-				<td class="formValue">
-					<input id="ksrq" type="text" class="form-control input-wdatepicker formClearIgnore" style="width:90px"
-						   onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd' })"
-						   onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd' })"
-						   value="@DateTime.Now.ToString("yyyy-MM-01")" />
-				</td>
-				<th class="formTitle">结束日期：</th>
-				<td class="formValue">
-					<input id="jsrq" type="text" class="form-control input-wdatepicker formClearIgnore" style="width:90px"
-						   onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd' })"
-						   onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd' })"
-						   value="@DateTime.Now.ToString("yyyy-MM-dd")" />
-				</td>
-				<th class="formTitle"></th>
-				<td class="formValue" style="padding-left:20px;">
-					<input type="button" id="btn_search" onclick="submit();" class="btn btn-primary btn-md" value="查询" style="width:55px" />
-				</td>
-				<th></th>
-				<td></td>
-				<th></th>
-				<td></td>
-			</tr>
+            <tr>
+                <th class="formTitle">住院号：</th>
+                <td class="formValue">
+                    <input id="zyh" name="zyh" type="text" autocomplete="off" class="form-control" />
+                </td>
+                <th class="formTitle">开始日期：</th>
+                <td class="formValue">
+                    <input id="ksrq" type="text" class="form-control input-wdatepicker formClearIgnore" style="width:90px"
+                           onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd' })"
+                           onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd' })"
+                           value="@DateTime.Now.ToString("yyyy-MM-01")" />
+                </td>
+                <th class="formTitle">结束日期：</th>
+                <td class="formValue">
+                    <input id="jsrq" type="text" class="form-control input-wdatepicker formClearIgnore" style="width:90px"
+                           onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd' })"
+                           onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd' })"
+                           value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                </td>
+                <td class="formTitle">
+                    <input type="button" id="btn_search" onclick="submit();" class="btn btn-primary btn-md" value="查询" style="width:55px" />
+                </td>
+                <th></th>
+                <td></td>
+                <th></th>
+                <td></td>
+            </tr>
 		</table>
 	</div>
 </div>
@@ -63,7 +66,7 @@
 	$(function () {
 		var h = $(window).height() - 55
 		$('#layout iframe').css('height', h);
-
+		setTimeout(function () { submit(); }, 100);
 	});
 	 //刷新列表
     function refReport() {
@@ -71,8 +74,48 @@
     }
 
     function getUrl() {
-        var srcUrl2 = '@Html.Raw(reportUrl)' + "?tempCode=1222" + "&systemCode=" + '@Html.Raw(ReportSystemCode)' + "&orgId=" + OrgId + "&ksrq=" + $('#ksrq').val() + "&jsrq=" + $('#jsrq').val();
+        var srcUrl2 = '@Html.Raw(reportUrl)' + "?tempCode=1317" + "&systemCode=" + '@Html.Raw(ReportSystemCode)' + "&zyh=" + $('#zyh').val() + "&orgId=" + OrgId + "&ksrq=" + $('#ksrq').val() + "&jsrq=" + $('#jsrq').val();
         return srcUrl2;
+        @*var srcUrl2 = '@Html.Raw(reportUrl)' + "?tempCode=1222" + "&systemCode=" + '@Html.Raw(ReportSystemCode)' + "&orgId=" + OrgId + "&ksrq=" + $('#ksrq').val() + "&jsrq=" + $('#jsrq').val();
+        return srcUrl2;*@
     }
-
+    //治疗项目选择浮层绑定
+    $('#zyh').newtouchBatchFloatingSelector({
+        width: 520,
+        height: 200,
+        caption: "选择患者",
+        clickautotrigger: true,
+        url: "/ReportManage/Report/GetInpatientcryrq",
+        ajaxparameters: function ($thisinput) {
+            var keyword = $thisinput.val().trim();
+            var zyh = $("#zyh").val();
+            return "zyh=" + zyh;
+        },
+        itemdbclickhandler: function ($thistr, $thisinput) {
+            if (!!$thistr.attr('data-zyh')) {
+                $('#ryrq').html($thistr.attr('data-ryrq'));
+                $('#zyh').val($thistr.attr('data-zyh'));
+            }
+        },
+        colModel: [
+            { label: '住院号', name: 'zyh', width: 100 },
+            { label: 'cyrq', name: 'cyrq', hidden: true },
+            { label: 'ryrq', name: 'ryrq', hidden: true },
+            { label: '在院标志', name: 'zybz', width: 100, align: 'Center' },
+            { label: '姓名', name: 'xm', width: 120, align: 'Center' },
+            { label: '出生年月', name: 'csny', hidden: true, width: 100, align: 'Center' },
+            {
+                label: '性别', name: 'xb', width: 50, align: 'Center', formatter: function (cellvalue) {
+                    return $.getGender(cellvalue);
+                }
+            },
+            {
+                label: '年龄', name: 'nlshow', width: 50, align: 'Center', formatter: function (cellvalue, a, b) {
+                    return getAgeFromBirthTime({ begin: b.csny }).text;
+                }
+            },
+            { label: '床号', name: 'cw', width: 50, align: 'Center' },
+            { label: '入院日期', name: 'ryrq', hidden: true, width: 100, align: 'Center' }
+        ]
+    });
 </script>

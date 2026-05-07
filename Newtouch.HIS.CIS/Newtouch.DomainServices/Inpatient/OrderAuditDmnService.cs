@@ -161,7 +161,7 @@ CONVERT(VARCHAR(25),CASE DATEDIFF(DAY, xx.ryrq,GETDATE()) WHEN 0 THEN 1 else  DA
                 strkfwhere = " and yzlx<>@yzlx ";
             }
             string sql = @"select iszt,zyh,max(yzid) yzid, yzxz,yzxzsm,max(kssj) kssj,xmmc,ypjl,yzmc,yzjl,yfmc,yzpcmc,max(tzsj) tzsj,tzysgh,tzr,Creator,zh,zh1,OrganizeId,yzzt,yzlx,hzxm,yztag,yztagName,isjf,ispscs,yzh
-,psjgms,psjg,yfztbs,yply,sum(dj) dj,sum(je) je,case when zh1 is null or zh1='' then  sum(sl) else 1 end sl,Px
+,psjgms,psjg,yfztbs,yply,sum(case when yzlx in ('6','7') then dj*sl else dj end) dj,sum(je) je,case when zh1 is null or zh1='' then  sum(sl) else 1 end sl,slstr,Px
 from (
 select iszt,a.zyh, a.id yzid,2 yzxz,'长期' yzxzsm,a.kssj,case when ztid is not null then ztmc else a.xmmc end xmmc,a.ypjl,
 case when ztid is not null then (case when a.yzzt=3 then '[停]'+a.ztmc else a.ztmc end) else 
@@ -170,8 +170,9 @@ a.tzsj,a.tzysgh,a.tzr ,b.Name Creator,a.zh,
 case when ztid is not null then yzh else '' end zh1,a.OrganizeId,yzzt,a.yzlx,a.hzxm,
 a.yztag,case a.yztag when 'JI' then '精I' when 'JII' then '精II' when 'MZ' then '麻醉' else a.yztag end yztagName,
 isnull(a.isjf,1) isjf,isnull(a.ispscs,'') ispscs,a.yzh,c.Remark psjgms,c.result psjg,yfztbs,yply
-,isnull(convert(numeric(18,4),isnull(yp.lsj/bzs,sfxm.dj)),0) dj
-,convert(numeric(18,2),isnull(convert(numeric(18,4),yp.lsj/bzs)*sl,sfxm.dj*sl)) je,sl,case when ztid is not null then '1' else a.Px end Px
+,isnull(convert(numeric(18,4),isnull(case when yp.zycldw=yp.bzdw THEN yp.lsj else yp.lsj/bzs end,sfxm.dj)),0) dj
+,convert(numeric(18,2),isnull(convert(numeric(18,4),case when yp.zycldw=yp.bzdw THEN yp.lsj else yp.lsj/bzs end)*sl,sfxm.dj*sl)) je
+,sl,(cast(sl as varchar)+isnull(yp.zycldw,'')) slstr,case when ztid is not null then '1' else a.Px end Px
 from  (
 select 'N' iszt,1 num,*
 from [dbo].[zy_cqyz] a with(nolock) 
@@ -198,9 +199,12 @@ a.zfsj,a.zfysgh,a.zfr ,b.Name Creator,a.zh,
 case when ztId is not null then yzh else '' end zh1,a.OrganizeId,yzzt,a.yzlx,a.hzxm,
 a.yztag,case a.yztag when 'JI' then '精I' when 'JII' then '精II' when 'MZ' then '麻醉' else a.yztag end yztagName,
 isnull(a.isjf,1) isjf,a.ispscs,a.yzh,c.Remark psjgms,c.result psjg,yfztbs,yply
-,isnull(convert(numeric(18,4),isnull(yp.lsj/bzs,sfxm.dj)),0) dj
-,case when yzlx='10' then isnull(isnull(yp.lsj*sl*ypjl,sfxm.dj*sl*ypjl),0) else  convert(numeric(18,2),isnull(convert(numeric(18,4),yp.lsj/bzs)*sl,sfxm.dj*sl)) end je,
-case when yzlx='10' then cast(isnull(ypjl,1) as int)*sl else sl end sl,case when ztId is not null then '1' else a.Px end Px
+,isnull(convert(numeric(18,4),isnull((case when yp.zycldw=yp.bzdw THEN yp.lsj else yp.lsj/bzs end),sfxm.dj)),0) dj
+,case when yzlx='10' then isnull(isnull(yp.lsj*sl*ypjl,sfxm.dj*sl*ypjl),0) else 
+convert(numeric(18,2),isnull(convert(numeric(18,4),case when yp.zycldw=yp.bzdw then yp.lsj else yp.lsj/bzs end)*sl,sfxm.dj*sl)) end je,
+case when yzlx='10' then cast(isnull(ypjl,1) as int)*sl else sl end sl,
+cast(case when yzlx='10' then cast(isnull(ypjl,1) as int)*sl when yzlx in('6','7') then '1' else sl end as varchar)+ isnull(yp.zycldw,'') slstr,
+case when ztId is not null then '1' else a.Px end Px
 from (
 select 'N' iszt,1 num,*
 from [dbo].[zy_lsyz] a with(nolock) 
@@ -221,7 +225,7 @@ LEFT JOIN  [NewtouchHIS_Base].[dbo].[xt_yp] yp on a.xmdm=yp.ypCode and a.Organiz
 --where num=1
 ) ttt where ttt.kssj < getDate()
 group by iszt,zyh, yzxz,yzxzsm,xmmc,ypjl,yzmc,yzjl,yfmc,yzpcmc,tzysgh,tzr,Creator,zh,zh1,OrganizeId,yzzt,yzlx,hzxm,yztag,yztagName,isjf,ispscs,yzh
-,psjgms,psjg,yfztbs,yply,Px";
+,psjgms,psjg,yfztbs,yply,Px,slstr";
 
             return this.QueryWithPage<OrderAuditVO>(sql, pagination, new[] {
                 new SqlParameter("@zyh", patList),
@@ -1204,7 +1208,7 @@ and not exists(select 1 from xt_gmxx c with(nolock) where a.OrganizeId=c.Organiz
                     string sql2 = string.Format(@"insert into [Newtouch_CIS].dbo.xt_gmxx 
 values(
 newid(), '" + item.blh + "', '" + item.hzxm + "', '" + item.sex + "', '" + item.xmdm + "', '" + item.xmmc + "', '" + lrjg + "', '" + Remark + "', '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fff") + "','" + user.UserCode + "', " +
-    "'" + user.UserName + "',NULL,NULL,NULL ,2 ,'" + item.yzid.Trim() + "','', '" + user.OrganizeId.Trim() + "', '1','' , '" + item.xmdm + "')");
+    "'" + user.UserName + "',NULL,NULL,NULL ,2 ,'" + item.yzid.Trim() + "','', '" + user.OrganizeId.Trim() + "', '1','' , '" + item.xmdm + "','')");
 
                     ExecuteSqlCommand(sql2);
                 }

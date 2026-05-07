@@ -93,7 +93,7 @@
                     </td>
                     <th class="formTitle">至：</th>
                     <td class="formValue">
-                        <input id="txtEndDate" type="text" class="form-control input-wdatepicker " value="@DateTime.Now.AddHours(1).ToString("yyyy-MM-dd HH:mm:ss")" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />
+                        <input id="txtEndDate" type="text" class="form-control input-wdatepicker " value="@DateTime.Now.AddHours(1).ToString("yyyy-MM-dd 23:59:59")" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />
                     </td>
                     <th class="formTitle">发票号：</th>
                     <td class="formValue">
@@ -169,6 +169,7 @@
         TabGridHide();
         gridDJMainRecords();
         $("#btn_print").click(function () {
+            debugger;
             var crkId = "";
             var rowId = $gridDjMainRecords.jqGrid('getGridParam', 'selrow');
             var djlx = $("#ddlDJLX").val();
@@ -198,35 +199,64 @@
             switch (djlx) {
             case "@((int)EnumDanJuLX.yaopinruku)":
                 reportType = "47";
+                if (!crkId) {
+                    reportType = "50";
+                    param = param + "&djlx=" + djlx;
+                }
                 //reportType = "crkd_wbrk";
                 break;
             case "@((int)EnumDanJuLX.waibucuku)":
                 reportType = "48";
+                if (!crkId) {
+                    reportType = "50";
+                    param = param + "&djlx=" + djlx;
+                }
                 //reportType = "crkd_wbck";
                 break;
             case "@((int)EnumDanJuLX.zhijiefayao)":
                 reportType = "49";
+                if (!crkId) {
+                    reportType = "50";
+                    param = param + "&djlx=" + djlx;
+                }
                 //reportType = "crkd_zjck";
                 break;
             case "@((int)EnumDanJuLX.shenlingfayao)":
                 reportType = "49";
+                if (!crkId) {
+                    reportType = "50";
+                    param = param + "&djlx=" + djlx;
+                }
                 //reportType = "crkd_slck";
                 break;
             case "@((int)EnumDanJuLX.neibufayaotuihui)":
                 reportType = "51";
+                if (!crkId) {
+                    reportType = "50";
+                    param = param + "&djlx=" + djlx;
+                }
                 //reportType = "crkd_nbfyth";
                 break;
             case "@((int)EnumDanJuLX.keshifayao)":
             case "@((int)EnumDanJuLX.jiyaochuku)":
                 reportType = "50";
+                if (!crkId) {
+                    reportType = "50";
+                    param = param + "&djlx=" + djlx;
+                }
                 //reportType = "crkd_ksfy";
                     break;
             case "@((int)EnumDanJuLX.piliangchuku)":
                 reportType = "1252";
+                if (!crkId) {
+                    reportType = "50";
+                    param = param + "&djlx=" + djlx;
+                }
             //reportType = "crkd_ksfy";
             break;
             default:
                 reportType = "50";
+                param = param + "&djlx=" + djlx;
                 //reportType = "OutOrInStorageBill";
                 break;
             }
@@ -389,7 +419,7 @@
         sortable: false,
         colModel: [
             { label: '出入库明细序号', name: 'crkmxId', hidden: true, width: 100, align: 'left' },
-            { label: '发票', name: 'fph', width: 90, align: 'center' },
+            { label: '发票', name: 'fph', width: 100, align: 'center' },
             { label: '药品类别', name: 'yplbmc', width: 60, align: 'left' },
             { label: '药品名称', name: 'ypmc', width: 110, align: 'left' },
             { label: '数量', name: 'slanddw', width: 60, align: 'right' },
@@ -441,7 +471,7 @@
 				width: "1500px",
 				height: "700px",
 				callBack: function (iframeId) {
-					top.frames[iframeId].newtouch_event_f8();
+				    top.frames[iframeId].newtouch_event_f8();
 				}
 			});
 		} else if (djlx==2) {
@@ -475,7 +505,11 @@
 				if (res < 0) {
 					$.modalAlert("程序错误", 'warning');
 				} else {
-					$.modalMsg("操作成功", 'success', 1500);
+				    $.modalMsg("操作成功", 'success', 1500);
+				    $gridDjMainRecords.jqGrid('setGridParam', {
+				        postData: getSearchPostData(),
+				        url: "/PharmacyDrugStorage/SelectReceiptMainInfoV2?from=query"
+				    }).trigger('reloadGrid');
 				}
 			}
 		});

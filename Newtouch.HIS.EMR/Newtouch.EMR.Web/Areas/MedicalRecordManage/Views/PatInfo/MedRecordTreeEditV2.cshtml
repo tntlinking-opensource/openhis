@@ -142,7 +142,7 @@
                     }
                 });
             }
-            if (isRepeat == 'flase') {
+            if (isRepeat == false) {
                 if ('@ViewBag.IsEnableEditor' == "true" && $("#bllx").val() == '@((int)EnumBllx.basy)') {
                     top.top.$.Newtouchtab.addTabWithOutMenu({ name: "病案首页", enName: "", url: "/MRHomePage/MRHomePage/Main?mbbh=" + mbRowId + "&keyValue=&zyh=" + $("#zyh").val(), AppId: "EMR" });
                 }
@@ -150,7 +150,12 @@
                     top.top.$.Newtouchtab.addTabWithOutMenu({ name: mbData.mbmc, enName: "", url: mbData.mblj + "?mbbh=" + mbRowId + "&keyValue=&zyh=" + $("#zyh").val(), AppId: "EMR" });
                 }
                 else {
-                    top.top.$.Newtouchtab.addTabWithOutMenu({ name: "病历操作", enName: "", url: "/MedicalRecordManage/MedicalRecord/MedicalRecordEdiForAdd?mbbh=" + mbRowId + "&zyh=" + $("#zyh").val() + "&mzh=" + $("#mzh").val(), AppId: "EMR" });
+                    if ('@ViewBag.openEditorSwitch' == "ON") //新版编辑器
+                        top.top.$.Newtouchtab.addTabWithOutMenu({ name: "病历操作" + "<span class='fa fa-times-circle quit' style='display: none;padding-left:2px;' ></span>", enName: "", url: "/MedicalRecordManage/MedicalRecord/MedicalRecordEdiForAddV2?mbbh=" + mbRowId + "&zyh=" + $("#zyh").val() + "&mzh=" + $("#mzh").val() + "&doctype=" + ".html", AppId: "EMR" });
+                    else
+                        top.top.$.Newtouchtab.addTabWithOutMenu({ name: "病历操作", enName: "", url: "/MedicalRecordManage/MedicalRecord/MedicalRecordEdiForAdd?mbbh=" + mbRowId + "&zyh=" + $("#zyh").val() + "&mzh=" + $("#mzh").val(), AppId: "EMR" });
+
+                    //top.top.$.Newtouchtab.addTabWithOutMenu({ name: "病历操作", enName: "", url: "/MedicalRecordManage/MedicalRecord/MedicalRecordEdiForAdd?mbbh=" + mbRowId + "&zyh=" + $("#zyh").val() + "&mzh=" + $("#mzh").val(), AppId: "EMR" });
                 }
             }
             $.modalClose();
@@ -256,7 +261,10 @@
                                 top.top.$.Newtouchtab.addTabWithOutMenu({ name: mbData.mbmc, enName: "", url: mbData.mblj + "?mbbh=" + mbRowId + "&keyValue=&zyh=" + $("#zyh").val(), AppId: "EMR" });
                             }
                             else {
-                                top.top.$.Newtouchtab.addTabWithOutMenu({ name: "病历操作", enName: "", url: "/MedicalRecordManage/MedicalRecord/MedicalRecordEdiForAdd?mbbh=" + mbRowId + "&zyh=" + $("#zyh").val() + "&mzh=" + $("#mzh").val(), AppId: "EMR" });
+                                if ('@ViewBag.openEditorSwitch' == "ON") //新版编辑器
+                                    top.top.$.Newtouchtab.addTabWithOutMenu({ name: "病历操作" + "<span class='fa fa-times-circle quit' style='display: none;padding-left:2px;' ></span>", enName: "", url: "/MedicalRecordManage/MedicalRecord/MedicalRecordEdiForAddV2?mbbh=" + mbRowId + "&zyh=" + $("#zyh").val() + "&mzh=" + $("#mzh").val() + "&doctype=" + ".html", AppId: "EMR" });
+                                else
+                                    top.top.$.Newtouchtab.addTabWithOutMenu({ name: "病历操作", enName: "", url: "/MedicalRecordManage/MedicalRecord/MedicalRecordEdiForAdd?mbbh=" + mbRowId + "&zyh=" + $("#zyh").val() + "&mzh=" + $("#mzh").val(), AppId: "EMR" });
                             }
                             $.modalClose();
                         }

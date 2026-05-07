@@ -13,6 +13,7 @@ namespace Newtouch.HIS.Domain.ValueObjects.HospitalizationManage
         /// 编号
         /// </summary>
         public int jfbbh { get; set; }
+        public string yzwym { get; set; }
 
         /// <summary>
         /// 

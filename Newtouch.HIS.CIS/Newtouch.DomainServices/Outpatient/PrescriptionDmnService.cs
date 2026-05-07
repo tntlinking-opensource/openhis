@@ -72,7 +72,7 @@ SELECT cf.cfId, cfmx.xmCode, cfmx.xmmc, cfmx.mczll,cfmx.pcCode, cfmx.sl, cfmx.dw
         isnull(cfmx.mczll,0)/isnull(sfxm.dwjls,1)*isnull(cfmx.sl,0)*isnull(sfxm.dj,0) je,   --根据最新的dwjls和dj，算出总额
         ";
             }
-            else if (cflx == (int)EnumCflx.RegularItemPres)   //常规项目处方
+            else if (cflx == (int)EnumCflx.RegularItemPres|| cflx == (int)EnumCflx.Yyhc)   //常规项目处方  医用耗材处方
             {
                 sql += @"
 SELECT cf.cfId, cfmx.xmCode, cfmx.xmmc, cfmx.mczll,cfmx.pcCode, cfmx.sl, cfmx.dw, cfmx.ztId,cfmx.ztmc , 
@@ -87,7 +87,7 @@ SELECT cf.cfId, cfmx.xmCode, cfmx.xmmc, cfmx.mczll,cfmx.pcCode, cfmx.sl, cfmx.dw
         CONVERT(DECIMAL(9,2),(isnull(cfmx.sl,0)*isnull(sfxm.dj,0))) je,   --根据最新的dj，算出总额
         ";
             }
-            if (cflx == (int)EnumCflx.RehabPres || cflx == (int)EnumCflx.RegularItemPres || cflx == (int)EnumCflx.InspectionPres || cflx == (int)EnumCflx.ExaminationPres)
+            if (cflx == (int)EnumCflx.RehabPres || cflx == (int)EnumCflx.RegularItemPres || cflx == (int)EnumCflx.Yyhc || cflx == (int)EnumCflx.InspectionPres || cflx == (int)EnumCflx.ExaminationPres)
             {
                 sql += @"
         sfxm.dj,
@@ -235,8 +235,8 @@ WHERE 1=1";
 		{
 			foreach (var item in cfh)
 			{
-				string sql = "exec NewtouchHIS_herp..herp_开立物资冻结库存量 @cfh,@orgId,@rygh";
-				var pars = new List<SqlParameter>();
+				string sql = "exec [开立物资冻结库存量] @cfh,@orgId,@rygh";//"exec NewtouchHIS_herp..herp_开立物资冻结库存量 @cfh,@orgId,@rygh";
+                var pars = new List<SqlParameter>();
 				pars.Add(new SqlParameter("@cfh", item));
 				pars.Add(new SqlParameter("@orgId", orgId));
 				pars.Add(new SqlParameter("@rygh", rygh));
@@ -257,8 +257,8 @@ WHERE 1=1";
 			{
 				return 1;
 			}
-			string sql = "exec NewtouchHIS_herp..herp_开立物资冻结库存量_作废 @cfh,@orgId,@rygh";
-			var pars = new List<SqlParameter>();
+			string sql = "exec 开立物资冻结库存量_作废 @cfh,@orgId,@rygh";//"exec NewtouchHIS_herp..herp_开立物资冻结库存量_作废 @cfh,@orgId,@rygh";
+            var pars = new List<SqlParameter>();
 			pars.Add(new SqlParameter("@cfh", cfh));
 			pars.Add(new SqlParameter("@orgId", orgId));
 			pars.Add(new SqlParameter("@rygh", rygh));

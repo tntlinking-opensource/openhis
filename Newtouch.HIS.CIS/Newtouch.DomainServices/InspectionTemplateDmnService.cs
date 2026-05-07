@@ -77,7 +77,7 @@ WHERE zt.ztId is not null and mb.mbId=@mbId
         /// <param name="orgId"></param>
         /// <param name="ztId"></param>
         /// <returns></returns>
-        public List<GPackageZTTreeDetailVO> GetGPackageDetailByZtId(string orgId, string ztId)
+        public List<GPackageZTTreeDetailVO> GetGPackageDetailByZtId(string orgId, string ztId,string mbId=null)
         {
             var sql = @"
 SELECT ztxm.ztId,ztxm.sl,''bw, zt.ztmc, ztxm.sfxmCode AS xmCode,ztxm.sfxmCode AS xmdm, sfxm.sfxmmc AS xmmc, sfxm.dj, sfxm.dw, mb.zxks, Department.Name AS zxksmc,
@@ -93,20 +93,29 @@ LEFT JOIN NewtouchHIS_Base..V_S_xt_sfxm sfxm  ON sfxm.sfxmCode=ztxm.sfxmCode and
 LEFT JOIN NewtouchHIS_Base..V_S_Sys_Department Department  ON Department.Code=mb.zxks  AND Department.OrganizeId= ztxm.OrganizeId
 WHERE ztxm.OrganizeId=@orgId AND mb.zt='1' AND mbzt.zt='1' AND zt.zt='1' AND ztxm.zt='1' AND sfxm.zt='1' 
       ";
+            var pars = new List<SqlParameter>();
+            pars.Add(new SqlParameter("@orgId", orgId));
             if (ztId.Contains(","))
             {
                 sql += " and ztxm.ztId in(select col from dbo.f_split(@ztId ,',')) ";
+                pars.Add(new SqlParameter("@ztId", ztId));
             }
             else if (!string.IsNullOrWhiteSpace(ztId))
             {
-                sql += " and ztxm.ztId=@ztId "; 
+                sql += " and ztxm.ztId=@ztId ";
+                pars.Add(new SqlParameter("@ztId", ztId));
+            }
+            if (!string.IsNullOrWhiteSpace(mbId))
+            {
+                sql += " and mb.mbId=@mbId ";
+                pars.Add(new SqlParameter("@mbId", mbId));
             }
             sql += "  order by px     ";
-            var list = this.FindList<GPackageZTTreeDetailVO>(sql, new[] { new SqlParameter("@ztId", ztId), new SqlParameter("@orgId", orgId) });
+            var list = this.FindList<GPackageZTTreeDetailVO>(sql, pars.ToArray());
             return list;
         }
 
-        public List<GPackageZTTreeDetailVO> GetGPackageInfoByZtId(string orgId, string ztId)
+        public List<GPackageZTTreeDetailVO> GetGPackageInfoByZtId(string orgId, string ztId,string mbId)
         {
             var sql = @"
 SELECT ztxm.ztId,zt.ztmc,round(sum(ztxm.sl*sfxm.dj),2) zhje,mb.zxks, Department.Name AS zxksmc,sfxm.sqlx
@@ -116,9 +125,9 @@ LEFT JOIN [dbo].[jyjc_mbzt] mbzt with(nolock)   ON mbzt.ztId=ztxm.ztId   AND mbz
 LEFT JOIN [dbo].[jyjc_mb] mb with(nolock) ON mb.mbId=mbzt.mbId AND mb.OrganizeId=ztxm.OrganizeId
 LEFT JOIN NewtouchHIS_Base..V_S_xt_sfxm sfxm  with(nolock) ON sfxm.sfxmCode=ztxm.sfxmCode and sfxm.OrganizeId=ztxm.OrganizeId
 LEFT JOIN NewtouchHIS_Base..V_S_Sys_Department Department  with(nolock) ON Department.Code=mb.zxks AND Department.OrganizeId= ztxm.OrganizeId
-WHERE ztxm.ztId=@ztId  AND ztxm.OrganizeId=@orgId AND mb.zt='1' AND mbzt.zt='1' AND zt.zt='1' AND ztxm.zt='1' AND sfxm.zt='1' 
+WHERE ztxm.ztId=@ztId AND mb.mbId=@mbId  AND ztxm.OrganizeId=@orgId AND mb.zt='1' AND mbzt.zt='1' AND zt.zt='1' AND ztxm.zt='1' AND sfxm.zt='1' 
 group by  ztxm.ztId,zt.ztmc,mb.zxks, Department.Name,sfxm.sqlx ";
-            var list = this.FindList<GPackageZTTreeDetailVO>(sql, new[] { new SqlParameter("@ztId", ztId), new SqlParameter("@orgId", orgId) });
+            var list = this.FindList<GPackageZTTreeDetailVO>(sql, new[] { new SqlParameter("@ztId", ztId), new SqlParameter("@mbId", mbId), new SqlParameter("@orgId", orgId) });
             return list;
         }
 

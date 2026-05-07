@@ -40,8 +40,8 @@ namespace Newtouch.CIS.Web.Areas.NurseManage.Controllers
                     string gender = itempat.sex == "1" ? "男" : "女";
                     TreeViewModel treepat = new TreeViewModel();
                     treepat.id = itempat.zyh;
-                    //床号 + 姓名(住院天数)+住院号 + 年龄 +性别
-                    treepat.text = itempat.BedNo + "-" + itempat.hzxm + "(" + itempat.inHosDays + "天)" + "-" + itempat.zyh + "-" + itempat.nl + "岁-" + gender;
+                    //床号 + 姓名(住院天数)+住院号 + 年龄 +性别+病人性质
+                    treepat.text = itempat.BedNo + "-" + itempat.hzxm + "(" + itempat.inHosDays + "天)" + "-" + itempat.zyh + "-" + itempat.nl + "岁-" + gender + "-" + itempat.brxzmc;
                     treepat.value = itempat.zyh;
                     treepat.parentId = item.bqCode;
                     treepat.isexpand = false;
@@ -53,6 +53,7 @@ namespace Newtouch.CIS.Web.Areas.NurseManage.Controllers
                     treepat.Ex2 = itempat.sex;
                     treepat.Ex3 = itempat.nl;
                     treepat.Ex4 = itempat.hzxm;
+                    treepat.Ex5 = itempat.ryrq.ToString();
                     treeList.Add(treepat);
                 }
 

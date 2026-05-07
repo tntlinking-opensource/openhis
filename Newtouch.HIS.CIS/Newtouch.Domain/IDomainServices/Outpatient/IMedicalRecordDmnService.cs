@@ -28,6 +28,15 @@ namespace Newtouch.Domain.IDomainServices
         /// <param name="orgId"></param>
         /// <returns></returns>
         NodeContentDto SelectNodeContent(string jzId);
+
+        /// <summary>
+        /// 详情树节点内容 （根据MbId查询病历和处方内容）
+        /// </summary>
+        /// <param name="jzId"></param>
+        /// <param name="orgId"></param>
+        /// <returns></returns>
+        NodeContentDto SelectNodeContentByBlmb(string mbId,string orgId);
+        
         /// <summary>
         /// 保存就诊记录、诊断、病历、处方、处方明细
         /// </summary>
@@ -240,5 +249,7 @@ namespace Newtouch.Domain.IDomainServices
         IList<MedicineInfoVO2> GetMedicineInfoList(Pagination pagination, string xmbm, string xmmc, string ck_kc, string orgId);
 
         int CountLISztmz(string orgId, string jzId);
+
+        string GetYpjx(string code, string orgId);
     }
 }

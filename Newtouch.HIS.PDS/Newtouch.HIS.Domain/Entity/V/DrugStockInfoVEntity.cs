@@ -210,5 +210,8 @@ namespace Newtouch.HIS.Domain.Entity.V
         /// 国家医保代码
         /// </summary>
         public string gjybdm { get; set; }
+
+        public string fph { get; set; }
+        public int? kcyjz { get; set; }
 	}
 }

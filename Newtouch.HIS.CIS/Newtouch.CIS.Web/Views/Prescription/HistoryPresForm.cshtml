@@ -69,6 +69,7 @@
     }
 
     function submitForm(callback) {
+        debugger;
         var data = $("#gridList").jqGrid('getRowData_AllLine', true, true);
         if(!data || data.length==0){
             $.modalAlert("请选择明细进行复制", 'warning');

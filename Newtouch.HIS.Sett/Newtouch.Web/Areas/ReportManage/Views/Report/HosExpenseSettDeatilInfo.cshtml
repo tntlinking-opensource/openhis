@@ -1,7 +1,10 @@
 ﻿@using Newtouch.Infrastructure;
 @{
-    ViewBag.Title = "";
+    ViewBag.Title = "物资库存表";
     Layout = "~/Views/Shared/_Form.cshtml";
+    var reportUrl = Newtouch.Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("ReportUrl");
+    var ReportSystemCode = Newtouch.Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("ReportSystemCode");
+    var opr = Newtouch.Common.Operator.OperatorProvider.GetCurrent();
 }
 <div class="rows">
     <div class="panel panel-default">
@@ -17,10 +20,20 @@
                     <input id="jssj" type="text" class="form-control input-wdatepicker form-an"
                            onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd'})" value="@(DateTime.Now.ToString("yyyy-MM-dd"))" />
                 </td>
-                <th class="formTitle">科室：</th>
+                @*<th class="formTitle">科室：</th>
                 <td class="formValue">
                     <select id="depa" class="form-control">
                         <option value="">全部</option>
+                    </select>
+                </td>*@
+                <th class="formTitle">药房/药库：</th>
+                <td class="formValue">
+                    <select id="yfbm" class="form-control">
+                        <option value="">全部</option>
+                        <option value="00000020">西药库</option>
+                        <option value="00000021">中药库</option>
+                        <option value="00000019">西药房</option>
+                        <option value="00000018">中药房</option>
                     </select>
                 </td>
                 <td class="formValue" style="padding-left:20px;">
@@ -58,18 +71,11 @@
             $.modalAlert("开始时间不能大于结束时间", "error");
             return;
         }
-        var checkkssj = $('#kssj').val().substring('5', '7');
-        var checkjssj = $('#jssj').val().substring('5', '7');
-        if (checkkssj != checkjssj) {
-            $.modalAlert("查询间隔不能相差一个月", "error");
-            return;
-        }
-
-        var url = getUrl();
-
-        url += "&kssj=" + $('#kssj').val();
-        url += "&jssj=" + $.getDate({ date: $('#jssj').val() }) + ' 23:59:59';
-        url += "&ks=" + $('#depa').val();
+        var url = '@Html.Raw(reportUrl)' + "?tempCode=1324" + "&systemCode=" + '@Html.Raw(ReportSystemCode)';
+        url += "&ksrq=" + $('#kssj').val() + ' 00:00:00';
+        url += "&jsrq=" + $('#jssj').val() + ' 23:59:59';
+        url += "&yfbm=" + $('#yfbm').val();
+        url += "&orgId=" + '@Html.Raw(opr.OrganizeId)';
 
         setTimeout("$.loading(true, '正在请求报表页面...');", 10);
 
@@ -84,7 +90,7 @@
     $(function () {
         var h = $(window).height() - 55
         $('#layout iframe').css('height', h);
-        init();
+        //init();
 
         setTimeout(function () { submit(); }, 100);
     });

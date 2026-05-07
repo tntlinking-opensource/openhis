@@ -350,7 +350,7 @@
                         }
                     }
                 },
-                { label: "结算类型", name: "jslx", width: 40, align: "left", hidden: false }
+                { label: "结算类型", name: "jslx", width: 40, align: "left", hidden: true }
             ],
             multiselect: true,
             viewrecords: true,
@@ -725,6 +725,7 @@
 	        chongqingtuifei(data);
         }
         else {
+            debugger
             //结算主表
             sessionStorage.setItem("needRefundJszb", JSON.stringify(thisJszb));
             //退费明细
@@ -740,14 +741,13 @@
                 if (data[i].cflxmc == "检查处方" && (data[i].sqdzt != "2" || data[i].sqdzt != "3") && (data[i].sqdzt == "0" || data[i].sqdzt == "" || data[i].sqdzt=="4")) {
                     cfhlist.push(data[i].cfh);
 				}
-				if (data[i].cflxmc == "常规项目处方") {
+				if (data[i].cflxmc == "医用耗材") {
 					cgcfhlist.push(data[i].cfh);
 				}
             }
 			var pasccfhlist = Array.from(new Set(cfhlist));
 			cgcfhlist = Array.from(new Set(cgcfhlist));
             //console.log(pasccfhlist);
-
             //弹出退费确认窗体
             $.modalOpen({
                 id: "Form",
@@ -766,23 +766,6 @@
                     //        success: function (repjson) { }
                     //    });
 					//}
-
-					//if (cgcfhlist.length>0) {
-					//	//物资库存回退
-					//	$.ajax({
-					//		type: "POST",
-					//		url: "/OutpatientManage/OutpatCharge/TuiHuiwzdj",
-					//		data: { cfh: cgcfhlist },
-					//		dataType: "json",
-					//		async: true,
-					//		success: function (repjson) {
-
-					//			//console.log(repjson.data.mesagssjsosn);
-					//			//console.log(repjson.data.jsonref);
-					//		}
-					//	});
-					//}
-
                     $.currentWindow(iframeId).AcceptClick(function (ajaxresp) {
                         //回收旧发票（作废旧发票）//打印新收费票据
                         if (ajaxresp && ajaxresp.data) {
@@ -791,7 +774,18 @@
                         if (tjscfh.length>0) {
                             UpdateChargeTbz(tjscfh, tjsypcfh);
                         }
-
+                        if (cgcfhlist.length > 0) {
+                            //科室物资医用耗材库存回退
+                            $.ajax({
+                                type: "POST",
+                                url: "/OutpatientManage/OutpatCharge/TuiHuiwzdj",
+                                data: { cfh: cgcfhlist },
+                                dataType: "json",
+                                async: true,
+                                success: function (repjson) {
+                                }
+                            });
+                        }
                         //HIS退费成功
                         $.modalAlert(ajaxresp.message, 'success');
                         //writeOffEBill(patModel.mzh, thisJszb.jsnm);

@@ -35,7 +35,7 @@
                 </th>
                 <td class="formValue" style="padding-left:20px;">
 
-                    <input type="button" id="btn_search" onclick="summary();" class="btn btn-primary btn-md" value="查询汇总" style="width:55px" />
+                    <input type="hidden" id="btn_search" onclick="summary();" class="btn btn-primary btn-md" value="查询汇总" style="width:55px" />
                 </td>
                 <th></th>
                 <td></td>
@@ -122,10 +122,10 @@
 
        // var url = getUrl();
         var url = '@Html.Raw(reportUrl)' + "?tempCode=1218" + "&systemCode=" + '@Html.Raw(ReportSystemCode)';
-		url += " &zyh=" + $('#zyh').val();
-		url += " &orgId=" + OrgId;
-		url += " &kssj=" + $('#ksrq').val();
-		url += " &jssj=" +$('#jsrq').val();
+		url += "&zyh=" + $('#zyh').val();
+		url += "&orgId=" + OrgId;
+		url += "&kssj=" + $('#ksrq').val();
+		url += "&jssj=" +$('#jsrq').val();
         setTimeout("$.loading(true, '正在请求报表页面...');", 10);
         $("#iframerightiframerightiframerightttt").attr('src', url);
     }

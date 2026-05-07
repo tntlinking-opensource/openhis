@@ -40,7 +40,7 @@ namespace Newtouch.HIS.Domain.IDomainServices
         /// 收费模板页面index list
         /// </summary>
         /// <returns></returns>
-        IList<SysChargeTemplateGridVO> Search(Pagination pagination, string keyword, string organizeId);
+        IList<SysChargeTemplateGridVO> Search(Pagination pagination, string keyword, string organizeId, string yxbz);
 
         /// <summary>
         /// 获取用法

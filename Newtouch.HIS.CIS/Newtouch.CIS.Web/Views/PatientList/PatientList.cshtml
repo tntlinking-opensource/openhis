@@ -20,20 +20,7 @@
             <tr>
                 <th class="formTitle">就诊类型：</th>
                 <td class="formValue" style="width:10%;">
-                    @*<select id="mjzbz" name="mjzbz" class="form-control formClearIgnore" data-EnumType="EnumOutPatientType">*@
-                    <select id="mjzbz" name="mjzbz" class="form-control formClearIgnore">
-                        <option value="1" selected="selected">普通门诊</option>
-                        <option value="2">急诊</option>
-                        <option value="3">专家门诊</option>
-                        <option value="4">特病门诊</option>
-                        <option value="5">重大疾病门诊</option>
-                        <option value="6">慢性病门诊</option>
-                        <option value="7">居民两病</option>
-                        <option value="8">意外伤害门诊</option>
-                        <option value="9">生育门诊</option>
-                        <option value="10">耐多药结核门诊</option>
-                        <option value="11">儿童两病门诊</option>
-                        <option value="12">简易门诊</option>
+                    <select id="mjzbz" name="mjzbz" class="form-control formClearIgnore" data-EnumType="EnumOutPatientType">
                     </select>
                 </td>
                 <td class="formValue" style="width:18%;">
@@ -153,11 +140,12 @@
                 { label: '挂号医生', name: 'ghys', width: 80, align: 'left' },
                 { label: '挂号日期', name: 'ghsj', width: 100, align: 'left', formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d' } },
                 { label: '挂号操作时间', name: 'ghczsj', width: 120, align: 'left', formatter: "date", formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } },
+                { label: '就诊医生', name: 'ghys', width: 80, align: 'left' },
                 {
                     label: '操作', name: 'action', width: 150, align: 'center', formatter: function (val, option, rows) {
 
                         if (djz == "1") {
-							return "<input class='btn btn-default btn-md btn_add' type='button' value='叫号' onclick='jiaohao(" + rows.mzh + ",$(this).parent().parent().attr(\"id\"))'/>";//+"<input class='btn btn-default btn-md btn_del' type='button' value='过号' onclick='guohao(" + rows.mzh + ")'/>";
+							return "<input class='btn btn-default btn-md btn_add' type='button' value='叫号' onclick='jiaohao(" + rows.mzh + ",$(this).parent().parent().attr(\"id\"))'/>"+"<input class='btn btn-default btn-md btn_del' type='button' value='过号' onclick='guohao(" + rows.mzh + ")'/>";
                             //return '<input type="button" class="btn btn-default"  onclick="jiaohao(' + rows.mzh + ',' + $(this).parent().parent().attr("\'id\'") + ')" value="叫号" /> <input type="button" class="btn btn-default"  onclick="guohao(' + rows.mzh + ')" value="过号" />';
                         } else {
                             return '';
@@ -263,7 +251,6 @@
 			dataType: "json",
 			async: false,
 			success: function (refdata) {
-				console.log("测试返回", refdata);
 				if (refdata.falg == null || refdata.falg == undefined) {
 					startTreat(rowid);
 				} else {
@@ -315,6 +302,7 @@
             $.modalAlert("请先选择一个患者", 'warning');
             return;
         }
+        
         var selRowData = $("#gridPatientList").getRowData(selrowId);
 
         syncPresChargeStatus(selRowData.blh, true);

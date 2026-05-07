@@ -127,6 +127,7 @@
             $('#tieshu').val('1');
         }
         else {
+            $("#gridzycf").clearGridData(); //先清
             //再次打开该页面
             $("#gridzycf").jqGrid('setGridParam', {
                 datatype: 'local',
@@ -374,7 +375,7 @@
             async: false,
             success: function (ret) {
                 var res=false;
-                var currYfdm = sessionStorage.getItem('curremzyf');
+                var currYfdm = sessionStorage.getItem('currentzyf');
                 $.each(ret, function () {
                     if((this.mzzybz=="1" && res==false && !currYfdm) ||(currYfdm==this.yfbmCode && res==false)){
                         var option = "<option value='" + this.yfbmCode +"|"+ this.mzzybz + "' selected>" + this.yfbmmc + "</option>";
@@ -387,7 +388,7 @@
             }
         });
         $("#tip_zyyfly").change(function(){
-            sessionStorage.setItem("curremzyf", $("#tip_zyyfly").val().split('|')[0]);
+            sessionStorage.setItem("currentzyf", $("#tip_zyyfly").val().split('|')[0]);
         });
     }
     function EnableTCMInlineEditBox(){
@@ -745,6 +746,7 @@
         var cfyf = $('#cfyf').val();
         var djbz = $('#djbz').is(':checked');
         var gridzycfData = $("#gridzycf").jqGrid('getRowData_AllLine', null, true);
+        var flag = false;
         $.each(gridzycfData, function () {    //去掉action
             delete this.action;   //去掉action
             delete this.jqRowId;   //去掉jqRowId
@@ -752,35 +754,35 @@
             if (savetodb == '1') {
                 if (this.ypmc == undefined || this.ypmc == "") {
                     $.modalAlert("缺少名称", "warning");
-                    saveResult = false;
+                    flag = true;
                     return false;
                 } else if (this.ypgg == undefined || this.ypgg == "") {
                     $.modalAlert("缺少规格", "warning");
-                    saveResult = false;
+                    flag = true;
                     return false;
                 } else if (isNaN(this.dj) || this.dj == "") {
                     $.modalAlert("缺少单价", "warning");
-                    saveResult = false;
+                    flag = true;
                     return false;
                 } else if (isNaN(this.mcjl) || this.mcjl == "") {
                     $.modalAlert("缺少剂量", "warning");
-                    saveResult = false;
+                    flag = true;
                     return false;
                 } else if (this.mcjldw === undefined || this.mcjldw == "") {
                     $.modalAlert("缺少单位", "warning");
-                    saveResult = false;
+                    flag = true;
                     return false;
                 } else if (isNaN(this.sl) || this.sl == "") {
                     $.modalAlert("缺少数量", "warning");
-                    saveResult = false;
+                    flag = true;
                     return false;
                 } else if (this.dw === undefined || this.dw == "") {
                     $.modalAlert("缺少单位", "warning");
-                    saveResult = false;
+                    flag = true;
                     return false;
                 } else if (isNaN(this.je) || this.je == "") {
                     $.modalAlert("缺少金额", "warning");
-                    saveResult = false;
+                    flag = true;
                     return false;
                 }
             }
@@ -803,7 +805,7 @@
             this.isdzcf = $("#isdzcfzy").val();
         });
 
-        if (!saveResult) {
+        if (flag) {
             EnableTCMInlineEditBox();    //重启启用编辑 否则下次Save时会返回false
             return;   //保存失败，则return
         }

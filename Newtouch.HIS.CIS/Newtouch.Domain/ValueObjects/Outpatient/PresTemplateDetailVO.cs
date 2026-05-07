@@ -51,5 +51,7 @@ namespace Newtouch.Domain.ValueObjects
         /// add by huangshanshan 门诊模板复制用法和剂型关联，用法无法正常显示
         /// </summary>
         public string jxCode { get; set; }
+        public string ztId { get; set; }
+        public string ztmc { get; set; }
     }
 }

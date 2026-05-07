@@ -71,5 +71,10 @@ namespace Newtouch.Herp.Domain.Entity
         /// 最后修改用户ID
         /// </summary>
         public string LastModifierCode { get; set; }
+        /// <summary>
+        /// 供应商
+        /// </summary>
+        public string supplierId { get; set; }
+        public string supplierName { get; set; }
     }
 }

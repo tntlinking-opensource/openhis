@@ -14,11 +14,7 @@ namespace Newtouch.HIS.Domain.DTO.PharmacyDrugStorage
     public class PurchaseStoreDTO
     {
         public string cgmxId { get; set; }
-        /// <summary>
-        /// 采购编号
-        /// </summary>
-        public string cgId { get; set; }
-        public string OrganizeId { get; set; }
+        
         /// <summary>
         /// 药品编号
         /// </summary>
@@ -60,44 +56,9 @@ namespace Newtouch.HIS.Domain.DTO.PharmacyDrugStorage
         /// </summary>
         public string yqbm { get; set; }
         /// <summary>
-        /// 多次配送标识（0不允许  1允许）
-        /// </summary>
-        public string dcpsbs { get; set; }
-        /// <summary>
-        /// 备注说明
-        /// </summary>
-        public string bzsm { get; set; }
-        /// <summary>
         /// 单位
         /// </summary>
         public string dw { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public string CreatorCode { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public DateTime CreateTime { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public DateTime? LastModifyTime { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public string LastModifierCode { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public string zt { get; set; }
-
-
         /// <summary>
         /// 药企名称
         /// </summary>
@@ -119,12 +80,8 @@ namespace Newtouch.HIS.Domain.DTO.PharmacyDrugStorage
         /// 大类名称
         /// </summary>
         public string dlmc { get; set; }
-
-        /// <summary>
-        /// 规格
-        /// </summary>
-        public string gg { get; set; }
         
+        public int kykc { get; set; }
         /// <summary>
         /// 带单位部门数量
         /// </summary>
@@ -137,35 +94,29 @@ namespace Newtouch.HIS.Domain.DTO.PharmacyDrugStorage
         public string bzdw { get; set; }
 
         /// <summary>
-        /// 最小单位
-        /// </summary>
-        public string zxdw { get; set; }
-
-        /// <summary>
         /// 转化因子
         /// </summary>
-        public int? zhyz { get; set; }
+        public string zhyz { get; set; }
 
         /// <summary>
         /// 包装数
         /// </summary>
-        public int? bzs { get; set; }
-
+        public decimal bzs { get; set; }
+        public string zxdw { get; set; }
+        public string pzwh { get; set; }
         /// <summary>
-        /// 部门批发价
+        /// 生产厂商
         /// </summary>
-        public decimal? pfj { get; set; }
-        
-        /// <summary>
-        /// 部门零售价
-        /// </summary>
-        public decimal? lsj { get; set; }
+        public string sccj { get; set; }
 
         /// <summary>
         /// 最小单位零售价
         /// </summary>
         public decimal? zxdwlsj { get; set; }
-        
+        /// <summary>
+        /// 最小单位零售价
+        /// </summary>
+        public decimal? zxdwpfj { get; set; }
         /// <summary>
         /// 药库批发价
         /// </summary>
@@ -176,15 +127,14 @@ namespace Newtouch.HIS.Domain.DTO.PharmacyDrugStorage
         /// </summary>
         public decimal? yklsj { get; set; }
 
-        /// <summary>
-        /// 生产厂商
-        /// </summary>
-        public string sccj { get; set; }
-        
+       
         /// <summary>
         /// 零售价单价单位
         /// </summary>
         public string lsjdjdw { get; set; }
-        
+        public decimal? zje { get; set; }
+        public string zxspdm { get; set; }
+
+
     }
 }

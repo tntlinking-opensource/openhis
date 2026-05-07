@@ -16,7 +16,7 @@
             {
                 <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
                 <ul class="dropdown-menu pull-right">
-                    <li><a onclick="btn_template()" href="javascript:void()">配置模板管理</a></li>
+                    <li><a onclick="btn_template()" href="javascript:void(0)">配置模板管理</a></li>
                 </ul>
             }
         </div>
@@ -25,6 +25,9 @@
         </div>
         <div class="btn-group">
             <a class="btn btn-primary" onclick="btn_delete()"><i class="fa fa-pencil-square-o"></i>删除</a>
+        </div>
+        <div class="btn-group">
+            <a class="btn btn-primary" onclick="btn_sync()"><i class="fa fa-pencil-square-o"></i>同步</a>
         </div>
     </div>
     <div class="search">
@@ -64,13 +67,13 @@
             url: "/SystemManage/SysConfig/GetGridJson",
             height: $(window).height() - 128,
             colModel: [
-                 { label: "主键", name: "Id", hidden: true, key: true },
+                { label: "主键", name: "Id", hidden: true, key: true },
                 { label: "有效", name: "zt", width: 80, align: "center", formatter: function (cellvalue) { return cellvalue == "1" ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>"; } },
-                  { label: "名称", name: "Name", width: 200, align: 'left'},
-                  { label: '编码', name: 'Code', width: 150, align: 'left' },
-                  { label: 'Value', name: 'Value', width: 150, align: 'left' },
-                  { label: '说明', name: 'Memo', width: 200, align: 'left' },
-                    { label: '排序', name: 'px', width: 40, align: 'left' },
+                { label: "名称", name: "Name", width: 200, align: 'left'},
+                { label: '编码', name: 'Code', width: 150, align: 'left' },
+                { label: 'Value', name: 'Value', width: 150, align: 'left' },
+                { label: '说明', name: 'Memo', width: 200, align: 'left' },
+                { label: '排序', name: 'px', width: 40, align: 'left' },
                 { label: '创建人', name: 'CreatorCode', width: 100, align: 'left' },
                 { label: '创建时间', name: 'CreateTime', width: 130, align: 'left', formatter: "date", formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } },
                 { label: '最后修改', name: 'LastModifierCode', width: 100, align: 'left' },
@@ -148,6 +151,28 @@
             }
         });
     }
+    function btn_sync() {
+        $.modalConfirm("确定要同步所有系统参数吗？", function (r) {
+            if (r) {
+                $.loading(true, '数据同步中...');
+                $.najax({
+                    url: "/Home/SyncSysConfigParams",
+                    type: "POST",
+                    data: {orgId: '@(opeator.OrganizeId)'},
+                    dataType: "json",
+                    async: false,
+                    success: function (data) {
+                        $.modalAlert(data.message, data.state);
+                        $('#btn_search').trigger('click');
+                        $.loading(false);
+                    }
+                });
+            } else {
+
+            }
+        });
+    }
+
 
     function btn_ShowAllConfig() {
         $.modalOpen({

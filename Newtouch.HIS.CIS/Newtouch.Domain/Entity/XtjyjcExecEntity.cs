@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace Newtouch.Domain.Entity
 {
+    /// <summary>
+    /// 医技科室执行记录
+    /// </summary>
     [Table("xt_jyjcexec")]
     public class XtjyjcExecEntity:IEntity<XtjyjcExecEntity>
     {
@@ -28,7 +31,6 @@ namespace Newtouch.Domain.Entity
         public string zxks { get; set; }
         public string kdks { get; set; }
         public decimal je { get; set; }
-        public string zxzt { get; set; }
         public string ztId { get; set; }
         public string ztmc { get; set; }
         public string kdys { get; set; }

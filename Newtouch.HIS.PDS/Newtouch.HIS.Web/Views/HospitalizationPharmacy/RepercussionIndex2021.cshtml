@@ -257,6 +257,7 @@
     }
 
     function zyTyApplyNoList(zyh) {
+        debugger;
         $("#selzytyapplyno").bindSelect({
             url: "/HospitalizationPharmacy/GetZyTyApplyNo",
             id: "zytyapplyno",
@@ -269,7 +270,9 @@
             },
             text: "zytyapplyno"
         });
-
+        if ($("#selzytyapplyno").val() != '' && $("#selzytyapplyno").val() != null) {
+            $("#btn_search").click();
+        }
         $("#selzytyapplyno").change(function () {
             $("#btn_search").click();
         });
@@ -290,6 +293,7 @@
 
     function getOrderExecutionList(item)
     {
+        debugger;
         if (item.hasChildren === true)
         {
             return;

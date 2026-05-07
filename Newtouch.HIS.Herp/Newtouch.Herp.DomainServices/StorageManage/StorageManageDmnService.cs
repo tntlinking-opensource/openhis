@@ -14,6 +14,7 @@ using Newtouch.Herp.Domain.Entity.VEntity;
 using Newtouch.Herp.Domain.IDomainServices;
 using Newtouch.Herp.Domain.IRepository;
 using Newtouch.Herp.Infrastructure.Enum;
+using Newtouch.HIS.Domain.ValueObjects;
 
 namespace Newtouch.Herp.DomainServices.StorageManage
 {
@@ -367,7 +368,7 @@ GROUP BY s.ph,s.pc,s.yxq,s.scrq,s.fph,s.bmjj,s.minjj,s.zhyz,s.bmdwmc,s.zxdwmc
             string wzzt,
             string xslkc,
             string ygq,
-            string mxyx)
+            string mxyx, string kccg = null)
         {
             var sql = new StringBuilder(@"
 SELECT * FROM (
@@ -375,7 +376,7 @@ SELECT * FROM (
     ,dbo.f_getComplexWzSlandDw(SUM(kcxx.kcsl), rpu.zhyz, bmdw.name, zxdw.name) slStr, ISNULL(SUM(kcxx.kcsl),0) zkc
     ,ISNULL(CONVERT(NUMERIC(11,4),wz.lsj*rpu.zhyz),0) lsj, CONVERT(NUMERIC(11,2),SUM(ISNULL(CONVERT(NUMERIC(11,4),wz.lsj*kcxx.kcsl),0))) lsze
     ,CONVERT(NUMERIC(11,2),SUM(ISNULL(CONVERT(NUMERIC(11,4),kcxx.jj/kcxx.zhyz*kcxx.kcsl),0))) jjze, ISNULL(bmdw.name,'') bmdwmc
-    ,wz.gg, ISNULL(wz.brand,'') brand, gys.name sccj
+    ,wz.gg, ISNULL(wz.brand,'') brand, gys.name sccj,wz.kcyjz,wz.lsj wzlsj,wz.jj wzjj
     FROM dbo.rel_productWarehouse(NOLOCK) rpw
     INNER JOIN dbo.wz_product(NOLOCK) wz ON wz.Id=rpw.productId AND wz.OrganizeId=rpw.OrganizeId
     LEFT JOIN dbo.rel_productUnit(NOLOCK) rpu ON rpu.productId=rpw.productId AND rpu.unitId=rpw.unitId AND rpu.zt='1'
@@ -396,7 +397,7 @@ SELECT * FROM (
                 sql.AppendLine("AND kcxx.zt='1' ");
             }
             sql.AppendLine(@"
-    GROUP BY rpw.productId,wz.name,wz.py,lb.name,wz.lsj,rpu.zhyz,zxdw.name,bmdw.name,wz.gg,wz.brand,gys.name
+    GROUP BY rpw.productId,wz.name,wz.py,lb.name,wz.lsj,rpu.zhyz,zxdw.name,bmdw.name,wz.gg,wz.brand,gys.name,wz.kcyjz,wz.lsj,wz.jj
 ) a 
 WHERE 1=1 ");
             var param = new DbParameter[]
@@ -415,6 +416,10 @@ WHERE 1=1 ");
             if (!string.IsNullOrWhiteSpace(ygq) && "true".Equals(ygq.Trim().ToLower()))
             {
                 sql.AppendLine("AND a.yxq<GETDATE() ");
+            }
+            if (!string.IsNullOrWhiteSpace(kccg))
+            {
+                sql.AppendLine("AND  zkc <=isnull(kcyjz,0) ");
             }
             return QueryWithPage<VProductStorageEntity>(sql.ToString(), pagination, param);
         }
@@ -838,6 +843,15 @@ FROM (
 
         #endregion
 
+        #region 出库至科室-同步物资到CIS科室库存管理
+        public void SynchWz(string djh,string UserCode,string organizeId)
+        {
+            ExecuteSqlCommand("exec SynchDeptProduct_CIS @Pdh ,@OrganizeId,@UserCode", new SqlParameter("@Pdh", djh), new SqlParameter("@UserCode", UserCode), new SqlParameter("@organizeId", organizeId));
+        }
+
+        #endregion
+
+
         #region 首页统计
 
         /// <summary>
@@ -941,6 +955,45 @@ GROUP BY t.djlx
                 new SqlParameter("@OrganizeId", organizeId??"")
             };
             return FindList<ClassificationStatisticsEntity>(sql, param);
+        }
+        /// <summary>
+        /// 获取过期预警和库存预警总条数
+        /// </summary>
+        /// <param name="kfId"></param>
+        /// <param name="OrganizeId"></param>
+        /// <param name="gqyjz"></param>
+        /// <returns></returns>
+        public IList<SysMSGQueryVO> MSGQuery(string kfId, string OrganizeId, int gqyjz)
+        {
+            const string sqlStr = @"SELECT wzCode,wzName,pc,ph,kykc,kcsl,yxq,typeas from (
+	SELECT  wz.Id wzCode,wz.name wzName,''pc,''ph,kcyjz
+		,SUM(ISNULL((kcxx.kcsl-kcxx.djsl),0)) kykc,SUM(ISNULL(kcxx.kcsl,0)) kcsl,''yxq,'1'typeas
+	FROM [wz_product] (NOLOCK) wz
+	INNER JOIN dbo.rel_productWarehouse(NOLOCK) rpw ON rpw.OrganizeId = wz.OrganizeId AND rpw.productId = wz.Id 
+	INNER JOIN dbo.[kf_kcxx] (NOLOCK) kcxx ON wz.Id=kcxx.productId AND wz.OrganizeId=kcxx.OrganizeId  and kcxx.warehouseId=@kfId
+	WHERE   rpw.warehouseId=@kfId
+		AND wz.OrganizeId=@orgId
+		AND kcxx.zt='1'
+		AND wz.zt='1'
+	GROUP BY  wz.Id,wz.name,kcyjz 
+	)a where a.kykc<kcyjz
+UNION ALL
+SELECT wz.Id wzCode,wz.name wzName,kcxx.pc,kcxx.ph,0 kykc,0 kcsl, SUBSTRING(CONVERT(VARCHAR(15),kcxx.yxq, 120),0, 11) yxq,
+	case when convert(varchar(10),kcxx.yxq,121)>convert(varchar(10),GETDATE(),121) then '3' else '2' end typeas
+FROM dbo.[kf_kcxx](NOLOCK) kcxx 
+INNER JOIN [wz_product] wz ON wz.Id=kcxx.productId AND wz.OrganizeId=kcxx.OrganizeId AND wz.zt='1' 
+INNER JOIN dbo.rel_productWarehouse(NOLOCK) rpw ON rpw.OrganizeId = wz.OrganizeId AND rpw.productId = wz.Id AND rpw.warehouseId=@kfId
+WHERE kcxx.OrganizeId=@orgId AND kcxx.warehouseId=@kfId
+	AND kcxx.zt='1'
+	AND kcxx.kcsl>0 
+	AND DATEADD(day,@gqyj ,yxq)<GETDATE()  or  DATEDIFF(MONTH, GETDATE(),yxq) <='1'
+";
+            var partm = new DbParameter[] {
+                new SqlParameter("@kfId", kfId),
+                new SqlParameter("@orgId", OrganizeId),
+                new SqlParameter("@gqyj", gqyjz)
+            };
+            return FindList<SysMSGQueryVO>(sqlStr, partm);
         }
         #endregion
     }

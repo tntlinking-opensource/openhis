@@ -42,6 +42,7 @@ namespace Newtouch.EMR.Web.Areas.MedicalRecordManage
         private readonly IZybrjbxxRepo _zybrjbxxRepo;
         private readonly IMrWritingRulesRepo mrwritingrulesRepo;
         private readonly IMrBlApplyRecordRepo _mrblapplyrecordRepo;
+        private readonly IMRHomePageDmnService _MainRecordDmnService;
         private readonly string IsEnableWebEditor= ConfigurationHelper.GetAppConfigValue("EnableWebHomePage");
         public static string BlBackupFilePath = ConfigurationHelper.GetAppConfigValue("BlBackupFilePath");
 
@@ -186,6 +187,8 @@ namespace Newtouch.EMR.Web.Areas.MedicalRecordManage
         #region 病历管理
         public ActionResult PatMedRecordList()
         {
+            var OpenEditorSwitch = _MainRecordDmnService.DiagnosticSave("OpenEditorSwitch", this.OrganizeId);
+            ViewBag.openEditorSwitch = OpenEditorSwitch.Count > 0 ? OpenEditorSwitch.FirstOrDefault().Value : "";
             ViewBag.IsEnableEditor = IsEnableWebEditor;
             ReportingServiceCom();
             return View();
@@ -229,6 +232,8 @@ namespace Newtouch.EMR.Web.Areas.MedicalRecordManage
 
         public ActionResult MedRecordTreeEditV2()
         {
+            var OpenEditorSwitch = _MainRecordDmnService.DiagnosticSave("OpenEditorSwitch", this.OrganizeId);
+            ViewBag.openEditorSwitch = OpenEditorSwitch.Count>0 ? OpenEditorSwitch.FirstOrDefault().Value:"";
             ViewBag.IsEnableEditor = IsEnableWebEditor;
             return View();
         }

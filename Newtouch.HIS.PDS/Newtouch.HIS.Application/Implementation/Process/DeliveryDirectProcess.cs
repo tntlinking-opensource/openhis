@@ -78,6 +78,7 @@ namespace Newtouch.HIS.Application.Implementation
                     pc = p.pc,
                     Pfj = p.pfj,
                     Ph = p.ph,
+                    Fph=p.fph,
                     Sl = p.sl,
                     Thyy = "",
                     Yklsj = p.yklsj,

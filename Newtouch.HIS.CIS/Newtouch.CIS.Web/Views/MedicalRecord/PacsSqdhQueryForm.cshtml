@@ -1,7 +1,8 @@
 ﻿@{
-	ViewBag.Title = "检查申请单";
-	Layout = "~/Views/Shared/_Form.cshtml";
-	var pacsopenURL = Newtouch.Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("pacsOpenUrl");
+    ViewBag.Title = "检查申请单";
+    Layout = "~/Views/Shared/_Form.cshtml";
+    var pacsopenURL = Newtouch.Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("pacsOpenUrl");
+    var YjzxRportSwith = SysConfigReader.String("openYjzxSwitch");//医技管理功能开关 --报告上传方式
 }
 
 <form id="formPatSer" style="margin:2px;margin-top:10px;">
@@ -60,7 +61,7 @@
             autowidth: false,
             postData: { mzzyh: mzzyh, type: type, ztmc: ztmc, kssj: kssj, jssj: jssj },
             width: $(window).width()-10,
-            height: $(window).height() - 100,
+            height: $(window).height() - 125,
             colModel: [
                 { label: '姓名', name: 'xm', align: 'left', hidden: true },
                //{ label: '性别', name: 'xb', align: 'left', hidden: true },
@@ -72,7 +73,7 @@
                {
                     label: "操作", name: "", align: "center", width: 100,
                     formatter: function (cellvalue, options, rowobject) {
-                        return "<a href=\#\" onclick='recall1(\"" + rowobject.lissqdh + "\",\"" + rowobject.syncStatus + "\")'' title='查看报告' style='text-decoration: none;color: #dd4b39;cursor: pointer;'>查看报告</a>";
+                        return "<a href=\#\" onclick='recall(\"" + rowobject.lissqdh + "\",\"" + rowobject.syncStatus + "\")'' title='查看报告' style='text-decoration: none;color: #dd4b39;cursor: pointer;'>查看报告</a>";
                     }
                 }
                //{ label: '总金额', name: 'zje' ,align: 'left'}
@@ -82,28 +83,39 @@
             viewrecords: true
         });
     }
-    function recall1(sqdh, syncStatus )
+    function recall(sqdh, syncStatus )
     {
-		if (syncStatus != "己出报告" && syncStatus != "等待报告") {
-            $.modalAlert("当前状态不是已完成状态不能查看报告", 'warning');
-            return;
-        }
-        else {
-			window.open('@pacsopenURL'+"DepExamViewer/#/?hisreqid=" + sqdh+"", "height=800, width=1195,top=100, left=50, toolbar =no, menubar=no, scrollbars=yes, resizable=yes, location=no, status=no");
-            //$.modalOpen({
-            //    id: "medicaljgForm",
-            //    title: "检查报告",
-            //    url: "https://202.127.1.101:9901/DepExamViewer/?patid='" + sqdh+"'" ,
-            //    width: "1000px",
-            //    height: "1000px",
-            //    btn: ['', ''],
-            //    btnclass: ['', ''],
-            //});
+        if ("@YjzxRportSwith" == "ON") {
+            $.modalOpen({
+                id: "ApplyFormUpload",
+                title: "报告预览",
+                url: "/NurseManage/OrderExecution/ApplyFormUpload?sqdh=" + sqdh + "&query=true",
+                width: "900px",
+                height: "700px",
+                btn: null
+            });
+        } else {
+            if (syncStatus != "己出报告" && syncStatus != "等待报告") {
+                $.modalAlert("当前状态不是已完成状态不能查看报告", 'warning');
+                return;
+            }
+            else {
+                window.open('@pacsopenURL' + "DepExamViewer/#/?hisreqid=" + sqdh + "", "height=800, width=1195,top=100, left=50, toolbar =no, menubar=no, scrollbars=yes, resizable=yes, location=no, status=no");
+                //$.modalOpen({
+                //    id: "medicaljgForm",
+                //    title: "检查报告",
+                //    url: "https://202.127.1.101:9901/DepExamViewer/?patid='" + sqdh+"'" ,
+                //    width: "1000px",
+                //    height: "1000px",
+                //    btn: ['', ''],
+                //    btnclass: ['', ''],
+                //});
+            }
         }
         
     }
     //jqGrid 双击选中某行
-    function btn_edit() {
+    function btn_editbak() {
         var $gridList = $("#gridList");
         if ($gridList.jqGridRowValue().syncStatus != "己出报告") {
             $.modalAlert("当前状态不是已完成状态不能查看报告", 'warning');

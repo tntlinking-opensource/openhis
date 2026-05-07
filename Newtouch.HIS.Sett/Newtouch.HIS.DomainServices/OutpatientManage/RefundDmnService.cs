@@ -959,7 +959,7 @@ GROUP BY A.patid, a.blh, A.xm, A.xb, A.csny, A.zjlx, A.zjh, A.dh, A.dybh, gh.mzh
         /// <param name="xm"></param>
         /// <param name="orgId"></param>
         /// <returns></returns>
-        public List<OutpatAccInfoDto> GetBasicInfoSearchListInRegister(Pagination pagination, string blh, string xm, string orgId, string zjh, string zjlx)
+        public List<OutpatAccInfoDto> GetBasicInfoSearchListInRegister(Pagination pagination, string blh, string xm, string orgId, string zjh,string zjlx)
         {
             var strSql = new StringBuilder();
             strSql.Append(@" SELECT  A.patid ,
@@ -1692,8 +1692,8 @@ order by mzjs.CreateTime
      select ypjsmx.ghnm,ypjsmx.jsmxnm,ypjsmx.jslx
      ,ypjsmx.sl 
      --未发药 全部可退，  --已发药需要药房药库接口告知  已退药全部退掉后可以退费
-    ,case when cf.fybz = '2' and tymx.tysl>yp.bzs then  CONVERT(numeric, isnull(tymx.tysl,0)/yp.bzs) else ypjsmx.sl end ktsl
-     ,case when cf.fybz = '2' and tymx.tysl>yp.bzs then CONVERT(numeric, isnull(tymx.tysl,0)/yp.bzs) else ypjsmx.sl end tsl
+     ,case when cf.fybz='2' and tymx.tysl is null then ypjsmx.ktsl when cf.fybz = '2' and tymx.tysl>yp.bzs then  CONVERT(numeric, isnull(tymx.tysl,0)/yp.bzs) else ypjsmx.sl end ktsl
+     ,case when cf.fybz='2' and tymx.tysl is null then ypjsmx.ktsl when cf.fybz = '2' and tymx.tysl>yp.bzs then CONVERT(numeric, isnull(tymx.tysl,0)/yp.bzs) else ypjsmx.sl end tsl
      ,ypjsmx.jyje jsmxje
      ,ypmx.dj, 1 feeType, ypmx.dw
      ,cf.cfh
@@ -1926,7 +1926,7 @@ ORDER BY mzjs.CreateTime
 																		  AND userstaff.OrganizeId = mzjs.OrganizeId
 					LEFT JOIN drjk_mzjs_input ybfy with(nolock) ON ybfy.setl_id = mzjs.ybjslsh
 													AND ybfy.zt = '1'
-					LEFT JOIN mz_jszffs jszffs ON jszffs.jsnm=mzjs.jsnm and jszffs.OrganizeId=mzjs.OrganizeId
+					LEFT JOIN mz_jszffs jszffs ON jszffs.jsnm=mzjs.jsnm and jszffs.OrganizeId=mzjs.OrganizeId and jszffs.zt='1' and jszffs.zfje>0
 					LEFT JOIN xt_xjzffs xjzffs ON jszffs.xjzffs = xjzffs.xjzffs
 			WHERE   mzjs.OrganizeId = @orgId
 					AND mzjs.zt = '1'

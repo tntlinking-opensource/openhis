@@ -28,6 +28,15 @@
                         </span>
                     </div>
                 </td>
+                <td class="formTitle">有效状态：</td>
+                <td class="input-group" id="zttd" style="margin-top:13px;">
+                    <select id="yxzt" name="zt" class="form-control">
+                        <option value="" >全部</option>
+                        <option value="0">无效</option>
+                        <option value="1" selected="selected">有效</option>
+                    </select>
+                </td>
+                <td></td>
             </tr>
         </table>
     </div>
@@ -51,7 +60,7 @@
     function gridList() {
         var $gridList = $("#gridList");
         $gridList.dataGrid({
-            postData: { keyword: $("#txt_keyword").val(), organizeId: $("#OrganizeId").val(), sfdl: $("#sfdl").val() },
+            postData: { keyword: $("#txt_keyword").val(),organizeId: $("#OrganizeId").val(), sfdl: $("#sfdl").val(), zt: $("#yxzt").val() },
             url: "/SysChargeItem/GetGridJson",
             height: $(window).height() - 128,
             colModel: [
@@ -100,7 +109,13 @@
                         }
                     }
                 },
-                 { label: "有效", name: "zt", width: 80, align: "left", formatter: function (cellvalue) { return cellvalue == "1" ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>"; } },
+                {
+                    label: "有效", name: "zt", width: 80, align: "left", formatter: function (cellvalue, options, rowObject) {
+                        return cellvalue == "1"
+                            ? `<i class="fa fa-toggle-on" style="cursor:pointer;" onclick="toggleZt('${rowObject.sfxmId}', 0)"></i>`
+                            : `<i class="fa fa-toggle-off" style="cursor:pointer;" onclick="toggleZt('${rowObject.sfxmId}', 1)"></i>`;
+                    }
+                },
                  { label: '创建人', name: 'CreatorCode', width: 100, align: 'left' },
                  { label: '创建时间', name: 'CreateTime', width: 100, align: 'left', formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d' } },
                  { label: '最后修改', name: 'LastModifierCode', width: 100, align: 'left' },
@@ -114,7 +129,7 @@
         });
         $("#btn_search").click(function () {
             $("#gridList").jqGrid('setGridParam', {
-                postData: { keyword: $("#txt_keyword").val(), organizeId: $("#OrganizeId").val(), sfdl: $("#sfdl").val() },
+                postData: { keyword: $("#txt_keyword").val(), organizeId: $("#OrganizeId").val(), sfdl: $("#sfdl").val(),zt: $("#yxzt").val() },
             }).trigger('reloadGrid');
         });
     }
@@ -193,6 +208,26 @@
             }
         });
     }
+    
+    function toggleZt(sfxmId, newZt) {
+        
+        // 发送请求到后端更新数据
+        $.ajax({
+            url: '/SysChargeItem/UpdateZt',  // 后端处理修改的URL
+            type: 'POST',
+            data: {
+                sfxmId: sfxmId,
+                zt: newZt,
+                organizeId: $("#OrganizeId").val()
+            },
+            success: function () {
+                    // 切换显示的开关状态
+                $('#btn_search').trigger('click');
+              
+            },
+        });
+    }
+    
     
     //收费项目同步医保
     function YibaoUpload(row) {

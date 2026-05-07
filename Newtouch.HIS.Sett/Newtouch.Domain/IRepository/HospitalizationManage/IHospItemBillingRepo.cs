@@ -30,5 +30,13 @@ namespace Newtouch.HIS.Domain.IRepository
         /// <returns></returns>
         IList<HospItemBillingEntity> GetItemFeeEntityListByTime(string zyh, string orgId, DateTime startTime, DateTime endTime
             , IQueryable<HospItemBillingEntity> sourceQuery = null);
+        
+        /// <summary>
+        /// 记账中物资耗材库存扣减
+        /// </summary>
+        /// <param name="OrganizeId"></param>
+        /// <param name="yfbm"></param>
+        /// <param name="userCode"></param>
+        void Updatezyaddfee(string OrganizeId, string jfbhs, string yfbm,string userCode);
     }
 }

@@ -17,7 +17,7 @@
 		        </td>
 		        <th class="formTitle">开始日期：</th>
 		        <td class="formValue">
-			        <input id="kssj" type="text" class="form-control input-wdatepicker form-an" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" disabled="disabled"/>
+			        <input id="kssj" type="text" class="form-control input-wdatepicker form-an" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />
 		        </td>
 		        <th class="formTitle">结束日期：</th>
 		        <td class="formValue">
@@ -142,7 +142,13 @@
 	    var h = $(window).height() - 55;
         $('#layout iframe').css('height', h);
         $("#kssj").val('@ViewBag.kssj');
-	    $("#jssj").val($.getTime());
+        $("#jssj").val($.getTime());
+        if ('@ViewBag.isfirst' == 'True') {
+            $('#kssj').prop('disabled', false);
+        }
+        else {
+            $('#kssj').prop('disabled', true);
+        }
         setTimeout(function () { submit(); }, 100);
     });
 

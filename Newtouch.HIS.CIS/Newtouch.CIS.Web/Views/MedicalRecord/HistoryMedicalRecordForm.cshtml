@@ -5,261 +5,262 @@
 
     var isPrintRehabPres = (ViewBag.ISPrintRehabPres as bool?) ?? false;
     var isPrintRehabTreatment = (ViewBag.ISPrintRehabTreatment as bool?) ?? false;
+    var sfxmztbs = SysConfigReader.String("sfxmztbs");//组套项目是否合并显示
 }
+<style>
+    .cfdetailpreview {
+        position: absolute;
+        z-index: 10002;
+        height: auto;
+        min-height: 150px;
+        width: 400px;
+        left: 345px;
+        top: 371px;
+        display: none;
+        background: white;
+        border: 1px solid #00a0ea;
+        border-radius: 3px;
+    }
 
-<!DOCTYPE html>
+</style>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>HistoryMedicalRecordForm</title>
-</head>
-<body>
-    @Html.Partial("_YibaoCommonView")
-    <div>
-        <div id="dispDiv" class="panel panel-default" style="height: auto; margin-top:50px;padding: 0 20px 0 0;
-    border: 0;">
-            <div class="panel-heading">
-                历史病历&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i id="hideDispDiv" class="fa fa-eye-slash" style="font-size:larger;"></i>
-            </div>
-            <div class="historyleft" style="height: 480px; float: left; width: 20%; height: 60%;">
-                <div class="bltree">
-                    <div class="widget-body">
-                        <div id="detailTreeNode" style="border-right:solid 1px #ddd;border-bottom:solid 1px #ddd;"></div>
-                    </div>
-                </div>
-                @*<button id="btncopy" class="btn btn-primary" style="margin: 10% 0 0 32%;">复制</button>*@
-            </div>
-            <div class="historydetail" id="TreeNodeContent" style="margin-left: 20.5%; width: 79.5%;">
-                <table class="form supercompact">
-                    <tr>
-                        <th class="formTitle">主诉：</th>
-                        <td class="formValue" colspan="2">
-                            <input type="text" id="nc_zs" name="nc_zs" class="form-control" />
-                        </td>
-                        <th class="formTitle">发病日期：</th>
-                        <td class="formValue">
-                            <input type="text" id="nc_fbsj" class="form-control input-wdatepicker" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd' })" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <th class="formTitle">现病史：</th>
-                        <td class="formValue" colspan="4">
-                            <textarea id="nc_xbs" name="nc_xbs" class="form-control " style="height:35px;"></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th class="formTitle">既往史：</th>
-                        <td class="formValue" colspan="4">
-                            <textarea id="nc_jws" name="nc_jws" class="form-control " style="height:35px;"></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th class="formTitle">月经史：</th>
-                        <td class="formValue" colspan="4">
-                            <textarea id="nc_yjs" name="nc_yjs" class="form-control " style="height:35px;"></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th class="formTitle">过敏史：</th>
-                        <td class="formValue" colspan="4">
-                            <textarea id="nc_gms" name="nc_gms" class="form-control " style="height:35px;"></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th class="formTitle">查体：</th>
-                        <td class="formValue" colspan="4">
-                            <textarea id="nc_ct" name="nc_ct" class="form-control " style="height:35px;"></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th class="formTitle">处理：</th>
-                        <td class="formValue" colspan="4">
-                            <textarea id="nc_clfa" name="nc_clfa" class="form-control activeValue focusInput" style="height:35px;"></textarea>
-                            <i class="fa fa-times" aria-hidden="true" hidden></i>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th class="formTitle">辅助检查：</th>
-                        <td class="formValue" colspan="4">
-                            <textarea id="nc_fzjc" name="nc_fzjc" class="form-control activeValue focusInput" style="height:35px;"></textarea>
-                            <i class="fa fa-times" aria-hidden="true" hidden></i>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th class="formTitle">婚姻状态：</th>
-                        <td class="formValue">
-                            <select id="nc_hy">
-                                <option value="">=请选择=</option>
-                                <option value="1">未婚</option>
-                                <option value="2">已婚</option>
-                                <option value="3">不详</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th class="formTitle">西医诊断：</th>
-                        <td class="formValue" colspan="4">
-                            <table id="nc_tablexyzd">
-                                <tr>
-                                    <th class="formTitle">主</th>
-                                    <td class="formValue">
-                                        <input type="checkbox" id="chk1" class="chkValue" style="float:left;" /><label style="float:left;margin-top:3px;">疑似</label>
-                                        <input type="text" id="zd1" name="zd1" class="form-control activeValue focusInput nc_zdText" style="width:70%;" placeholder="" />
-                                        <input type="text" id="ywxs1" name="ywxs1" class="form-control activeValue focusInput nc_ywxsText" style="width:70%;" placeholder="" />
-                                        <i class="fa fa-times" aria-hidden="true" hidden></i>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th class="formTitle">中医诊断：</th>
-                        <td class="formValue" colspan="4">
-                            <table id="nc_tablezyzd">
-                                <tr>
-                                    <th class="formTitle">主</th>
-                                    <td class="formValue">
-                                        <input type="checkbox" id="chk1" class="chkValue" style="float:left;" /><label style="float:left;margin-top:3px;">疑似</label>
-                                        <input type="text" id="zd1" name="zd1" class="form-control activeValue focusInput nc_zdText" style="width:70%;" />
-                                        <i class="fa fa-times" aria-hidden="true" hidden></i>
-                                    </td>
-                                    <th class="formTitle">症候</th>
-                                    <td class="formValue">
-                                        <input type="text" id="zh1" class="form-control activeValue focusInput nc_zhText" />
-                                        <i class="fa fa-times" aria-hidden="true" hidden></i>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    @*@if (isOpenKfcf == true)
-                        {*@
-                    <tr>
-                        <th class="formTitle">康复：</th>
-                        <td class="formValue" colspan="4">
-                            <div style="border: 1px solid #ddd; border-radius:4px;height:auto;">
-                                <table style="width: 100%; margin: 5px 0px 5px 3px;">
-                                    <tr>
-                                        <th style="width: 150px;">处方号</th>
-                                        <th></th>
-                                    </tr>
-                                    <tbody id="tableNC_KfMx"></tbody>
-                                </table>
-                            </div>
-                        </td>
-                    </tr>
-                    @*}
-                        @if (isOpenCgxmcf == true)
-                        {*@
-                    <tr>
-                        <th class="formTitle">常规项目：</th>
-                        <td class="formValue" colspan="4">
-                            <div style="border: 1px solid #ddd; border-radius:4px;height:auto;">
-                                <table style="width: 100%; margin: 5px 0px 5px 3px;">
-                                    <tr>
-                                        <th style="width: 150px;">处方号</th>
-                                        <th></th>
-                                    </tr>
-                                    <tbody id="tableNC_CgxmMx"></tbody>
-                                </table>
-                            </div>
-                        </td>
-                    </tr>
-                    @*}*@
-                    <tr>
-                        <th class="formTitle">西药：</th>
-                        <td class="formValue" colspan="4">
-                            <div style="border: 1px solid #ddd; border-radius:4px; height:auto;">
-                                <table style="width: 100%; margin: 5px 0px 5px 3px;">
-                                    <tr>
-                                        <th style="width: 150px;">处方号</th>
-                                        <th></th>
-                                    </tr>
-                                    <tbody id="tableNC_XyMx"></tbody>
-                                </table>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th class="formTitle">中药：</th>
-                        <td class="formValue" colspan="4">
-                            <div style="border: 1px solid #ddd; border-radius:4px; height:auto;">
-                                <table style="width: 100%; margin: 5px 0px 5px 3px;">
-                                    <tr>
-                                        <th style="width: 150px;">处方号</th>
-                                        <th></th>
-                                    </tr>
-                                    <tbody id="tableNC_ZyMx"></tbody>
-                                </table>
-                            </div>
-                        </td>
-                    </tr>
-                    @*@if (IsOpenJyJcSwitch == true)
-                        {*@
-                    <tr>
-                        <th class="formTitle">检验：</th>
-                        <td class="formValue" colspan="4">
-                            <div style="border: 1px solid #ddd; border-radius:4px;height:auto;">
-                                <table style="width: 100%; margin: 5px 0px 5px 3px;">
-                                    <tr>
-                                        <th style="width: 150px;">申请单号</th>
-                                        <th></th>
-                                    </tr>
-                                    <tbody id="tableNC_JyMx"></tbody>
-                                </table>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th class="formTitle">检查：</th>
-                        <td class="formValue" colspan="4">
-                            <div style="border: 1px solid #ddd; border-radius:4px; height:auto;">
-                                <table style="width: 100%; margin: 5px 0px 5px 3px;">
-                                    <tr>
-                                        <th style="width: 150px;">申请单号</th>
-                                        <th></th>
-                                    </tr>
-                                    <tbody id="tableNC_JcMx"></tbody>
-                                </table>
-                            </div>
-                        </td>
-                    </tr>
-                    @*}*@
-                </table>
-            </div>
-            <table id="lsblfrombilling">
-                <tr>
-                    <th hidden>类型</th>
-                    <th style="width:20%">文件</th>
-                    <th style="width:35%">路径</th>
-                    <th style="width:35%">备注</th>
-                    <th style="width:10%">查看</th>
-                </tr>
-            </table>
+<div>
+    <div id="dispDiv" class="panel panel-default" style="height: auto; margin-top:5px;padding: 0 20px 0 0;
+border: 0;">
+        <div class="panel-heading">
+            病历信息&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i id="hideDispDiv" class="fa fa-eye-slash" style="font-size:larger;"></i>
         </div>
+        <div class="historyleft" style=" float: left; width: 20%;">
+            <div class="bltree" >
+                <div class="widget-body">
+                    <div id="detailTreeNode" style="height:980px;border-right:solid 1px #ddd;border-bottom:solid 1px #ddd;"></div>
+                </div>
+            </div>
+            @*<button id="btncopy" class="btn btn-primary" style="margin: 10% 0 0 32%;">复制</button>*@
+        </div>
+        <div class="historydetail" id="TreeNodeContent" style="margin-left: 20.5%; width: 79.5%;">
+            <table class="form supercompact">
+                <tr>
+                    <th class="formTitle">主诉：</th>
+                    <td class="formValue" colspan="2">
+                        <input type="text" id="nc_zs" name="nc_zs" class="form-control" />
+                    </td>
+                    <th class="formTitle">发病日期：</th>
+                    <td class="formValue">
+                        <input type="text" id="nc_fbsj" class="form-control input-wdatepicker" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd' })" />
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">现病史：</th>
+                    <td class="formValue" colspan="4">
+                        <textarea id="nc_xbs" name="nc_xbs" class="form-control " style="height:35px;"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">既往史：</th>
+                    <td class="formValue" colspan="4">
+                        <textarea id="nc_jws" name="nc_jws" class="form-control " style="height:35px;"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">月经史：</th>
+                    <td class="formValue" colspan="4">
+                        <textarea id="nc_yjs" name="nc_yjs" class="form-control " style="height:35px;"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">过敏史：</th>
+                    <td class="formValue" colspan="4">
+                        <textarea id="nc_gms" name="nc_gms" class="form-control " style="height:35px;"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">查体：</th>
+                    <td class="formValue" colspan="4">
+                        <textarea id="nc_ct" name="nc_ct" class="form-control " style="height:35px;"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">处理：</th>
+                    <td class="formValue" colspan="4">
+                        <textarea id="nc_clfa" name="nc_clfa" class="form-control activeValue focusInput" style="height:35px;"></textarea>
+                        <i class="fa fa-times" aria-hidden="true" hidden></i>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">辅助检查：</th>
+                    <td class="formValue" colspan="4">
+                        <textarea id="nc_fzjc" name="nc_fzjc" class="form-control activeValue focusInput" style="height:35px;"></textarea>
+                        <i class="fa fa-times" aria-hidden="true" hidden></i>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">婚姻状态：</th>
+                    <td class="formValue">
+                        <select id="nc_hy">
+                            <option value="">=请选择=</option>
+                            <option value="1">未婚</option>
+                            <option value="2">已婚</option>
+                            <option value="3">不详</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">西医诊断：</th>
+                    <td class="formValue" colspan="4">
+                        <table id="nc_tablexyzd">
+                            <tr>
+                                <th class="formTitle">主</th>
+                                <td class="formValue">
+                                    <input type="checkbox" id="chk1" class="chkValue" style="float:left;" /><label style="float:left;margin-top:3px;">疑似</label>
+                                    <input type="text" id="zd1" name="zd1" class="form-control activeValue focusInput nc_zdText" style="width:70%;" placeholder="" />
+                                    <i class="fa fa-times" aria-hidden="true" hidden></i>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">中医诊断：</th>
+                    <td class="formValue" colspan="4">
+                        <table id="nc_tablezyzd">
+                            <tr>
+                                <th class="formTitle">主</th>
+                                <td class="formValue">
+                                    <input type="checkbox" id="chk1" class="chkValue" style="float:left;" /><label style="float:left;margin-top:3px;">疑似</label>
+                                    <input type="text" id="zd1" name="zd1" class="form-control activeValue focusInput nc_zdText" style="width:70%;" />
+                                    <i class="fa fa-times" aria-hidden="true" hidden></i>
+                                </td>
+                                <th class="formTitle">症候</th>
+                                <td class="formValue">
+                                    <input type="text" id="zh1" class="form-control activeValue focusInput nc_zhText" />
+                                    <i class="fa fa-times" aria-hidden="true" hidden></i>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                @*@if (isOpenKfcf == true)
+                    {*@
+                <tr>
+                    <th class="formTitle">康复：</th>
+                    <td class="formValue" colspan="4">
+                        <div style="border: 1px solid #ddd; border-radius:4px;height:auto;">
+                            <table style="width: 100%; margin: 5px 0px 5px 3px;">
+                                <tr>
+                                    <th style="width: 150px;">处方号</th>
+                                    <th></th>
+                                </tr>
+                                <tbody id="tableNC_KfMx"></tbody>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+                @*}
+                    @if (isOpenCgxmcf == true)
+                    {*@
+                <tr>
+                    <th class="formTitle">常规项目：</th>
+                    <td class="formValue" colspan="4">
+                        <div style="border: 1px solid #ddd; border-radius:4px;height:auto;">
+                            <table style="width: 100%; margin: 5px 0px 5px 3px;">
+                                <tr>
+                                    <th style="width: 150px;">处方号</th>
+                                    <th></th>
+                                </tr>
+                                <tbody id="tableNC_CgxmMx"></tbody>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+                @*}*@
+                <tr>
+                    <th class="formTitle">西药：</th>
+                    <td class="formValue" colspan="4">
+                        <div style="border: 1px solid #ddd; border-radius:4px; height:auto;" >
+                            <table style="width: 100%; margin: 5px 0px 5px 3px;">
+                                <tr>
+                                    <th style="width: 150px;">处方号</th>
+                                    <th></th>
+                                </tr>
+                                <tbody id="tableNC_XyMx"></tbody>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">中药：</th>
+                    <td class="formValue" colspan="4">
+                        <div style="border: 1px solid #ddd; border-radius:4px; height:auto;">
+                            <table style="width: 100%; margin: 5px 0px 5px 3px;">
+                                <tr>
+                                    <th style="width: 150px;">处方号</th>
+                                    <th></th>
+                                </tr>
+                                <tbody id="tableNC_ZyMx"></tbody>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+                @*@if (IsOpenJyJcSwitch == true)
+                    {*@
+                <tr>
+                    <th class="formTitle">检验：</th>
+                    <td class="formValue" colspan="4">
+                        <div style="border: 1px solid #ddd; border-radius:4px;height:auto;">
+                            <table style="width: 100%; margin: 5px 0px 5px 3px;">
+                                <tr>
+                                    <th style="width: 150px;">申请单号</th>
+                                    <th></th>
+                                </tr>
+                                <tbody id="tableNC_JyMx"></tbody>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">检查：</th>
+                    <td class="formValue" colspan="4">
+                        <div style="border: 1px solid #ddd; border-radius:4px; height:auto;">
+                            <table style="width: 100%; margin: 5px 0px 5px 3px;">
+                                <tr>
+                                    <th style="width: 150px;">申请单号</th>
+                                    <th></th>
+                                </tr>
+                                <tbody id="tableNC_JcMx"></tbody>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+                @*}*@
+            </table>
 
+        </div>
+        @* <table id="lsblfrombilling"> *@
+        @*     <tr> *@
+        @*         <th hidden>类型</th> *@
+        @*         <th style="width:20%">文件</th> *@
+        @*         <th style="width:35%">路径</th> *@
+        @*         <th style="width:35%">备注</th> *@
+        @*         <th style="width:10%">查看</th> *@
+        @*     </tr> *@
+        @* </table> *@
     </div>
-</body>
-</html>
 
+</div>
+
+<div class="cfdetailpreview">
+    <ul class="list-group"></ul>
+</div>
 
 <script>
-
-    //var test = $.request("test");
-    //var ajaxresp = $.request("ajaxresp");
     var ex2 = $.request("ex2");
     var jzid = $.request("jzid");
-    //var Id = $.request("Id");
-    //var pageType = $.request("pageType");
-    //var jzzt = $.request("jzzt");
     var ajaxresp = {};
-
-
-    init();
-
+    $(function(){
+        init();
+    })
     function init() {
-
         var obj = {
             kfcf: new Array(),
             cgxmcf: new Array(),
@@ -269,7 +270,6 @@
             jccf: new Array(),
         }
         window.historydataArray = obj;
-
         //if (pageType != "yczl") {
             getHistoryData();
         //}
@@ -277,24 +277,23 @@
 
     function getHistoryData() {
          $.najax({
-                            type: "POST",
-             //               url: "/MedicalRecord/SelectNodeContentV2",
-             //data: { jzId: jzid, Id: Id, pageType: pageType, jzzt:jzzt},
+             type: "POST",
+             //url:"/MedicalRecord/SelectNodeContentV2",
+             //data:{ jzId: jzid, Id: Id, pageType: pageType, jzzt:jzzt},
              url: "/MedicalRecord/SelectNodeContent",
-             data: { jzId: jzid},
-                            loadingtext :'病历数据加载中，请稍后…',
-                            success: function (ajaxresp) {
-                                ajaxresp = ajaxresp;
-
-                                bindHistoryData(ajaxresp);
-                            }
-                        });
+             data: { jzId: jzid,ex2:ex2},
+             loadingtext :'病历数据加载中，请稍后…',
+             success: function (ajaxresps) {
+                    ajaxresp = ajaxresps;
+                    bindHistoryData(ajaxresp);
+             }
+         });
     }
 
     function bindHistoryData(ajaxresp) {
         //2.先呈现历史树结构
         $("#detailTreeNode").treeview({
-            height: 400,
+            height: $(window).height(),
             slimscroll: false,
             showcheck: true,
             url: "/MedicalRecord/GetDetailTreeNode",
@@ -304,75 +303,69 @@
                 }
             }
         });
-           //3.填充文本
-            $('#nc_zs').val(ajaxresp.zs);
-            $("#nc_fbsj").val($.getDate({ date: ajaxresp.fbsj,ute:true }));
-            $('#nc_xbs').val(ajaxresp.xbs);
-            $('#nc_jws').val(ajaxresp.jws);
-            $('#nc_yjs').val(ajaxresp.yjs);
-            $('#nc_gms').val(ajaxresp.gms);
-            $('#nc_hy').val(ajaxresp.hy);
-            $('#nc_ct').val(ajaxresp.ct);
-            $('#nc_clfa').val(ajaxresp.clfa);
-            $('#nc_fzjc').val(ajaxresp.fzjc);
-            $("input[name='cfzbzRadios'][value='" + ajaxresp.cfzbz + "']").attr("checked", true);
-            //4.填充诊断
-            if (ajaxresp.xyzdList) {
-                for (var i = 0; i < ajaxresp.xyzdList.length; i++) {
-                    if(ajaxresp.xyzdList.length>1 &&  i< ajaxresp.xyzdList.length-1)
-                    {
-                        //先append
-                        var number = $('#nc_tablexyzd .nc_zdText').length + 1;
-                        var $newTr = $('<tr><th class="formTitle">副</th><td class="formValue"><input type="checkbox" id="chk'+ number +'" class="chkValue" style="float:left;" /><label style="float:left;margin-top:3px;">疑似</label><input type="text" id="zd'+ number +'" class="form-control activeValue focusInput nc_zdText" style="width:70%;" /><i class="fa fa-times" aria-hidden="true" hidden></i></td></tr>');
-                        $newTr.appendTo($('#nc_tablexyzd'));
-                    }
+        debugger;
+        //3.填充文本
+        $('#nc_zs').val(ajaxresp.zs);
+        $("#nc_fbsj").val($.getDate({ date: ajaxresp.fbsj,ute:true }));
+        $('#nc_xbs').val(ajaxresp.xbs);
+        $('#nc_jws').val(ajaxresp.jws);
+        $('#nc_yjs').val(ajaxresp.yjs);
+        $('#nc_gms').val(ajaxresp.gms);
+        $('#nc_hy').val(ajaxresp.hy);
+        $('#nc_ct').val(ajaxresp.ct);
+        $('#nc_clfa').val(ajaxresp.clfa);
+        $('#nc_fzjc').val(ajaxresp.fzjc);
+        $("input[name='cfzbzRadios'][value='" + ajaxresp.cfzbz + "']").attr("checked", true);
+        //4.填充诊断
+        if (ajaxresp.xyzdList) {
+            for (var i = 0; i < ajaxresp.xyzdList.length; i++) {
+                if(ajaxresp.xyzdList.length>1 &&  i< ajaxresp.xyzdList.length-1)
+                {
+                    //先append
+                    var number = $('#nc_tablexyzd .nc_zdText').length + 1;
+                    var $newTr = $('<tr><th class="formTitle">副</th><td class="formValue"><input type="checkbox" id="chk'+ number +'" class="chkValue" style="float:left;" /><label style="float:left;margin-top:3px;">疑似</label><input type="text" id="zd'+ number +'" class="form-control activeValue focusInput nc_zdText" style="width:70%;" /><i class="fa fa-times" aria-hidden="true" hidden></i></td></tr>');
+                    $newTr.appendTo($('#nc_tablexyzd'));
+                }
 
-                    //再赋值
-                    for (var j = 0; j < $('#nc_tablexyzd .nc_zdText').length; j++) {
-                        if(i==j){
-                            $($('#nc_tablexyzd .nc_zdText')[j]).val(ajaxresp.xyzdList[i].zdmc);
-                            $($('#nc_tablexyzd .nc_zdText')[j]).attr("data-zdCode",ajaxresp.xyzdList[i].zdCode);
-                            $($('#nc_tablexyzd .nc_zdText')[i]).attr("data-icd10",ajaxresp.xyzdList[i].icd10);
-                            $($('#nc_tablexyzd .chkValue')[j]).prop('checked', ajaxresp.xyzdList[i].ysbz);
+                //再赋值
+                for (var j = 0; j < $('#nc_tablexyzd .nc_zdText').length; j++) {
+                    if(i==j){
+                        $($('#nc_tablexyzd .nc_zdText')[j]).val(ajaxresp.xyzdList[i].zdmc);
+                        $($('#nc_tablexyzd .nc_zdText')[j]).attr("data-zdCode",ajaxresp.xyzdList[i].zdCode);
+                        $($('#nc_tablexyzd .nc_zdText')[i]).attr("data-icd10",ajaxresp.xyzdList[i].icd10);
+                        $($('#nc_tablexyzd .chkValue')[j]).prop('checked', ajaxresp.xyzdList[i].ysbz);
 
-                            $($('#nc_tablexyzd .nc_ywxsText')[j]).val(ajaxresp.xyzdList[i].ywxs);
-                            $($('#nc_tablexyzd .nc_ywxsText')[j]).attr("data-ywlx", ajaxresp.xyzdList[i].ywlx);
-                            $($('#nc_tablexyzd .nc_ywxsText')[j]).attr("data-ywstr", ajaxresp.xyzdList[i].ywstr);
-                        }
+                        $($('#nc_tablexyzd .nc_ywxsText')[j]).val(ajaxresp.xyzdList[i].ywxs);
+                        $($('#nc_tablexyzd .nc_ywxsText')[j]).attr("data-ywlx", ajaxresp.xyzdList[i].ywlx);
+                        $($('#nc_tablexyzd .nc_ywxsText')[j]).attr("data-ywstr", ajaxresp.xyzdList[i].ywstr);
                     }
                 }
             }
-            if (ajaxresp.zyzdList) {
-                for (var i = 0; i < ajaxresp.zyzdList.length; i++) {
-                    if(ajaxresp.zyzdList.length>1 &&  i< ajaxresp.zyzdList.length-1)
-                    {
-                        //先append
-                        var number = $('#nc_tablezyzd .nc_zdText').length + 1;
-                        var $newTr = $('<tr><th class="formTitle">副</th><td class="formValue"><input type="checkbox" id="chk'+ number +'" class="chkValue" style="float:left;" /><label style="float:left;margin-top:3px;">疑似</label><input type="text" id="zd'+ number +'" class="form-control activeValue focusInput nc_zdText" style="width:70%;" /><i class="fa fa-times" aria-hidden="true" hidden></i></td><th class="formTitle">症候</th><td class="formValue"><input type="text" class="form-control activeValue focusInput nc_zhText" /><i class="fa fa-times" aria-hidden="true" hidden></i></td></tr>');
-                        $newTr.appendTo($('#nc_tablezyzd'));
-                    }
-                    //再赋值
-                    for (var j = 0; j < $('#nc_tablezyzd .nc_zdText').length; j++) {
-                        if(i==j){
-                            $($('#nc_tablezyzd .nc_zdText')[j]).val(ajaxresp.zyzdList[i].zdmc);
-                            $($('#nc_tablezyzd .nc_zdText')[j]).attr("data-zdCode",ajaxresp.zyzdList[i].zdCode);
-                            $($('#nc_tablezyzd .nc_zdText')[i]).attr("data-icd10",ajaxresp.zyzdList[i].icd10);
-                            $($('#nc_tablezyzd .chkValue')[j]).prop('checked' ,ajaxresp.zyzdList[i].ysbz);
-                            $($('#nc_tablezyzd .nc_zhText')[j]).val(ajaxresp.zyzdList[i].zhmc);
-                            $($('#nc_tablezyzd .nc_zhText')[j]).attr("data-zhCode",ajaxresp.zyzdList[i].zhCode);
-                        }
+        }
+        if (ajaxresp.zyzdList) {
+            for (var i = 0; i < ajaxresp.zyzdList.length; i++) {
+                if(ajaxresp.zyzdList.length>1 &&  i< ajaxresp.zyzdList.length-1)
+                {
+                    //先append
+                    var number = $('#nc_tablezyzd .nc_zdText').length + 1;
+                    var $newTr = $('<tr><th class="formTitle">副</th><td class="formValue"><input type="checkbox" id="chk'+ number +'" class="chkValue" style="float:left;" /><label style="float:left;margin-top:3px;">疑似</label><input type="text" id="zd'+ number +'" class="form-control activeValue focusInput nc_zdText" style="width:70%;" /><i class="fa fa-times" aria-hidden="true" hidden></i></td><th class="formTitle">症候</th><td class="formValue"><input type="text" class="form-control activeValue focusInput nc_zhText" /><i class="fa fa-times" aria-hidden="true" hidden></i></td></tr>');
+                    $newTr.appendTo($('#nc_tablezyzd'));
+                }
+                //再赋值
+                for (var j = 0; j < $('#nc_tablezyzd .nc_zdText').length; j++) {
+                    if(i==j){
+                        $($('#nc_tablezyzd .nc_zdText')[j]).val(ajaxresp.zyzdList[i].zdmc);
+                        $($('#nc_tablezyzd .nc_zdText')[j]).attr("data-zdCode",ajaxresp.zyzdList[i].zdCode);
+                        $($('#nc_tablezyzd .nc_zdText')[i]).attr("data-icd10",ajaxresp.zyzdList[i].icd10);
+                        $($('#nc_tablezyzd .chkValue')[j]).prop('checked' ,ajaxresp.zyzdList[i].ysbz);
+                        $($('#nc_tablezyzd .nc_zhText')[j]).val(ajaxresp.zyzdList[i].zhmc);
+                        $($('#nc_tablezyzd .nc_zhText')[j]).attr("data-zhCode",ajaxresp.zyzdList[i].zhCode);
                     }
                 }
             }
-            //5.填充处方
-        if (ex2 == 'medicalRecord') {
-            //清空
-            window.historydataArray.kfcf = new Array();
-            window.historydataArray.cgxmcf = new Array();
-            window.historydataArray.xycf = new Array();
-            window.historydataArray.zycf = new Array();
-            window.historydataArray.jycf = new Array();
-            window.historydataArray.jccf = new Array();
+        }
+        //5.填充处方
+        if (ex2 == 'medicalRecord' || ex2 =='mrtemplate') {
             $.each(ajaxresp.cfBoList, function () {
                 if (this.presDetailList) {
                     //这是一个处方
@@ -398,7 +391,7 @@
                                 pcCode: this.pcCode,
                                 sl: this.sl,
                                 zl: this.zl,
-                                je: this.je,
+                                je:  this.je>0?this.je:this.dj*this.sl,
                                 zxks: this.zxks,
                                 zxksmc: this.zxksmc,
                                 ybwym: this.ybwym,
@@ -431,7 +424,7 @@
                                 pcCode: this.pcCode,
                                 sl: this.sl,
                                 zl: this.zl,
-                                je: this.je,
+                                je:  this.je>0?this.je:this.dj*this.sl,
                                 zxks: this.zxks,
                                 zxksmc: this.zxksmc,
                                 ybwym: this.ybwym,
@@ -467,7 +460,7 @@
                                 pcCode: this.pcCode,
                                 sl: this.sl,
                                 dw: this.dw,
-                                je: this.je,
+                                je:   this.je>0?this.je:this.dj*this.sl,
                                 zxks: this.zxks,
                                 ybwym: this.ybwym,
                                 xzsybz: this.xzsybz,
@@ -482,7 +475,7 @@
                     }
                     //cfmxList
                     if (cflx == "zycf") {
-                        var tieshu = this.presEntity.tieshu;
+                        var tieshu = this.presEntity.tieshu==true?this.presEntity.tieshu:1;
                         var cfyf = this.presEntity.cfyf;
                         var djbz = this.presEntity.djbz;
                         $.each(this.presDetailList.sort(function (a, b) { return a.px - b.px; }), function () {
@@ -499,7 +492,7 @@
                                 mcjldw: this.mcjldw,
                                 sl: this.sl,
                                 dw: this.dw,
-                                je: this.je,
+                                je:  this.je>0?this.je:this.dj*this.sl,
                                 Remark: this.Remark,
                                 zxks: this.zxks,
                                 //
@@ -528,6 +521,7 @@
                                 xmCode: this.xmCode,
                                 dw: this.dw,
                                 dj: this.dj,
+                                je:this.je>0?this.je:this.dj*this.sl,
                                 zxks: this.zxks,
                                 zxksmc: this.zxksmc,
                                 ybwym: this.ybwym,
@@ -555,6 +549,7 @@
                                 xmCode: this.xmCode,
                                 dw: this.dw,
                                 dj: this.dj,
+                                je:this.je>0?this.je:this.dj*this.sl,
                                 zxks: this.zxks,
                                 zxksmc: this.zxksmc,
                                 ybwym: this.ybwym,
@@ -609,17 +604,7 @@
             $newtableJymx = $('#tableNC_JyMx');
             $newtableJcmx = $('#tableNC_JcMx');
         }
-        else{
-            newdataArray = window.alldataArray;
-            $newtableKfmx = $('#tableKfMx');
-            $newtableCgxmmx = $('#tableCgxmMx');
-            $newtableXymx = $('#tableXyMx');
-            $newtableZymx = $('#tableZyMx');
-            $newtableJymx = $('#tableJyMx');
-            $newtableJcmx = $('#tableJcMx');
-        }
         if (newdataArray && Object.keys(newdataArray)) {
-            //alldataArray :[kfcf:[{cfh：‘处方1’，xmmc：‘’},{cfh：‘处方2’，xmmc：‘’}，{cfh：‘处方1’，xmmc：‘’}]]
             //1.遍历所有数据
             $.each(Object.keys(newdataArray), function () {    //Object.keys(newdataArray):["kfcf"]
                 var itemsKey = String(this);      //String(Object.keys(newdataArray):["kfcf"]) : kfcf
@@ -783,6 +768,7 @@
                             if (v && v.cfh == cfh && !v.Iscontainzs && Iscontainzs) {
                                 v.Iscontainzs = Iscontainzs;
                             }
+
                             return v && v.cfh == cfh;
                         });
                         //3.3.1 若存在，则push该处方号下面的处方明细
@@ -1054,25 +1040,181 @@
     }
 
 
-    ////复制
-    //$('#btncopy').click(function () {
-    //    $.modalConfirm("将替换病历详情的内容，是否继续？", function (flag) {
-    //        if (flag) {
-    //            var treeSeleData = $("#detailTreeNode").getCheckedNodeObjArray();
-    //            $.modalClose();
-    //        } else {
-    //            return false;
-    //        }
-    //    });
-    //});
-
-    function submitForm() {
+    //复制
+    function submitForm(callback) {
+        debugger
         var treeSeleData = $("#detailTreeNode").getCheckedNodeObjArray();
         if (!treeSeleData || treeSeleData.length == 0) {
             $.modalAlert("请选择处方进行复制", 'warning');
             return;
         }
-        return treeSeleData;
+        callback(treeSeleData,window.historydataArray,ajaxresp);
+        //return treeSeleData;
     }
+</script>
+<script>
+    //查看处方明细
+    $(document).on('mouseenter', '.iconPreviewSingleCf', function (e) {
+        debugger;
+        var type = $(this).closest('tr').attr('data-cflx');
+        var cfh = $(this).closest('tr').attr('data-cfh');
+        var thisDomPoint = getDOMPositionPoint(this);
+        $('.cfdetailpreview>div').remove();
+        $('.cfdetailpreview ul').html('');
+        if(type == 'kfcf'){
+            $.each($.jsonWhere(window.historydataArray.kfcf, function(v){
+                return v && v.cfh == cfh;
+            }), function(){
+                $('.cfdetailpreview ul').append('<li class="list-group-item" style="border:0;padding:4px 10px;">' + this.xmmc + '&nbsp;&nbsp;' + this.pcmc + '&nbsp;&nbsp;' + this.mczll + '&nbsp;' + '*' + '&nbsp;' + this.sl + '</li>');
+            });
+        }
+        else if (type == 'cgxmcf') {
+            $.each($.jsonWhere(window.historydataArray.cgxmcf, function(v){
+                return v && v.cfh == cfh;
+            }), function(){
+                $('.cfdetailpreview ul').append('<li class="list-group-item" style="border:0;padding:4px 10px;">' + this.xmmc + '&nbsp;' + '*' + '&nbsp;' + this.sl + '</li>');
+            });
+        }
+        else if (type == 'xycf') {
+            $.each($.jsonWhere(window.historydataArray.xycf, function (v) {
+                return v && v.cfh == cfh;
+            }), function () {
+                $('.cfdetailpreview ul').append('<li class="list-group-item" style="border:0;padding:4px 10px;">' + this.ypmc + '&nbsp;&nbsp;' + this.ypgg + '&nbsp;&nbsp;' + this.sl + this.dw + '&nbsp;&nbsp;(剂量)' + this.mcjl + this.mcjldw + '&nbsp;&nbsp;' + this.pcmc + '&nbsp;&nbsp;' + this.yfmc + '</li>');
+            });
+
+        }
+        else if(type == 'zycf'){
+            var mxList = $.jsonWhere(window.historydataArray.zycf, function(v){
+                return v && v.cfh == cfh;
+            });
+            $('<div style="padding:3px 10px 0;font-weight:bold;">' + (mxList[0].tieshu==true? mxList[0].tieshu: '1') + '剂 ' + (mxList[0].djbz == true ? '&nbsp;代煎' : '') + '</div>').insertBefore($('.cfdetailpreview ul'));
+            $.each(mxList, function(){
+                if (this.ypmc != null && this.ypgg != null && this.mcjldw != null) {
+                    $('.cfdetailpreview ul').append('<li class="list-group-item" style="border:0;padding:4px 10px;">' + this.ypmc + '&nbsp;&nbsp;' + this.ypgg + '&nbsp;&nbsp;' + this.mcjl + this.mcjldw + '&nbsp;&nbsp;' + '</li>');
+                }
+                else {
+                    $('.cfdetailpreview ul').append('<li class="list-group-item" style="border:0;padding:4px 10px;">' + this.xmmc + '&nbsp;&nbsp;' + this.dw + '&nbsp;&nbsp;' + this.zl + this.dw + '&nbsp;&nbsp;' + '</li>');
+                }
+            });
+        }
+        else if(type == 'jycf'){
+            //$.each($.jsonWhere(window.historydataArray.jycf, function(v){
+            //    return v && v.cfh == cfh;
+            //}), function(){
+            //    $('.cfdetailpreview ul').append('<li class="list-group-item" style="border:0;padding:4px 10px;">' + this.xmmc + '&nbsp;&nbsp;' + this.sl + '</li>');
+            //});
+            var jycfdatas = [];
+            const rr = new Map();
+            jycfdatas = window.historydataArray.jycf;
+            const orchesData = (data, key) => {
+
+                const groupBy = (list, fn) => {
+                    const groups = {}
+                    list.forEach(i => {
+                        if (fn(i) == cfh) {
+                            const groupName = fn(i);
+                            groups[groupName] = groups[groupName] || []
+                            groups[groupName].push(i);
+                        }
+                    })
+
+                    const groupList = Object.keys(groups).reduce((a, c) => {
+                        return a.concat(groups[c])
+                    }, [])
+                    return groupList;
+                }
+                const sortList = groupBy(data, (item) => {
+                    return item[key];
+                })
+                return sortList;
+            }
+            if(jycfdatas){
+                const groupList = orchesData(jycfdatas, 'cfh');
+                var datas =  groupList.filter((a) => !rr.has(a.ztId) );
+                if("@sfxmztbs"=="true"){
+                    datas = groupList.filter((a) => !rr.has(a.ztId) && rr.set(a.ztId, 1));
+                }
+                $.each($.jsonWhere(datas, function (v) {
+                    return v && v.cfh == cfh;
+                }), function () {
+                    if (this.ztId &&"@sfxmztbs"=="true") {
+                        if(!this.ztsl)
+                            this.ztsl='1';
+                        $('.cfdetailpreview ul').append('<li class="list-group-item" style="border:0;padding:4px 10px;">' + this.ztmc + '&nbsp;' + '*' + '&nbsp;' + this.ztsl + '</li>');
+                    }
+                    else {
+                        $('.cfdetailpreview ul').append('<li class="list-group-item" style="border:0;padding:4px 10px;">' + this.xmmc + '&nbsp;' + '*' + '&nbsp;' + this.sl + '</li>');
+                    }
+                });
+            }
+        }
+        else if(type == 'jccf'){
+            var jccfdatas = [];
+            const rr = new Map();
+            jccfdatas = window.historydataArray.jccf;
+            const orchesData = (data, key) => {
+
+                const groupBy = (list, fn) => {
+                    const groups = {}
+                    list.forEach(i => {
+                        if (fn(i) == cfh) {
+                            const groupName = fn(i);
+                            groups[groupName] = groups[groupName] || []
+                            groups[groupName].push(i);
+                        }
+                    })
+
+                    const groupList = Object.keys(groups).reduce((a, c) => {
+                        return a.concat(groups[c])
+                    }, [])
+                    return groupList;
+                }
+                const sortList = groupBy(data, (item) => {
+                    return item[key];
+                })
+                return sortList;
+            }
+            if(jccfdatas){
+                const groupList = orchesData(jccfdatas, 'cfh');
+                var datas =  groupList.filter((a) => !rr.has(a.ztId) );
+                if("@sfxmztbs"=="true"){
+                    datas = groupList.filter((a) => !rr.has(a.ztId) && rr.set(a.ztId, 1));
+                }
+                $.each($.jsonWhere(datas, function (v) {
+                    return v && v.cfh == cfh;
+                }), function () {
+                    if (this.ztId &&"@sfxmztbs"=="true") {
+                        if(!this.ztsl)
+                            this.ztsl='1';
+                        $('.cfdetailpreview ul').append('<li class="list-group-item" style="border:0;padding:4px 10px;">' + this.ztmc + '&nbsp;' + '*' + '&nbsp;' + this.ztsl + '</li>');
+                    }
+                    else {
+                        $('.cfdetailpreview ul').append('<li class="list-group-item" style="border:0;padding:4px 10px;">' + this.xmmc + '&nbsp;' + '*' + '&nbsp;' + this.sl + '</li>');
+                    }
+                });
+            }
+            //$.each($.jsonWhere(window.historydataArray.jccf, function(v){
+            //    return v && v.cfh == cfh;
+            //}), function(){
+            //    $('.cfdetailpreview ul').append('<li class="list-group-item" style="border:0;padding:4px 10px;">' + this.xmmc + '&nbsp;&nbsp;' + this.sl + '</li>');
+            //});
+        }
+        else if (type == 'dzcf') {
+            $.each($.jsonWhere(window.historydataArray.dzcf, function (v) {
+                return v && v.cfh == cfh;
+            }), function () {
+                $('.cfdetailpreview ul').append('<li class="list-group-item" style="border:0;padding:4px 10px;">' + this.ypmc + '&nbsp;&nbsp;' + this.ypgg + '&nbsp;&nbsp;' + this.sl + this.dw + '&nbsp;&nbsp;(剂量)' + this.mcjl + this.mcjldw + '&nbsp;&nbsp;' + this.pcmc + '&nbsp;&nbsp;' + this.yfmc + '</li>');
+            });
+        }
+        if((thisDomPoint.t + $('.cfdetailpreview').height() + 100) > $(document).height()){
+            $('.cfdetailpreview').css('top', (thisDomPoint.t - $('.cfdetailpreview').height()) + 'px').css('left', (thisDomPoint.l - $('.cfdetailpreview').width() - 5) + 'px').show();
+        }
+        else{
+            $('.cfdetailpreview').css('top', thisDomPoint.t + 'px').css('left', (thisDomPoint.l - $('.cfdetailpreview').width() - 5) + 'px').show();
+        }
+    }).on('mouseleave', '.iconPreviewSingleCf', function(e){
+        $('.cfdetailpreview').hide();
+    });
+    
 
 </script>

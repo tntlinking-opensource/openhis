@@ -39,6 +39,8 @@ namespace Newtouch.HIS.Domain.IDomainServices
         /// <returns></returns>
         List<SysPatiChargeWaiverVo> GetSysPatiChargeWaiverList(string keyValue, int? bh = null);
 
+        void DeleteById(string keyValue, string orgId);
+
     }
 
 }

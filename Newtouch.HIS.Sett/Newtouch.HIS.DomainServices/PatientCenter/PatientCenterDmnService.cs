@@ -161,7 +161,7 @@ left join NewtouchHIS_Base.dbo.sys_department g with(nolock) on e.DeptCode=g.cod
 left join NewtouchHIS_Base.dbo.xt_bq h with(nolock) on a.bq=h.bqcode and a.OrganizeId=h.OrganizeId 
 left join NewtouchHIS_Base.dbo.xt_bq i with(nolock) on e.WardCode=i.bqcode and e.OrganizeId=i.OrganizeId 
 --left join Newtouch_CIS.dbo.zy_brxxk_expand j with(nolock) on e.zyh=j.zyh and e.OrganizeId=j.OrganizeId and j.zt='1'
-left join xt_zh m with(nolock) on a.patid=m.patid and a.organizeid=m.organizeid and m.zt='1'
+left join zy_zh m with(nolock) on a.zyh=m.zyh and a.organizeid=m.organizeid and m.zt='1'
 where a.organizeid=@orgId and a.patid=@patid and a.zt='1' and a.zybz<>9 
 ) zypat
   ";

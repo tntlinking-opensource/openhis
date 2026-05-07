@@ -12,7 +12,7 @@
     }
 
     .dv-left {
-        width: 120px;
+        width: 15%;
         float: left;
     }
 
@@ -27,14 +27,15 @@
 
     .dv-right {
         float: left;
-        margin-left: 5px;
+        width: 84.5%;
+        /*margin-left: 5px;*/
     }
      .dv-body {
         overflow-y:hidden;
     }
-       .gridPanel .ui-jqgrid-bdiv {
+       /*.gridPanel .ui-jqgrid-bdiv {
       overflow-x:hidden;
-           }
+           }*/
        
 </style>
 <div class="dv-body" style="background-color: white;">
@@ -141,9 +142,9 @@
             postData: Querydata,
             dataType: "json",
             height: $(window).height() - 155,
-            width: $(".Newtouch_iframe", parent.document).width() - $(".dv-left").width() - 25,
-            autowidth: false,//根据父容器宽度自适应调整
-            shrinkToFit: true,
+           // width: $(".Newtouch_iframe", parent.document).width() - $(".dv-left").width() - 25,
+            autowidth: true,//根据父容器宽度自适应调整
+            shrinkToFit: false,//滚动条
             //unwritten: false,
             //multiselect: true,
             colModel: [

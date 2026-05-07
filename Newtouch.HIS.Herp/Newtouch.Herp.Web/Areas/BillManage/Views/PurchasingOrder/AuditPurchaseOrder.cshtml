@@ -108,7 +108,7 @@
                     }
                 },
                 {
-                    label: '处理状态', name: 'orderProcess', width: 120, formatter: function (val) {
+                    label: '处理状态', name: 'orderProcess', width: 120,hidden:true, formatter: function (val) {
                         switch (val) {
                         case @((int)EnumOrderProcess.Refusal):
                             return "@EnumOrderProcess.Refusal.GetDescription()";

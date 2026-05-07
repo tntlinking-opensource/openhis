@@ -1,7 +1,8 @@
-﻿@using Newtouch.Infrastructure;
+﻿@using Newtouch.Infrastructure
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Index.cshtml";
+    var ISOpenWzhckc = (ViewBag.openWzhckc);
 }
 
 <style>
@@ -9,47 +10,47 @@
         color: red;
     }
 </style>
-    <div class="panel panel-default" style="margin-bottom:0;">
-        <div class="panel-heading navb-bg">
-            住院患者信息
-        </div>
-        <table class="form" style="width:96%;">
-            <tbody>
-                <tr>
-                    <th class="formTitle" style="width:48px;padding-right:4px">床号：</th>
-                    <td class="formValue" style="width:30px">
-                        <label id="ch"></label>
-                    </td>
-
-                    <th class="formTitle" style="width:55px;padding-right:4px">住院号：</th>
-                    <td class="formValue">
-                        <input name="zyh" id="zyh" class="form-control inp_p" />
-
-                        @*<label id="zyh"></label>*@
-                    </td>
-                    <td class="formValue">
-                        <input type="button" id="btn_zyh" class="btn btn-default" value="住院号" />
-                    </td>
-
-                    <th class="formTitle" style="width:48px;padding-right:4px">姓名：</th>
-                    <td class="formValue">
-                        <label id="xm"></label>
-                    </td>
-                    <th class="formTitle"style="width:70px;padding-right:4px">医嘱内容：</th>
-                    <td class="formValue" style="width:300px">
-                        <label id="yznr"></label>
-                    </td>
-                    <th class="formTitle" style="width:70px;padding-right:4px">医嘱性质：</th>
-                    <td class="formValue">
-                        <select id="yzxz">
-                            <option value="1">临时</option>
-                            <option value="2">长期</option>
-                        </select>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+<div class="panel panel-default" style="margin-bottom:0;">
+    <div class="panel-heading navb-bg">
+        住院患者信息
     </div>
+    <table class="form" style="width:96%;">
+        <tbody>
+            <tr>
+                <th class="formTitle" style="width:48px;padding-right:4px">床号：</th>
+                <td class="formValue" style="width:30px">
+                    <label id="ch"></label>
+                </td>
+
+                <th class="formTitle" style="width:55px;padding-right:4px">住院号：</th>
+                <td class="formValue">
+                    <input name="zyh" id="zyh" class="form-control inp_p" />
+                    <input id="deptCode" type="text" style="display:none;" class="form-control" />
+                    @*<label id="zyh"></label>*@
+                </td>
+                <td class="formValue">
+                    <input type="button" id="btn_zyh" class="btn btn-default" value="住院号" />
+                </td>
+
+                <th class="formTitle" style="width:48px;padding-right:4px">姓名：</th>
+                <td class="formValue">
+                    <label id="xm"></label>
+                </td>
+                <th class="formTitle" style="width:70px;padding-right:4px">医嘱内容：</th>
+                <td class="formValue" style="width:300px">
+                    <label id="yznr"></label>
+                </td>
+                <th class="formTitle" style="width:70px;padding-right:4px">医嘱性质：</th>
+                <td class="formValue">
+                    <select id="yzxz">
+                        <option value="1">临时</option>
+                        <option value="2">长期</option>
+                    </select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 <div id="BookKeep" class="rows" style="margin-bottom:1%;">
     <div class="panel panel-default" style="margin-bottom: 0;">
         <table class="form">
@@ -68,6 +69,7 @@
                     <input id="zfbl" type="text" style="display:none;" class="form-control" />
                     <input id="zfxz" type="text" style="display:none;" class="form-control" />
                     <input id="cls" type="text" style="display:none;" class="form-control" />
+                    
                 </td>
                 <td class="formTitle">
                     <span class="napan">*</span>数量：
@@ -170,6 +172,7 @@
             success: function (data) {
                 $("#xm").html(data.hzxm);
                 $("#ch").html(data.bedCode);
+                $("#deptCode").val(data.DeptCode);
                 bedCode = data.bedCode
                 if (yzid!="") {
                     $("#yznr").html(data.xmmc);
@@ -181,13 +184,13 @@
                     zh = data.zh;
                     yzh = data.yzh;
                 }
-                
+
             }
         });
         //alert(yznr);
         $("#zyh").html(zyh);
-       
-        
+
+
         //$.najax({
         //    url: "/NurseManage/OrderExecution/GetbindingfeeData",
         //    data: { zyh: zyh, yzh: yzh, zh: zh },
@@ -199,7 +202,7 @@
         //        xmjf = data;
         //    }
         //});
-       
+
     }
     //仅清除输入域的内容
     function clearJZInfo() {
@@ -306,11 +309,12 @@
             },
         });
     }
+
     $("#sfxmmc").sfxmFloatingSelector({
             djDecimalPlaces: 4,
-        searchType:"yp,sfxm",
+            searchType:"@ISOpenWzhckc" == "ON"?"yyhc":"yp,sfxm",
             ajaxparameters: function ($thisinput) {
-                return "mzzybz=2&dllb=2&keyword=" + $.trim($thisinput.val());;
+                return "mzzybz=2&dllb=2&sfdllx=cl&keyword=" + $.trim($thisinput.val()) + "&ypyfbmCode=" + $("#deptCode").val();
             },
             itemdbclickhandler: function ($thistr) {
                 $("#sfxmmc").val($thistr.attr('data-sfxmmc'));
@@ -320,7 +324,7 @@
                 $('#sfxmCode').val($thistr.attr('data-sfxmCode'));
                 $('#sfdlCode').val($thistr.attr('data-sfdlCode'));
                 $('#sfdlmc').val($thistr.attr('data-sfdlmc'));
-                $('#yzlx').val($thistr.attr('data-yzlx'));
+                $('#yzlx').val(12);//val($thistr.attr('data-yzlx'));
                 $('#zfxz').val($thistr.attr('data-zfxz'));
                 $('#zfbl').val($thistr.attr('data-zfbl'));
                 $("#yfdm").val($thistr.attr('data-yfbmCode'));
@@ -328,7 +332,7 @@
                 return;
             }
         });
-    
+
 
 
     //保存操作
@@ -424,7 +428,7 @@
                 if (!rowDataArr || rowDataArr.length == 0) {
                     return; //为什么没找到
                 }
-                rowData = rowDataArr[0]; 
+                rowData = rowDataArr[0];
                 //通过rowData.newid从对象数组中取出该行数据
                 editingNewid = rowData.newid;    //正在修改的行
                 //序列化至编辑域中

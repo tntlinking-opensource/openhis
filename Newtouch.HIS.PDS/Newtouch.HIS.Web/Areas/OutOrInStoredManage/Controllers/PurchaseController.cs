@@ -75,6 +75,30 @@ namespace Newtouch.HIS.Web.Areas.OutOrInStoredManage.Controllers
         {
             return View();
         }
+        /// <summary>
+        /// 采购计划生成
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult PurchasePlan()
+        {
+            return View();
+        }
+        /// <summary>
+        /// 采购计划单据录入
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult PurchasePlanFrom() {
+            return View();
+        }
+        /// <summary>
+        /// 采购计划单据审核
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult PurchaseApproval()
+        {
+            ViewBag.OrganizeId = this.OrganizeId;
+            return View();
+        }
         #endregion
 
 
@@ -87,9 +111,9 @@ namespace Newtouch.HIS.Web.Areas.OutOrInStoredManage.Controllers
         /// <param name="kssj"></param>
         /// <param name="jssj"></param>
         /// <returns></returns>
-        public ActionResult GetPurchaseGridJson(Pagination pagination, DateTime kssj, DateTime jssj, int ddzt)
+        public ActionResult GetPurchaseGridJson(Pagination pagination, DateTime kssj, DateTime jssj, int ddzt,string yyjhdh= null,string gysCode=null,string ddbh=null, string ddyy = null)
         {
-            var tt = _purchaseRepo.GetPurchaseGridJson(pagination, kssj, jssj, OrganizeId, ddzt);
+            var tt = _purchaseRepo.GetPurchaseGridJson(pagination, kssj, jssj, OrganizeId, ddzt, yyjhdh, gysCode,ddbh,ddyy);
             var data = new
             {
                 rows = tt,
@@ -116,6 +140,12 @@ namespace Newtouch.HIS.Web.Areas.OutOrInStoredManage.Controllers
             _purchaseRepo.PurchaseDelete(cgId, this.OrganizeId);
             return Success();
         }
+        /// <summary>
+        /// 采购单状态变更 1：未审核 2：审核通过 3：作废
+        /// </summary>
+        /// <param name="cgId"></param>
+        /// <param name="ddzt"></param>
+        /// <returns></returns>
         public ActionResult PurchaseStateUpdate(string cgId, int ddzt)
         {
             _purchaseRepo.PurchaseStateUpdate(cgId, ddzt, this.OrganizeId);
@@ -160,6 +190,7 @@ namespace Newtouch.HIS.Web.Areas.OutOrInStoredManage.Controllers
         }
 
         #endregion
+
         #region 采购详情表单
         /// <summary>
         /// 保存
@@ -173,11 +204,11 @@ namespace Newtouch.HIS.Web.Areas.OutOrInStoredManage.Controllers
             OperatorModel user = this.UserIdentity;
 
             cgEntity.OrganizeId = this.OrganizeId;
-            cgEntity.jls = cgmxList.Count;
+            cgEntity.yyjhdh = "YPCGD"+DateTime.Now.ToString("yyyyMMddHHmm");
             // 1.新增或更新采购列表
             var cgId = _purchaseRepo.SubmitForm(cgEntity, keyValue);
             //2.删除采购明细
-            if (keyValue != null)
+            if (!string.IsNullOrWhiteSpace(keyValue))
             {
                 _purchaseDetailRepo.DeleteItem(cgId, this.OrganizeId);
             }
@@ -223,15 +254,32 @@ namespace Newtouch.HIS.Web.Areas.OutOrInStoredManage.Controllers
         #endregion
 
         #region 出入库
+        /// <summary>
+        /// 获取采购入库单明细
+        /// </summary>
+        /// <param name="cgId"></param>
+        /// <param name="keyword"></param>
+        /// <returns></returns>
         public ActionResult QueryPurchaseStorebyId(string cgId, string keyword)
         {
 
             var result = _purchaseDmnService.QueryPurchaseStorebyId(cgId, this.OrganizeId, Constants.CurrentYfbm.yfbmCode);
             return Content(result.ToJson());
         }
+        /// <summary>
+        /// 补填采购单发票号
+        /// </summary>
+        /// <param name="crkmxId"></param>
+        /// <param name="fph"></param>
+        /// <returns></returns>
+        public ActionResult UpdateFph(string cgId, string ddbh)
+        {
+            _purchaseRepo.PurchaseDdbhUpdate(cgId, ddbh, this.OrganizeId);
+            return Success();
+        }
         #endregion
 
-        #region 按发票出入库
+        #region 按发票出入库-阳光平台
         public ActionResult GetBillStoreGridJson(Pagination pagination, DateTime kssj, DateTime jssj,string fph, string fpzt)
         {
             var tt = _purchaseBillRepo.GetBillStoreGridJson(pagination, kssj, jssj, fph, OrganizeId, fpzt);

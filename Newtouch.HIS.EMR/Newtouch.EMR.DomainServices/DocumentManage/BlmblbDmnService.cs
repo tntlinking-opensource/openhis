@@ -316,7 +316,7 @@ and a.zt='1' and b.zt='1' and c.zt='1'
         /// <returns></returns>
         public IList<BlmbListVO> MedRecordTmpListTree(string OrgId,string keyValue,string mbqx)
        {
-            string sql = @"select id,bllx,bllxmc mbmc,ParentId,'' Turl from (SELECT a.[Id]
+            string sql = @"select id,bllx,bllxmc mbmc,ParentId,'' Turl,px from (SELECT a.[Id]
 ,a.[bllx]
 ,a.[bllxmc]
 ,a.[CreateTime]
@@ -335,13 +335,13 @@ FROM [dbo].[bl_bllx] a with(nolock)
 left join [dbo].[bl_bllx] r with(nolock) on a.ParentId=r.Id
 where a.organizeid=@OrgId and a.zt='1') bllx
 union all 
-select id,bllx,mbmc mbmc,bllxId ParentId,mblj Turl from (select Id, OrganizeId,mbqx,mbbm,REPLACE(mbmc,'\','/') mbmc,bllxId,bllxmc,ksbm,ysgh,mblj,py,Isempty,
+select id,bllx,mbmc mbmc,bllxId ParentId,mblj Turl,99 px from (select Id, OrganizeId,mbqx,mbbm,REPLACE(mbmc,'\','/') mbmc,bllxId,bllxmc,ksbm,ysgh,mblj,py,Isempty,
                     Memo,CreateTime,CreatorCode,LastModifyTime,LastModifierCode,zt,bllx,LoadWay
                     from bl_mblb a with(nolock)
 					where organizeid=@OrgId and zt=1 
                     and mbqx=@mbqx
                     and mbmc  like @keyValue
-					) mbmx
+					) mbmx  order by px
 ";
             var para = new List<SqlParameter>();
             para.Add(new SqlParameter("@OrgId", OrgId));

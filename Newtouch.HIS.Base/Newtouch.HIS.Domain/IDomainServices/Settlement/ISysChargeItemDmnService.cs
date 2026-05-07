@@ -17,7 +17,7 @@ namespace Newtouch.HIS.Domain.IDomainServices
         /// <param name="Pagination"></param>
         /// <param name="keyword"></param>
         /// <returns></returns>
-        IList<SysChargeItemVO> GetPagintionList(string orgId, Pagination pagination, string sfdl, string keyword = null);
+        IList<SysChargeItemVO> GetPagintionList(string orgId, Pagination pagination, string sfdl, string zt,string keyword = null);
         /// <summary>
         /// 获取医保性质字典
         /// </summary>

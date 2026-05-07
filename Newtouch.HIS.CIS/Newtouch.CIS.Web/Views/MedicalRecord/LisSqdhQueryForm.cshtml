@@ -2,6 +2,7 @@
     ViewBag.Title = "检验申请单";
     Layout = "~/Views/Shared/_Form.cshtml";
     var pacsHost = SiteUrl.GetUrl("OuterPacsServiceHost", "");
+    var YjzxRportSwith = SysConfigReader.String("openYjzxSwitch");//医技管理功能开关 --报告上传方式
     var curOpr = Newtouch.Common.Operator.OperatorProvider.GetCurrent();
 }
 
@@ -23,7 +24,7 @@
                     <td class="formValue">
                         &nbsp;&nbsp;
                         <input type="button" id="btn_search" class="btn btn-primary" value=" 查 询 " />
-                        <a href="~/File/LisApp.rar">LisApp</a>
+                        @*<a href="~/File/LisApp.rar">LisApp</a>*@
                     </td>
                 </tr>
             </table>
@@ -73,7 +74,7 @@
                 {
                     label: "操作", name: "", align: "center", width: 100,
                     formatter: function (cellvalue, options, rowobject) {
-                        return "<a href=\#\" onclick='recall1(\"" + rowobject.lissqdh + "\",\"" + rowobject.syncStatus + "\",\"" + rowobject.blh + "\")'' title='lis报告' style='text-decoration: none;color: #dd4b39;cursor: pointer;'>查看报告</a>";
+                        return "<a href=\#\" onclick='recall(\"" + rowobject.lissqdh + "\",\"" + rowobject.syncStatus + "\",\"" + rowobject.blh + "\")'' title='lis报告' style='text-decoration: none;color: #dd4b39;cursor: pointer;'>查看报告</a>";
                     }
                 }
             ],
@@ -83,25 +84,36 @@
         });
     }
 
-    function recall1(lissqdh, syncStatus, blh) {
-        if (syncStatus != "已完成") {
-            $.modalAlert("当前状态不是已完成状态不能查看报告", 'warning');
-            return;
+    function recall(lissqdh, syncStatus, blh) {
+        if ("@YjzxRportSwith" == "ON") {
+            $.modalOpen({
+                id: "ApplyFormUpload",
+                title: "报告预览",
+                url: "/NurseManage/OrderExecution/ApplyFormUpload?sqdh=" + lissqdh+"&query=true",
+                width: "900px",
+                height: "700px",
+                btn: null
+            });
         } else {
-            window.open("@pacsHost/doctor-api/api/viewer?type=1&pid=" + blh + "&areaCode=" + "@curOpr.OrganizeId", "_blank");
-
-            //$.ajax({
-            //    url: "http://127.0.0.1:22228/api/CQSmartCheck/GetLisReport",//lis报告
-            //    dataType: "json",
-            //    data: { type: type, brxx_id: lissqdh },
-            //    type: "POST",
-            //    async: true,
-            //    success: function (ajaxdata) { }
-            //});
-        }
+            if (syncStatus != "已完成") {
+                $.modalAlert("当前状态不是已完成状态不能查看报告", 'warning');
+                return;
+            } else {
+                //金风易通 LIS 2024-4-28
+                window.open("@pacsHost/doctor-api/api/viewer?type=1&pid=" + blh + "&areaCode=" + "@curOpr.OrganizeId", "_blank");
+                //$.ajax({
+                //    url: "http://127.0.0.1:22228/api/CQSmartCheck/GetLisReport",//lis报告
+                //    dataType: "json",
+                //    data: { type: type, brxx_id: lissqdh },
+                //    type: "POST",
+                //    async: true,
+                //    success: function (ajaxdata) { }
+                //});
+            }
+        }       
     }
 
-    function btn_edit() {
+    function btn_editbak() {
         var $gridList = $("#gridList");
         if ($gridList.jqGridRowValue().syncStatus != "已完成") {
             $.modalAlert("当前状态不是已完成状态不能查看报告", 'warning');

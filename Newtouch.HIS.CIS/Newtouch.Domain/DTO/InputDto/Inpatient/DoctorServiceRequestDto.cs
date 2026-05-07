@@ -94,9 +94,9 @@ namespace Newtouch.Domain.DTO.InputDto.Inpatient
         public string ssxhdm { get; set; }//膳食型号
         public string ssxhval { get; set; }//膳食型号
         public string ssxh { get; set; }//膳食型号
-
-        public string ztId { get; set; }
-        public string ztmc { get; set; }
+        public string ztmbId { get; set; }//组套所在模板id
+        public string ztId { get; set; }//组套id
+        public string ztmc { get; set; }//组套名称
 
         /// <summary>
         /// 抗生素原因
@@ -250,6 +250,11 @@ namespace Newtouch.Domain.DTO.InputDto.Inpatient
         public string birth { get; set; }
         public string sex { get; set; }
         public int age { get; set; }
+        public string ksdm { get; set; }
+        public string ksmc { get; set; }
+        public string zdmc { get; set; }
+        public string ysgh { get; set; }
+        public string ysxm { get; set; }
         public DateTime ryrq { get; set; }
         public string brxzmc { get; set; }
         public string bqmc { get; set; }
@@ -313,5 +318,10 @@ namespace Newtouch.Domain.DTO.InputDto.Inpatient
         public string yfbmCode { get; set; }
         public string yfbmmc { get; set; }
         public string mzzybz { get; set; }
+    }
+    public class base_SfxmDto
+    {
+        public decimal? dj { get; set; }
+        public int? dwjls { get; set; }
     }
 }

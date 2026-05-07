@@ -271,12 +271,6 @@
     <Content Include="Configs\system.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Configs\9_190\database.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Configs\9_190\system.config">
-      <SubType>Designer</SubType>
-    </Content>
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>
@@ -286,8 +280,9 @@
     <Content Include="Scripts\jquery-1.6.4.min.js" />
     <Content Include="Scripts\jquery.signalR-2.4.3.js" />
     <Content Include="Scripts\jquery.signalR-2.4.3.min.js" />
-    <Content Include="Views\CommonLibrary\ChargeCategoryBase\Form.cshtml" />
     <Content Include="Views\CommonLibrary\ChargeItemForm.cshtml" />
+    <Content Include="Views\CommonLibrary\SysCommonChargeCategoryForm.cshtml" />
+    <Content Include="Views\CommonLibrary\SysMedicalOrderFrequencyForm.cshtml" />
     <Content Include="Views\CommonLibrary\Index.cshtml" />
     <Content Include="Views\CommonLibrary\SysCommonMedicineAdd.cshtml" />
     <Content Include="Views\CommonLibrary\SysCommonStuffAdd.cshtml" />
@@ -447,6 +442,10 @@
     <Content Include="Views\Staff\Details.cshtml" />
     <Content Include="Views\Staff\ExcelExportChooseColumns.cshtml" />
     <Content Include="Views\SysMedicineElectronicPrescription\Index.cshtml" />
+    <Content Include="Views\SysMedicineUnit\Index.cshtml" />
+    <Content Include="Views\SysNationality\Index.cshtml" />
+    <Content Include="Views\SysNation\Index.cshtml" />
+    <Content Include="Views\Duty\Index.cshtml" />
     <None Include="Web.9_190.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

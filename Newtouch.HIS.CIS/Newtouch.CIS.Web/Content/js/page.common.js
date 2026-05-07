@@ -193,12 +193,12 @@ $.fn.sfxmFloatingSelector = function (options) {
 	var options = $.extend(defaults, options);
 
 	if (!!!options.searchType) {
-		debugger
 
 		options.searchType = "yp,sfxm"; //默认
 	}
 	if (options.searchType && !!!options.showColModel) {
-		var colsfxmmc = null;
+	    var colsfxmmc = null;
+	    var colsfxmCode = null;
 		var colgg = null;
 		var colsfdlmc = null;
 		var coldwjls = null;
@@ -223,6 +223,15 @@ $.fn.sfxmFloatingSelector = function (options) {
 			}
 			if (this.name === 'sfxmmc') {
 				colsfxmmc = this;
+			}
+			if (this.name === 'zfxzmc') {
+			    colzfxzmc = this;
+			}
+			if (this.name === 'dw') {
+			    coldw = this;
+			}
+			if (this.name === 'sfxmCode') {
+			    colsfxmCode=this;
 			}
 			else if (this.name === 'gg') {
 				colgg = this;
@@ -300,22 +309,27 @@ $.fn.sfxmFloatingSelector = function (options) {
 					//colclkcsl.widthratio = 10;
 					break;
 				case "yp,sfxm":
-				case "sfxm,yp": 
-					colsfxmmc.widthratio = 14;
+			    case "sfxm,yp":
+			        colsfxmCode.widthratio = 9;
+			        colsfxmmc.widthratio = 20;
+			        coldw.widthratio = 8;
+			        colgjybdm.hidden = true;
+                    colzfxzmc.widthratio = 8;
 					colgg.hidden = undefined;
 					colgg.widthratio = 12;
-					colisKss.hidden = undefined;
-					colisKss.widthratio = 6;
+					//colisKss.hidden = undefined;
+					//colisKss.widthratio = 6;
 					colzfbl.hidden = undefined;
 					colzfbl.widthratio = 10;
 					colbz.hidden = undefined;
-					colbz.widthratio = 5;
+					colbz.widthratio = 19;
 					//coljlfw.hidden = undefined;
 					//coljlfw.widthratio = 10;
 					//colpcfw.hidden = undefined;
 					//colpcfw.widthratio = 10;
 					break;
-				case "yp.kc":
+			    case "yp.kc":
+			    case "yyhc":
 				case "yp.kc,sfxm":
 				case "sfxm,yp.kc": //cxjje 
 					coltsypbz.hidden = undefined;
@@ -472,7 +486,47 @@ $.fn.ksFloatingSelector = function (options) {
 
 	$(this).newtouchFloatingSelector(options);
 }
+//处方模板浮层
+$.fn.cfzutaoFloatingSelector12 = function (options) {
+	//默认options
+	var defaults = {
+		width: 350,
+		height: 280,
+		focusautotrigger: true,
+		caption: "选择组套",
+		url: '/PresTemplate/GetCfmbList',
+		ajaxparameters: function ($thisinput) {
+			return "mblx="+ options.mblx + "&cflx="+options.cflx+"&expandCflx=null&mbKeyword=" + $.trim($thisinput.val());
+		},
+		itemdbclickhandler: null,
+		colModel: [
+			{ label: 'cfmbId', name: 'mbId', hidden: true },
+			{ label: '模板名称', name: 'mbmc', widthratio: 30 },
+			{
+				label: '处方类型',
+				name: 'cflx',
+				widthratio: 20,
+				formatter: function(value, options, row) {
+					// 将数字值转换为汉字
+					const prescriptionTypes = {
+						1: "西药处方",
+						2: "中药处方",
+						3: "检验处方",
+						4: "检查处方",
+						5: "康复处方",
+						6: "常规项目处方",
+					};
+					return prescriptionTypes[value] || "未知类型"; // 默认值为 "未知类型"
+				}
+			},
+			{ label: '描述', name: 'Description', widthratio: 30, hidden: true},
+			{ label: '注意事项', name: 'Remark', widthratio: 30 ,hidden: true}
+		]
+	};
+	var options = $.extend(defaults, options);
 
+	$(this).newtouchFloatingSelector(options);
+}
 
 //组套 浮层选择器
 $.fn.zutaoFloatingSelector = function (options) {
@@ -504,7 +558,6 @@ $.fn.zutaoFloatingSelector = function (options) {
 
 //系统部位 浮层选择器
 $.fn.bwFloatingSelector = function (options, data) {
-    debugger;
 	//默认options
 	var defaults = {
 		width: 300,
@@ -610,7 +663,7 @@ $.fn.zdFloatingSelector = function (options) {
 		},
 		itemdbclickhandler: null,
 		colModel: [
-			{ label: '代码', name: 'zdCode', hidden: true },
+			{ label: '代码', name: 'zdCode', hidden: true},
 			{ label: '名称', name: 'zdmc', widthratio: 60 },
 			{ label: '拼音', name: 'py', widthratio: 20 },
 			{ label: 'icd10', name: 'icd10', widthratio: 20 },

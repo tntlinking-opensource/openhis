@@ -140,5 +140,57 @@ namespace Newtouch.Herp.Web.Areas.BillManage.Controllers
 
         #endregion
 
+        #region 外部入库引用采购单
+        public ActionResult PurchaseView()
+        {
+            return View();
+        }
+        public ActionResult PurchaseDetailView()
+        {
+            return View();
+        }
+        /// <summary>
+        /// 外部入库-采购单引用from视图
+        /// </summary>
+        /// <param name="kssj"></param>
+        /// <param name="jssj"></param>
+        /// <param name="fph"></param>
+        /// <param name="orderNo"></param>
+        /// <param name="organizeId"></param>
+        /// <returns></returns>
+        public ActionResult SelectCgOrderView(DateTime kssj, DateTime jssj, string fph, string orderNo, string organizeId)
+        {
+            var result = _cgOrderDmnService.SelectCgOrderView(kssj, jssj, fph, orderNo, OrganizeId);
+            return Content(result.ToJson());
+        }
+        public ActionResult SelectCgOrderDetail(string subOrderNo)
+        {
+            var result = _cgOrderDmnService.SelectCgOrderDetail(subOrderNo, OrganizeId);
+            return Content(result.ToJson());
+        }
+        /// <summary>
+        /// 采购单明细导入入库列表
+        /// </summary>
+        /// <param name="subOrderNo"></param>
+        /// <param name="organizeId"></param>
+        /// <returns></returns>
+        public ActionResult SelectCgOrderDetailImport(string subOrderNo, string organizeId)
+        {
+            var result = _cgOrderDmnService.SelectCgOrderDetailImport(subOrderNo, OrganizeId);
+            return Content(result.ToJson());
+        }
+
+        /// <summary>
+        /// 补填采购单发票号
+        /// </summary>
+        /// <param name="crkmxId"></param>
+        /// <param name="fph"></param>
+        /// <returns></returns>
+        public ActionResult UpdateFph(string subOrderNo, string fph)
+        {
+            _cgOrderDmnService.PurchaseDdbhUpdate(subOrderNo, fph,this.UserIdentity.UserCode);
+            return Success();
+        }
+        #endregion
     }
 }

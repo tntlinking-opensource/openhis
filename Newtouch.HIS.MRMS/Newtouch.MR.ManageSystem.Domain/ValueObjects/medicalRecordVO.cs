@@ -33,7 +33,22 @@ namespace Newtouch.MR.ManageSystem.Domain.ValueObjects
         public string Name { get; set; }
         public bool Selected { get; set; }
     }
+    public class BlTemplateVo
+    {
+        /// <summary>
+        /// 文书、模板Id
+        /// </summary>
+        public string templateId { get; set; }
+        /// <summary>
+        /// 文书、模板名称
+        /// </summary>
+        public string templateName { get; set; }
+        /// <summary>
+        /// 文书内容
+        /// </summary>
+        public string xmldata { get; set; }
 
+    }
     //[Serializable]
     //public partial class ZybrjbxxVO
     //{

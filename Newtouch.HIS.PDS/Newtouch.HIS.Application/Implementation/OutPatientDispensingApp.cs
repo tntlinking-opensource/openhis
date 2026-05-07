@@ -71,7 +71,7 @@ namespace Newtouch.HIS.Application.Implementation
                             break;
                         }
 
-                        var deliveryResult = _fydeDmnService.ExecOutpatientDispensingDrugV2(p.cfh, deliveryInfo.yfbmCode, deliveryInfo.userCode, deliveryInfo.organizeId,p.ypdm,p.zsm,p.sfcl);
+                        var deliveryResult = _fydeDmnService.ExecOutpatientDispensingDrugV2(p.cfh, deliveryInfo.yfbmCode, deliveryInfo.userCode, deliveryInfo.organizeId,p.zsm);
                         if (!string.IsNullOrWhiteSpace(deliveryResult))
                         {
                             errorMsg.Append(deliveryResult + "；");

@@ -21,7 +21,26 @@ namespace Newtouch.Domain.IDomainServices.Outpatient
         OutpatientConsultInfoVO GetConsultInfo(string orgId, string zsCode,string ghrq);
 		OutpatientConsultVO GetConsultnext(string orgid,string ghnm,string mzh);
 		int UpdataZSinsert(string mzh,string rygh,string orgid);
+        /// <summary>
+        /// 叫号修改状态
+        /// </summary>
+        /// <param name="mzh"></param>
+        /// <param name="calledstu"></param>
+        /// <param name="orgid"></param>
+        /// <returns></returns>
 		int UpdatePatient(string mzh,int calledstu, string orgid);
+        /// <summary>
+        /// 验证叫号状态
+        /// </summary>
+        /// <param name="mzh"></param>
+        /// <param name="orgid"></param>
+        /// <returns></returns>
 		int ISfalgPatient(string mzh,string orgid);
+        /// <summary>
+        /// 机构名称
+        /// </summary>
+        /// <param name="orgId"></param>
+        /// <returns></returns>
+        string GetOrgName(string orgId);
 	}
 }

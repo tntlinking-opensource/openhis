@@ -189,6 +189,6 @@
         /// 挂号来源标签 2020-3-4 新增
         /// </summary>
         public string ghlybz { get; set; }
-        //public short? queno { get; set; }
+        public short? queno { get; set; }
     }
 }

@@ -33,6 +33,7 @@ namespace Newtouch.CIS.Web.Areas.NurseManage.Controllers
 
         public ActionResult NursingInput() {
             ViewBag.MutipatientNursingInputFlag = _sysConfigRepo.GetIntValueByCode("MutipatientNursingInputFlag", OrganizeId, 0);
+            ViewBag.ScdCode = _sysConfigRepo.GetValueByCode("ScdTimePoint", OrganizeId);//三测单时间点奇偶数设置 1 奇数 0 偶数
             return View();
         }
         /// <summary>
@@ -48,7 +49,7 @@ namespace Newtouch.CIS.Web.Areas.NurseManage.Controllers
 
         public override ActionResult  Form() {
             ViewBag.hsqm = UserIdentity.UserName;
-           
+            ViewBag.ScdCode = _sysConfigRepo.GetValueByCode("ScdTimePoint", OrganizeId);//三测单时间点奇偶数设置 1 奇数 0 偶数
             return View();
         }
 
@@ -256,6 +257,7 @@ namespace Newtouch.CIS.Web.Areas.NurseManage.Controllers
         /// <returns></returns>
         public ActionResult TemperatureChartIndex()
         {
+            ViewBag.ScdCode = _sysConfigRepo.GetValueByCode("ScdTimePoint", OrganizeId);//三测单时间点奇偶数设置 1 奇数 0 偶数
             ViewBag.HospitalName = ConfigurationHelper.GetAppConfigValue("HospitalName");
             return View();
         }

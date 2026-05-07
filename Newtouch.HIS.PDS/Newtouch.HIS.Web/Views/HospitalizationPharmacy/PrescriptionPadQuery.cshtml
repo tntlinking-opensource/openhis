@@ -94,7 +94,7 @@
         $gridList.dataGrid({
             multiselect: true,
             url: '/HospitalizationPharmacy/GetZycfGridJson',
-            height: 320,
+            height: 100,
             //height: $(window).height() - document.getElementById('gridList').offsetTop - 150,
             postData: {
                 bq: $("#bqmc").val(), keyword: $("#keyword").val(),
@@ -117,7 +117,7 @@
                     }
                 },
                 {
-                    label: '执行时间', name: 'kssj', width: 130, align: 'center',
+                    label: '开单时间', name: 'kssj', width: 130, align: 'center',
                     formatter: "date", formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' }
                 },
                 {
@@ -185,7 +185,7 @@
         $("#gridMXList").dataGrid({
             //postData: { yzh: "", zxrq: "", yzxz: "" },
             //url: '/HospitalizationPharmacy/GetZycfGridDetailJson',
-            height: 220,
+            height:100,
             colModel: [
                 { label: '住院号', name: 'zyh', align: 'center', width: 80 },
                 { label: '姓名', name: 'hzxm', align: 'center', width: 80 },

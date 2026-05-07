@@ -97,6 +97,7 @@
     <Compile Include="Log\LogProxy.cs" />
     <Compile Include="Monitoring.cs" />
     <Compile Include="PerformanceMonitoring.cs" />
+    <Compile Include="ReceiptNoManage.cs" />
     <Compile Include="ReportCommonHelper.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="EFDBBaseFuncHelper.cs" />
@@ -109,12 +110,13 @@
     <Compile Include="SiteORAPIHelper.cs" />
     <Compile Include="SiteSettAPIHelper.cs" />
     <Compile Include="SiteYfykAPIHelper.cs" />
+    <Compile Include="TSql\StockInventory.cs" />
+    <Compile Include="TSql\StockOperate.cs" />
     <Compile Include="XMLSerializer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

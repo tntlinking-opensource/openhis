@@ -26,7 +26,7 @@ namespace Newtouch.EMR.Domain.IDomainServices
         /// <param name="zyh"></param>
         /// <param name="mzh"></param>
         /// <returns></returns>
-        string BL_Save(string orgId, string bllx, string mbbh, string path, string BLMC, OperatorModel user, string zyh, string mzh = null);
+        string BL_Save(string orgId, string bllx, string mbbh, string path, string BLMC, OperatorModel user, string zyh, string mzh = null, string doctype = null);
         /// <summary>
         /// 获取统一存储病历
         /// </summary>
@@ -49,7 +49,7 @@ namespace Newtouch.EMR.Domain.IDomainServices
         List<LisReportSqdhValueMxVo> GetLisSqdhMxData(string zyh, string lissqdh, string organizeId);//检验项目明细
 
         List<AdviceListGridVO> AdviceGridView(Pagination pagination, AdviceListRequestVO req);//医嘱查询
-        blzybrjbxxVO GetBlZybrjbxx(string OrgId, string zyh,string user);//获取病历元素值
+        blzybrjbxxVO GetBlZybrjbxx(string OrgId, string zyh,string user,bool newbz);//获取病历元素值
         int updateLock(string OrgId, string blid,string user);//修改锁定状态
         void BLJG_Save(List<bl_ysjgnrEntity> bljgnr);
         string BLJG_Delete(string blid, string orgId);

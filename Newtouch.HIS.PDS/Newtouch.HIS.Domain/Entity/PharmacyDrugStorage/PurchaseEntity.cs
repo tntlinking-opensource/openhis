@@ -87,5 +87,7 @@ namespace Newtouch.HIS.Domain.Entity.PharmacyDrugStorage
         /// 
         /// </summary>
         public string zt { get; set; }
+        public string gysCode { get; set;}
+        public string gysName { get; set;}
     }
 }

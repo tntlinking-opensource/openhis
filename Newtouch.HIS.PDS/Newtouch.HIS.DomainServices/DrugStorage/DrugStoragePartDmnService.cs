@@ -70,15 +70,15 @@ GROUP BY s.dlmc,s.ypmc,s.ypCode,s.ypgg,s.bmdw,s.zhyz,s.bzs,s.bzdw,s.zxdw,s.pzwh,
 			const string sql = @"
 SELECT s.dlmc,s.ypmc,s.ypCode ypdm,s.ypgg gg,SUM(s.kykc) kykc, dbo.f_getComplexYpSlandDw(SUM(s.kykc),s.zhyz,s.bmdw,s.zxdw) slStr,s.bmdw dw,CONVERT(INT,s.zhyz) zhyz,CONVERT(INT,s.bzs) bzs
 ,s.bzdw,s.zxdw,s.pzwh,CONVERT(NUMERIC(11,4),s.zxdwlsj) zxdwlsj,CONVERT(NUMERIC(11,4),s.zxdwlsj*s.zhyz) lsj,CONVERT(NUMERIC(11,4),s.zxdwpfj*s.zhyz) pfj,s.ycmc sccj,s.yklsj,s.ykpfj
-,(CONVERT(VARCHAR(11),CONVERT(NUMERIC(11,2),s.zxdwlsj*s.zhyz))+'元/'+s.bmdw) lsjdjdw,gjybdm
+,(CONVERT(VARCHAR(11),CONVERT(NUMERIC(11,2),s.zxdwlsj*s.zhyz))+'元/'+s.bmdw) lsjdjdw
+,(CONVERT(VARCHAR(11),CONVERT(NUMERIC(11,2),s.zxdwpfj*s.zhyz))+'元/'+s.bmdw) pfjdjdw,gjybdm
 FROM 
 (
-	SELECT sfdl.dlmc, yp.ypmc, bmypxx.Ypdm ypCode, ypsx.ypgg, (kcxx.kcsl-kcxx.djsl) kykc, dbo.f_getyfbmDw(@yfbmCode, bmypxx.Ypdm, @Organizeid) bmdw
-	, dbo.f_getyfbmZhyz(@YfbmCode, bmypxx.Ypdm, bmypxx.OrganizeId) zhyz, yp.bzs, yp.bzdw, yp.zxdw, ISNULL(ypsx.pzwh,'') pzwh,yp.ycmc
-	,yp.lsj/yp.bzs zxdwlsj,yp.pfj/yp.bzs zxdwpfj,yp.lsj yklsj,yp.pfj ykpfj,ypsx.gjybdm
+	SELECT sfdl.dlmc, yp.ypmc, bmypxx.Ypdm ypCode, yp.ypgg, (kcxx.kcsl-kcxx.djsl) kykc, dbo.f_getyfbmDw(@yfbmCode, bmypxx.Ypdm, @Organizeid) bmdw
+	, dbo.f_getyfbmZhyz(@YfbmCode, bmypxx.Ypdm, bmypxx.OrganizeId) zhyz, yp.bzs, yp.bzdw, yp.zxdw, ISNULL(yp.pzwh,'') pzwh,yp.ycmc
+	,yp.lsj/yp.bzs zxdwlsj,yp.pfj/yp.bzs zxdwpfj,yp.lsj yklsj,yp.pfj ykpfj,yp.gjybdm
 	FROM dbo.xt_yp_bmypxx(NOLOCK) bmypxx
 	INNER JOIN NewtouchHIS_Base.dbo.V_S_xt_yp yp ON yp.ypCode=bmypxx.Ypdm AND yp.OrganizeId=bmypxx.OrganizeId 
-	INNER JOIN NewtouchHIS_Base.dbo.V_S_xt_ypsx ypsx ON ypsx.ypId=yp.ypId AND ypsx.OrganizeId=bmypxx.OrganizeId
 	LEFT JOIN dbo.xt_yp_kcxx(NOLOCK) kcxx ON kcxx.ypdm=bmypxx.Ypdm AND kcxx.yfbmCode=bmypxx.yfbmCode AND kcxx.OrganizeId=bmypxx.OrganizeId AND kcxx.zt='1'
 	LEFT JOIN NewtouchHIS_Base.dbo.V_S_xt_sfdl sfdl ON sfdl.dlCode=yp.dlCode AND sfdl.OrganizeId=bmypxx.OrganizeId AND sfdl.zt='1'
 	WHERE bmypxx.yfbmCode=@yfbmCode
@@ -155,20 +155,21 @@ GROUP BY s.dlmc,s.ypmc,s.ypCode,s.ypgg,s.bmdw,s.zhyz,s.bzs,s.bzdw,s.zxdw,s.pzwh,
 		{
 			const string sql = @"
 SELECT s.ypdm,dbo.f_getComplexYpSlandDw(s.kykc,s.zhyz,s.bmdw,s.zxdw) slStr, CONVERT(INT,s.kykc) kykc,s.zxdw
-,s.bmdw dw,CONVERT(INT,s.zhyz) zhyz,CONVERT(INT,s.bzs) bzs,s.bzdw,LTRIM(RTRIM(s.pc)) pc,LTRIM(RTRIM(s.ph)) ph,s.yxq
+,s.bmdw dw,CONVERT(INT,s.zhyz) zhyz,CONVERT(INT,s.bzs) bzs,s.bzdw,LTRIM(RTRIM(s.pc)) pc,LTRIM(RTRIM(s.ph)) ph,s.yxq,fph
 ,s.zxdwjj,s.bzdwjj,CONVERT(NUMERIC(11,4),s.zxdwjj*s.zhyz) bmdwjj
 ,(CONVERT(VARCHAR(11),CONVERT(NUMERIC(11,2),s.zxdwjj*s.zhyz))+'元/'+s.bmdw) jjdjdw
 FROM (
 	SELECT yp.ypCode ypdm,SUM(kcxx.kcsl-kcxx.djsl) kykc,yp.zxdw,dbo.f_getyfbmDw(@yfbmCode, yp.ypCode, @Organizeid) bmdw
-	,dbo.f_getyfbmZhyz(@yfbmCode, yp.ypCode, @Organizeid) zhyz, yp.bzs, yp.bzdw,kcxx.pc,kcxx.ph
+	,dbo.f_getyfbmZhyz(@yfbmCode, yp.ypCode, @Organizeid) zhyz, yp.bzs, yp.bzdw,kcxx.pc,kcxx.ph,crkmx.Fph
 	,CONVERT(NUMERIC(11,4),kcxx.jj/yp.bzs) zxdwjj,kcxx.jj bzdwjj,kcxx.yxq
 	FROM NewtouchHIS_Base.dbo.V_S_xt_yp yp  
 	INNER JOIN NewtouchHIS_Base.dbo.V_S_xt_ypsx ypsx ON ypsx.ypId=yp.ypId AND ypsx.OrganizeId=yp.OrganizeId
 	LEFT JOIN dbo.xt_yp_kcxx(NOLOCK) kcxx ON kcxx.ypdm=yp.ypCode AND kcxx.OrganizeId=yp.OrganizeId AND kcxx.zt='1'
+    LEFT JOIN dbo.xt_yp_crkmx (NOLOCK) crkmx ON crkmx.crkmxId=kcxx.crkmxId 
 	WHERE kcxx.yfbmCode=@yfbmCode 
 	AND yp.OrganizeId=@Organizeid
 	AND yp.ypCode=@ypdm
-	GROUP BY yp.zxdw,yp.ypCode,yp.bzs,yp.bzdw,kcxx.ph,kcxx.pc,kcxx.jj,kcxx.yxq
+	GROUP BY yp.zxdw,yp.ypCode,yp.bzs,yp.bzdw,kcxx.ph,kcxx.pc,kcxx.jj,kcxx.yxq,crkmx.Fph
 ) s
 ORDER BY s.kykc DESC
 ";
@@ -285,25 +286,24 @@ FROM (
 		/// <param name="show0kc">是否展示零库存  0-不展示 1-展示</param>
 		/// <param name="organizeid"></param>
 		/// <returns></returns>
-		public IList<DrugStockInfoVEntity> GetDrugAndStock(Pagination pagination, string yfbmCode, string keyWord, string tybz, string kczt, string show0kc, string organizeid, string kcyjcode)
+		public IList<DrugStockInfoVEntity> GetDrugAndStock(Pagination pagination, string yfbmCode, string keyWord, string tybz, string kczt, string show0kc, string organizeid, string kcyjcode,string iskcyjz=null)
 		{
 			var sql = new System.Text.StringBuilder(@"
-SELECT s.dlmc,s.ypmc,s.ypCode ypdm,s.py,s.ypgg gg,s.bmdw dw,s.bzdw,s.zxdw,s.pzwh,s.ycmc sccj,s.yklsj,s.ykpfj,s.kykc
+SELECT s.dlmc,s.ypmc,s.ypCode ypdm,s.py,s.ypgg gg,s.bmdw dw,s.bzdw,s.zxdw,s.pzwh,s.ycmc sccj,s.yklsj,s.ykpfj,s.kykc,kcsl,kcyjz
 ,CONVERT(INT,s.zhyz) zhyz,CONVERT(INT,s.bzs) bzs
-,dbo.f_getComplexYpSlandDw(s.kcsl,s.zhyz,s.bmdw,s.zxdw) slStr
+,dbo.f_getComplexYpSlandDw(s.kykc,s.zhyz,s.bmdw,s.zxdw) slStr
 ,CONVERT(NUMERIC(11,4),s.zxdwlsj) zxdwlsj,CONVERT(NUMERIC(11,4),s.zxdwlsj*s.zhyz) lsj,CONVERT(NUMERIC(11,4),s.zxdwpfj*s.zhyz) pfj
 ,CONVERT(NUMERIC(11,2),s.zxdwlsj*s.kcsl) lsze,CONVERT(NUMERIC(11,2),s.zxdwpfj*s.kcsl) pjze
 ,CONCAT(CONVERT(NUMERIC(11,4),s.zxdwlsj*s.zhyz),'元/',s.bmdw) lsjdjdw
 ,CONCAT(CONVERT(NUMERIC(11,4),s.zxdwpfj*s.zhyz),'元/',s.bmdw) pfjdjdw,gjybdm
 FROM (
-	SELECT sfdl.dlmc, yp.ypmc, yp.py, bmypxx.Ypdm ypCode,yp.ycmc, ypsx.ypgg
-	,SUM(ISNULL((kcxx.kcsl-kcxx.djsl),0)) kykc,SUM(ISNULL(kcxx.kcsl,0)) kcsl
+	SELECT sfdl.dlmc, yp.ypmc, yp.py, bmypxx.Ypdm ypCode,yp.ycmc, yp.ypgg
+	,SUM(ISNULL((kcxx.kcsl-kcxx.djsl),0)) kykc,SUM(ISNULL(kcxx.kcsl,0)) kcsl,kcyjz
 	,dbo.f_getyfbmDw(@yfbmCode, bmypxx.Ypdm, @Organizeid) bmdw
-	,dbo.f_getyfbmZhyz(@YfbmCode, bmypxx.Ypdm, bmypxx.OrganizeId) zhyz, yp.bzs, yp.bzdw, yp.zxdw, ISNULL(ypsx.pzwh,'') pzwh
-	,yp.lsj/yp.bzs zxdwlsj,yp.pfj/yp.bzs zxdwpfj,yp.lsj yklsj,yp.pfj ykpfj,ypsx.gjybdm
+	,dbo.f_getyfbmZhyz(@YfbmCode, bmypxx.Ypdm, bmypxx.OrganizeId) zhyz, yp.bzs, yp.bzdw, yp.zxdw, ISNULL(yp.pzwh,'') pzwh
+	,yp.lsj/yp.bzs zxdwlsj,yp.pfj/yp.bzs zxdwpfj,yp.lsj yklsj,yp.pfj ykpfj,yp.gjybdm
 	FROM dbo.xt_yp_bmypxx(NOLOCK) bmypxx
 	INNER JOIN NewtouchHIS_Base.dbo.V_S_xt_yp yp ON yp.ypCode=bmypxx.Ypdm AND yp.OrganizeId=bmypxx.OrganizeId 
-	INNER JOIN NewtouchHIS_Base.dbo.V_S_xt_ypsx ypsx ON ypsx.ypId=yp.ypId AND ypsx.OrganizeId=bmypxx.OrganizeId
 	LEFT JOIN dbo.xt_yp_kcxx(NOLOCK) kcxx ON kcxx.ypdm=bmypxx.Ypdm AND kcxx.yfbmCode=bmypxx.yfbmCode AND kcxx.OrganizeId=bmypxx.OrganizeId 
 	LEFT JOIN NewtouchHIS_Base.dbo.V_S_xt_sfdl sfdl ON sfdl.dlCode=yp.dlCode AND sfdl.OrganizeId=bmypxx.OrganizeId AND sfdl.zt='1'
 	WHERE bmypxx.yfbmCode=@yfbmCode
@@ -311,13 +311,6 @@ FROM (
 	AND yp.ypmc LIKE '%'+@keyWord+'%'
 ");
 			var param = new List<SqlParameter>();
-			//var param = new DbParameter[] {
-			//	new SqlParameter("@yfbmCode", yfbmCode??""),
-			//	new SqlParameter("@Organizeid", organizeid??""),
-			//	new SqlParameter("@kczt", kczt??""),
-			//	new SqlParameter("@tybz", tybz??""),
-			//	new SqlParameter("@keyWord", keyWord??"")
-			//};
 			param.Add(new SqlParameter("@yfbmCode", yfbmCode ?? ""));
 			param.Add(new SqlParameter("@Organizeid", organizeid ?? ""));
 			param.Add(new SqlParameter("@kczt", kczt ?? ""));
@@ -340,10 +333,15 @@ FROM (
 				sql.AppendLine("	and yp.ypcode in(select col from dbo.f_split(@kcyjcode,',') where col>'')");
 				param.Add(new SqlParameter("@kcyjcode", kcyjcode));
 			}
-			sql.AppendLine(@"	GROUP BY sfdl.dlmc, yp.ypmc, yp.py, bmypxx.Ypdm,yp.ycmc, ypsx.ypgg,yp.lsj,yp.bzs,yp.pfj,bmypxx.OrganizeId,yp.bzdw, yp.zxdw, ypsx.pzwh,ypsx.gjybdm
+			sql.AppendLine(@"	GROUP BY sfdl.dlmc, yp.ypmc, yp.py, bmypxx.Ypdm,yp.ycmc, yp.ypgg,yp.lsj,yp.bzs,yp.pfj,bmypxx.OrganizeId,yp.bzdw
+	, yp.zxdw, yp.pzwh,yp.gjybdm,yp.kcyjz
 ) s
 ");
-			return QueryWithPage<DrugStockInfoVEntity>(sql.ToString(), pagination, param.ToArray());
+            if (!string.IsNullOrWhiteSpace(iskcyjz))//库存预警生成采购计划使用
+            {
+                sql.AppendLine("	where   kcsl<=isnull(kcyjz,0)");
+            }
+            return QueryWithPage<DrugStockInfoVEntity>(sql.ToString(), pagination, param.ToArray());
 		}
 
 		/// <summary>
@@ -384,7 +382,7 @@ GROUP BY kcxx.ypdm, yp.ypmc, kcxx.yfbmCode, yfbm.yfbmmc ";
 		/// <param name="yfbmCode"></param>
 		/// <param name="organizeId"></param>
 		/// <returns></returns>
-		public IList<DrugStockInfoVEntity> SelectExpiredDrugs(Pagination pagination, string keyword, int gpyf, string yfbmCode, string organizeId, string gqyjcode,int? gqyyjts)
+		public IList<DrugStockInfoVEntity> SelectExpiredDrugs(Pagination pagination, string keyword, int gpyf, string yfbmCode, string organizeId, string gqyjcode,int? gqyyjts, string noShow0Kc = null)
 		{
 			var sql = new StringBuilder(@"select * from (
 SELECT yp.ypmc, yp.ypgg gg, yp.py, yp.ycmc sccj, kcxx.ph, kcxx.pc, kcxx.yxq
@@ -392,15 +390,14 @@ SELECT yp.ypmc, yp.ypgg gg, yp.py, yp.ycmc sccj, kcxx.ph, kcxx.pc, kcxx.yxq
 ,dbo.f_getYfbmYpComplexYpSlandDw(kcxx.djsl, @yfbmCode, kcxx.ypdm, @OrganizeId) djslStr
 ,CONCAT(kcxx.jj, '元/', yp.bzdw) jjdjdw, CONVERT(NUMERIC(11,2),kcxx.jj*kcxx.kcsl/yp.bzs) jjze
 ,CONCAT(yp.lsj, '元/', yp.bzdw) lsjdjdw, CONVERT(NUMERIC(11,2),yp.lsj*kcxx.kcsl/yp.bzs) lsze 
-,yp.ypCode ypdm,d.gysmc
+,yp.ypCode ypdm,d.gysmc,kcxx.kcsl
 FROM dbo.xt_yp_kcxx(NOLOCK) kcxx 
 INNER JOIN NewtouchHIS_Base.dbo.V_C_xt_yp yp ON yp.ypCode=kcxx.ypdm AND yp.OrganizeId=kcxx.OrganizeId AND yp.zt='1' 
-left join xt_yp_crkmx bb on bb.pc=kcxx.pc and bb.Ph=kcxx.ph and bb.Fph is not null 
+left join xt_yp_crkmx bb on bb.crkmxId=kcxx.crkmxId -- on bb.pc=kcxx.pc and bb.Ph=kcxx.ph and bb.Fph is not null 
 left join xt_yp_crkdj(nolock) crkdj on bb.crkId=crkdj.crkId
 left join  NewtouchHIS_Base.dbo.V_S_xt_ypgys d on d.gysCode=crkdj.Ckbm and d.OrganizeId =kcxx.OrganizeId 
 WHERE kcxx.OrganizeId=@OrganizeId AND kcxx.yfbmCode=@yfbmCode
 AND kcxx.zt='1'
-AND kcxx.kcsl>0
 ");
 			var param = new List<SqlParameter>();
 			param.Add(new SqlParameter("@yfbmCode", yfbmCode));
@@ -408,23 +405,26 @@ AND kcxx.kcsl>0
 			param.Add(new SqlParameter("@gpyf", gpyf)); 
 		    param.Add(new SqlParameter("@keyword", keyword));
 			string gltj = "0";
+            if (noShow0Kc=="1") {
+                sql.AppendLine(" AND kcxx.kcsl>0");
+            }
 			if (!string.IsNullOrWhiteSpace(gqyjcode))
 			{
                 sql.AppendLine(" and yp.ypcode in(select col from dbo.f_split(@gqyjcode,',') where col>'')");
 				param.Add(new SqlParameter("@gqyjcode", gqyjcode));
 				gltj = "1";
 			}
-            if (!string.IsNullOrWhiteSpace(gqyyjts.ToString()))
-            {
-                sql.AppendLine(" and DATEADD(day,@gqyyjts ,SUBSTRING(CONVERT(VARCHAR(15), kcxx.yxq, 120), 0, 11))<GETDATE()");
-                param.Add(new SqlParameter("@gqyyjts", gqyyjts));
-            }
+            //if (!string.IsNullOrWhiteSpace(gqyyjts.ToString()))
+            //{
+            //    sql.AppendLine(" and DATEADD(day,@gqyyjts ,SUBSTRING(CONVERT(VARCHAR(15), kcxx.yxq, 120), 0, 11))<GETDATE()");
+            //    param.Add(new SqlParameter("@gqyyjts", gqyyjts));
+            //}
 			if (gltj=="0")
 			{
 				switch (gpyf)
 				{
 					case 0:
-						sql.AppendLine("AND DATEDIFF(day, GETDATE(),kcxx.yxq)<=@gpyf ");
+						sql.AppendLine("AND DATEDIFF(day, GETDATE(),kcxx.yxq)<@gpyf ");
 						break;
 					case 1:
 					case 2:
@@ -437,12 +437,15 @@ AND kcxx.kcsl>0
 					case 6:
 						sql.AppendLine("AND DATEDIFF(MONTH, GETDATE(),kcxx.yxq)>@gpyf");
 						break;
+                    case 7:
+                        sql.AppendLine("AND DATEDIFF(day, GETDATE(),kcxx.yxq)=0");
+                        break;
 				}
 
 			}
 			if (!string.IsNullOrWhiteSpace(keyword)) sql.AppendLine("AND (yp.ypCode LIKE '%'+@keyword+'%' OR yp.ypmc LIKE '%'+@keyword+'%')");
 			sql.AppendLine(@"  )bb
-group by bb.ypmc, bb.gg, bb.py, bb.sccj, ph, pc, yxq, kcslStr, djslStr, jjdjdw, jjze, lsjdjdw, lsze, ypdm, gysmc");
+group by bb.ypmc, bb.gg, bb.py, bb.sccj, ph, pc, yxq, kcslStr, djslStr, jjdjdw, jjze, lsjdjdw, lsze, ypdm, gysmc,kcsl");
 			//var param = new DbParameter[]
 			//{
 			//	new SqlParameter("@yfbmCode",yfbmCode ),
@@ -453,20 +456,21 @@ group by bb.ypmc, bb.gg, bb.py, bb.sccj, ph, pc, yxq, kcslStr, djslStr, jjdjdw, 
 			return QueryWithPage<DrugStockInfoVEntity>(sql.ToString(), pagination, param.ToArray());
 		}
 
-		public IList<CrkMxAll> GetCrkMxAll(string crkId)
+		public IList<CrkMxAll> GetCrkMxAll(string crkId, string orgId)
 		{
 
 			var sql = new StringBuilder(@"
-select crkmxId,crkId,sldmxId,ypdm,Fph,Kprq,Dprq,ph,yxq,a.pfj,a.lsj,ykpfj,yklsj,Zje,sl,Rkzhyz,Rkbmkc,rkdw,Ckzhyz,Ckbmkc,ckdw,Wg,zbbz,jkzcz,hgzm,ysjg,thyy,Cljg,scrq
+select crkmxId,crkId,sldmxId,ypdm,fph,Kprq,Dprq,ph,yxq,a.pfj,a.lsj,ykpfj,yklsj,Zje,sl,Rkzhyz,Rkbmkc,rkdw,Ckzhyz,Ckbmkc,ckdw,Wg,zbbz,jkzcz,hgzm,ysjg,thyy,Cljg,scrq
 ,kl,jj,pc,cd,a.zt,px,CreatorCode,CreateTime,LastModifyTime,LastModifierCode,pfjze,ypmc,dlmc,ypgg,ycmc from  NewtouchHIS_PDS..xt_yp_crkmx a 
-left join NewtouchHIS_Base..V_C_xt_yp b on a.Ypdm =b.ypCode
-left join NewtouchHIS_Base..V_S_xt_sfdl c on b.dlCode = c.dlCode
-where crkId = @crkId
+left join NewtouchHIS_Base..V_C_xt_yp b on a.Ypdm =b.ypCode and b.organizeId=@orgId
+left join NewtouchHIS_Base..V_S_xt_sfdl c on b.dlCode = c.dlCode and c.organizeId=@orgId
+where crkId = @crkId and a.zt='1'
 ");
 			var param = new DbParameter[]
 			{
 				new SqlParameter("@crkId",crkId ),
-			};
+                new SqlParameter("@orgId",orgId ),
+            };
 			return FindList<CrkMxAll>(sql.ToString(), param);
 		}
 
@@ -475,10 +479,10 @@ where crkId = @crkId
 			var index = 0;
 			using (var db = new EFDbTransaction(_databaseFactory).BeginTrans())
 			{
-				//删除盘点表
+				//删除出入库表
 				var inventoryEntity = db.FindEntity<SysMedicineStorageIOReceiptEntity>(crkId);
 				db.Delete(inventoryEntity);
-				//删除盘点明细表
+				//删除出入库明细表
 				var inventoryDetailEntityList = db.IQueryable<SysMedicineStorageIOReceiptDetailEntity>().Where(a => a.crkId == crkId).ToList();
 				foreach (var item in inventoryDetailEntityList)
 				{

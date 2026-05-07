@@ -1361,6 +1361,7 @@ where (@zyh = '' or zyh = @zyh) and OrganizeId = @orgId and zt = '1'
         }
         #endregion
 
+        #region 记账计划相关业务逻辑
         /// <summary>
         /// 保存住院计费
         /// </summary>
@@ -1743,6 +1744,7 @@ where (@zyh = '' or zyh = @zyh) and OrganizeId = @orgId and zt = '1'
             jzjhmx.yzxcs = 0;
             db.Update(jzjhmx, new List<string> { "zxzt" });
         }
+        #endregion
 
         #region private methods
 
@@ -2436,6 +2438,7 @@ and jsnm not in(
         }
         #endregion
 
+        #region 住院记账业务
         /// <summary>
         /// 根据项目编号获取自负性质
         /// </summary>
@@ -2449,6 +2452,58 @@ and jsnm not in(
                                 , new SqlParameter("@orgId", orgId) });
            
         }
+        /// <summary>
+        /// 物资耗材库存验证
+        /// </summary>
+        /// <param name="jfbhs"></param>
+        /// <returns></returns>
+        public List<HospItemFeeVO> Verification(string xmCodes,string orgId,string ks)
+        {
+            const string sql = @" select ks,productCode,SUM(kcsl-djsl) kykc from Newtouch_CIS..Dept_kcxx with(nolock)
+where ks=@ks  and  OrganizeId=@orgId and zt='1' 
+and productCode in (select col from f_split(@sfxmCode,','))
+group by ks,productCode";
+            return this.FindList<HospItemFeeVO>(sql, new[] { new SqlParameter("@sfxmCode", xmCodes)
+                                , new SqlParameter("@orgId", orgId), new SqlParameter("@ks", ks) });
 
+        }
+
+        /// <summary>
+        /// 住院记账-项目、物资耗材、药品计费
+        /// </summary>
+        /// <param name="xmjfbEntitylist"></param>
+        /// <param name="ypjfbEntitylist"></param>
+        /// <returns></returns>
+        public string SaveFee(List<HospItemBillingEntity> xmjfbEntitylist, List<HospDrugBillingEntity> ypjfbEntitylist)
+        {
+            string result = "";
+            try {
+                using (var db = new EFDbTransaction(this._databaseFactory).BeginTrans())
+                {
+                    if (xmjfbEntitylist != null && xmjfbEntitylist.Count > 0)
+                    {
+                        foreach (var item in xmjfbEntitylist)
+                        {
+                            db.Insert(item);
+                        }
+                    }
+                    if (ypjfbEntitylist != null && ypjfbEntitylist.Count > 0)
+                    {
+                        foreach (var item in ypjfbEntitylist)
+                        {
+                            db.Insert(item);
+                        }
+                    }
+                    db.Commit();
+                }
+            }
+            catch (Exception e)
+            {
+                result ="记账失败："+ e.Message;
+                throw;
+            }
+            return result;
+        }
+        #endregion
     }
 }

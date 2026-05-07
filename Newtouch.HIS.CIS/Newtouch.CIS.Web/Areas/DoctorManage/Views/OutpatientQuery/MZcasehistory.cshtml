@@ -113,7 +113,7 @@
 
 		$("#btn_search").click(function () {
 			//点击查询重置各个列表查询
-			blh = "";
+			//blh = "";
             $('#gridList').jqGrid("clearGridData");//先清空明细
             $gridJsList.jqGrid('setGridParam', {
                 postData: { kssj: $("#kssj").val(), jssj: $("#jssj").val() },
@@ -226,7 +226,7 @@
 				{ label: '就诊ID', name: 'jzId', width: 80, align: 'left', hidden: true }
 			],
 			pager: "#gridPagerls",
-			sortname: " zlkssj asc",
+			sortname: " zlkssj desc",
 			rownumbers: true,  //是否显示序号
 			viewrecords: true,
 			onSelectRow: function (rowid) {
@@ -273,12 +273,24 @@
 				{ label: '金额', name: 'je', align: 'left', width: 80 },
 				{ label: '开立医生', name: 'klys', width: 130, align: 'left' },
 				{ label: '开立科室', name: 'klks', width: 130, align: 'left' },
+                {
+                    label: '收费状态', name: 'sfbz', width: 90, align: 'left', formatter: function (val, options, rowObject) {
+                        if (rowObject["tbz"])
+                            return "已退费";
+                        else if (rowObject["sfbz"])
+                            return "已收费";
+                        else
+                            return "未收费";
+                    }
+                },
+                { label: '收费状态', name: 'tbz', width: 90, align: 'center', hidden: true }
 			],
 			pager: "#gridPagerlscfmx",
 			sortname: " cfh asc",
 			rownumbers: true,  //是否显示序号
 			viewrecords: true,
 			grouping: true,
+			rowNum: 50, //每页显示记录数
 			groupingView: {
 				//groupSummary: [true],//合计列是否显示  在需要合计的列加summaryType属性  'sum'
 				groupCollapse: true,//初始化是否折叠分组详细 true折叠 false展开

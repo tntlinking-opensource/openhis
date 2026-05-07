@@ -16,7 +16,7 @@
             {
                 <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
                 <ul class="dropdown-menu pull-right">
-                    <li><a onclick="btn_template()" href="javascript:void()">配置模板管理</a></li>
+                    <li><a onclick="btn_template()" href="javascript:void(0)">配置模板管理</a></li>
                 </ul>
             }
         </div>
@@ -25,6 +25,9 @@
         </div>
         <div class="btn-group">
             <a class="btn btn-primary" onclick="btn_delete()"><i class="fa fa-pencil-square-o"></i>删除</a>
+        </div>
+        <div class="btn-group">
+            <a class="btn btn-primary" onclick="btn_sync()"><i class="fa fa-pencil-square-o"></i>同步</a>
         </div>
     </div>
     <div class="search">
@@ -148,6 +151,28 @@
             }
         });
     }
+    function btn_sync() {
+        $.modalConfirm("确定要同步所有系统参数吗？", function (r) {
+            if (r) {
+                $.loading(true, '数据同步中...');
+                $.najax({
+                    url: "/Home/SyncSysConfigParams",
+                    type: "POST",
+                    data: {orgId: '@(opeator.OrganizeId)'},
+                    dataType: "json",
+                    async: false,
+                    success: function (data) {
+                        $.modalAlert(data.message, data.state);
+                        $('#btn_search').trigger('click');
+                        $.loading(false);
+                    }
+                });
+            } else {
+
+            }
+        });
+    }
+    
 
     function btn_ShowAllConfig() {
         $.modalOpen({

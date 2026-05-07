@@ -432,10 +432,10 @@
                 else {
                     $.modalMsg(data.message, 'error');
                 }
-                if (!ly) {
+                if (!ly || ly == "Newtemplate") {
                     $.currentWindow().$("#gridList").resetSelection();
                     $.currentWindow().$("#gridList").trigger("reloadGrid");
-                }
+                } 
                 else {
                     $.currentWindow().$('#mainIframeleft').attr('src', '/MedicalRecordManage/MedRecordTemplate/LeftMedicalTemplate');
                     //$.currentWindow().trigger();

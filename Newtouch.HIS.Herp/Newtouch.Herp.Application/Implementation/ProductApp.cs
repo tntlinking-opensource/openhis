@@ -77,6 +77,7 @@ namespace Newtouch.Herp.Application.Implementation
 			dbProduct.ybdm = wzProductEntity.ybdm;
             dbProduct.zblb = wzProductEntity.zblb;
             dbProduct.hslb = wzProductEntity.hslb;
+            dbProduct.kcyjz = wzProductEntity.kcyjz;
             dbProduct.Modify();
 			int updatecount= wzProductRepo.Update(dbProduct);
 
@@ -121,7 +122,8 @@ namespace Newtouch.Herp.Application.Implementation
 				gjybdm = s.gjybdm,
 				ybdm = s.ybdm,
                 zblb=s.zblb,
-                hslb=s.hslb
+                hslb=s.hslb,
+                kcyjz=s.kcyjz
 			};
 		}
 

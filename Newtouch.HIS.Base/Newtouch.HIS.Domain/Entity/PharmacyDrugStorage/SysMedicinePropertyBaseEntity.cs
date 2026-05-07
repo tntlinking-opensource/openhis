@@ -237,5 +237,6 @@ namespace Newtouch.HIS.Domain.Entity
         /// 医保规格
         /// </summary>
         public string ybgg { get; set; }
+        public int? kcyjz { get; set; }
     }
 }

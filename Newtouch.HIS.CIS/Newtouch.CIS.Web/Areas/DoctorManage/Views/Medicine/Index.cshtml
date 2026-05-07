@@ -241,8 +241,22 @@
                     ]
                 }
                 },
-                { label: '<span class="required"></span>组套', name: 'yfztmc', width: 65, editwidth: '100%', align: 'center', editable: true},
-                { label: '<span class="required"></span>组套编码', name: 'yfztbm', width: 65, editwidth: '100%', align: 'center', editable: true,hidden:true},
+                { 
+                    label: '<span class="required"></span>组套', name: 'yfztmc', width: 65, editwidth: '100%', align: 'center', editable: true,editoptions:{
+                    dataEvents: [
+                               {
+                                   type: 'change',
+                                   fn: function (e) { 
+                                       debugger
+                                       var row = $(e.target).closest('tr.jqgrow');
+                                       var rowid = row.attr('id');
+                                       if(!$(this).val())
+                                           $("#" + rowid + "_yfztbm").val("");
+                                    }
+                               }
+                    ]
+                }},
+                { label: '<span class="required"></span>组套编码', name: 'yfztbm', width: 65, editwidth: '100%', align: 'center', editable: true},
                 { label: 'yfmcval', name: 'yfmcval', width: 75, editwidth: '100%', align: 'center', editable: true, hidden: true },
                 { label: 'ypyfdm', name: 'ypyfdm', width: 75, editwidth: '100%', align: 'center', editable: true, hidden: true },
                 { label: '<span class="required">*</span>频次', name: 'pcmc', width: 55, editwidth: '100%', align: 'center', editable: true },

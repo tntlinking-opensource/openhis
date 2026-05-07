@@ -345,8 +345,8 @@ and cc.Code = @dutyCode";
         /// <returns></returns>
         public IList<SysMSGQueryVO> MSGQuery(string yfbmcode, string orgid, int gqyj, string kcyj)
 		{
-            string sql = @"select * from (
-SELECT  bmypxx.Ypdm ypCode,''pc,''ph
+            string sql = @"select ypCode,pc,ph,kykc,kcsl,yxq,typeas from (
+SELECT  bmypxx.Ypdm ypCode,''pc,''ph,kcyjz
 	,SUM(ISNULL((kcxx.kcsl-kcxx.djsl),0)) kykc,SUM(ISNULL(kcxx.kcsl,0)) kcsl,''yxq,'1'typeas
 	FROM dbo.xt_yp_bmypxx(NOLOCK) bmypxx
 	INNER JOIN NewtouchHIS_Base.dbo.V_S_xt_yp yp ON yp.ypCode=bmypxx.Ypdm AND yp.OrganizeId=bmypxx.OrganizeId 
@@ -355,11 +355,12 @@ SELECT  bmypxx.Ypdm ypCode,''pc,''ph
 	AND bmypxx.OrganizeId=@orgId
 	AND kcxx.zt='1'
 	AND bmypxx.zt='1'
-	GROUP BY  bmypxx.Ypdm
-	)a where a.kykc<@kcyj
+	GROUP BY  bmypxx.Ypdm,kcyjz
+	)a where a.kykc<kcyjz--@kcyj
 union all
 select * from (
-SELECT yp.ypCode ypCode,kcxx.pc,kcxx.ph,0 kykc,0 kcsl, SUBSTRING(CONVERT(VARCHAR(15),kcxx.yxq, 120),0, 11)yxq, '2'typeas
+SELECT yp.ypCode ypCode,kcxx.pc,kcxx.ph,0 kykc,0 kcsl, SUBSTRING(CONVERT(VARCHAR(15),kcxx.yxq, 120),0, 11)yxq,
+case when convert(varchar(10),kcxx.yxq,121)>convert(varchar(10),GETDATE(),121) then '3' else '2' end typeas
 FROM dbo.xt_yp_kcxx(NOLOCK) kcxx 
 INNER JOIN NewtouchHIS_Base.dbo.V_C_xt_yp yp ON yp.ypCode=kcxx.ypdm AND yp.OrganizeId=kcxx.OrganizeId AND yp.zt='1' 
 left join xt_yp_crkmx bb on bb.pc=kcxx.pc and bb.Ph=kcxx.ph and bb.Fph is not null 
@@ -369,7 +370,7 @@ WHERE kcxx.OrganizeId=@orgId AND kcxx.yfbmCode=@yfbmcode
 AND kcxx.zt='1'
 AND kcxx.kcsl>0
 group by yp.ypCode, kcxx.yxq,kcxx.pc,kcxx.ph
-)b where  DATEADD(day,@gqyj ,yxq)<GETDATE() ";
+)b where  DATEADD(day,@gqyj ,yxq)<GETDATE()  or  DATEDIFF(MONTH, GETDATE(),yxq) <='1'  ";
 
             var partm = new DbParameter[] {
                 new SqlParameter("@yfbmcode", yfbmcode),

@@ -59,5 +59,11 @@
         /// 过期药品数量
         /// </summary>
         public long? expiryDrugCount { get; set; }
+
+        /// <summary>
+        /// 当日过期药品数量
+        /// </summary>
+        public long? todayDrugCount { get; set; }
+
     }
 }

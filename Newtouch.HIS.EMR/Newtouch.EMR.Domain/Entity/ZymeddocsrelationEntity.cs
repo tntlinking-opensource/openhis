@@ -126,5 +126,9 @@ namespace Newtouch.EMR.Domain.Entity
         public string XmlConten { get; set; }
 
         public string OldXmlConten { get; set; }
+        /// <summary>
+        /// 文书格式类型--html/xml
+        /// </summary>
+        public string doctype { get; set; }
     }
 }

@@ -268,7 +268,7 @@ left join Drjk_zyfymxsc_input (NOLOCK) fymx on SUBSTRING(fymx.feedetl_sn,3,50)=x
 		{
 			StringBuilder sqlStr = new StringBuilder();
 			var parlist = new List<SqlParameter>();
-			sqlStr.Append(@" SELECT '0' as isYp, xmjfb.jfbbh ,
+			sqlStr.Append(@" SELECT '0' as isYp, xmjfb.jfbbh ,yzwym,
                             xmjfb.jfdw dw ,
                             xmjfb.dj ,
                             xmjfb.sfxm ,
@@ -399,7 +399,7 @@ LEFT JOIN Newtouch_CIS..zy_lsyz lsyz on (lsyz.Id = xmjfb.yzwym)
 			StringBuilder sqlStr = new StringBuilder();
 			var parlist = new List<SqlParameter>();
 			sqlStr.Append(@"SELECT '1' as isYp, 
-                            ypjfb.jfbbh ,
+                            ypjfb.jfbbh ,yzywm,
                             ypjfb.jfdw dw ,
                             ypjfb.dj ,
                             ypjfb.yp sfxm ,
@@ -1395,10 +1395,10 @@ left join Ybjk_SN01_Mxxzy_Input (NOLOCK) fymx on xh=xmjfb.jfbbh and  fymx.mzzyh=
 				if (accountEntity != null)
 				{
 					zfEntity1.zh = accountEntity.zhCode;
-					if (!((zfEntity1.zfje + tye) <= accountEntity.zhye && zfEntity1.zfje <= feeRelated.xjzfys.Value))
-					{
-						throw new FailedException("", "预交金账户信息有更新，请重新结算");
-					}
+					//if (!((zfEntity1.zfje + tye) <= accountEntity.zhye && zfEntity1.zfje <= feeRelated.xjzfys.Value))
+					//{
+					//	throw new FailedException("", "预交金账户信息有更新，请重新结算");
+					//}
 					var zhszEntity = new InpatientAccountRevenueAndExpenseEntity()
 					{
                         OrganizeId = jszbEntity.OrganizeId,
@@ -1442,7 +1442,7 @@ left join Ybjk_SN01_Mxxzy_Input (NOLOCK) fymx on xh=xmjfb.jfbbh and  fymx.mzzyh=
 					}
 					else if (feeRelated.yjjtye.Value > 0)
 					{
-						throw new FailedException("ERROR_ACCOUNT_INFO", "预交账户结算成功，退余额失败");
+						//throw new FailedException("ERROR_ACCOUNT_INFO", "预交账户结算成功，退余额失败");
 					}
 
 					db.Update(accountEntity);

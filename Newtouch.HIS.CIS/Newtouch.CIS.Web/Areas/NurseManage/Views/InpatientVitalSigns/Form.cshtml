@@ -40,26 +40,53 @@
                 </td>
                 <td class="formTitle"><span class="required">*</span>时间点：</td>
                 <td class="formValue" colspan="5">
-                    <div>
-                        <label class="radio-inline">
-                            <input type="radio" name="optionsSj" value="3">3
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="optionsSj" value="7">7
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="optionsSj" value="11">11
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="optionsSj" value="15">15
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="optionsSj" value="19">19
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="optionsSj" value="23">23
-                        </label>
-                    </div>
+                    @if (@ViewBag.ScdCode == "1")
+                    {
+                        <div>
+                             <label class="radio-inline">
+                                <input type="radio" name="optionsSj" value="3">3
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="optionsSj" value="7">7
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="optionsSj" value="11">11
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="optionsSj" value="15">15
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="optionsSj" value="19">19
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="optionsSj" value="23">23
+                            </label>
+                        </div>
+                    }
+                    else
+                    {
+                        <div>
+                            <label class="radio-inline">
+                                <input type="radio" name="optionsSj" value="2">2
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="optionsSj" value="6">6
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="optionsSj" value="10">10
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="optionsSj" value="14">14
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="optionsSj" value="18">18
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="optionsSj" value="22">22
+                            </label>
+                        </div>
+                    }
+
                 </td>
             </tr>
             <tr>
@@ -528,9 +555,7 @@
         data.tzclbz = $('#tzclbz').val() == $('#tzclbz').attr('data-Name') ? $('#tzclbz').attr('data-Code') : null;
         //data.dbcsbz = $('#dbcsbz').val() == $('#dbcsbz').attr('data-Name') ? $('#dbcsbz').attr('data-Code') : null;
         data.xyfs = $('#xyfs').val() == $('#xyfs').attr('data-Name') ? $('#xyfs').attr('data-Code') : null;
-
-        if (!(data.sj == "3" || data.sj == "7" || data.sj == "11" || data.sj == "15"
-            || data.sj == "19" || data.sj == "23")) {
+        if (!data.sj) {
             $.modalAlert("请选择时间点", "warning");
             return;
         }

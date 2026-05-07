@@ -150,6 +150,18 @@
     <Reference Include="NLog.Contact">
       <HintPath>..\..\his-dll-common\dlls\NLog.Contact.dll</HintPath>
     </Reference>
+    <Reference Include="NPOI">
+      <HintPath>..\..\his-dll-common\hiscommondlls\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML">
+      <HintPath>..\..\his-dll-common\hiscommondlls\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net">
+      <HintPath>..\..\his-dll-common\hiscommondlls\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats">
+      <HintPath>..\..\his-dll-common\hiscommondlls\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
@@ -213,17 +225,29 @@
   <ItemGroup>
     <Content Include="Areas\DoctorManage\Views\DoctorsAdvice\ZyyzQuery.cshtml" />
     <Content Include="Areas\DoctorManage\Views\DoctorsAdvice\ZyyzQueryAdviceList.cshtml" />
+    <Content Include="Areas\NurseManage\Views\DepartmentSupplies\ExpiredStorageQuery.cshtml" />
+    <Content Include="Areas\NurseManage\Views\ProfitAndLoss\Index.cshtml" />
+    <Content Include="Areas\NurseManage\Views\ProfitAndLoss\QueryProfitAndLoss.cshtml" />
+    <Content Include="Areas\NurseManage\Views\ProfitAndLoss\Syyy.cshtml" />
+    <Content Include="Areas\NurseManage\Views\ProfitAndLoss\SyyyForm.cshtml" />
+    <Content Include="Areas\NurseManage\Views\StockCarryOver\Index.cshtml" />
+    <Content Include="Areas\NurseManage\Views\StockInventory\Index.cshtml" />
+    <Content Include="Areas\NurseManage\Views\StockInventory\InventoryAction.cshtml" />
+    <Content Include="Areas\NurseManage\Views\StockInventory\InventoryQuery.cshtml" />
     <Content Include="Areas\NurseManage\Views\WardMaintenance\RoomForm.cshtml" />
     <Content Include="Areas\SystemManage\Views\BespeakRegisterManage\bespeakRegCalendar.html" />
     <Content Include="CISActiveX.cab" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\css\bootstrap5.min.css.css" />
+    <Content Include="Content\css\all.min.css" />
     <Content Include="Content\css\beveltabs.css" />
     <Content Include="Content\css\cispage.css" />
     <Content Include="Content\css\examgridmenu.css" />
     <Content Include="Content\css\floatingselector.css" />
     <Content Include="Content\css\inspgridmenu.css" />
     <Content Include="Content\css\login.css" />
+    <Content Include="Content\css\Consumablesgridmenu.css" />
     <Content Include="Content\css\RegularItemgridmenu.css" />
     <Content Include="Content\css\rehabgridmenu.css" />
     <Content Include="Content\css\tcmgridmenu.css" />
@@ -252,6 +276,7 @@
     <Content Include="Content\img\牙位图.png" />
     <Content Include="Content\img\结束.png" />
     <Content Include="Content\img\诊断记录.png" />
+    <Content Include="Content\js\bootstrap.bundle.min.js" />
     <Content Include="Content\js\beveltabs.js" />
     <Content Include="Content\js\bootstrap-multiselect.css" />
     <Content Include="Content\js\bootstrap-multiselect.js" />
@@ -268,9 +293,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="packages.config" />
     <Content Include="Configs\database.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Configs\system_local.config">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Scripts\bootstrap.js" />
@@ -304,7 +326,6 @@
     <Content Include="Areas\TemplateManage\Views\DoctorServiceTemplate\TCMmedicineForm.cshtml" />
     <Content Include="Areas\SystemManage\Views\VisitDeptSet\Index.cshtml" />
     <Content Include="Areas\SystemManage\Views\VisitDeptSet\Form.cshtml" />
-    <Content Include="Configs\system_160.config" />
     <Content Include="Areas\DoctorManage\Views\Rehab\Index.cshtml" />
     <Content Include="Configs\system.config">
       <SubType>Designer</SubType>
@@ -342,7 +363,7 @@
     <Content Include="Areas\NurseManage\Views\Infusion\observationFrom.cshtml" />
     <Content Include="Areas\NurseManage\Views\OrderAudit\Ward_Application.cshtml" />
     <Content Include="Areas\QueueManage\Views\QueueInfo\Index.cshtml" />
-    <Content Include="Areas\NurseManage\Views\sldAPPlication\WzSldIndex.cshtml" />
+    <Content Include="Areas\NurseManage\Views\DepartmentSupplies\WzSldIndex.cshtml" />
     <Content Include="Areas\DoctorManage\Views\DoctorsAdvice\HistoricalOrders.cshtml" />
     <Content Include="Areas\SystemManage\Views\BodyParts\JcForm.cshtml" />
     <Content Include="Areas\DoctorManage\Views\DoctorsAdvice\PatientHistoricalOrders.cshtml" />
@@ -376,16 +397,25 @@
     <Content Include="Areas\DoctorManage\Views\ElectronicPrescription\examForm.cshtml" />
     <Content Include="Areas\DoctorManage\Views\ElectronicPrescription\Index.cshtml" />
     <Content Include="Areas\DoctorManage\Views\ElectronicPrescription\medicineForm.cshtml" />
-    <Content Include="Configs\9_190\system.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Configs\9_190\database.config" />
-    <Content Include="Configs\9_183\database.config" />
-    <Content Include="Configs\9_183\system.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Areas\ReportManage\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\NurseManage\Views\PrepareMedicine\MedicineUseQuery.cshtml" />
+    <Content Include="Areas\NurseManage\Views\InpatientList\IndexCenter.cshtml" />
+    <Content Include="Areas\NurseManage\Views\InpatientList\MedicalorderQuery.cshtml" />
+    <Content Include="Areas\NurseManage\Views\InpatientList\OrderAudit.cshtml" />
+    <Content Include="Areas\NurseManage\Views\InpatientList\InHosRegistration.cshtml" />
+    <Content Include="Areas\NurseManage\Views\InpatientList\OrderExecution.cshtml" />
+    <Content Include="Areas\NurseManage\Views\InpatientList\InHosBookkeep.cshtml" />
+    <Content Include="Areas\NurseManage\Views\InpatientList\InHosFeeRefund.cshtml" />
+    <Content Include="Areas\NurseManage\Views\InpatientList\InHosMedReturn.cshtml" />
+    <Content Include="Areas\NurseManage\Views\InpatientList\InHosFee.cshtml" />
+    <Content Include="Areas\NurseManage\Views\InpatientList\InHosRecallOutArea.cshtml" />
+    <Content Include="Areas\NurseManage\Views\InpatientList\InHosQueryIndex.cshtml" />
+    <Content Include="Areas\NurseManage\Views\InpatientList\InHosNursingInput.cshtml" />
+    <Content Include="Areas\NurseManage\Views\InpatientList\InHosPrint.cshtml" />
+    <Content Include="Areas\NurseManage\Views\InpatientList\InHosBlWriting.cshtml" />
+    <Content Include="Areas\NurseManage\Views\DepartmentSupplies\StorageQuery.cshtml" />
+    <Content Include="Areas\DoctorManage\Views\Orginal\ConsumablesIndex.cshtml" />
+    <Content Include="Views\Shared\_FileUpload.cshtml" />
+    <Content Include="Areas\NurseManage\Views\OrderExecution\ApplyFormUpload.cshtml" />
+    <Content Include="Areas\DoctorManage\Views\Apply\ReportTree.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -577,6 +607,9 @@
     <Content Include="Views\PatientList\PatientVisitList.cshtml" />
     <Content Include="Views\MedicalRecord\MedicalRecord.cshtml" />
     <Content Include="Views\MedicalRecord\BaseMedicineQuery.cshtml" />
+    <Content Include="Views\MedicalRecord\AdmissionNoticeForm.cshtml" />
+    <Content Include="Views\Prescription\ConsumablesPrescription.cshtml" />
+    <Content Include="Views\OutpatientNurse\OutpatientPricing.cshtml" />
     <None Include="Web.9_190.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -625,7 +658,10 @@
     <Compile Include="Areas\NurseManage\Controllers\OrderExecutionController.cs" />
     <Compile Include="Areas\NurseManage\Controllers\OutpatientConsultController.cs" />
     <Compile Include="Areas\NurseManage\Controllers\PrepareMedicineController.cs" />
-    <Compile Include="Areas\NurseManage\Controllers\sldAPPlicationController.cs" />
+    <Compile Include="Areas\NurseManage\Controllers\DepartmentSuppliesController.cs" />
+    <Compile Include="Areas\NurseManage\Controllers\ProfitAndLossController.cs" />
+    <Compile Include="Areas\NurseManage\Controllers\StockCarryOverController.cs" />
+    <Compile Include="Areas\NurseManage\Controllers\StockInventoryController.cs" />
     <Compile Include="Areas\NurseManage\Controllers\WardMaintenanceController.cs" />
     <Compile Include="Areas\NurseManage\NurseManageAreaRegistration.cs" />
     <Compile Include="Areas\QueueManage\Controllers\QueueInfoController.cs" />

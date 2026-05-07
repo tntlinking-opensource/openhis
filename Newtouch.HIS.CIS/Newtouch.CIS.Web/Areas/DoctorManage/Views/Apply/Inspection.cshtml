@@ -352,6 +352,7 @@
             editurl: "clientArray",
             colModel: [
                 { label: '组套ID', name: 'ztId', width: 60, align: 'left', key: true,  hidden: true },
+                 { label: 'mbId', name: 'mbId', width: 60, align: 'left', hidden: true },
                 { label: '组套名称', name: 'ztmc', width: 300, align: 'left' },                
                 {
                     label: '金额', name: 'zhje', width: 100, align: 'center', formatter: "number"
@@ -379,9 +380,10 @@
             $.modalAlert("缺少医嘱数据", "warning");
             return;
         }
+        var jymbId = $("#alreadyJYAppliedGroupList").getRowData(rowIds[0]).mbId;
         $.najax({
             url: "/TemplateManage/InspectionTemplate/GetGPackageDetailByZtIdArray",
-            data: { ztId: rowIds },
+            data: { ztId: rowIds,mbId:jymbId  },
             dataType: "json",
             type: "POST",
             async: false,
@@ -403,6 +405,8 @@
                     this.lcyx = $('#txt_jy_lcyx').val();
                     this.sqbz = $('#txt_jy_sqbz').val();
                     this.zxksdm = this.zxks;
+                    this.ztmbId=jymbId;
+                    this.isjffffff='@ViewBag.openYjzxSwitch'=="ON" ? 0:1 //医技科室执行开关开启状态医嘱执行不入计费 医技执行后算入计费
                 });
 
             }

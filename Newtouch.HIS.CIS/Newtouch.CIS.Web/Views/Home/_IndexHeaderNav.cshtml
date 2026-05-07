@@ -46,18 +46,16 @@
 </div>
 <div class="nav-no-collapse pull-right" id="header-dic">
     <ul class="nav nav-pills nav-stacked">
-
-        @*<li role="presentation" class="active">
-                <a href="#" class="hidden-xs" style="padding-top:15px" data-toggle="dropdown">消息列表<span class="badge" id="badge1"></span></a>
-                <ul class="dropdown-menu pull-right" style="width:100%;" id="uldiv">
-                    <li style="height:25px;"><a style="width:100%;text-align:center;" id="yzsh">医嘱审核<span class="badge" style="margin-left:5px;" id="badge2"></span></a></li>
-                    <li style="height:25px;"><a style="width:100%;text-align:center;" id="yzzx">医嘱执行<span class="badge" style="margin-left:5px;" id="badge3"></span></a></li>
-                    <li style="height:25px;"><a style="width:100%;text-align:center;" id="blzk">病历质控</a></li>
-                </ul>
-            </li>*@
+        <!-- kr.ver -->
+        <li role="presentation" class="active" style="display:block">
+            <a href="#" class="hidden-xs" style="padding-top:15px" data-toggle="dropdown">消息列表<span class="badge" id="badge1"></span></a>
+            <ul class="dropdown-menu pull-right" style="width:100%;" id="uldiv">
+                <li style="height:25px;"><a style="width:100%;text-align:center;" id="yzsh">医嘱审核<span class="badge" style="margin-left:5px;" id="badge2"></span></a></li>
+                <li style="height:25px;"><a style="width:100%;text-align:center;" id="yzzx">医嘱执行<span class="badge" style="margin-left:5px;" id="badge3"></span></a></li>
+            </ul>
+        </li>
         <!-- Notifications Dropdown Menu -->
-
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown" style="display:none">
             <a class="btn dropdown-toggle" data-toggle="dropdown">
                 <i class="fa fa-envelope-o headtoolIcon" style="font-size: 1.5rem;"></i>
                 <span class="count" id="sp_msgCount"></span>
@@ -75,7 +73,6 @@
                         <a href="#" class="dropdown-item dropdown-footer">查看全部消息</a>
                     </li>*@
             </ul>
-
             @*<div class="dropdown-menu pull-right">
                     <span class="dropdown-item dropdown-header">15 Notifications</span>
                     <div class="dropdown-divider"></div>
@@ -95,16 +92,14 @@
     </ul>
 
 </div>
-@*<div class="nav-no-collapse pull-right" id="header-dic">
-
-        <ul class="nav nav-pills nav-stacked">
-
-            <li role="presentation" class="active" id="countentli">
-                <a href="#" id="countents" class="hidden-xs" style="color:#ffffff;font-size:15px; padding-top:15px;float:left;"></a><span style="float:left; padding-top:15px;" id="txtb"><img src="~/Content/img/消息提醒.png" width="20" height="20" /></span>
-            </li>
-        </ul>
-
-    </div>*@
+<!-- kr.ver -->
+<div class="nav-no-collapse pull-right" id="header-dic" style="display:block">
+    <ul class="nav nav-pills nav-stacked">
+        <li role="presentation" class="active" id="countentli">
+            <a href="#" id="countents" class="hidden-xs" style="color:#ffffff;font-size:15px; padding-top:15px;float:left;"></a><span style="float:left; padding-top:15px;" id="txtb"><img src="~/Content/img/消息提醒.png" width="20" height="20" /></span>
+        </li>
+    </ul>
+</div>
 <script>
     var requexx = "";
     var times;
@@ -114,11 +109,21 @@
     var hubUrl = '@Html.Raw(MsgUrl)signalr'; //服务端ip
 
     $(function () {
-        $('#sp_msgCount').hide();
         $('#txtb').hide();
-        //MSGQuery();
-        InitNotice();
+        $('#sp_msgCount').hide();
+        if (requexx != 1) {
+            times = setInterval(MSGQuery, 60000);
+
+            //病历质控提醒<!-- Notifications Dropdown Menu -->
+            //times = setInterval(InitNotice, 60000);
+        }
+        else {
+            clearTimeout(times);
+        }
+       
     })
+
+    //<!-- Notifications Dropdown Menu -->
     var noticeArray = [];
     function InitNotice() {
         $.connection.hub.url = hubUrl;
@@ -136,16 +141,6 @@
 
         });
     }
-
-    //图标闪烁
-    function blink(selector) {
-        $(selector).fadeOut('slow', function () {
-            $(this).fadeIn('slow', function () {
-                blink(this);
-            });
-        });
-    }
-
     function readNotice() {
         $('#sp_msgCount').stop().fadeIn();
         $('#sp_msgCount').stop().fadeOut();
@@ -164,6 +159,16 @@
             }
         });
     }
+
+    //<!-- kr.ver -->
+    //图标闪烁
+    function blink(selector) {
+        $(selector).fadeOut('slow', function () {
+            $(this).fadeIn('slow', function () {
+                blink(this);
+            });
+        });
+    }
     //$(document).ready(function () {
     //        blink('#txtb');
     //});
@@ -177,7 +182,7 @@
             url: "/Home/MSGQuery",
             datatype: "json",
             async: false,
-            data: {"gh":"@OperatorProvider.GetCurrent().UserCode","ksname":"@OperatorProvider.GetCurrent().DepartmentCode"},
+            data: {"gh":"@OperatorProvider.GetCurrent().rygh"},
             type: "post",
             success: function (rst) {
                 var da = eval(rst);
@@ -213,7 +218,6 @@
     }
 
     $("#yzsh").click(function () {
-
         YZSH();
     });
     $("#yzzx").click(function () {

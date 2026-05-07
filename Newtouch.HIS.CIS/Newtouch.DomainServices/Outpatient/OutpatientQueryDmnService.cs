@@ -123,72 +123,41 @@ jz.xm,
 jz.xb,
 jz.brxzmc,
 ks.Name ";
-            try
-            {
-                IList<OutpatientDetailVO> vo = this.QueryWithPage<OutpatientDetailVO>(sql, pagination, new[] {
+            IList<OutpatientDetailVO> vo = this.QueryWithPage<OutpatientDetailVO>(sql, pagination, new[] {
                 new SqlParameter("@orgId", orgId),
                 new SqlParameter("@jzys", yscode),
                 new SqlParameter("@kssj", kssj),
                 new SqlParameter("@jssj", jssj + " 23:59:59"),
             });
-                return vo;
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-           
-            
+            return vo;
         }
+        /// <summary>
+        /// 门诊详细资料明细
+        /// </summary>
+        /// <param name="mzh"></param>
+        /// <param name="orgId"></param>
+        /// <returns></returns>
         public IList<OutpatientDetailMXVO> GetOutpatientDetailMXGridJson(string mzh,string orgId)
         {
             string sql = @" 
-select case cf.cflx when '1' then '西药' when '4' then '检验' when '5' then '检查' when '6' then '项目' end lb,
-yh.Name ys,cf.CreateTime kdrq,cfmx.ypmc xmmc,cfmx.sl zl,yf.yfmc ypyf,cfmx.je from xt_jz jz
-left join xt_cf cf on cf.jzId=jz.jzId and cf.zt='1' and cf.OrganizeId=jz.OrganizeId
-left join xt_cfmx cfmx on cf.cfId=cfmx.cfId and cfmx.zt='1' and cf.OrganizeId=cfmx.OrganizeId
+select cf.cflx,cfh ,yh.Name ys,cf.CreateTime kdrq,case when cflx='4' or cflx='5' then '('+cfmx.ztmc+')'+cfmx.xmmc else isnull(cfmx.ypmc,cfmx.xmmc) end xmmc,
+cfmx.sl zl,yf.yfmc ypyf,pc.yzpcmcsm,cfmx.dw,cfmx.je ,sfbz,tbz
+from xt_jz jz  (nolock)
+left join xt_cf cf (nolock) on cf.jzId=jz.jzId and cf.zt='1' and cf.OrganizeId=jz.OrganizeId
+left join xt_cfmx cfmx (nolock) on cf.cfId=cfmx.cfId and cfmx.zt='1' and cf.OrganizeId=cfmx.OrganizeId
 left join [NewtouchHIS_Base]..Sys_Staff yh on yh.gh=cf.ys and cf.OrganizeId=yh.OrganizeId
-left join [NewtouchHIS_Base]..V_S_xt_ypyf yf on yf.yfCode=cfmx.yfCode
+left join [NewtouchHIS_Base]..V_S_xt_ypyf yf on yf.yfCode=cfmx.yfCode 
+left join [NewtouchHIS_Base]..xt_yzpc pc on pc.yzpccode=cfmx.pcCode and pc.organizeid=cfmx.organizeid
 where  jz.zt='1'
-and cf.cflx='1'
 and jz.mzh=@mzh
 and jz.OrganizeId=@orgId
-union all
-select lb,ys,kdrq,xmmc,zl,ypyf,sum(je) je from (select case cf.cflx when '1' then '西药' when '4' then '检验' when '5' then '检查' when '6' then '项目' end lb,
-yh.Name ys,cf.CreateTime kdrq,isnull(cfmx.ztmc,cfmx.xmmc) xmmc,cfmx.sl zl,'' ypyf,cfmx.je je from xt_jz jz
-left join xt_cf cf on cf.jzId=jz.jzId and cf.zt='1' and cf.OrganizeId=jz.OrganizeId
-left join xt_cfmx cfmx on cf.cfId=cfmx.cfId and cfmx.zt='1' and cf.OrganizeId=cfmx.OrganizeId
-left join [NewtouchHIS_Base]..Sys_Staff yh on yh.gh=cf.ys and cf.OrganizeId=yh.OrganizeId
-where  jz.zt='1'
-and cf.cflx='5'
-and jz.mzh=@mzh
-and jz.OrganizeId=@orgId) a
-group by lb,ys,kdrq,xmmc,zl,ypyf
-union all
-select lb,ys,kdrq,xmmc,sum(zl) zl,ypyf,sum(je) je from (select case cf.cflx when '1' then '西药' when '4' then '检验' when '5' then '检查' when '6' then '项目' end lb,
-yh.Name ys,cf.CreateTime kdrq,isnull(cfmx.ztmc,cfmx.xmmc) xmmc,cfmx.sl zl,'' ypyf,cfmx.je je from xt_jz jz
-left join xt_cf cf on cf.jzId=jz.jzId and cf.zt='1' and cf.OrganizeId=jz.OrganizeId
-left join xt_cfmx cfmx on cf.cfId=cfmx.cfId and cfmx.zt='1' and cf.OrganizeId=cfmx.OrganizeId
-left join [NewtouchHIS_Base]..Sys_Staff yh on yh.gh=cf.ys and cf.OrganizeId=yh.OrganizeId
-where  jz.zt='1'
-and cf.cflx='6'
-and jz.mzh=@mzh
-and jz.OrganizeId=@orgId
-) a
-group by lb,ys,kdrq,xmmc,ypyf
+order by cflx desc,cfh
 ";
-            try
-            {
-                IList<OutpatientDetailMXVO> vo = this.FindList<OutpatientDetailMXVO>(sql, new[] {
+            IList<OutpatientDetailMXVO> vo = this.FindList<OutpatientDetailMXVO>(sql, new[] {
                 new SqlParameter("@orgId", orgId),
                 new SqlParameter("@mzh", mzh),
             });
-                return vo;
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            return vo;
 
 
         }
@@ -253,12 +222,20 @@ and jz.blh=@blh ";
 				new SqlParameter("@ysgh", ysgh)
 			}, false);
 		}
-
+        /// <summary>
+        /// 门诊病历记录-历史处方明细
+        /// </summary>
+        /// <param name="pagination"></param>
+        /// <param name="orgId"></param>
+        /// <param name="jzid"></param>
+        /// <param name="ysgh"></param>
+        /// <returns></returns>
 		public IList<OutpatientCfmxVO> GetlsjzcfblInfoJson(Pagination pagination, string orgId, string jzid, string ysgh)
 		{
-			string sqlstr = @" select a.cfh,isnull(b.xmCode,b.ypCode) sfxmcode, isnull(b.xmmc,b.ypmc) sfxmmc,b.sl,b.dj,b.dw,b.je,sta.Name klys,dep.Name klks,a.cflx
-from xt_cf a 
-left join xt_cfmx b on a.cfId=b.cfId and b.zt='1'
+			string sqlstr = @" select a.cfh,isnull(b.xmCode,b.ypCode) sfxmcode, isnull(b.xmmc,b.ypmc) sfxmmc,b.sl,b.dj,b.dw,
+b.je,sta.Name klys,dep.Name klks,a.cflx,a.sfbz,a.tbz
+from xt_cf a with(nolock)
+left join xt_cfmx b with(nolock) on a.cfId=b.cfId and b.zt='1' and a.OrganizeId=b.OrganizeId
 left join NewtouchHIS_Base..Sys_Staff sta on sta.gh=a.ys and a.OrganizeId=sta.OrganizeId 
 left join NewtouchHIS_Base..Sys_Department dep on dep.Code=a.ks and a.OrganizeId=b.OrganizeId
 where a.jzId=@jzid and a.OrganizeId=@orgId  and a.zt=1 ";

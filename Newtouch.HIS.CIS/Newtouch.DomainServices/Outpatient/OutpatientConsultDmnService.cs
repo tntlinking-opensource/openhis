@@ -336,7 +336,13 @@ where a.zt='1' and a.OrganizeId=@orgid";
 			return this.ExecuteSqlCommand(sqlstr, new[] { new SqlParameter("@rygh", rygh)
 				,new SqlParameter("@orgid", orgid),new SqlParameter("@mzh",mzh) });
 		}
-
+        /// <summary>
+        /// 叫号修改状态
+        /// </summary>
+        /// <param name="mzh"></param>
+        /// <param name="calledstu"></param>
+        /// <param name="orgid"></param>
+        /// <returns></returns>
 		public int UpdatePatient(string mzh, int calledstu, string orgid)
 		{
 			var sqlstr = @"UPDATE b set b.calledstu=@calledstu from NewtouchHIS_Sett..mz_gh a
@@ -346,7 +352,12 @@ where a.zt='1' and a.OrganizeId=@orgid and a.mzh=@mzh and b.ghnm is not null";
 			return this.ExecuteSqlCommand(sqlstr, new[] { new SqlParameter("@calledstu", calledstu)
 				,new SqlParameter("@orgid", orgid),new SqlParameter("@mzh",mzh) });
 		}
-
+        /// <summary>
+        /// 验证叫号状态
+        /// </summary>
+        /// <param name="mzh"></param>
+        /// <param name="orgid"></param>
+        /// <returns></returns>
 		public int ISfalgPatient(string mzh, string orgid)
 		{
 			string sqlstr = @"select case when b.calledstu in('1','5') then 0 else 1 end flag from NewtouchHIS_Sett..mz_gh a
@@ -357,5 +368,17 @@ where a.zt='1' and a.OrganizeId=@orgid and a.mzh=@mzh  and b.ghnm is not null";
 			par.Add(new SqlParameter("@mzh", mzh));
 			return this.FirstOrDefault<int>(sqlstr, par.ToArray());
 		}
-	}
+        /// <summary>
+        /// 获取机构名称
+        /// </summary>
+        /// <param name="orgId"></param>
+        /// <returns></returns>
+        public string GetOrgName(string orgId) {
+            string sqlstr = @"select Name from NewtouchHIS_Base..[Sys_Organize] where Id=@orgId";
+            var par = new List<SqlParameter>();
+            par.Add(new SqlParameter("@orgid", orgId));
+            return this.FirstOrDefault<string>(sqlstr, par.ToArray());
+        }
+
+    }
 }

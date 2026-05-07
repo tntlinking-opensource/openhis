@@ -400,7 +400,7 @@ namespace Newtouch.DomainServices.Inpatient
                         {
                             item.yznr = item.yznr + " " + item.sl + item.zydw;
                         }
-                        if ((item.yzlx == (int)EnumYzlx.rehab || item.yzlx == (int)EnumYzlx.sfxm) && (item.dwwwwwww ?? "").Length > 2)
+                        if ((item.yzlx == (int)EnumYzlx.rehab || item.yzlx == (int)EnumYzlx.sfxm || item.yzlx == (int)EnumYzlx.yyhc) && (item.dwwwwwww ?? "").Length > 2)
                         {
                             item.yznr = item.xmmc + " "
                             + (item.ypjl.ToString() ?? " ") + "  "
@@ -1400,18 +1400,19 @@ namespace Newtouch.DomainServices.Inpatient
         /// <param name="sfxmCode"></param>
         /// <param name="orgId"></param>
         /// <param name="dwjls"></param>
-        public void GetdwjlsBysfxmCode(string sfxmCode, string orgId, ref int? dwjls)
+        public void GetdwjlsBysfxmCode(string sfxmCode, string orgId, ref int? dwjls,ref decimal? dj)
         {
             if (!string.IsNullOrWhiteSpace(sfxmCode))
             {
                 //获取单位计量数
                 var sqlpar = new List<SqlParameter>();
                 var par = new StringBuilder();
-                par.Append(@"select dwjls from NewtouchHIS_Base..V_S_xt_sfxm where OrganizeId = @orgId
+                par.Append(@"select dwjls,dj from NewtouchHIS_Base..V_S_xt_sfxm where OrganizeId = @orgId
                         AND sfxmCode=@sfxmCode and zt='1'");
                 sqlpar.Add(new SqlParameter("@sfxmCode", sfxmCode));
                 sqlpar.Add(new SqlParameter("@orgId", orgId));
-                dwjls = this.FirstOrDefault<int>(par.ToString(), sqlpar.ToArray());
+                var data = this.FirstOrDefault<base_SfxmDto>(par.ToString(), sqlpar.ToArray());
+                dwjls = data.dwjls;dj = data.dj;
             }
         }
         /// <summary>
@@ -1577,7 +1578,7 @@ namespace Newtouch.DomainServices.Inpatient
             var sqlstr = new StringBuilder();
             var par = new List<SqlParameter>();
             sqlstr = sqlstr.Append(@"SELECT  *
-                            FROM    ( SELECT    '长' yzlb ,iszt,
+                            FROM    ( SELECT    '长' yzlb ,iszt,yzh,
                                         case when yzlx in ('6','7') then yzh else yz.Id end Id,
                                         yzlx ,
                                         kssj ,
@@ -1596,7 +1597,8 @@ namespace Newtouch.DomainServices.Inpatient
                                         yz.yztag,
                                         case yz.yztag when 'JI' then '精I' when 'JII' then '精II' when 'MZ' then '麻醉' else yz.yztag end yztagName,
 										isnull(yz.isjf,1) isjf,ispscs,isnull(zzfbz,0) zzfbz , yz.xmdm,case when yzlx='10' then yz.sl* (cast(yz.ypjl as int)) else yz.sl end sl,  yz.Px,
-                                        case when yzlx in (2,4,10) then (cast(case when yzlx='10' then convert(numeric(18,2),yz.sl*yz.ypjl) else yz.sl end as varchar)+ypxx.zycldw) end zycldw,yfztbs,yply,isfsyz
+                                        case when yzlx in (2,4,10) then (cast(case when yzlx='10' then convert(numeric(18,2),yz.sl*yz.ypjl) else yz.sl end as varchar)+ypxx.zycldw) end zycldw,
+                                        yfztbs,yply,isfsyz,zyh,hzxm xm
                               FROM      (
                                               select 'Y' iszt,row_number() over(partition by ztid,yzh order by createtime desc) num ,*
                                                 from zy_cqyz yz with(nolock) where ztid is not null
@@ -1637,7 +1639,7 @@ namespace Newtouch.DomainServices.Inpatient
                                              --AND yz.OrganizeId =@orgId
                                              --and yz.zyh=@zyh
                                UNION ALL
-                               select '临' yzlb ,iszt,
+                               select '临' yzlb ,iszt,yzh,
                                         case when yzlx in ('6','7') then yzh else yz.Id end Id ,
                                         yzlx ,
                                         kssj ,
@@ -1658,7 +1660,8 @@ namespace Newtouch.DomainServices.Inpatient
                                         ispscs ,isnull(zzfbz,0) zzfbz,
                                         xmdm,
 										case when yzlx='10' then sl* (cast(yz.ypjl as int)) else sl end sl, yz.Px,
-										case when yzlx in (2,4,10) then (cast(case when yzlx='10' then convert(numeric(18,2),sl*yz.ypjl) else  sl end as varchar)+ypxx.zycldw) end zycldw ,yfztbs,yply,isfsyz
+										case when yzlx in (2,4,10) then (cast(case when yzlx='10' then convert(numeric(18,2),sl*yz.ypjl) else  sl end as varchar)+ypxx.zycldw) end zycldw,
+                                        yfztbs,yply,isfsyz,zyh,hzxm xm
                                         from (
                                             select 'Y' iszt,row_number() over(partition by ztid,yzh order by createtime desc) num ,*
                                             from zy_lsyz jyjcyz with(nolock) where ztid is not null--yzlx in ('6','7') 
@@ -2451,13 +2454,13 @@ namespace Newtouch.DomainServices.Inpatient
             par.Add(new SqlParameter("@orgId", orgId));
             return this.FindList<RehabVO>(sqlstr.ToString(), par.ToArray());
         }
-        public List<RehabVO> GetSfxmZxksSelectJson(string orgId, string py)
+        public List<RehabVO> GetSfxmZxksSelectJson(string orgId, string keyword)
         {
             var sqlstr = new StringBuilder();
             var par = new List<SqlParameter>();
             sqlstr = sqlstr.Append(@"select Code,Name,py from [NewtouchHIS_Base]..Sys_Department 
             where zt=1 and organizeid=@orgId
-            and py like '%" + py + @"%'
+            and (code like '%" + keyword + @"%' or name like '%" + keyword + @"%' or py like '%" + keyword + @"%')
             and zxks='1'
             ");
             par.Add(new SqlParameter("@orgId", orgId));
@@ -3089,6 +3092,12 @@ where id=@yzid");
 
 
         #region 医技科室执行
+        /// <summary>
+        /// 医技执行
+        /// </summary>
+        /// <param name="jyjclist"></param>
+        /// <param name="orgId"></param>
+        /// <param name="zxr"></param>
         public void jyjcExec(List<jyjcExecReq> jyjclist, string orgId, string zxr)
         {
             List<XtjyjcExecEntity> entityList = new List<XtjyjcExecEntity>();
@@ -3121,7 +3130,6 @@ where id=@yzid");
                         entity.dw = item.dw;
                         entity.gg = item.gg;
                         entity.shr = item.shr;
-                        entity.zxzt = ((int)Enumzxzt.yzx).ToString();
                         entity.Create(true);
                         entityList.Add(entity);
                     }
@@ -3141,22 +3149,40 @@ where id=@yzid");
                 throw new FailedException("执行失败，" + e.InnerException);
             }
         }
+        /// <summary>
+        /// 医技执行修改项目是否计费状态(isjf)
+        /// </summary>
+        /// <param name="jyjclist"></param>
+        /// <param name="orgId"></param>
+        /// <param name="czr"></param>
+        public void UpdatejyjcExecIsjf(List<string> jyjclist, string orgId, string czr,string status)
+        {
+            string sql = @"  update zy_fymxk set isjf=@status ,LastModifierCode=@czr,LastModifyTime=getdate()
+                                 where yzxh in (select Id from zy_lsyz  with(nolock)  where zt=1 and OrganizeId=@orgId 
+                                     and sqdh IN ( SELECT  col FROM dbo.f_split(@str, ',') )) ";
+             var d=ExecuteSqlCommand(sql, new[] { new SqlParameter("@orgId", orgId),
+                     new SqlParameter("@czr",czr),
+                     new SqlParameter("@status",status),
+                     new SqlParameter("@str", string.Join(",", jyjclist))});
+        }
+        /// <summary>
+        /// 撤销执行
+        /// </summary>
+        /// <param name="jyjclist"></param>
+        /// <param name="orgId"></param>
+        /// <param name="czr"></param>
         public void CancaljyjcExec(List<string> jyjclist, string orgId, string czr)
         {
-            try
-            {
-                string sql = @"  update xt_jyjcexec set zxzt=@zxzt,LastModifierCode=@czr,LastModifyTime=getdate()
-                                 where zt=1 and OrganizeId=@orgId 
-                                       and sqdh IN ( SELECT  col FROM dbo.f_split(@str, ',') ) ";
-                int i = ExecuteSqlCommand(sql, new[] { new SqlParameter("@orgId", orgId),
-                     new SqlParameter("@czr",czr),
-                    new SqlParameter("@zxzt",((int)Enumzxzt.yqx).ToString()),
+            string sql = @"  DELETE FROM  xt_jyjcexec 
+                                 WHERE zt=1 and OrganizeId=@orgId 
+                                       and sqdh IN ( SELECT  col FROM dbo.f_split(@str, ',') ) 
+
+                            DELETE FROM  NewtouchHIS_Sett..zy_xmjfb
+                                WHERE yzwym in (select Id from zy_lsyz with(nolock) where zt=1 and OrganizeId=@orgId 
+                                 and sqdh IN ( SELECT  col FROM dbo.f_split(@str, ',') ))
+";
+            var d=ExecuteSqlCommand(sql, new[] { new SqlParameter("@orgId", orgId),
                     new SqlParameter("@str", string.Join(",", jyjclist))});
-            }
-            catch (Exception e)
-            {
-                throw new FailedException("取消执行失败，" + e.InnerException);
-            }
         }
         #endregion
         /// <summary>
@@ -3248,16 +3274,17 @@ where id=@yzid");
                         newcqyz.zbbz = 0;
                         newcqyz.sl = int.Parse(item.sl.ToString());
                         newcqyz.dwlb = 4;
-                        int yzlx = 1;//通过浮层传过来的是1,2 1是药品 2是项目
-                        if (item.yzlx == "1")
-                        {
-                            yzlx = 2;
-                        }
-                        else
-                        {
-                            yzlx = 5;
-                        }
-                        newcqyz.yzlx = yzlx;
+                        newcqyz.yzlx = (int)EnumYzlx.yyhc;
+                        //int yzlx = 1;//通过浮层传过来的是1,2 1是药品 2是项目
+                        //if (item.yzlx == "1")
+                        //{
+                        //    yzlx = 2;
+                        //}
+                        //else
+                        //{
+                        //    yzlx = 5;
+                        //}
+                        //newcqyz.yzlx = yzlx;
                         newcqyz.tzysgh = null;
                         newcqyz.tzsj = null;
                         newcqyz.tzr = null;
@@ -3339,16 +3366,17 @@ where id=@yzid");
                         newlsyz.zbbz = 0;
                         newlsyz.sl = int.Parse(item.sl.ToString());
                         newlsyz.dwlb = 4;
-                        int yzlx = 1;//通过浮层传过来的是1,2 1是药品 2是项目
-                        if (item.yzlx == "1")
-                        {
-                            yzlx = 2;
-                        }
-                        else
-                        {
-                            yzlx = 5;
-                        }
-                        newlsyz.yzlx = yzlx;
+                        //int yzlx = 1;//通过浮层传过来的是1,2 1是药品 2是项目
+                        newlsyz.yzlx = (int)EnumYzlx.yyhc;
+                        //if (item.yzlx == "1")
+                        //{
+                        //    yzlx = 2;
+                        //}
+                        //else
+                        //{
+                        //    yzlx = 5;
+                        //}
+                        //newlsyz.yzlx = yzlx;
                         newlsyz.shsj = DateTime.Now;
                         newlsyz.shr = usercode;
                         newlsyz.kssj = DateTime.Now;
@@ -3419,12 +3447,12 @@ where id=@yzid");
         }
         public PatientMedicalDTO GetlsorcqyzData(string zyh, string yzid, string orgId)
         {
-            string sql = @" 		select * from (select xmmc,'2' yzxz,zh,yzh,brxx.xm hzxm,brxx.BedCode bedCode,yz.px from 
+            string sql = @" 		select * from (select xmmc,'2' yzxz,zh,yzh,brxx.xm hzxm,brxx.BedCode bedCode,brxx.DeptCode,yz.px from 
 		[Newtouch_CIS].[dbo].zy_brxxk brxx
 	left join [Newtouch_CIS].[dbo].[zy_cqyz] yz on brxx.zyh=yz.zyh and yz.OrganizeId=brxx.OrganizeId
 	 where (yz.id=@yzid or @yzid='')  and yz.OrganizeId=@orgId and brxx.zyh=@zyh
 	union all
-  select xmmc,'1' yzxz,zh,yzh,brxx.xm hzxm,brxx.BedCode bedCode,yz.px from 
+  select xmmc,'1' yzxz,zh,yzh,brxx.xm hzxm,brxx.BedCode bedCode,brxx.DeptCode,yz.px from 
 		[Newtouch_CIS].[dbo].zy_brxxk brxx
 	left join [Newtouch_CIS].[dbo].[zy_lsyz] yz on brxx.zyh=yz.zyh and yz.OrganizeId=brxx.OrganizeId
 	 where (yz.id=@yzid or @yzid='')  and yz.OrganizeId=@orgId and brxx.zyh=@zyh

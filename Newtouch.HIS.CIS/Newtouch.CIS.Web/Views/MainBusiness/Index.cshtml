@@ -9,9 +9,11 @@
     var isOpenKfcf = (ViewBag.ISOpenKfcf as bool?);
     //开关：门诊是否开放常规项目处方
     var isOpenCgxmcf = (ViewBag.ISOpenCgxmcf as bool?);
-
+    //开关：门诊是否开放中药处方
     var iSOpenZycf = (ViewBag.ISOpenZycf as bool?);
     var iSOpenZycfnew = (ViewBag.ISOpenZycfnew as bool?);
+    //开关：门诊是否开放医用耗材处方
+    var iSOpenWzhc = (ViewBag.ISOpenWzhc as bool?);
     //开关：预约挂号
     var isOpenBespeakRegister = (ViewBag.ISOpenBespeakRegister as bool?);
 
@@ -23,7 +25,7 @@
         position: fixed;
         top: 0px;
         z-index: 100009;
-        width: 28%;
+        width: 20%;
         line-height: 40px;
         font-size: 18px;
         white-space: nowrap;
@@ -49,14 +51,6 @@
 <ul class="nav nav-tabs navb-bg" id="myTab" style="position:fixed;top:0;z-index:100009;width:99%">
     <li role="presentation" id="librlb"><a href="#linkbrlb" role="tab" data-toggle="tab">患者列表</a></li>
     <li role="presentation"><a href="#linkbl" role="tab" data-toggle="tab">病历</a></li>
-    @if (isOpenKfcf == true)
-    {
-        <li role="presentation"><a href="#linkkfcf" role="tab" data-toggle="tab">康复处方</a></li>
-    }
-    @if (isOpenCgxmcf == true)
-    {
-        <li role="presentation"><a href="#linkcgxmcf" role="tab" data-toggle="tab">常规项目</a></li>
-    }
     <li role="presentation"><a href="#linkxycf" role="tab" data-toggle="tab">西药处方</a></li>
     @if (iSOpenZycf == true)
     {
@@ -65,6 +59,18 @@
     @if (iSOpenZycfnew == true)
     {
         <li role="presentation"><a href="#linkzycfnew" role="tab" data-toggle="tab">中药(新)</a></li>
+    }
+    @if (isOpenKfcf == true)
+    {
+        <li role="presentation"><a href="#linkkfcf" role="tab" data-toggle="tab">康复处方</a></li>
+    }
+    @if (isOpenCgxmcf == true)
+    {
+        <li role="presentation"><a href="#linkcgxmcf" role="tab" data-toggle="tab">常规项目</a></li>
+    }
+    @if (iSOpenWzhc == true)
+    {
+        <li role="presentation"><a href="#linkwzhccf" role="tab" data-toggle="tab">耗材</a></li>
     }
     @if (IsOpenJyJcSwitch == true)
     {
@@ -87,8 +93,8 @@
 }
 <div style="margin-top:40px;">
     @Html.Partial("_LeftMostPartDiv")
-    @Html.Partial("_PresTemplateTreeForm")
-    @Html.Partial("_HistoryPresTreeForm")
+    @Html.Partial("_PresTemplateTreeForm", new ViewDataDictionary { { "ISOpenZycfnew", iSOpenZycfnew } })
+    @Html.Partial("_HistoryPresTreeForm",new ViewDataDictionary { { "ISOpenZycfnew", iSOpenZycfnew } })
     @Html.Partial("_InspectTemplateTreeForm")
     <div class="tab-content">
         @Html.Partial("~/Views/PatientList/PatientList.cshtml")
@@ -110,6 +116,10 @@
         @if (iSOpenZycfnew == true)
         {
             @Html.Partial("~/Views/Prescription/TCMPrescription2022.cshtml")
+        }
+        @if (iSOpenWzhc == true)
+        {
+            @Html.Partial("~/Views/Prescription/ConsumablesPrescription.cshtml")
         }
         @if (IsOpenJyJcSwitch == true)
         {
@@ -242,6 +252,27 @@
                                 });
                         }
                     }
+                    else if (relatedTargetHref.indexOf('linkwzhccf') != -1 && $("#gridwzhccf:visible").length == 1) {
+                        if ($("#gridwzhccf").jqGrid('getDataIDs').length > 0) {
+                            //先保存
+                            SaveConsumablesPres(null, true);
+                        } else {
+                            var gridwzhccfData = $("#gridwzhccf").jqGrid('getRowData_AllLine', null, true);
+                            //保存数据
+                            window.alldataArray.wzhccf = $.jsonWhere(window.alldataArray.wzhccf,
+                                function (icfmx) {
+                                    if (!!!icfmx.cfId) {
+                                        return false; //编辑列表里有
+                                    }
+                                    for (var iIndex = 0; iIndex < gridwzhccfData.length; iIndex++) {
+                                        if (gridwzhccfData[iIndex].cfh == icfmx.cfh) {
+                                            return false;
+                                        }
+                                    }
+                                    return true;
+                                });
+                        }
+                    }
                     else if (relatedTargetHref.indexOf('linkzycf') != -1 && $("#gridzycf:visible").length == 1) {
                         if ($("#gridzycf").jqGrid('getDataIDs').length > 0) {
                             //先保存
@@ -331,7 +362,6 @@
         $('a[data-toggle="tab"]').on('shown.bs.tab',
             function(e) {
                 cfLeftFloatHide();
-
                 //console.log("here");
 
                 var targetHref = $(e.target).attr('href');
@@ -340,6 +370,7 @@
                     targetHref.indexOf('linkxycf') == -1 &&
                     targetHref.indexOf('linkzycf') == -1 &&
                     targetHref.indexOf('linkzycfnew') == -1 &&
+                    targetHref.indexOf('linkwzhccf') == -1 &&
                     //20230704电子处方
                     targetHref.indexOf('linkdzcf') == -1 ) { //非处方页
                     $('#floatLeftMostPartDiv').hide();
@@ -360,7 +391,6 @@
                     init_MedicalRecord();
                     break;
                 case "#linkxycf":
-                case "#linkxycf":
                     init_WMPrescription();
                     break;
                 case "#linkkfcf":
@@ -368,6 +398,9 @@
                     break;
                 case "#linkcgxmcf":
                     init_RegularItemPrescription();
+                    break;
+                case "#linkwzhccf":
+                    init_ConsumablesPrescription();
                     break;
                 case "#linkzycf":
                     init_TCMPrescription();
@@ -528,7 +561,7 @@
 
     function showPatientBasicInfo() {
         if (!$('#divPatientBasicInfo').is(':visible')) {
-            $('#myTab').css('width', '70%');
+            $('#myTab').css('width', '78%');
             $('#divPatientBasicInfo').show();
         }
         $('#divPatientBasicInfo').html(window.currPatientInfo.xm
@@ -564,7 +597,6 @@
 	}
 
 	function newcheckItemActivity($val, $thisinput) {
-		//debugger;
 		var selected = false;//默认没有选中当前值
 		var selectval = $thisinput.val();
 		if (selectval) {
@@ -653,6 +685,7 @@
         if ((currentlink !== "#linkbrlb" || currentlink !== "#linkbl") && targetlink == "#linkbrlb") {//患者列表，门诊病历 不提示//其他页面有数据存在时弹窗提示
             if ($("#gridcgxmcf").jqGrid('getDataIDs').length > 0 || $("#gridkfcf").jqGrid('getDataIDs').length > 0
                 || $("#gridxycf").jqGrid('getDataIDs').length > 0 || $("#gridzycf").jqGrid('getDataIDs').length > 0
+                || $("#gridwzhccf").jqGrid('getDataIDs').length > 0
                 || jclocaldata.length > 0 || jylocaldata.length > 0) {
                 e.preventDefault();
                 e.stopPropagation();

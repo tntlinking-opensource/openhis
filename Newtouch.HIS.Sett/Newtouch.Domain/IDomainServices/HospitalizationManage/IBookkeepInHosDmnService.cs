@@ -271,6 +271,16 @@ namespace Newtouch.HIS.Domain.IDomainServices
         IList<HosFeeItemInfoDto> GetChargeItemPaginationList(Pagination pagination, string zyh, string orgId, DateTime startTime, DateTime endTime);
 
         #endregion
+
+        #region 住院记账业务
         string getzfxzById(string sfxmCode, string orgId);
+
+        /// <summary>
+        /// 住院记账保存
+        /// </summary>
+        string SaveFee(List<HospItemBillingEntity> xmjfbEntitylist, List<HospDrugBillingEntity> ypjfbEntitylist);
+        List<HospItemFeeVO> Verification(string xmCodes, string orgId, string ks);
+
+        #endregion
     }
 }

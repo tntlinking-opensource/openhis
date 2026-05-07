@@ -571,7 +571,7 @@ namespace Newtouch.HIS.DomainServices
                 if (rkbmkcEntities == null || !rkbmkcEntities.Any()) throw new FailedException(string.Format("编码为【{0}】的药品原入库部门未找到该批号【{1}】批次【{2}】库存", mx.Ypdm, mx.Ph, mx.pc));
                 var rkSysl = mx.Sl * mx.Ckzhyz;
                 var ckSysl = rkSysl;
-                if ((rkbmkcEntities.Where(p => p.kcsl > 0 && p.djsl > 0).Sum(p => p.kcsl) - rkbmkcEntities.Where(p => p.kcsl > 0 && p.djsl > 0).Sum(p => p.djsl)) < rkSysl)
+                if ((rkbmkcEntities.Where(p => p.kcsl > 0 && p.djsl >= 0).Sum(p => p.kcsl) - rkbmkcEntities.Where(p => p.kcsl > 0 && p.djsl >= 0).Sum(p => p.djsl)) < rkSysl)
                 {
                     throw new FailedException(string.Format("编码为【{0}】的药品药房库存不足，不能作废", mx.Ypdm));   //药房还不回去了
                 }

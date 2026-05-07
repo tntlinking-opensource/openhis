@@ -1,7 +1,7 @@
 ﻿@using Newtouch.Infrastructure;
 @using Newtouch.HIS.Web.Core.Extensions;
 @{
-    ViewBag.Title = "InventoryQuery";
+    ViewBag.Title = "药库药房-库存量查询";
     Layout = "~/Views/Shared/_Index.cshtml";
     var reportUrl = Newtouch.Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("ReportUrl");
 }
@@ -122,7 +122,6 @@
         $(window).resize(function () {//浏览器窗口调整大小时重新加载jqGrid的宽
             window.initLayout("MyTabGrid");
         });
-
         $(".hiding,.rows,#dv_search,.toolbar,.panel-default").click(function () {
             TabGridHide();
         });

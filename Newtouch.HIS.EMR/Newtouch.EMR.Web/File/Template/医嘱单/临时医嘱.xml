@@ -1,340 +1,296 @@
-<XTextDocument xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EditorVersionString="1.2023.2.14">
-   <XElements>
+﻿<XTextDocument xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" EditorVersionString="1.0.0.0">
+   <EnableValueValidate>true</EnableValueValidate>
+   <XElements Count="5">
       <Element xsi:type="XTextHeader">
-         <InnerID>6</InnerID>
          <AcceptTab>true</AcceptTab>
-         <XElements>
+         <EnableValueValidate>true</EnableValueValidate>
+         <XElements Count="56">
             <Element xsi:type="XInputField" StyleIndex="1">
-               <InnerID>23</InnerID>
                <ID>B0EADC5F-D1A7-4C1D-8BFF-C30B4AB96B89</ID>
-               <ToolTip>新致开源医疗医院</ToolTip>
+               <ToolTip>请输入医院名称</ToolTip>
                <EnableValueValidate>true</EnableValueValidate>
                <ValueBinding>
                   <DataSource>zy_brjbxx</DataSource>
                   <BindingPath>yymc</BindingPath>
                </ValueBinding>
                <ContentReadonly>False</ContentReadonly>
-               <BorderElementColor />
+               <BorderElementColor>#00000000</BorderElementColor>
                <Name>yymc</Name>
-               <BackgroundText>新致开源医疗医院</BackgroundText>
+               <BackgroundText>医院名称</BackgroundText>
                <EditorActiveMode>None</EditorActiveMode>
             </Element>
-            <Element xsi:type="XParagraphFlag" StyleIndex="0">
-               <InnerID>24</InnerID>
-            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0" />
             <Element xsi:type="XString" StyleIndex="2">
-               <InnerID>181</InnerID>
                <Text>临时医嘱单</Text>
             </Element>
-            <Element xsi:type="XParagraphFlag" StyleIndex="0">
-               <InnerID>31</InnerID>
-            </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0" />
             <Element xsi:type="XString" StyleIndex="3">
-               <InnerID>182</InnerID>
                <Text>姓名:</Text>
             </Element>
             <Element xsi:type="XInputField" StyleIndex="3">
-               <InnerID>36</InnerID>
                <ID>姓名</ID>
                <EnableValueValidate>true</EnableValueValidate>
                <ValueBinding>
                   <DataSource>zy_brjbxx</DataSource>
                   <BindingPath>xm</BindingPath>
                </ValueBinding>
-               <BorderElementColor />
+               <BorderElementColor>#00000000</BorderElementColor>
                <EditorActiveMode>F2 MouseDblClick MouseClick</EditorActiveMode>
             </Element>
             <Element xsi:type="XString" StyleIndex="3">
-               <InnerID>183</InnerID>
                <Text>           科别:</Text>
             </Element>
             <Element xsi:type="XInputField" StyleIndex="3">
-               <InnerID>51</InnerID>
                <ID>科别</ID>
                <EnableValueValidate>true</EnableValueValidate>
                <ValueBinding>
                   <DataSource>zy_brjbxx</DataSource>
                   <BindingPath>DeptName</BindingPath>
                </ValueBinding>
-               <BorderElementColor />
+               <BorderElementColor>#00000000</BorderElementColor>
                <EditorActiveMode>F2 MouseDblClick MouseClick</EditorActiveMode>
             </Element>
             <Element xsi:type="XString" StyleIndex="3">
-               <InnerID>184</InnerID>
                <Text>          床号:</Text>
             </Element>
             <Element xsi:type="XInputField" StyleIndex="3">
-               <InnerID>65</InnerID>
                <ID>床号</ID>
                <EnableValueValidate>true</EnableValueValidate>
                <ValueBinding>
                   <DataSource>zy_brjbxx</DataSource>
                   <BindingPath>BedName</BindingPath>
                </ValueBinding>
-               <BorderElementColor />
+               <BorderElementColor>#00000000</BorderElementColor>
                <EditorActiveMode>F2 MouseDblClick MouseClick</EditorActiveMode>
             </Element>
             <Element xsi:type="XString" StyleIndex="3">
-               <InnerID>185</InnerID>
                <Text>         住院号:</Text>
             </Element>
             <Element xsi:type="XInputField" StyleIndex="3">
-               <InnerID>79</InnerID>
                <ID>住院号</ID>
                <EnableValueValidate>true</EnableValueValidate>
                <ValueBinding>
                   <DataSource>zy_brjbxx</DataSource>
                   <BindingPath>zyh</BindingPath>
                </ValueBinding>
-               <BorderElementColor />
+               <BorderElementColor>#00000000</BorderElementColor>
                <EditorActiveMode>F2 MouseDblClick MouseClick</EditorActiveMode>
             </Element>
-            <Element xsi:type="XParagraphFlag">
-               <InnerID>80</InnerID>
-            </Element>
+            <Element xsi:type="XParagraphFlag" />
          </XElements>
       </Element>
       <Element xsi:type="XTextBody">
-         <InnerID>35</InnerID>
          <AcceptTab>true</AcceptTab>
-         <XElements>
+         <EnableValueValidate>true</EnableValueValidate>
+         <XElements Count="2">
             <Element xsi:type="XTextTable" NumOfRows="2" NumOfColumns="7">
-               <InnerID>85</InnerID>
                <ID>1111</ID>
-               <XElements>
+               <EnableValueValidate>true</EnableValueValidate>
+               <XElements Count="2">
                   <Element xsi:type="XTextTableRow">
-                     <InnerID>93</InnerID>
-                     <XElements>
+                     <EnableValueValidate>true</EnableValueValidate>
+                     <XElements Count="7">
                         <Element xsi:type="XTextTableCell" StyleIndex="4">
-                           <XElements>
+                           <EnableValueValidate>true</EnableValueValidate>
+                           <XElements Count="5">
                               <Element xsi:type="XString" StyleIndex="5">
-                                 <InnerID>186</InnerID>
                                  <Text>下达时间</Text>
                               </Element>
-                              <Element xsi:type="XParagraphFlag" StyleIndex="6">
-                                 <InnerID>100</InnerID>
-                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="6" />
                            </XElements>
                         </Element>
                         <Element xsi:type="XTextTableCell" StyleIndex="4">
-                           <InnerID>1</InnerID>
-                           <XElements>
+                           <EnableValueValidate>true</EnableValueValidate>
+                           <XElements Count="3">
                               <Element xsi:type="XString" StyleIndex="5">
-                                 <InnerID>187</InnerID>
                                  <Text>医生</Text>
                               </Element>
-                              <Element xsi:type="XParagraphFlag" StyleIndex="6">
-                                 <InnerID>105</InnerID>
-                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="6" />
                            </XElements>
                         </Element>
                         <Element xsi:type="XTextTableCell" StyleIndex="4">
-                           <InnerID>2</InnerID>
-                           <XElements>
+                           <EnableValueValidate>true</EnableValueValidate>
+                           <XElements Count="5">
                               <Element xsi:type="XString" StyleIndex="5">
-                                 <InnerID>188</InnerID>
                                  <Text>医嘱内容</Text>
                               </Element>
-                              <Element xsi:type="XParagraphFlag" StyleIndex="6">
-                                 <InnerID>112</InnerID>
-                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="6" />
                            </XElements>
                         </Element>
                         <Element xsi:type="XTextTableCell" StyleIndex="4">
-                           <InnerID>3</InnerID>
-                           <XElements>
+                           <EnableValueValidate>true</EnableValueValidate>
+                           <XElements Count="2">
                               <Element xsi:type="XString" StyleIndex="5">
-                                 <InnerID>189</InnerID>
                                  <Text>组</Text>
                               </Element>
-                              <Element xsi:type="XParagraphFlag" StyleIndex="6">
-                                 <InnerID>116</InnerID>
-                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="6" />
                            </XElements>
                         </Element>
                         <Element xsi:type="XTextTableCell" StyleIndex="4">
-                           <InnerID>4</InnerID>
-                           <XElements>
+                           <EnableValueValidate>true</EnableValueValidate>
+                           <XElements Count="3">
                               <Element xsi:type="XString" StyleIndex="5">
-                                 <InnerID>190</InnerID>
                                  <Text>途径</Text>
                               </Element>
-                              <Element xsi:type="XParagraphFlag" StyleIndex="6">
-                                 <InnerID>121</InnerID>
-                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="6" />
                            </XElements>
                         </Element>
                         <Element xsi:type="XTextTableCell" StyleIndex="4">
-                           <InnerID>5</InnerID>
-                           <XElements>
+                           <EnableValueValidate>true</EnableValueValidate>
+                           <XElements Count="5">
                               <Element xsi:type="XString" StyleIndex="5">
-                                 <InnerID>191</InnerID>
                                  <Text>执行时间</Text>
                               </Element>
-                              <Element xsi:type="XParagraphFlag" StyleIndex="6">
-                                 <InnerID>128</InnerID>
-                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="6" />
                            </XElements>
                         </Element>
                         <Element xsi:type="XTextTableCell" StyleIndex="4">
-                           <InnerID>6</InnerID>
-                           <XElements>
+                           <EnableValueValidate>true</EnableValueValidate>
+                           <XElements Count="3">
                               <Element xsi:type="XString" StyleIndex="5">
-                                 <InnerID>192</InnerID>
                                  <Text>护士</Text>
                               </Element>
-                              <Element xsi:type="XParagraphFlag" StyleIndex="6">
-                                 <InnerID>133</InnerID>
-                              </Element>
+                              <Element xsi:type="XParagraphFlag" StyleIndex="6" />
                            </XElements>
                         </Element>
                      </XElements>
+                     <AcceptChildElementTypes2>TableCell</AcceptChildElementTypes2>
                      <HeaderStyle>true</HeaderStyle>
                   </Element>
                   <Element xsi:type="XTextTableRow">
-                     <InnerID>134</InnerID>
+                     <EnableValueValidate>true</EnableValueValidate>
                      <ValueBinding>
                         <DataSource>peopledatasource</DataSource>
                      </ValueBinding>
-                     <XElements>
+                     <XElements Count="7">
                         <Element xsi:type="XTextTableCell" StyleIndex="7">
-                           <InnerID>7</InnerID>
+                           <EnableValueValidate>true</EnableValueValidate>
                            <ValueBinding>
                               <BindingPath>kssj</BindingPath>
                            </ValueBinding>
-                           <XElements>
-                              <Element xsi:type="XParagraphFlag" StyleIndex="8">
-                                 <InnerID>138</InnerID>
-                              </Element>
+                           <XElements Count="1">
+                              <Element xsi:type="XParagraphFlag" StyleIndex="8" />
                            </XElements>
                         </Element>
                         <Element xsi:type="XTextTableCell" StyleIndex="7">
-                           <InnerID>8</InnerID>
+                           <EnableValueValidate>true</EnableValueValidate>
                            <ValueBinding>
                               <BindingPath>yzzqm</BindingPath>
                            </ValueBinding>
-                           <XElements>
-                              <Element xsi:type="XParagraphFlag" StyleIndex="8">
-                                 <InnerID>142</InnerID>
-                              </Element>
+                           <XElements Count="1">
+                              <Element xsi:type="XParagraphFlag" StyleIndex="8" />
                            </XElements>
                         </Element>
                         <Element xsi:type="XTextTableCell" StyleIndex="7">
-                           <InnerID>9</InnerID>
+                           <EnableValueValidate>true</EnableValueValidate>
                            <ValueBinding>
                               <BindingPath>yznr</BindingPath>
                            </ValueBinding>
-                           <XElements>
-                              <Element xsi:type="XParagraphFlag" StyleIndex="8">
-                                 <InnerID>146</InnerID>
-                              </Element>
+                           <XElements Count="1">
+                              <Element xsi:type="XParagraphFlag" StyleIndex="8" />
                            </XElements>
                         </Element>
                         <Element xsi:type="XTextTableCell" StyleIndex="7">
-                           <InnerID>10</InnerID>
+                           <EnableValueValidate>true</EnableValueValidate>
                            <ValueBinding>
                               <BindingPath>rowflag</BindingPath>
                            </ValueBinding>
-                           <XElements>
-                              <Element xsi:type="XParagraphFlag" StyleIndex="8">
-                                 <InnerID>150</InnerID>
-                              </Element>
+                           <XElements Count="1">
+                              <Element xsi:type="XParagraphFlag" StyleIndex="8" />
                            </XElements>
                            <GridLine>
                               <GridSpanInCM>1</GridSpanInCM>
                            </GridLine>
                         </Element>
                         <Element xsi:type="XTextTableCell" StyleIndex="7">
-                           <InnerID>11</InnerID>
+                           <EnableValueValidate>true</EnableValueValidate>
                            <ValueBinding>
                               <BindingPath>newypyfmc</BindingPath>
                            </ValueBinding>
-                           <XElements>
-                              <Element xsi:type="XParagraphFlag" StyleIndex="8">
-                                 <InnerID>154</InnerID>
-                              </Element>
+                           <XElements Count="1">
+                              <Element xsi:type="XParagraphFlag" StyleIndex="8" />
                            </XElements>
                         </Element>
                         <Element xsi:type="XTextTableCell" StyleIndex="7">
-                           <InnerID>12</InnerID>
+                           <EnableValueValidate>true</EnableValueValidate>
                            <ValueBinding>
                               <BindingPath>zxsj</BindingPath>
                            </ValueBinding>
-                           <XElements>
-                              <Element xsi:type="XParagraphFlag" StyleIndex="8">
-                                 <InnerID>158</InnerID>
-                              </Element>
+                           <XElements Count="1">
+                              <Element xsi:type="XParagraphFlag" StyleIndex="8" />
                            </XElements>
                         </Element>
                         <Element xsi:type="XTextTableCell" StyleIndex="7">
-                           <InnerID>13</InnerID>
+                           <EnableValueValidate>true</EnableValueValidate>
                            <ValueBinding>
                               <BindingPath>zxr</BindingPath>
                            </ValueBinding>
-                           <XElements>
-                              <Element xsi:type="XParagraphFlag" StyleIndex="8">
-                                 <InnerID>162</InnerID>
-                              </Element>
+                           <XElements Count="1">
+                              <Element xsi:type="XParagraphFlag" StyleIndex="8" />
                            </XElements>
                         </Element>
                      </XElements>
+                     <AcceptChildElementTypes2>TableCell</AcceptChildElementTypes2>
                   </Element>
                </XElements>
+               <AcceptChildElementTypes2>TableRow TableColumn</AcceptChildElementTypes2>
                <Columns>
                   <Element xsi:type="XTextTableColumn">
-                     <InnerID>86</InnerID>
                      <Width>438</Width>
                   </Element>
                   <Element xsi:type="XTextTableColumn">
-                     <InnerID>87</InnerID>
                      <Width>157</Width>
                   </Element>
                   <Element xsi:type="XTextTableColumn">
-                     <InnerID>88</InnerID>
                      <Width>750</Width>
                   </Element>
                   <Element xsi:type="XTextTableColumn">
-                     <InnerID>89</InnerID>
                      <Width>92</Width>
                   </Element>
                   <Element xsi:type="XTextTableColumn">
-                     <InnerID>90</InnerID>
                      <Width>227</Width>
                   </Element>
                   <Element xsi:type="XTextTableColumn">
-                     <InnerID>91</InnerID>
                      <Width>438</Width>
                   </Element>
                   <Element xsi:type="XTextTableColumn">
-                     <InnerID>92</InnerID>
                      <Width>157</Width>
                   </Element>
                </Columns>
             </Element>
-            <Element xsi:type="XParagraphFlag">
-               <InnerID>164</InnerID>
-            </Element>
+            <Element xsi:type="XParagraphFlag" />
          </XElements>
       </Element>
       <Element xsi:type="XTextFooter">
-         <InnerID>6760</InnerID>
          <AcceptTab>true</AcceptTab>
-         <XElements>
-            <Element xsi:type="XPageInfo" StyleIndex="9">
-               <InnerID>82</InnerID>
+         <EnableValueValidate>true</EnableValueValidate>
+         <XElements Count="2">
+            <Element xsi:type="XPageInfo" StyleIndex="3">
                <Width>100</Width>
                <AutoHeight>true</AutoHeight>
                <Height>62.73437</Height>
             </Element>
+            <Element xsi:type="XParagraphFlag" StyleIndex="0" />
+         </XElements>
+      </Element>
+      <Element xsi:type="XTextHeaderForFirstPage">
+         <AcceptTab>true</AcceptTab>
+         <EnableValueValidate>true</EnableValueValidate>
+         <XElements Count="1">
             <Element xsi:type="XParagraphFlag" StyleIndex="0">
-               <InnerID>83</InnerID>
+               <AutoCreate>true</AutoCreate>
             </Element>
          </XElements>
+      </Element>
+      <Element xsi:type="XTextFooterForFirstPage">
+         <AcceptTab>true</AcceptTab>
+         <EnableValueValidate>true</EnableValueValidate>
+         <XElements Count="1" />
       </Element>
    </XElements>
    <SerializeParameterValue>true</SerializeParameterValue>
    <FileName>\File\Template\医嘱单\医嘱单\临时医嘱.xml</FileName>
-   <FileFormat>xml</FileFormat>
+   <FileFormat>XML</FileFormat>
    <ContentStyles>
       <Default xsi:type="DocumentContentStyle">
          <FontName>宋体</FontName>
@@ -396,18 +352,14 @@
             <FontName>宋体</FontName>
             <FontSize>10.5</FontSize>
          </Style>
-         <Style Index="9">
-            <FontName>宋体</FontName>
-            <FontSize>12</FontSize>
-         </Style>
       </Styles>
    </ContentStyles>
    <Info>
       <ShowHeaderBottomLine>False</ShowHeaderBottomLine>
       <LicenseText>未注册|Unregister</LicenseText>
-      <CreationTime>2014-03-07T13:23:28.6115761+08:00</CreationTime>
-      <LastModifiedTime>2024-05-23T14:53:06.615852+08:00</LastModifiedTime>
-      <LastPrintTime>1980-01-01T00:00:00</LastPrintTime>
+      <CreationTime>2014-03-07T13:23:28+08:00</CreationTime>
+      <LastModifiedTime>2025-10-27T14:07:33+08:00</LastModifiedTime>
+      <LastPrintTime>1980-01-01T00:00:00+08:00</LastPrintTime>
       <Operator>DCSoft.Writer Version:1.2014.122.41929</Operator>
       <NumOfPage>1</NumOfPage>
    </Info>
@@ -417,6 +369,5 @@
    <PageSettings>
       <LeftMargin>39</LeftMargin>
       <RightMargin>39</RightMargin>
-      <StrictUsePageSize>false</StrictUsePageSize>
    </PageSettings>
 </XTextDocument>

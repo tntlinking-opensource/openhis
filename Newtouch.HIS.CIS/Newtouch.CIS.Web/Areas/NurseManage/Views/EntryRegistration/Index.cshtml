@@ -291,6 +291,8 @@
     });
     //默认选中根节点.
     function DefaultCheck() {
+        debugger;
+        var dss = $("div[id^='wardTree_']:first").attr("id");
         var firstid = $("div[id^='wardTree_']:first").attr("id").replace("wardTree_", "");//根节点病区代码
         //var firstid = $("div[id^='BQtree_']:first").attr("id").replace("BQtree_", "");//根节点病区代码
         //var firstid = "nkbq01";//根节点病区代码

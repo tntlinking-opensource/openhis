@@ -214,6 +214,7 @@ AND cpod.sl>ISNULL(cpod.sjsl,0)
 SELECT wz.name wzmc, lb.name lbmc, cpod.sl, CONCAT(cpod.sl,dw.name) slStr, cpod.sjsl, CONCAT(cpod.sjsl,dw.name) sjslStr, zxdw.name zxdwmc
 ,(CASE WHEN (cpod.sl-cpod.sjsl)>=0 THEN (cpod.sl-cpod.sjsl) ELSE 0 END) jxcgs, cpod.zhyz, ISNULL(wz.zxqds,0) zxqds
 ,cpod.unitId, dw.name unitName,wz.gg,ISNULL(wz.brand,'') brand, ISNULL(cj.name,'') sccj,(wz.jj*cpod.zhyz) jj, cpod.productId, cpod.Id pdId
+,cpod.supplierId,cpod.supplierName,cpo.remark
 FROM dbo.cg_purchaseOrder(NOLOCK) cpo 
 INNER JOIN dbo.cg_purchaseOrderDetail(NOLOCK) cpod ON cpod.purchaseId=cpo.Id AND cpod.zt='1'
 INNER JOIN dbo.wz_product(NOLOCK) wz ON wz.Id=cpod.productId AND wz.OrganizeId=cpo.OrganizeId AND wz.zt='1'

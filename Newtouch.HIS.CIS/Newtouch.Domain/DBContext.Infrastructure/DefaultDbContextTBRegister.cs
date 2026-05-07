@@ -6,6 +6,7 @@ using Newtouch.Infrastructure;
 using Newtouch.Infrastructure.EF;
 using Newtouch.Infrastructure.EF.Conventions;
 using System.Data.Entity;
+using Newtouch.Domain.Entity.DeptStorageManage;
 
 namespace Newtouch.Domain.DBContext.Infrastructure
 {
@@ -33,11 +34,18 @@ namespace Newtouch.Domain.DBContext.Infrastructure
             modelBuilder.Entity<PrescriptionEntity>().RegisterTable().HasKey(p => p.cfId);
             modelBuilder.Entity<TreatmentEntity>().RegisterTable().HasKey(p => p.jzId);
             modelBuilder.Entity<SysUsageLinkageEntity>().RegisterTable().HasKey(p => p.Id);
+            modelBuilder.Entity<KcPdxxEntity>().RegisterTable().HasKey(p => p.Id);
+            modelBuilder.Entity<KcPdxxmxEntity>().RegisterTable().HasKey(p => p.Id);
+            modelBuilder.Entity<DeptKcSyyyEntity>().RegisterTable().HasKey(p => p.Id);
+            modelBuilder.Entity<KcSyxxEntity>().RegisterTable().HasKey(p => p.Id);
+            modelBuilder.Entity<KcKcjzEntity>().RegisterTable().HasKey(p => p.Id);
+            
 
             //病历模板
             modelBuilder.Entity<MRTemplateEntity>().RegisterTable().HasKey(p => p.mbId);
             modelBuilder.Entity<MRTemplateWMDiagnosisEntity>().RegisterTable().HasKey(p => p.Id);
             modelBuilder.Entity<MRTemplateTCMDiagnosisEntity>().RegisterTable().HasKey(p => p.Id);
+            modelBuilder.Entity<CfTemplateGroupPackageEntity>().RegisterTable().HasKey(p => p.mbztId);
 
             //检验检查
             modelBuilder.Entity<GroupPackageEntity>().RegisterTable().HasKey(p => p.ztId);
@@ -47,6 +55,7 @@ namespace Newtouch.Domain.DBContext.Infrastructure
             modelBuilder.Entity<TemplateGroupPackageEntity>().RegisterTable().HasKey(p => p.mbztId);
             //医技科室执行
             modelBuilder.Entity<XtjyjcExecEntity>().RegisterTable().HasKey(p => p.Id);
+            modelBuilder.Entity<XtjyjcFileUploadEntity>().RegisterTable().HasKey(p => p.Id);
 
             modelBuilder.Entity<PatientVitalSignsEntity>().RegisterTable().HasKey(p => p.Id);
 

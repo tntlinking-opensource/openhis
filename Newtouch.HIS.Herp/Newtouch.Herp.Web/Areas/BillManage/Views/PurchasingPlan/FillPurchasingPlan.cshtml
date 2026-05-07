@@ -336,6 +336,7 @@
             dataType: "json",
             async:false,
             success: function (res) {
+                debugger
                 if (res != null && res.length > 0) {
                     $("#sel_dw_" + rowid).empty();
                     $.each(res, function(index, item) {

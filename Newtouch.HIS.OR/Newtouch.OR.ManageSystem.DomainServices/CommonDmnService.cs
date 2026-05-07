@@ -44,7 +44,7 @@ where zt='1' and organizeid=@orgId
             }
 
             return this.FindList<SysBqListVO>(sql, new SqlParameter[] {
-                new SqlParameter("@orgId",orgId),
+                new SqlParameter("@orgId",orgId??"1"),
                 new SqlParameter("@bqcode",bqcode==null?"":bqcode),
                 new SqlParameter("@ysgh",staffgh==null?"":staffgh)
             });
@@ -89,7 +89,7 @@ where zt='1' and organizeid=@orgId
             }
 
             return this.FindList<OperationDicVO>(sql, new SqlParameter[] {
-                new SqlParameter("@orgId",orgId),
+                new SqlParameter("@orgId",orgId??"1"),
                 new SqlParameter("@ssdm",ssdm==null?"":ssdm)
             });
         }
@@ -145,7 +145,7 @@ where organizeid=@orgId and zt='1' ";
             }
 
             return this.FindList<ORAnesthesiaEntity>(sql, new SqlParameter[] {
-                new SqlParameter("@orgId",orgId),
+                new SqlParameter("@orgId",orgId??"1"),
                 new SqlParameter("@AnesCode",AnesCode==null?"":AnesCode)
             });
         }

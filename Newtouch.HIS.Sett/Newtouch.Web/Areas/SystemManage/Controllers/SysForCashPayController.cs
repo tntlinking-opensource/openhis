@@ -21,7 +21,7 @@ namespace Newtouch.HIS.Web.Areas.SystemManage.Controllers
             return View();
         }
 
-        public ActionResult SubmitForm(SysCashPaymentModelEntity SysForCashPayEntity, string keyValue)
+        public ActionResult SubmitForm(SysCashPaymentModelEntity SysForCashPayEntity, int? keyValue)
         {
             _SysForCashPayApp.SubmitForm(SysForCashPayEntity, keyValue);
             return Success("操作成功。");
@@ -75,7 +75,7 @@ namespace Newtouch.HIS.Web.Areas.SystemManage.Controllers
         /// <returns></returns>
         [HttpGet]
         [HandlerAjaxOnly]
-        public ActionResult GetFormJson(Guid keyValue)
+        public ActionResult GetFormJson(int keyValue)
         {
             var entity = _SysForCashPayApp.GetForm(keyValue);
             return Content(entity.ToJson());
@@ -87,7 +87,7 @@ namespace Newtouch.HIS.Web.Areas.SystemManage.Controllers
         /// <returns></returns>
         public ActionResult GetfsGridJson(string keyword)
         {
-            var data = _SysForCashPayApp.GetListBySearch(keyword);
+            var data = _SysForCashPayApp.GetList();
             return Content(data.ToJson());
         }
 

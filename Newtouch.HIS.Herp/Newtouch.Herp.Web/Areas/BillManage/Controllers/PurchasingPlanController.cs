@@ -51,6 +51,8 @@ namespace Newtouch.Herp.Web.Areas.BillManage.Controllers
         public ActionResult SubmitFillPurchasingPlan(CgPurchaseOrderEntity pp, List<CgPurchaseOrderDetailEntity> ppmx)
         {
             var userCode = UserIdentity.UserCode;
+            pp.rkbmCode = pp.rkbmCode ?? this.UserIdentity.DepartmentCode;
+            pp.cgdh= pp.cgdh ?? ReceiptNoManage.GetNewReceiptNo(EnumOutOrInStorageBillType.purchasingPlan.GetDescription());
             pp.zt = ((int)Enumzt.Enable).ToString();
             var result = _purchasingPlanApp.SubmitFillPurchasingPlan(pp, ppmx, userCode, OrganizeId);
             return string.IsNullOrWhiteSpace(result) ? Success() : Error(result);
@@ -257,6 +259,14 @@ namespace Newtouch.Herp.Web.Areas.BillManage.Controllers
             var result = _purchasingPlanApp.SubmitPurchasingPlan(cgdh, OrganizeId);
             return string.IsNullOrWhiteSpace(result) ? Success() : Error(result);
         }
+        #endregion
+
+        #region 库存预警生成采购计划单
+        public ActionResult PurchasingPlan()
+        {
+            return View();
+        }
+
         #endregion
 
     }

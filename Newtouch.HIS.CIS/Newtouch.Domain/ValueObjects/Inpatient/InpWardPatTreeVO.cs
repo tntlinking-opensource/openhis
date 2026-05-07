@@ -33,6 +33,6 @@ namespace Newtouch.Domain.ValueObjects
         public DateTime ryrq { get; set; }
         public DateTime birth { get; set; }
         public string inHosDays  { get; set; }
-        
+        public string brxzmc { get; set; }
     }
 }

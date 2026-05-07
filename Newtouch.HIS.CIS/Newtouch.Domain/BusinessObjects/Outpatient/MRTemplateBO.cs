@@ -2,6 +2,7 @@
 using Newtouch.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
+using Newtouch.Domain.Entity.Outpatient;
 
 namespace Newtouch.Domain.BusinessObjects
 {
@@ -46,6 +47,8 @@ namespace Newtouch.Domain.BusinessObjects
         /// 
         /// </summary>
         public List<TCMDiagnosisHtmlVO> zyzdList { get; set; }
+        
+        public List<CfTemplateGroupPackageEntity> mbztList { get; set; }
         /// <summary>
         /// 月经史
         /// </summary>

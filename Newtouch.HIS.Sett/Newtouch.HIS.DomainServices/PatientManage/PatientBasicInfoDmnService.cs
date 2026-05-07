@@ -123,8 +123,9 @@ namespace Newtouch.HIS.DomainServices
             SysPatientBasicInfoEntity Oldpatient = null, patiententity = null;
             SysxtbrjbxxlogEntity xtbrjbxxlog = null;
             //修改病人信息
-            //根据身份证号判断病人基本信息
-            var validatepat = _SysPatBasicInfoRepository.IQueryable().Where(p => p.zjlx == vo.zjlx && p.zjh == vo.zjh && p.OrganizeId == orgId && p.zt == "1" && p.zjh != null);
+            //根据证件号判断病人基本信息
+            //string zjlx = ((EnumZJLX)(Convert.ToInt32(vo.zjlx))).GetDescription();
+            var validatepat = _SysPatBasicInfoRepository.IQueryable().Where(p => p.zjlx == vo.zjlx && p.zjh == vo.zjh && p.OrganizeId == orgId && p.zt == "1" && p.zjh!=null);
             if ((vo.patid ?? 0) > 0 && vo.yktbz!= "yktcardregister")
             {
                 if (!string.IsNullOrWhiteSpace(vo.zjh))
@@ -230,7 +231,8 @@ namespace Newtouch.HIS.DomainServices
                 }
             }
             //通过身份证获取真实出生日期和性别 
-            var BirthdayAdnSix = vo.zjlx == ((int)EnumZJLX.sfz).ToString() ? CommmHelper.GetBirthdayAdnSix(vo.zjh) : null;
+            var BirthdayAdnSix = vo.zjlx== ((int)EnumZJLX.sfz).ToString()? CommmHelper.GetBirthdayAdnSix(vo.zjh):null;
+            var sd = ((int)EnumZJLX.sfz).ToString();
             //修改病人基本信息
             patiententity.xm = vo.xm;
             patiententity.zjlx = vo.zjlx;

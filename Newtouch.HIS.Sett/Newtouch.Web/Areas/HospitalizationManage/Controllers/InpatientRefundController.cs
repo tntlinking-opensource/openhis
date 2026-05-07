@@ -62,6 +62,7 @@ namespace Newtouch.HIS.Web.Areas.HospitalizationManage.Controllers
                 new TreatmentItemFeeDetailVO {
                     isYP = p.Key.isYP,
                     jfbbh = p.Max(m => m.jfbbh),
+                    yzwym="",
                     dw = "套",
                     dj = Math.Round(Convert.ToDecimal(p.Sum(m => m.je) / p.Key.ztsl), 2, MidpointRounding.AwayFromZero),
                     sfxm = p.Key.sfmbmc,
@@ -166,9 +167,25 @@ namespace Newtouch.HIS.Web.Areas.HospitalizationManage.Controllers
                 }
             }
             //保存
-            _inpatientRefundDmnService.SaveRefund(xmjfbEntitylist, ypjfbEntitylist, zyh, orgId);
-            //同步病人实时费用信息
-            _hospdrugbillingRepo.Updatezy_brxxexpand(this.OrganizeId, zyh);
+            string result =_inpatientRefundDmnService.SaveRefund(xmjfbEntitylist, ypjfbEntitylist, zyh, orgId);
+            if (string.IsNullOrWhiteSpace(result))
+            {
+                if (_hospdrugbillingRepo.getHckcWith(this.OrganizeId) > 0) {
+                    //退还扣减耗材库存
+                    var hclist = xmjfbEntitylist.Where(m => m.yzwym == null && m.sfxm.Contains("wz")).ToList();//住院记账所开耗材
+                    var yszhclist = xmjfbEntitylist.Where(m => m.yzwym != null && m.sfxm.Contains("wz")).ToList();//医生站开立耗材
+                    if (hclist.Count > 0)
+                    {
+                        string jfbhString = string.Join(",", xmjfbEntitylist.Where(m => m.sfxm.Contains("wz")).Select(p => p.cxzyjfbbh));
+                        _hospdrugbillingRepo.Updatezy_wzkcReturn(this.OrganizeId, jfbhString, this.UserIdentity.UserCode);
+                    }
+                    if (yszhclist.Count > 0)
+                        _hospdrugbillingRepo.Updatezyyz_wzkcReturn(yszhclist, this.OrganizeId, this.UserIdentity.UserCode);
+                }
+                //更新cis住院患者预览右侧费用卡片信息
+                _hospdrugbillingRepo.Updatezy_brxxexpand(this.OrganizeId, zyh);
+            }else
+                throw new FailedException(result);
             return Success();
         }
 

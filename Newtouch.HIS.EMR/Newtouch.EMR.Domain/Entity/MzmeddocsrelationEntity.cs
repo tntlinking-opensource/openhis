@@ -129,5 +129,9 @@ namespace Newtouch.EMR.Domain.Entity
         /// 医保上传标志 0 未上传 1 已上传
         /// </summary>
         public string YbUploadFlag { get; set; }
+        /// <summary>
+        /// 文书格式类型-xml/html
+        /// </summary>
+        public string doctype { get; set; }
     }
 }

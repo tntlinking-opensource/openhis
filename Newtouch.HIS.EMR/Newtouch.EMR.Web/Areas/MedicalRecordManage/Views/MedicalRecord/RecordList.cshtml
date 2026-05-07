@@ -78,7 +78,7 @@
 		</div>
 	</div>
 	<div class="dv-left">
-		<div class="dv-left-tree" id="wsTreeList" style="background-color:#eee;"></div>
+		<div class="dv-left-tree" id="wsTreeList" style="background-color:white;"></div>
 		
 	</div>
 </div>
@@ -87,65 +87,67 @@
 <script src="@SiteUrl.GetStaticResourceScriptUrl("~/js/framework-ui.js")"></script>
 <script type="text/javascript">
 
-        $(function () {
-            $.ajax({
-                url: "/MRHomePage/MRHomePage/DiagnosticSave",
-                dataType: "json",
-                data: { "Code": "YXZ_EMR1001" },
-                type: "POST",
-                async: false,
-                success: function (result) {
-                    if (result.length > 0) {
-                        if (result[0].Value == 1) {
-                            $("#jcjy").removeClass("hide");
-                        }
+    $(function () {
+        $.ajax({
+            url: "/MRHomePage/MRHomePage/DiagnosticSave",
+            dataType: "json",
+            data: { "Code": "YXZ_EMR1001" },
+            type: "POST",
+            async: false,
+            success: function (result) {
+                if (result.length > 0) {
+                    if (result[0].Value == 1) {
+                        $("#jcjy").removeClass("hide");
                     }
                 }
-            });
-            $.ajax({
-                url: "/MRHomePage/MRHomePage/DiagnosticSave",
-                dataType: "json",
-                data: { "Code": "YXZ_EMR1002" },
-                type: "POST",
-                async: false,
-                success: function (result) {
-                    if (result.length>0) {
-                        if (result[0].Value == 1) {
-                            $("#yz").removeClass("hide");
-                        }
-                    }
-                }
-            });
+            }
         });
+        $.ajax({
+            url: "/MRHomePage/MRHomePage/DiagnosticSave",
+            dataType: "json",
+            data: { "Code": "YXZ_EMR1002" },
+            type: "POST",
+            async: false,
+            success: function (result) {
+                if (result.length>0) {
+                    if (result[0].Value == 1) {
+                        $("#yz").removeClass("hide");
+                    }
+                }
+            }
+        });
+    });
 
-        function btn_jcjy()
-        {
-            $.modalOpen({
-                id: "Form",
-                title: "检验、检查报告",
-                url: "/MedicalRecordManage/MedicalRecord/Form?mzzyh=" + "@ViewBag.zyh" + "&type=zy&ryrq=" + "@ViewBag.ryrq",
-                width: "900px",
-                height: "600px",
-                shade: 0,
-                btn: ['', '关闭'],
-                btnclass: ['', 'btn btn-danger']
-            });
-        }
+    function btn_jcjy()
+    {
+        $.modalOpen({
+            id: "Form",
+            title: "检验、检查报告",
+            url: "/MedicalRecordManage/MedicalRecord/Form?mzzyh=" + $.request('zyh') + "&type=zy&ryrq=" + "@ViewBag.ryrq",
+            width: "900px",
+            height: "600px",
+            shade: 0,
+            btn: ['', '关闭'],
+            btnclass: ['', 'btn btn-danger']
+        });
+    }
 
-        function btn_yz() {
-            $.modalOpen({
-                id: "Form",
-                title: "医嘱",
-                url: "/MedicalRecordManage/MedicalRecord/YZForm?zyh=" + "@ViewBag.zyh" + "&type=zy",
-                width: "1100px",
-                height: "600px",
-                shade: 0,
-                btn: ['', '关闭'],
-                btnclass: ['', 'btn btn-danger']
-            })
-        }
+    function btn_yz() {
+        alert($.request('zyh'));
+        $.modalOpen({
+            id: "Form",
+            title: "医嘱",
+            url: "/MedicalRecordManage/MedicalRecord/YZForm?zyh=" + $.request('zyh') + "&type=zy" + "&doctype=" + $.request("doctype"),
+            width: "1100px",
+            height: "600px",
+            shade: 0,
+            btn: ['', '关闭'],
+            btnclass: ['', 'btn btn-danger']
+        })
+    }
 
     $(function () {
+        debugger
         getWSTreeList();
         $(".dv-left").toggle();
         $("#BLWS").click(function () {
@@ -153,34 +155,39 @@
         });
     });
 
-		function GetQueryValue(queryName) {
-			var query = decodeURI(window.location.search.substring(1));//将url转码，如果不是当前地址链接，可以在这里填写需要的链接
-			var vars = query.split("&");//分割字符串，将url切割成数组形式的对象
-			for (var i = 0; i < vars.length; i++) {
-				var pair = vars[i].split("=");//再次分割成数组
-				if (pair[0] == queryName) { return pair[1]; }//如果匹配输出结果
-
-			}
-			return null;
+	function GetQueryValue(queryName) {
+		var query = decodeURI(window.location.search.substring(1));//将url转码，如果不是当前地址链接，可以在这里填写需要的链接
+		var vars = query.split("&");//分割字符串，将url切割成数组形式的对象
+		for (var i = 0; i < vars.length; i++) {
+			var pair = vars[i].split("=");//再次分割成数组
+			if (pair[0] == queryName) { return pair[1]; }//如果匹配输出结果
 
 		}
+		return null;
+
+	}
     function getWSTreeList()
     {
 		var blid = GetQueryValue("blid");
         //var bllx = $.request("bllx");
 		var blxtmc_yj = GetQueryValue("blxtmc_yj");
-        //var blxtmc_yj2 = "@ViewBag.blxtmc_yj";
+		var doctype = GetQueryValue("doctype");
+		var mzh = GetQueryValue("mzh");
+        var zyh = GetQueryValue("zyh");
         $("#wsTreeList").treeview({
             height: 400,
             slimscroll: false,
             showcheck: true,
 
             //url: "/MedicalRecord/GetWSTreeListIndex?zyh=" + "@ViewBag.zyh"+"&mzh="+"@ViewBag.mzh",
-            url: "/MedicalRecord/GetBFTreeListIndex?zyh=" + "@ViewBag.zyh" + "&blxtmc_yj=" +blxtmc_yj,
+            url: "/MedicalRecord/GetBFTreeListIndex?zyh=" + zyh + "&mzh=" + mzh + "&blxtmc_yj=" + blxtmc_yj + "&doctype=" + doctype,
             onnodedbclick: function (item) {
                 if (item.Ex1 != 'p') {
                     $("#blid").val(item.id + "|" + blid);
-                    $("#history").trigger("click");
+                    if (doctype==".html")//新编辑器病历格式
+                        loadbackBl(item.id + "|" + blid);
+                    else
+                        $("#history").trigger("click");
                     //top.top.$.Newtouchtab.addTabWithOutMenu({ name: "病历操作", enName: "", url: "/MedicalRecordManage/MedicalRecord/PreView?blid=" + item.id + "&bllx=" + item.value + "&zyh=" + "@ViewBag.zyh" + "&mzh=" + "@ViewBag.mzh" + "&jzbl=1&blid2=" + blId + "&bllx2=" + bllx + "&blxtmc_yj=" + blxtmc_yj, AppId: "EMR" });
                 }
             }

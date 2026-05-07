@@ -188,6 +188,7 @@ namespace Newtouch.Domain.ValueObjects
         /// 天数
         /// </summary>
         public decimal? ts { get; set; }
+        public string ztmbId { get; set; }
         public string ztId { get; set; }
         public string ztmc { get; set; }
 

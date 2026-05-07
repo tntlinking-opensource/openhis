@@ -88,10 +88,12 @@
     <Compile Include="Implementation\Outpatient\InfusionApp.cs" />
     <Compile Include="Implementation\Inpatient\PatientRyDiagnosisApp.cs" />
     <Compile Include="Implementation\PrepareMedicineApp.cs" />
+    <Compile Include="Implementation\StockInventoryApp.cs" />
     <Compile Include="Implementation\VisitDeptSetApp.cs" />
     <Compile Include="Interface\IBespeakRegisterApp.cs" />
     <Compile Include="Interface\IInsideGeneralApp.cs" />
     <Compile Include="Interface\IPrepareMedicineApp.cs" />
+    <Compile Include="Interface\IStockInventoryApp.cs" />
     <Compile Include="Interface\Outpatient\IOutpatientCmmManagerApp.cs" />
     <Compile Include="Interface\IPatientRyDiagnosisApp.cs" />
     <Compile Include="Interface\IVisitDeptSetApp.cs" />

@@ -62,4 +62,17 @@ namespace Newtouch.EMR.Domain.ValueObjects.MedicalRecord
         public string ysid { get; set; }
         public string ysvalue { get; set; }
     }
+
+    public class BlyyjghDto
+    {
+        public List<Blyyjgh> data { get; set; }
+    }
+
+    public class Blyyjgh
+    {
+        public string keyCode { get; set; }
+        public string keyValue { get; set; }
+        public string keyId { get; set; }
+        public string keyName { get; set; }
+    }
 }

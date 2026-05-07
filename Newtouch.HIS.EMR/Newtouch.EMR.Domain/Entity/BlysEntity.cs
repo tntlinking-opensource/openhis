@@ -128,6 +128,6 @@ namespace Newtouch.EMR.Domain.Entity
         /// <returns></returns>
         public string Format { get; set; }
         public int? yslx { get; set; }
-
+        public int? px { get; set; }
     }
 }

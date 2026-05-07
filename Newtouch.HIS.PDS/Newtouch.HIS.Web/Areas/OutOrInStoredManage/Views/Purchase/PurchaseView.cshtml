@@ -18,17 +18,22 @@
     <div class="search">
         <table class="form">
             <tr>
-                <th class="formTitle">订单编号：</th>
-                <td class="formValue">
-                    <input id="txt_ddbh" name="txt_ddbh" type="text" class="form-control form-an" placeholder="请输入订单编号" />
-                </td>
                 <th class="formTitle">订单时间：</th>
-                <td class="formValue" colspan="3">
-                    <input id="kssj" type="text" class="form-control input-wdatepicker" style="width:42%; margin-top:10px;float:left;" value="@DateTime.Now.AddMonths(-6).ToString("yyyy-MM-dd")" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd' })" />
+                <td class="formValue" colspan="2">
+                    <input id="kssj" type="text" class="form-control input-wdatepicker" style="width:42%; margin-top:10px;float:left;" value="@DateTime.Now.ToString("yyyy-MM-01")" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd' })" />
                     <span style="margin-left:1%;float:left">—</span>
                     <input id="jssj" type="text" class="form-control input-wdatepicker" style="width:43%; margin-top:10px;float:left;margin-left:1%;" value="@DateTime.Now.ToString("yyyy-MM-dd")" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd' })" />
                 </td>
-                <td style="padding-left: 20px;">
+                <th class="formTitle">订单编号：</th>
+                <td class="formValue">
+                    <input id="yyjhdh" name="yyjhdh" type="text" class="form-control form-an" placeholder="请输入订单编号" />
+                </td>
+                <th class="formTitle">发票号：</th>
+                <td class="formValue">
+                    <input id="ddbh" name="ddbh" type="text" class="form-control form-an" placeholder="请输入发票号" />
+                </td>
+
+                <td style="padding-left: 5px;">
                     <button type="button" id="btn_search" class="btn btn-primary btn-md">&nbsp;查询&nbsp;</button>
                 </td>
             </tr>
@@ -54,20 +59,12 @@
     }
 
     $(function () {
-
-        var obj = new Object;
-        //obj.ddbh = $.request("ddbh");
-        var searInfo = new gridList();
-        //加载数据
-        //searInfo.init(obj);
-
-
-
+        gridList();
         //查询
         $("#btn_search").click(function () {
             $("#GridList").jqGrid('setGridParam', {
                 postData: {
-                      kssj: $("#kssj").val(), jssj: $("#jssj").val() ,ddzt:2
+                    kssj: $("#kssj").val(), jssj: $("#jssj").val(), ddzt: 2, yyjhdh: $("#yyjhdh").val(), gysCode: "", ddbh: $("#ddbh").val()
                 },
                 page: 1,
                 url: "/OutOrInStoredManage/Purchase/GetPurchaseGridJson",
@@ -79,77 +76,56 @@
         var $gridList = $("#GridList");
         $gridList.dataGrid({
             url: "/OutOrInStoredManage/Purchase/GetPurchaseGridJson",
-            height: $(window).height() - 200,
-            postData: { kssj: $("#kssj").val(), jssj: $("#jssj").val(), ddzt: 2 },
+            height: $(window).height() - 130,
+            postData: { kssj: $("#kssj").val(), jssj: $("#jssj").val(), ddzt: 2, yyjhdh: $("#yyjhdh").val(), gysCode: "", ddbh: $("#ddbh").val(),ddyy:"1" },//ddyy:药库入库引用时参数标识
             colModel: [
 
                 { label: 'cgId', name: 'cgId', hidden: true },
-                { label: '订单时间', name: 'ddsj', width: 60, align: 'left' },
+                { label: '订单时间', name: 'ddsj', width: 110, align: 'left' },
                 {
-                    label: '配送点', name: 'psdbm', width: 120, align: 'left', formatter: function (cellvalue) {
-                        return "上海明德五官科医院";
+                    label: '配送点', name: 'psdbm', width: 120,hidden: true , align: 'left', formatter: function (cellvalue) {
+                        return "";
                     }
                 },
                 {
-                    label: '订单类型', name: 'ddlx', width: 80, align: 'left', formatter: function (cellvalue) {
-                        if (cellvalue == 1) return '医院自行订单';
-                        else if (cellvalue == 2) return '托管药库订单';
-                        else if (cellvalue == 3) return '特需药品订单';
+                    label: '订单类型', name: 'ddlx', width: 80, align: 'center', formatter: function (cellvalue) {
+                        if (cellvalue == 1) return '常规采购';
+                        else if (cellvalue == 2) return '紧急采购';
                         else return '';
                     }
                 },
-                { label: '订单编号', name: 'ddbh', width: 60, align: 'left' },
-                { label: '医院计划单号', name: 'yyjhdh', width: 60, align: 'left' },
-                { label: '最晚到货日期', name: 'zwdhrq', width: 60, align: 'left' },
+                
+                { label: '采购单号', name: 'yyjhdh', width: 120, align: 'center' },
+                { label: '最晚到货日期', name: 'zwdhrq', hidden: true ,width: 60, align: 'left' },
                 {
-                    label: '订单状态', name: 'ddzt', width: 60, align: 'left', formatter: function (cellvalue) {
-                        //if (cellvalue == 1) return '保存';
-                        //else if (cellvalue == 3) return '提交';
-                        //else if (cellvalue == 5) return '撤回';
-                        //else if (cellvalue == 7) return '作废';
-
-                        if (cellvalue == 1) return '已保存';
-                        else if (cellvalue == 2) return '已传报';
-                        else if (cellvalue == 3) return '已验收';
+                    label: '订单状态', name: 'ddzt', width: 60, align: 'left', hidden: true, formatter: function (cellvalue) {
+                        if (cellvalue == 1) return '待审核';
+                        else if (cellvalue == 2) return '审核通过';
+                        else if (cellvalue == 3) return '已作废';
                         else return '';
                     }
                 },
-                { label: '明细记录数', name: 'jls', width: 80, align: 'left' },
+                { label: '明细记录数', name: 'jls', width: 80, align: 'center' },
+                { label: '单据金额', name: 'zje', width: 80, align: 'center' },
+                { label: 'fph', name: 'fph', width: 80, align: 'center',hidden:true},
+                 {
+                     label: '发票号', name: 'ddbh', width: 100, align: 'center',
+                     formatter: function (cellvalue, options) { return cellvalue === "" || cellvalue === null ? "<input type=\"text\" name=\"fph\" rowid=" + options.rowId + " role=\"textbox\" class=\"editable inline-edit-cell form-control\" style=\"width: 100%; height: 99%;\" onblur=\"UpdateFph(this)\">" : cellvalue; }
+                 },
+                { label: '供应商', name: 'gysName', width: 200, align: 'left' },
                 { label: 'yfbm', name: 'yfbm', hidden: true },
                 { label: 'bqbm', name: 'bqbm', hidden: true },
 
             ],
-
             multiselect: false,
-
             pager: "#gridPager",
-            sortname: 'CreateTime',
+            sortname: 'ddsj desc',
             viewrecords: true,
             ondblClickRow: function (rowid, iRow, iCol, e) {
                 SearchConfirm();
             }
         });
     }
-        //$("#btn_search").click(function () {
-        //    $('#gridDJMXInfo').jqGrid("clearGridData");
-        //    $gridList.jqGrid('setGridParam', {
-        //        postData: { kssj: $("#kssj").val(), jssj: $("#jssj").val() },
-        //    }).trigger('reloadGrid');
-        //});
- 
-   
-
-        //加载事件
-        //myPatSearchInfo.prototype.init = function (data) {
-        //    if (data.blh === "null") {
-        //        $("#txt_blh").val("");
-        //    } else {
-        //        $("#txt_blh").val(data.blh);
-        //    }
-        //    loadGrid(data);
-        //};
-        //return myPatSearchInfo;
-    //}());
 
     //jqGrid 双击选中某行
     function btn_edit() {
@@ -166,14 +142,19 @@
         obj.yybm = $gridList.jqGridRowValue().yybm;
         obj.psdbm = $gridList.jqGridRowValue().psdbm;
         obj.ddlx = $gridList.jqGridRowValue().ddlx;
-        obj.ddbh = $gridList.jqGridRowValue().ddbh;
+        obj.ddbh = $gridList.jqGridRowValue().fph;
         obj.yyjhdh = $gridList.jqGridRowValue().yyjhdh;
         obj.zwdhrq = $gridList.jqGridRowValue().zwdhrq;
         obj.jls = $gridList.jqGridRowValue().jls;
         obj.ddzt = $gridList.jqGridRowValue().ddzt;
-        prevWindow.GetQueryAjax(obj);
-        //关闭窗口
-        ReceiptCancle();
+        if (obj.ddbh != "") {
+            prevWindow.GetQueryAjax(obj);
+            //关闭窗口
+            ReceiptCancle();
+        } else {
+            $.modalMsg("发票号为空,请补填发票号!", "success", 1000);
+        }
+        
     }
     //确定 主页面调用
     function SearchConfirm() {
@@ -183,6 +164,34 @@
     //取消
     function ReceiptCancle() {
         $.modalClose();
+    }
+    //补发票号
+    function UpdateFph(obj) {
+        var fph = $(obj).val();
+        var cgId = $("#GridList").getRowData($(obj).attr("rowid")).cgId;
+        var rowid = $(obj).attr("rowid");
+        $("#GridList").jqGrid('setCell', rowid, 'fph', fph);
+        if (fph !== "") {
+            $.modalConfirm("您确定要将发票号改为" + fph + "吗？",
+                function (flag) {
+                    if (flag) {
+                        $.najax({
+                            url: "/OutOrInStoredManage/Purchase/UpdateFph",
+                            type: "POST",
+                            data: { cgId: cgId, ddbh: fph },
+                            dataType: "json",
+                            success: function (data) {
+                                if (data.state === 'success') {
+                                    $.modalMsg("发票号修改成功", "success", 1000);
+                                } else {
+                                    $.modalMsg(data.message, "warning", 1000);
+                                }
+                            }
+                        });
+                    }
+                });
+
+        }
     }
 </script>
 

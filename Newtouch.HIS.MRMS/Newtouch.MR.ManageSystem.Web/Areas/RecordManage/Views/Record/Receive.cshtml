@@ -244,6 +244,7 @@ sessionStorage.removeItem('currentobj');
                             return "";
                     }
                 },
+                { label: 'doctype', name: 'doctype', width: 80, align: 'center', hidden: true},
                 { label: '医生名称', name: 'Docname', width: 100, align: 'center', hidden: true },
                 { label: "医生工号", name: "Doccode", hidden: true },
                 { label: '病历日期', name: 'Blrq', width: 130, hidden: true, align: 'center', formatter: "date", formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } },
@@ -318,6 +319,9 @@ sessionStorage.removeItem('currentobj');
                         window.open(reportServerHOST + "/Pages/ReportViewer.aspx?%2fNewtouch.EMR.Report%2f%e8%a5%bf%e5%8c%bb%e7%97%85%e6%a1%88%e9%a6%96%e9%a1%b5part1&rs:Command=Render&orgId=" + orgIds+"&zyh=" + obj.zyh);
                         window.open(reportServerHOST + "/Pages/ReportViewer.aspx?%2fNewtouch.EMR.Report%2f%e8%a5%bf%e5%8c%bb%e7%97%85%e6%a1%88%e9%a6%96%e9%a1%b5part2&rs:Command=Render&orgId=" + orgIds + "&zyh=" + obj.zyh);
 
+                    }
+                    else if (obj.doctype == ".html") {
+                        top.top.$.Newtouchtab.addTabWithOutMenu({ name: "病历操作", enName: "", url: "/RecordManage/Record/PreViewV2?blid=" + obj.BlId + "&bllx=" + obj.bllx + "&zyh=" + obj.zyh, AppId: "EMR" });
                     }
                     else {
                         top.top.$.Newtouchtab.addTabWithOutMenu({ name: "病历操作", enName: "", url: "/RecordManage/Record/PreView?blid=" + obj.BlId + "&bllx=" + obj.bllx + "&zyh=" + obj.zyh, AppId: "EMR" });

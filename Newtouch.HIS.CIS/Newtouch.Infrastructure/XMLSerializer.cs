@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Security.Cryptography;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
@@ -23,6 +24,9 @@ namespace Newtouch.Infrastructure
             if (encoding == null) encoding = Encoding.UTF8;
             return XMLSerializer.Serialize(ob, ob.GetType(), encoding);
         }
+        
+        
+        
 
         /// <summary>
         /// xml 转 object
@@ -141,6 +145,63 @@ namespace Newtouch.Infrastructure
             {
                 LogCore.Error("Xml DeSerializeFromFile error", ex);
                 return null;
+            }
+        }
+        public class XmlTextWriterFull : XmlTextWriter
+        {
+            public XmlTextWriterFull(TextWriter sink) : base(sink) { }
+ 
+            public XmlTextWriterFull(Stream stream, Encoding enc) : base(stream, enc) { }
+            public XmlTextWriterFull(String str, Encoding enc) : base(str, enc) { }
+ 
+ 
+            public override void WriteEndElement()
+            {
+                base.WriteFullEndElement();
+            }
+        }
+        public static string XmlSerializeAll(object o)
+        {
+            if (o == null)
+                throw new ArgumentNullException("o");
+            string xml = "";
+            try
+            {
+                System.IO.MemoryStream memOut = new System.IO.MemoryStream();
+                XmlTextWriterFull writer = new XmlTextWriterFull(memOut, Encoding.UTF8); 
+                var serializer = new XmlSerializer(o.GetType());
+                serializer.Serialize(writer, o);
+                memOut.Position = 0;
+                using (StreamReader reader = new StreamReader(memOut, Encoding.UTF8))
+                {
+                    xml = reader.ReadToEnd();
+                }              
+                return xml;
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return xml;
+        }
+        
+        /// <summary>
+        /// uuid转短串
+        public static string GenerateShortUUIDFromString(string uuidString)
+        {
+            // 将原始 UUID 字符串转换为字节数组
+            byte[] bytes = Encoding.UTF8.GetBytes(uuidString);
+
+            // 使用 MD5 哈希算法
+            using (MD5 md5 = MD5.Create())
+            {
+                byte[] hashBytes = md5.ComputeHash(bytes);
+
+                // 将哈希结果转换为十六进制字符串
+                string hashString = BitConverter.ToString(hashBytes).Replace("-", "");
+
+                // 截取前 6 个字符作为短串
+                return hashString.Substring(0, 6);
             }
         }
     }

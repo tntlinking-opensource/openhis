@@ -28,7 +28,7 @@
                 if ($grid) {
                     $grid.jqGrid('setGridParam', {
                         url: "/TemplateManage/InspectionTemplate/GetGPackageDetailByZtId",
-                        postData: { ztId: item.id }
+                        postData: { ztId: item.id, mbId: item.parentnodes }
                     }).trigger("reloadGrid");
                     $grid.jqGrid("setCaption", item.text);   //重置caption属性值
                 }

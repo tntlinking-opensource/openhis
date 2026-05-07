@@ -122,6 +122,6 @@ namespace Newtouch.Domain.ValueObjects.API
         /// 医保个人编号
         /// </summary>
         public string grbh { get; set; }
-        public short queno { get; set; }
+        public short? queno { get; set; }
     }
 }

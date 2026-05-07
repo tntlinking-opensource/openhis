@@ -20,7 +20,7 @@ namespace Newtouch.HIS.Domain.IRepository
         /// </summary>
         /// <param name="keyValue"></param>
         /// <returns></returns>
-        IList<SysChargeCategoryEntity> GetList(string orgId);
+        IList<SysChargeCategoryEntity> GetList(string orgId,string zt);
 
         /// <summary>
         /// 获取实体数据

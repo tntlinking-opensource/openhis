@@ -420,6 +420,7 @@
     }
 
     function hisSubmit(isYbjyjz, ybBackReturnData) {
+        debugger
         var setl_id = "";
         if (ybBackReturnData != undefined) {
             setl_id = ybBackReturnData.setl_id;
@@ -445,6 +446,8 @@
 			                }
 		                });
                 }
+                $.modalAlert(data.message, 'success');
+                funcDoPageClear();
                 //广西医保特有
                // refundPrintInvoiceReq(zyh, jsnm);
             }

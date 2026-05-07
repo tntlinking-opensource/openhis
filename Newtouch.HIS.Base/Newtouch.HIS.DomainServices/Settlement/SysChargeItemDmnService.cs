@@ -29,7 +29,7 @@ namespace Newtouch.HIS.DomainServices
         /// <param name="Pagination"></param>
         /// <param name="keyword"></param>
         /// <returns></returns>
-        public IList<SysChargeItemVO> GetPagintionList(string orgId, Pagination pagination,string sfdl, string keyword = null)
+        public IList<SysChargeItemVO> GetPagintionList(string orgId, Pagination pagination,string sfdl, string zt,string keyword = null)
         {
             var tableName = "";
             if (orgId.Equals("*"))
@@ -62,6 +62,11 @@ where a.OrganizeId = @orgId";
             {
                 sql += " and a.sfdlCode=@sfdl";
                 pars.Add(new SqlParameter("@sfdl", sfdl));
+            }
+            if (zt != "")
+            {
+                sql += " and a.zt=@zt";
+                pars.Add(new SqlParameter("@zt", zt));
             }
             return this.QueryWithPage<SysChargeItemVO>(sql, pagination, pars.ToArray());
         }

@@ -140,5 +140,9 @@ namespace Newtouch.Herp.Domain.Entity.VEntity
         /// 国家医保代码
         /// </summary>
         public string gjybdm { get; set; }
+        /// <summary>
+        /// 库存预警值
+        /// </summary>
+        public int? kcyjz { get; set; }
     }
 }

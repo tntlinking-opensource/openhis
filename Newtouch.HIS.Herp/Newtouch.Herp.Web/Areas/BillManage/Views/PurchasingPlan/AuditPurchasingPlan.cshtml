@@ -66,8 +66,8 @@
 <script type="text/javascript">
     var $gridList = $("#gridList");
     var $gridMxList = $("#gridMxList");
-    var gridListhigh = ($(window).height() - 65) / 2 - 120;
-    var gridMxListhigh = ($(window).height() - 65) / 2 - 40;
+    var gridListhigh = ($(window).height() - 65) / 2 - 70;
+    var gridMxListhigh = ($(window).height() - 65) / 2 - 110;
     $(".toolbar").width(200);
     $(function () {
         $(window).resize(function () {
@@ -126,6 +126,7 @@
                         url: "/BillManage/PurchasingPlan/GetPurchasingPlanDetail",
                         postData: { cgdh: $gridList.getRowData(rowid).cgdh }
                     }).trigger('reloadGrid');
+                $("#remarks").val( $gridList.getRowData(rowid).remark );
             },
             gridComplete: function () {
                 $gridMxList.jqGrid("clearGridData");

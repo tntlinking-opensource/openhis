@@ -25,6 +25,7 @@ namespace Newtouch.Domain.DTO.InputDto
         public string nlshow { get; set; }
         public string ps { get; set; }
         public string blh { get; set; }
+        public string deptCode { get; set; }
     }
 
     public class PatientyzxxResponseDto

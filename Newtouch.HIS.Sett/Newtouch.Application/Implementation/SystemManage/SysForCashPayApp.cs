@@ -22,9 +22,13 @@ namespace Newtouch.HIS.Application
         /// 收费大类所有数据
         /// </summary>
         /// <returns></returns>
-        public List<SysCashPaymentModelEntity> GetList()
+        public List<SysCashPaymentModelEntity> GetList(string keyword=null)
         {
-            return _sysForCashPayRepository.IQueryable().ToList();
+            if(string.IsNullOrWhiteSpace(keyword))
+                return _sysForCashPayRepository.IQueryable().OrderBy(p => p.xjzffsbh).ToList();
+            else
+                return _sysForCashPayRepository.IQueryable(p=>p.xjzffsmc.Contains(keyword)).OrderBy(p => p.xjzffsbh).ToList();
+
         }
 
         /// <summary>
@@ -32,17 +36,17 @@ namespace Newtouch.HIS.Application
         /// </summary>
         /// <param name="keyValue"></param>
         /// <returns></returns>
-        public SysCashPaymentModelEntity GetForm(Guid keyValue)
+        public SysCashPaymentModelEntity GetForm(int keyValue)
         {
-            return _sysForCashPayRepository.FindEntity(keyValue);
+            return _sysForCashPayRepository.FindEntity(p=>p.xjzffsbh== keyValue);
         }
         public void DeleteForm(int keyValue)
         {
             _sysForCashPayRepository.Delete(t => t.xjzffsbh == keyValue);
         }
-        public void SubmitForm(SysCashPaymentModelEntity xt_xjzffsEntity, string keyValue)
+        public void SubmitForm(SysCashPaymentModelEntity xt_xjzffsEntity, int? keyValue)
         {
-            if (!string.IsNullOrEmpty(keyValue))
+            if (!string.IsNullOrEmpty(keyValue.ToString()))
             {
                 //xt_xjzffsEntity.Id = new Guid(keyValue);
                 xt_xjzffsEntity.Modify(keyValue);

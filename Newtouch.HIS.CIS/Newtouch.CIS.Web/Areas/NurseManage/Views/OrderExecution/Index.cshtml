@@ -242,7 +242,7 @@
                     //    {
                     //        $.modalAlert("住院号:" + this.zyh + "预交账户余额已达到限额,请提醒患者充值", 'warning');
                     //        WarmList.push(this.zyh);
-                    //    } 
+                    //    }
                     //    else if (this.zhsy<=0)//&& this.zhye>0
                     //    {
                     //        yjjzhmsg = "住院号:" + this.zyh + "预交账户已欠费,不能产生计费,需先充值预交账户";
@@ -348,9 +348,12 @@
                 { label: '用法', name: 'yfmc', align: 'center', width: 30 },
                 { label: '频次', name: 'yzpcmc', align: 'center', width: 30 },
                 { label: '单价', name: 'dj', align: 'center', width: 50 },
-                { label: '数量', name: 'sl', align: 'center', width: 50 },
+                { label: '数量', name: 'sl', align: 'center', width: 50,hidden:true },
+                { label: '数量', name: 'slstr', align: 'center', width: 50 },
                 { label: '金额', name: 'je', align: 'center', width: 50 },
                 { label: 'yzlx', name: 'yzlx', align: 'center', hidden: true },
+                { label: 'deptCode', name: 'deptCode', align: 'center', width: 50, hidden: true },
+                { label: 'xmdm', name: 'xmdm', align: 'center', width: 50, hidden: true },
                 { label: 'isfsyz', name: 'isfsyz', align: 'center', hidden: true },
                 { label: 'yzh', name: 'yzh', align: 'center', hidden: true },
                 { label: 'isjf', name: 'isjf', align: 'center', hidden: true },
@@ -508,7 +511,7 @@
             allbtn();
             return;
         }
-        var strYZID = [];
+        var strYZID = [];var hccfmxlist = new Array();
         var selRowIds = jQuery("#gridList").jqGrid("getGridParam", "selarrrow");//选中的id
         if (selRowIds == null || selRowIds.length === 0) {
             $.modalAlert("请先选中需执行的医嘱", 'warning');
@@ -520,12 +523,13 @@
             strYZID.push({
                 zyh: rowData.zyh, yzid: rowData.yzid, yzxz: rowData.yzxz, yzlx: rowData.yzlx, dj: rowData.dj,
                 zxsj: rowData.zxsj, ypmc: rowData.xmmc, zh: rowData.zh, zh1: rowData.zh1, isjf: rowData.isjf,
-                yfztbs: rowData.yfztbs, yply: rowData.yply
+                yfztbs: rowData.yfztbs, yply: rowData.yply, deptCode: rowData.deptCode, xmdm: rowData.xmdm,sl:rowData.sl
             });
+            if(rowData=='@((int)EnumYzlx.yyhc)')
+                hccfmxlist.push(rowData.yzh);
         }
         $.loading(true, "医嘱执行中，请稍后...");
         var Vzxsj = ctorzxsj();
-       
         $.ajax({
             type: "POST",
             url: "/NurseManage/OrderExecution/submitOrderExecutionList",
@@ -535,18 +539,16 @@
             success: function (ajaxresp) {
                 var rtnobj = JSON.parse(ajaxresp.data);
                 if (ajaxresp.state === "success") {
-                    $.ajax({
-                        type: "POST",
-                        url: "/NurseManage/OrderExecution/pushApplicationform",
-                        data: { orderList: strYZID },
-                        dataType: "json",
-                        async: false,
-                        success: function (repjson) {
-
-                        }
-                    });
+                    //$.ajax({
+                    //    type: "POST",
+                    //    url: "/NurseManage/OrderExecution/pushApplicationform",
+                    //    data: { orderList: strYZID },
+                    //    dataType: "json",
+                    //    async: false,
+                    //    success: function (repjson) {
+                    //    }
+                    //});
                     if (rtnobj.cnt > 0) {
-                       
                         $.modalConfirm("执行成功，是否打印？",
                             function (flag) {
                                 if (flag) {
@@ -561,7 +563,7 @@
                     RefreshOrder();
                 }
                 else {
-                    $.modalAlert(ajaxresp.message, 'warning');  
+                    $.modalAlert(ajaxresp.message, 'warning');
                     RefreshOrder();
                 }
                 //getOrderExecutionList(null, null);
@@ -670,7 +672,8 @@
                     url: "/NurseManage/OrderExecution/BindingFeeForm?zyh=&yzid=",
                     width: "1000px",
                     height: "700px",
-                    btn: ['确认'],
+                    btn: ['', '关闭'],
+                    btnclass: ['', 'btn btn-danger'],
                     callBack: function (iframeId) {
                         RefreshOrder();
                         //var Obj = top.frames[iframeId].submitForm();
@@ -711,7 +714,8 @@
                     url: "/NurseManage/OrderExecution/BindingFeeForm?zyh=" + zyharr[0].zyh + "&yzid=" +"",
                     width: "1000px",
                     height: "700px",
-                    btn: ['确认'],
+                    btn: ['', '关闭'],
+                    btnclass: ['', 'btn btn-danger'],
                     callBack: function (iframeId) {
                         reloadgrid();
                         //var Obj = top.frames[iframeId].submitForm();
@@ -731,7 +735,7 @@
                 strYZID.push({
                     zyh: rowData.zyh, yzid: rowData.yzid, yzxz: rowData.yzxz, yzlx: rowData.yzlx, dj: rowData.dj,
                     zxsj: rowData.zxsj, ypmc: rowData.xmmc, zh: rowData.zh, zh1: rowData.zh1, isjf: rowData.isjf,
-                    yfztbs: rowData.yfztbs, yply: rowData.yply, brxm: rowData.hzxm, yzh: rowData.yzh
+                    yfztbs: rowData.yfztbs, yply: rowData.yply, brxm: rowData.hzxm, yzh: rowData.yzh, sl: rowData.sl
                 });
             }
             if (strYZID.length > 1) {
@@ -754,12 +758,13 @@
                 url: "/NurseManage/OrderExecution/BindingFeeForm?zyh=" + zyharr[0].zyh + "&yzid=" + strYZID[0].yzid,
                 width: "1000px",
                 height: "700px",
-                btn: ['确认'],
+                btn: ['', '关闭'],
+                btnclass: ['', 'btn btn-danger'],
                 callBack: function (iframeId) {
                     //var Obj = top.frames[iframeId].submitForm();
                     reloadgrid();
                     $.modalClose("BindingFeeForm");
-                    
+
                 },
                 cancelCallBack: function (iframeId) {
                     reloadgrid();
@@ -767,7 +772,7 @@
                 }
             });
         }
-     
+
     }
     function reloadgrid() {
         var selPatTrees = $("#BqTreeList").getCheckedNodeObjArray();
@@ -824,7 +829,7 @@
         if (selRowIds == null || selRowIds.length === 0) {
             $.modalAlert("请选中需要作废或停止的医嘱", 'warning');
             return;
-        } 
+        }
         for (var i = 0; i < selRowIds.length; i++) {
             var rowData = $("#gridList").jqGrid('getRowData', selRowIds[i]);
             if (rowData.isfsyz != null && rowData.isfsyz!="") {

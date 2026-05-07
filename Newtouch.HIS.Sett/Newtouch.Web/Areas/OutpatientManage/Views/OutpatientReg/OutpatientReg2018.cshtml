@@ -225,6 +225,7 @@
     var OutDate=null;//预约就诊日期
     var dqyyks=null;//已预约挂号科室
     var readcardIframe = $.request("readcard");
+    var OrgXzhq="@ViewBag.Xzqh"; //机构所在地区性质区划代码 判断异地使用
     newtouch_globalconfig.f4opions = { justinner: true };
 
     $(function () {
@@ -279,6 +280,7 @@
             width: 400,
             clickautotrigger: true,
             filter: function (keyword) {
+                debugger
                 //遍历数据源，用keyword来筛选出结果
                 var resultObjArr = new Array();
                 $.each(top.window.clients.sysPatientNatureList, function (idx, val) {
@@ -291,12 +293,13 @@
                 { label: '编号', name: 'brxzbh', widthratio: 25 },
                 { label: '代码', name: 'brxz', widthratio: 25 },
                 { label: '名称', name: 'brxzmc', widthratio: 25 },
+                { label:'brxzlb',name:'brxzlb',hidden:true},
                 { label: '拼音', name: 'py', widthratio: 25 }
             ],
             itemdbclickhandler: function ($thistr) {
                 if (patModel && patModel.patid) {
                     $("#brxzmc").attr("data-brxzmc", $thistr.attr('data-brxzmc'))
-                        .attr("data-brxz", $thistr.attr('data-brxz'));
+                        .attr("data-brxz", $thistr.attr('data-brxz')).attr("data-brxzlb", $thistr.attr('data-brxzlb'));
                     $("#brxzmc").val($thistr.attr('data-brxzmc'));
 
                     //hss 2019.7.19 同个病人存在多个交易类型时，根据报销政策加载卡号
@@ -614,10 +617,10 @@
                 $("#CardTypeName").html('（' + patModel.CardTypeName + '）');
                 $("#kh").html(patModel.kh);
                 $("#patid").val(patModel.patid);
-                $("#hiddenzjlx").val(patModel.zjlx);
+                $("#hiddenzjlx").val(patModel.zjlx); 
                 if (!!patModel.brxz && patModel.brxzmc) {
                     $("#brxzmc").attr("data-brxzmc", patModel.brxzmc)
-                                        .attr("data-brxz", patModel.brxz);
+                        .attr("data-brxz", patModel.brxz).attr("data-brxzlb", patModel.brxzlb);
                     $("#brxzmc").val(patModel.brxzmc);
                 }
                 else {
@@ -879,8 +882,8 @@
         if (!!!regInfo) {
             return;
         }
-        //判断是否是医保就诊
-        isYbjyjz = openYbSett && regInfo.brxz != '0';//&& patModel.CardType == "@((int)EnumCardType.YBJYK)";
+        //判断是否是医保就诊 brxzlb医保交易标志 0 自费 1医保
+        isYbjyjz = openYbSett && regInfo.brxzlb!='0';//&& regInfo.brxz != '0';//&& patModel.CardType == "@((int)EnumCardType.YBJYK)";
         if('@IsOpenYbgh' !== 'True')
             isYbjyjz=false;
         if (isYbjyjz && cqPatInfo.ybVer == undefined && !document.getElementById('isjm').checked) {
@@ -1312,10 +1315,49 @@
 
     function YbMxsc() {
         var isuccer=false;
+        var ref=true;
         if (!MxscHisData()) {
             return;
         }
         var jylsh=tradeNo();
+        if (cqPatInfo.xzqh.slice(0, 4) !=OrgXzhq.slice(0,4))
+        {
+            jylsh = "0000";
+            //内蒙地区 异地挂号须传诊断
+            var ref=true;
+            var payoptype={operatorId:'@(opr.rygh)',operatorName:'@(opr.UserName)',orgId:'@(opr.OrganizeId)',hisId:MZJS.qzmzh,
+                begntime:$.getDate(),insuplc_admdvs:cqPatInfo.xzqh,med_type:"12",mdtrt_id:MZJS.ghdata.jzid,psn_no:cqPatInfo.grbh,
+                dise_dor_no:MZJS.ysxx.gjybdm,
+                dise_dor_name:MZJS.ysxx.name,
+                diag_dept:MZJS.ysxx.ybksbm,model:"4"};
+            $.ajax({
+                type: "POST",
+                url: "http://127.0.0.1:33333/api/YiBao/Mdtrtinfo_2203A",
+                dataType: "json",
+                data: payoptype,
+                async: false,
+                success: function (data){
+                    var medicalReg = eval('(' + data + ')');
+                    if (medicalReg){
+                        if (medicalReg.infcode == "0" || medicalReg.infcode == 0){
+                        }else{
+                            MZJS.msg=  "医保服务(门诊就诊信息上传A)失败：" + medicalReg.err_msg;
+                            ref=false;
+                        }
+                    }else {
+                        MZJS.msg=  "医保服务(门诊就诊信息上传A)返回信息为空";
+                        ref=false;
+                    }
+                },
+                error: function (request, error, ex) {
+                    MZJS.msg= "医保服务(门诊就诊信息上传A)不可访问：[" + ex + "]";
+                    ref=false;
+                }
+            });
+            if(ref==false){
+                return;
+            }
+        }
 	    var ybresp = {
 	        operatorId:'@(opr.rygh)',
 	        operatorName:'@(opr.UserName)' ,
@@ -1339,28 +1381,31 @@
         if (!ybresp.ksbm) {
             ybresp.ksbm = MZJS.ysxx.ybksbm
         }
-	    $.ajax({
-	        type:"POST",
-	        url: "http://127.0.0.1:33333/api/YiBao/Feedetail_2204",
-	        dataType: "json",
-	        data: ybresp,
-	        async: false,
-	        success: function (data) {
-	            var cfUpload = eval('(' + data + ')');
-	            if (!cfUpload) {
-	                MZJS.msg="医保服务(门诊费用明细信息上传)返回信息为空";
-	                return;
-	            }
-	            if (cfUpload.infcode != "0" && cfUpload.infcode != 0) {
-	                MZJS.msg="医保服务(门诊费用明细信息上传)失败：" + cfUpload.err_msg;
-	                return;
-	            }
-	            isuccer=true;
-	        },
-	        error: function (request, error, ex) {
-	            MZJS.msg="医保服务(门诊费用明细信息上传)不可访问：[" + ex + "]";
-	        }
-	    });
+        if(ref==true){
+            $.ajax({
+                type:"POST",
+                url: "http://127.0.0.1:33333/api/YiBao/Feedetail_2204",
+                dataType: "json",
+                data: ybresp,
+                async: false,
+                success: function (data) {
+                    var cfUpload = eval('(' + data + ')');
+                    if (!cfUpload) {
+                        MZJS.msg="医保服务(门诊费用明细信息上传)返回信息为空";
+                        return;
+                    }
+                    if (cfUpload.infcode != "0" && cfUpload.infcode != 0) {
+                        MZJS.msg="医保服务(门诊费用明细信息上传)失败：" + cfUpload.err_msg;
+                        return;
+                    }
+                    isuccer=true;
+                },
+                error: function (request, error, ex) {
+                    MZJS.msg="医保服务(门诊费用明细信息上传)不可访问：[" + ex + "]";
+                }
+            });
+        }
+
         if(isuccer)
         {
             MZJS.ghxx = { zymzh: MZJS.qzmzh, xmzje:MZJS.regInfo.zje,ybzje:MZJS.ybzje,zfzje:MZJS.zfzje,jylsh:jylsh,
@@ -1553,6 +1598,7 @@
         }
         regInfo.brxz = $('#brxzmc').attr('data-brxz');
         regInfo.brxzmc = $('#brxzmc').attr('data-brxzmc');
+        regInfo.brxzlb = $('#brxzmc').attr('data-brxzlb');
         if (!(!!regInfo.brxz || regInfo.brxz == '0')) {
             $.modalAlert("缺少费用性质", 'warning');
             return false;
@@ -1560,7 +1606,7 @@
         //费用性质选择判断
         //自费 不走医保
         //医保自费 走医保  //医保卡患者也可选择‘自费’
-        if (patModel.brxz !== regInfo.brxz && regInfo.brxzmc != '自费' && '@IsOpenYbgh' === 'True') {
+        if (patModel.brxz !== regInfo.brxz && regInfo.brxzlb != '0' && '@IsOpenYbgh' === 'True') {
             if (patModel.brxzmc == '自费' || patModel.brxzmc == '医保自费') {
                 $.modalAlert("只能选择" + patModel.brxzmc + "性质", 'warning');
                 return false;

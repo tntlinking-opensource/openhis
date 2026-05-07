@@ -193,8 +193,8 @@
 		}
 
 		var rowData = $("#gridJSList").jqGrid('getRowData', seleRowid);
-		var ksrq = $("#txtCreateTimestart").val();
-		var jsrq = $("#txtCreateTimeEnd").val();
+		var ksrq = $("#txtCreateTimestart").val()+" 00:00:00";
+		var jsrq = $("#txtCreateTimeEnd").val()+" 23:59:59";
 		var predata = {
 			hisId: "0",
 			operatorId: '@(opr.rygh)',
@@ -242,8 +242,8 @@
 
 	function insertsqb(rowdata) {
 
-		var ksrq = $("#txtCreateTimestart").val();
-		var jsrq = $("#txtCreateTimeEnd").val();
+	    var ksrq = $("#txtCreateTimestart").val() + " 00:00:00";
+		var jsrq = $("#txtCreateTimeEnd").val()+" 23:59:59";
 
 		var date = $("#txtCreateTimestart").val();
 		var datearr = date.split('-');

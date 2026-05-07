@@ -1647,6 +1647,7 @@ where gh.OrganizeId = @orgId  and gh.zt = '1'
             return this.FindList<GhJzInfo>(sb.ToString(), pars.ToArray());
         }
 
+        #region  医保相关
         public CqybGjbmInfoVo GetYbjzdjVo(string mzh, string orgId)
         {
             string sqlstr = @" select staff.zjh,staff.gjybdm,staff.gh,staff.name,mzgh.ks,dept.ybksbm,dept.Name ksmc,jzid
@@ -1656,5 +1657,16 @@ left join NewtouchHIS_Base.dbo.V_S_Sys_Department dept on dept.code=mzgh.ks and 
 where mzgh.mzh=@mzh and mzgh.OrganizeId=@orgId and mzgh.zt='1' ";
             return  this.FirstOrDefault<CqybGjbmInfoVo>(sqlstr, new[] { new SqlParameter("@mzh", mzh), new SqlParameter("@orgId", orgId) });
         }
+        /// <summary>
+        /// 获取医院行政区划代码来判断是否异地医保
+        /// </summary>
+        /// <param name="orgId"></param>
+        /// <returns></returns>
+        public string GetOrgXzqh(string orgId)
+        {
+            string sqlstr = "select ybxzqhCode from NewtouchHIS_Base..sys_organize where id = @orgId and zt = '1' ";
+            return this.FirstOrDefault<string>(sqlstr, new[] { new SqlParameter("@orgId", orgId) });
+        }
+        #endregion
     }
 }

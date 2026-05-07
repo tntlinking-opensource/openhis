@@ -555,6 +555,19 @@ namespace Newtouch.HIS.Web.Controllers
 
             return View("RepercussionIndex2019");
         }
+        /// <summary>
+        /// 退药 -- 按照退药申请单退药
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult RepercussionIndex2021()
+        {
+            ViewBag.OrganizeId = _OrganizeId;
+            ViewBag.yfbmCode = Constants.CurrentYfbm.yfbmCode;
+            var printSwitch = _sysConfigRepo.GetValueByCode("hospitalizationReturnDrugAutoPrint", OrganizeId);
+            ViewBag.returnDrugAutoPrint = string.IsNullOrWhiteSpace(printSwitch) || "true".Equals(printSwitch.ToLower()) ? ViewBag.autoPrintSwitch = "checked=\"checked\"" : "";
+
+            return View("RepercussionIndex2021");
+        }
 
         /// <summary>
         /// 住院退药用户信息数据
@@ -854,19 +867,7 @@ namespace Newtouch.HIS.Web.Controllers
 
         #endregion
 
-        /// <summary>
-        /// 退药 -- 按照退药申请单退药
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult RepercussionIndex2021()
-        {
-            ViewBag.OrganizeId = _OrganizeId;
-            ViewBag.yfbmCode = Constants.CurrentYfbm.yfbmCode;
-            var printSwitch = _sysConfigRepo.GetValueByCode("hospitalizationReturnDrugAutoPrint", OrganizeId);
-            ViewBag.returnDrugAutoPrint = string.IsNullOrWhiteSpace(printSwitch) || "true".Equals(printSwitch.ToLower()) ? ViewBag.autoPrintSwitch = "checked=\"checked\"" : "";
-
-            return View("RepercussionIndex2021");
-        }
+        
 
         /// <summary>
         /// 执行住院退药V2

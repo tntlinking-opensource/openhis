@@ -392,7 +392,7 @@ FROM(
                 string sql = @"SELECT cqyz.Id yzid,hzxm patientName,cqyz.zyh zyh, xmdm ypCode, '' dl,
         (case when cqyz.yzlx=@zcy then CONVERT(DECIMAL(10),sl*ypjl) else CONVERT(DECIMAL(10),sl) end) sl,yf.yfmc zlff,
        cqyz.zxsjd sjap, pc.yzpcmc pcmc , CONVERT(DECIMAL(10,2),ypjl) yl, dw yldw,cqyz.ysgh ysgh,cqyz.kssj ksrq, getdate() jsrq,zxksdm fyyf,@cqyzxz yzxz,ztnr yzbz,
-		cqyz.zxcs zxsl,cqyz.DeptCode ksCode,bq.bqCode bqCode,cw.cwmc cw,0 fybz,@zxr yzzxsqr,cqyz.zh zh,
+		isnull(cqyz.zxcs,1) zxsl,cqyz.DeptCode ksCode,bq.bqCode bqCode,cw.cwmc cw,0 fybz,@zxr yzzxsqr,cqyz.zh zh,
         (case when cqyz.yzlx=@zcy then convert(decimal(10,0),cqyz.sl) else null end)ts,cqyz.yzlx,CONVERT(BIGINT,@lyxh) lyxh,@zxrq zxrq
 		FROM dbo.zy_cqyz cqyz with(nolock)
 		INNER JOIN  dbo.zy_brxxk brxx  with(nolock) ON brxx.zyh=cqyz.zyh AND
@@ -413,7 +413,7 @@ FROM(
   SELECT lsyz.Id yzid, hzxm patientName,lsyz.zyh zyh, xmdm ypCode, '' dl,
 (case when lsyz.yzlx=@zcy then CONVERT(DECIMAL(10),sl*ypjl) else CONVERT(DECIMAL(10),sl) end) sl,yf.yfmc zlff,lsyz.zxsjd
          sjap, pc.yzpcmc pcmc, CONVERT(DECIMAL(10,2),ypjl) yl, dw yldw,lsyz.ysgh ysgh,lsyz.kssj ksrq,getdate() jsrq,zxksdm fyyf, @lsyzxz yzxz,ztnr yzbz,
-		lsyz.zxcs zxsl, lsyz.DeptCode ksCode,bq.bqCode bqCode,cw.cwmc cw,0 fybz,@zxr yzzxsqr,lsyz.zh zh ,
+		isnull(lsyz.zxcs,'1') zxsl, lsyz.DeptCode ksCode,bq.bqCode bqCode,cw.cwmc cw,0 fybz,@zxr yzzxsqr,lsyz.zh zh ,
 (case when lsyz.yzlx=@zcy then convert(decimal(10,0),lsyz.sl) else null end)ts,lsyz.yzlx ,CONVERT(BIGINT,@lyxh) lyxh,@zxrq zxrq
 		FROM dbo.zy_lsyz lsyz  with(nolock)
 		INNER JOIN  dbo.zy_brxxk brxx  with(nolock) ON brxx.zyh=lsyz.zyh AND
@@ -588,7 +588,7 @@ FROM(
                     zyhs = string.Join(",", zyhArr);
                     if (!string.IsNullOrWhiteSpace(zyhs) && yzxz != null)
                     {
-                        return FirstOrDefault<string>("exec [dbo].[usp_zy_OrderExecutionbyYzlx] @orgId=@orgId,@zyhs=@zyhs,@yzxz=@yzxz,@lyxh=@lyxh,@zxrq=@zxrq,@czyh=@czyh ",
+                        return FirstOrDefault<string>("exec [dbo].[usp_zy_OrderExecutionbyYzxz] @orgId=@orgId,@zyhs=@zyhs,@yzxz=@yzxz,@lyxh=@lyxh,@zxrq=@zxrq,@czyh=@czyh ",
                             new DbParameter[]{
                                     new SqlParameter("@lyxh", lyxh),
                                     new SqlParameter("@zxrq", zxrq),
@@ -677,7 +677,7 @@ FROM(
                 var yzxhlistbindfee = string.Empty;
                 var zyhArr = orderExeList.Select(p => p.zyh).Distinct().ToArray();
                 zyhs = string.Join(",", zyhArr);
-                if (yzxz != null)
+                if (yzxz != null)//执行全部/长期、临时医嘱
                 {
                     if (!string.IsNullOrWhiteSpace(zyhs) && yzxz != null)
                     {
@@ -696,11 +696,11 @@ FROM(
                         return "F|无效操作，请刷新重试";
                     }
                 }
-                else {
+                else {//执行当前选择医嘱
                     foreach (var item in orderExeList)
                     {
-                        if (item.zh1 != null)
                         //if ((item.yzlx == Convert.ToInt32(EnumYzlx.jy) || item.yzlx == Convert.ToInt32(EnumYzlx.jc)) && item.zh1 != null)
+                        if (item.zh1 != null)
                         {
                             jyjcyz += item.zh1 + ",";
                             //string strsql = @"select Id from zy_lsyz where yzh=@yzid and zyh=@zyh and OrganizeId=@orgId and zt=1 and (yzlx=@jyyz or yzlx=@jcyz)";
@@ -752,7 +752,7 @@ FROM(
                  };
                 var xm = FirstOrDefault<string>("exec [dbo].[usp_zy_OrderExecution_TyxmWithWz] @orgId=@orgId,@yzxhlist=@yzxhlist,@jyjcyz=@jyjclist,@czyh=@czyh,@zxrq=@zxrq,@lyxh=@lyxh", inParameters);
                 System.Threading.Thread.Sleep(1000);
-                SyncPatFee(orgId, zyhs, 0);
+                //SyncPatFee(orgId, zyhs, 0);
                 Updatezy_brxxexpand(orgId, zyhs);
                 return xm;
                 
@@ -771,6 +771,7 @@ FROM(
             }
         }
         #endregion
+        
         #region 病人费用实时计算
         public void Updatezy_brxxexpand(string OrganizeId, string zyh)
         {
@@ -789,6 +790,7 @@ FROM(
 
         }
         #endregion
+        
         #region 生成项目费用
         /// <summary>
         /// 同步最新CPOE项目费用
@@ -819,6 +821,7 @@ FROM(
             }
         }
         #endregion
+        
         #region 执行医嘱查询
         /// <summary>
         /// 获取执行全部医嘱ALLYZ
@@ -841,7 +844,7 @@ FROM(
                 string sql = "";
                 if (zxlx != Convert.ToInt32(EnumYzxz.Ls))
                 {
-                    sql += @"SELECT a.Id yzid,ISNULL(c.dj,0) dj,@cqyzxx yzxz,yzlx yzlx, a.xmmc ypmc, hzxm patientName,a.zyh zyh,a.zxsj zxsj,case (ISNULL(isjf,1)) when '0' then '否' else '是' end isjf
+                    sql += @"SELECT a.Id yzid,ISNULL(c.dj,0) dj,sl,@cqyzxx yzxz,yzlx yzlx,deptCode,a.xmdm, a.xmmc ypmc, hzxm patientName,a.zyh zyh,a.zxsj zxsj,case (ISNULL(isjf,1)) when '0' then '否' else '是' end isjf
 FROM dbo.zy_cqyz a
 LEFT JOIN [NewtouchHIS_Base].[dbo].[V_S_xt_sfxm]c  ON c.sfxmmc=a.xmmc AND c.sfxmCode=a.xmdm  AND c.OrganizeId=a.OrganizeId and c.zt='1'
 Where a.yzzt in (1,2) AND a.yzlx !=3 " + strkfwhere + @"
@@ -853,7 +856,7 @@ AND  Convert(DATE,kssj)< =Convert(DATE,@zxrq) AND (Convert(DATE,tzsj) IS NULL OR
                 }
                 if (zxlx != Convert.ToInt32(EnumYzxz.Cq))
                 {
-                    sql += @"SELECT a.Id yzid,ISNULL(c.dj,0) dj,@lsyzxx  yzxz,yzlx yzlx,a.xmmc ypmc, hzxm patientName,a.zyh zyh,a.zxsj zxsj,case (ISNULL(isjf,1)) when '0' then '否' else '是' end isjf FROM dbo.zy_lsyz a
+                    sql += @"SELECT a.Id yzid,ISNULL(c.dj,0) dj,sl,@lsyzxx  yzxz,yzlx yzlx,deptCode,a.xmdm,a.xmmc ypmc, hzxm patientName,a.zyh zyh,a.zxsj zxsj,case (ISNULL(isjf,1)) when '0' then '否' else '是' end isjf FROM dbo.zy_lsyz a
 LEFT JOIN [NewtouchHIS_Base].[dbo].[V_S_xt_sfxm]c  ON c.sfxmmc=a.xmmc AND c.sfxmCode=a.xmdm  AND c.OrganizeId=a.OrganizeId and c.zt='1'
 Where a.yzzt =1 AND a.yzlx !=3  " + strkfwhere + @"
 AND  Convert(DATE,kssj)< =Convert(DATE,@zxrq)  AND (Convert(DATE,zfsj) IS NULL OR Convert(DATE,zfsj)>=Convert(DATE,@zxrq))  AND (Convert(DATE,zxsj) IS NULL OR Convert(DATE,zxsj)<Convert(DATE,@zxrq)) and a.zt=1 and a.zyh in(select col from dbo.f_split(@zyh,',') where col>'')";
@@ -885,7 +888,7 @@ AND  Convert(DATE,kssj)< =Convert(DATE,@zxrq)  AND (Convert(DATE,zfsj) IS NULL O
             if (zxlx != Convert.ToInt32(EnumYzxz.Ls))
             {
                 sql.Append(@"
-SELECT a.Id yzid,ISNULL(c.dj,0) dj,@cqyzxx yzxz,yzlx yzlx, a.xmmc ypmc, hzxm patientName,a.zyh zyh,a.zxsj zxsj,case (ISNULL(isjf,1)) when '0' then '否' else '是' end isjf,Convert(varchar(50),yply) yply
+SELECT a.Id yzid,ISNULL(c.dj,0) dj,sl,@cqyzxx yzxz,yzlx yzlx,deptCode, a.xmdm,a.xmmc ypmc, hzxm patientName,a.zyh zyh,a.zxsj zxsj,case (ISNULL(isjf,1)) when '0' then '否' else '是' end isjf,Convert(varchar(50),yply) yply
 FROM dbo.zy_cqyz(nolock) a
 LEFT JOIN [NewtouchHIS_Base].[dbo].[V_S_xt_sfxm] c ON c.sfxmmc=a.xmmc AND c.sfxmCode=a.xmdm  AND c.OrganizeId=a.OrganizeId and c.zt='1'
 Where a.yzzt in (1,2)  and a.OrganizeId=@orgId
@@ -902,7 +905,7 @@ UNION ");
             if (zxlx != Convert.ToInt32(EnumYzxz.Cq))
             {
                 sql.Append(@"
-SELECT a.Id yzid,ISNULL(c.dj,0) dj,@lsyzxx  yzxz,yzlx yzlx,a.xmmc ypmc, hzxm patientName,a.zyh zyh,a.zxsj zxsj ,case (ISNULL(isjf,1)) when '0' then '否' else '是' end isjf,Convert(varchar(50),yply) yply
+SELECT a.Id yzid,ISNULL(c.dj,0) dj,sl,@lsyzxx  yzxz,yzlx yzlx,deptCode,a.xmdm,a.xmmc ypmc, hzxm patientName,a.zyh zyh,a.zxsj zxsj ,case (ISNULL(isjf,1)) when '0' then '否' else '是' end isjf,Convert(varchar(50),yply) yply
 FROM dbo.zy_lsyz(nolock) a
 LEFT JOIN [NewtouchHIS_Base].[dbo].[V_S_xt_sfxm] c ON c.sfxmmc=a.xmmc AND c.sfxmCode=a.xmdm AND c.OrganizeId=a.OrganizeId and c.zt='1'
 Where a.yzzt =1  and a.OrganizeId=@orgId
@@ -976,20 +979,27 @@ and a.zyh in (select col from dbo.f_split(@zyh,',') where col>'')");
         /// <param name="OrderList">Tzxsj,yzid,zyh,yzlx,ypmc</param>
         /// <param name="Vzxsj"></param>
         /// <returns></returns>
-        public string IsOKOrderExecution(IList<ApiResponseVO> OrderList, DateTime Vzxsj,string user=null)
+        public string IsOKOrderExecution(IList<ApiResponseVO> OrderList, DateTime Vzxsj, string orgId, string user =null)
         {
             try
             {
                 if (OrderList.Count > 0)
                 {
-                    string yzidstr = "";
-                    if (OrderList != null && OrderList.Count > 0)
-                    {
-                        var yzArr = OrderList.Select(p => p.yzid).ToArray();
-                        yzidstr = string.Join("','", yzArr);
+                    string yzidstr = string.Join("','", OrderList.Select(p => p.yzid).ToArray());
+                    //耗材物资库存验证
+                    List<ApiResponseVO> hclist = OrderList.Where(m =>!string.IsNullOrWhiteSpace(m.xmdm)&& m.xmdm.Contains("wz")).ToList();
+                    List<HospItemFeeVO> kcxx = new List<HospItemFeeVO>(); 
+                    if (hclist.Count>0) {
+                        kcxx= Verification(string.Join(",", hclist.Select(p => p.xmdm).Distinct()), orgId, string.Join(",", hclist.Select(p => p.deptCode).Distinct()));
+                        var hcEx = hclist.GroupBy(p=>new { p.xmdm,p.ypmc}).Select(m=> new HospItemFeeVO { productCode=m.Key.xmdm, productName = m.Key.ypmc, kykc=m.Sum(p=>p.sl) }).ToList();
+                        foreach (var i in hcEx) {
+                            var resultNum = kcxx.Where(p => p.productCode == i.productCode && p.kykc >= i.kykc).Count();
+                            if (resultNum == 0)
+                                return "F|耗材为：" + i.productName + " 库存不足！";
+                        }
                     }
                     string sql = @"select yzxh yzid	from zy_fymxk  with(nolock)
-where yzxh in('"+ yzidstr + "')  and zt='1' and zxrq>=@zxrqday and zxrq<@zxrqaddday ";
+                           where yzxh in('"+ yzidstr + "')  and zt='1' and zxrq>=@zxrqday and zxrq<@zxrqaddday ";
                     var ck = FindList<ApiResponseVO>(sql, new SqlParameter[] {
                         new SqlParameter("zxrqday",Convert.ToDateTime(Vzxsj.ToShortDateString())),
                         new SqlParameter("zxrqaddday",Convert.ToDateTime(Vzxsj.AddDays(1).ToShortDateString()))
@@ -1037,61 +1047,34 @@ where yzxh in('"+ yzidstr + "')  and zt='1' and zxrq>=@zxrqday and zxrq<@zxrqadd
             }
 
         }
+
+        /// <summary>
+        /// 物资耗材库存验证
+        /// </summary>
+        /// <param name="xmCodes"></param>
+        /// <param name="orgId"></param>
+        /// <param name="ks"></param>
+        /// <returns></returns>
+        public List<HospItemFeeVO> Verification(string xmCodes, string orgId, string ks)
+        {
+            const string sql = @" select productCode,SUM(kcsl-djsl) kykc from Newtouch_CIS..Dept_kcxx with(nolock)
+where OrganizeId=@orgId and zt='1' and ks in (select col from f_split(@ks,','))
+and productCode in (select col from f_split(@sfxmCode,','))
+group by productCode";
+            return this.FindList<HospItemFeeVO>(sql, new[] { new SqlParameter("@sfxmCode", xmCodes)
+                                , new SqlParameter("@orgId", orgId), new SqlParameter("@ks", ks) });
+        }
         #endregion
 
         #region 消息提醒
-        public IList<SysMSGQueryVO> MSGQuery(string gh,string orgId,string ksname)
+        public IList<SysMSGQueryVO> MSGQuery(string gh,string orgId)
         {
-            try
-            {
-                var sql = string.Format(@"select a.msgtypecode,msgcontent,a.patno,a.ywlsh,b.name ks,c.bqmc bq ,d.shzs,d.zxzs,qx.code 
- from [NewtouchHIS_Base].[dbo].[dic_msg_queue] a with(nolock) 
-left join [NewtouchHIS_Base].[dbo].[Sys_Department] b with(nolock) 
-on a.ks=b.code and a.OrganizeId=b.OrganizeId and b.zt='1' 
-left join [NewtouchHIS_Base].[dbo].[xt_bq] c with(nolock) 
-on a.bq=c.bqcode and a.OrganizeId=c.OrganizeId and c.zt='1' 
-left join (select count(case when msgtypecode='1' and msgstu='0' then 1 else null end) as shzs,  
-count(case when msgtypecode='2' and msgstu='0' then 1 else null end) as zxzs,OrganizeId 
-from [NewtouchHIS_Base].[dbo].[dic_msg_queue] 
-where zt='1' and msgstu='0' and OrganizeId=@orgId  
-and (ks=@ksname or isnull(@ksname,'')='')
-group by OrganizeId 
-) d 
-on  d.OrganizeId=a.OrganizeId 
-left join (select x.code,z.ywlsh from ( 
- select SUBSTRING(a.dutylimit,number,CHARINDEX(',',a.dutylimit+',',number)-number) as code,a.ywlsh  
-  from [NewtouchHIS_Base].[dbo].[dic_msg_queue]  a  with(nolock) ,master..spt_values  with(nolock)  
-  where type='p' 
-   and SUBSTRING(','+a.dutylimit,number,1)=',' 
-group by a.dutylimit,number,ywlsh) z 
-left join (select c.code,c.name from [NewtouchHIS_Base].[dbo].[Sys_Staff] a 
-left join [NewtouchHIS_Base].[dbo].[Sys_StaffDuty] b 
-on a.id=b.staffid  and b.zt='1' 
-left join [NewtouchHIS_Base].[dbo].[Sys_Duty] c  
-on b.dutyid=c.id  and c.zt='1' 
- where a.gh=@gh and a.OrganizeId=@orgId )x 
- on z.code=x.code where x.code is not null) qx 
- on qx.ywlsh=a.ywlsh 
-where a.OrganizeId=@orgId  
-and a.zt='1' and a.msgstu='0'  and qx.code is not null 
-and (a.ks=@ksname or isnull(@ksname,'')='')
---group by a.msgtypecode,msgcontent,a.patno,a.ywlsh,b.name,c.bqmc,a.CreateTime 
-order by a.CreateTime desc ");
-                return FindList<SysMSGQueryVO>(sql, new SqlParameter[] {
+            var sql = string.Format(@" exec [Newtouch_CIS].[dbo].[MessageQuery] @gh=@gh,@orgId=@orgId ");
+            return FindList<SysMSGQueryVO>(sql, new SqlParameter[] {
                  new SqlParameter("@gh",gh),
-                        new SqlParameter("@orgId",orgId),
-                        new SqlParameter("@ksname",ksname),
+                        new SqlParameter("@orgId",orgId)
                     });
-            }
-            catch (Exception ex)
-            {
-
-                throw new FailedException("查询失败" + ex.Message);
-            }
-            
         }
-
-
         #endregion
 
         #region pace接口
@@ -1192,43 +1175,40 @@ left join [Newtouch_CIS]..jyjc_zt g on g.ztid=b.ztId and b.OrganizeId=g.Organize
             StringBuilder zysqlstr = new StringBuilder();
             var parm = new List<SqlParameter> { };
             mzsqlstr.Append(@" select CONVERT(varchar(50),NEWID()) Id, '门诊' hzlx,jzxx.mzh mzzyh,jzxx.xm hzxm,jzxx.zjh,a.cflx,
-        case a.cflx when '4' then '检验' when '5' then '检查' end cflxstr,a.cfh sqdh,'' sqdlx,a.CreateTime kdrq,
+        case a.cflx when '4' then '检验' when '5' then '检查' end cflxstr,a.cfh sqdh,mb.mbmc sqdlx,a.CreateTime kdrq,
         a.ys shr,a.ys kdys,d.Name kdysmc,b.ztId,b.ztmc,'' gg,
-		'项' dw, convert(int,(sum(b.dj * b.sl) / sum(ztmx.dj * ztmx.sl))) sl,sum(CONVERT(decimal(12,2),ztmx.dj * ztmx.sl)) dj,
-		sum(CONVERT(decimal(12,2),ztmx.dj * ztmx.sl)) je,a.cfh,e.Code kdks,e.Name kdksmc,d.Name jzr,c.Code zxks ,c.Name zxksmc,
+		'项' dw, 1 sl,sum(CONVERT(decimal(12,2),b.dj * b.sl)) dj,
+		sum(CONVERT(decimal(12,2),b.dj * b.sl)) je,a.cfh,e.Code kdks,e.Name kdksmc,d.Name jzr,c.Code zxks ,c.Name zxksmc,
         staff.Name zxr,zxzt.zxrq
 from [Newtouch_CIS]..xt_cf a with(nolock)
+left join [Newtouch_CIS]..xt_cfmx b with(nolock) on a.cfid=b.cfid and a.organizeid=b.organizeid 
 join [Newtouch_CIS]..xt_jz jzxx  with(nolock) on jzxx.jzId=a.jzId and jzxx.OrganizeId=a.OrganizeId
-left join [Newtouch_CIS]..xt_cfmx b with(nolock) on a.cfid=b.cfid and a.organizeid=b.organizeid  
+left join jyjc_mb mb on mb.mbId=b.ztmbId and mb.OrganizeId=a.OrganizeId 
 left join NewtouchHIS_Base.dbo.V_S_Sys_Department c on b.zxks=c.Code and b.organizeid=c.organizeid
 left join [NewtouchHIS_Base].[dbo].[V_S_Sys_Staff] d on a.ys=d.gh and a.organizeid =d.organizeid
 left join NewtouchHIS_Base.dbo.V_S_Sys_Department e on a.ks=e.Code and a.organizeid=e.organizeid
-left join Newtouch_CIS.dbo.jyjc_ztxm ztmx on b.ztId = ztmx.ztId and b.xmCode = ztmx.sfxmCode and ztmx.OrganizeId = a.OrganizeId and ztmx.zt = '1'
-left join Newtouch_CIS..xt_jyjcexec zxzt with(nolock) on zxzt.sqdh=a.cfh and zxzt.OrganizeId=a.OrganizeId and zxzt.zt=1
+left join Newtouch_CIS..xt_jyjcexec zxzt with(nolock) on zxzt.sqdh=a.cfh and b.ztId=zxzt.ztId and zxzt.OrganizeId=a.OrganizeId and zxzt.zt=1
 left join [NewtouchHIS_Base].[dbo].[V_S_Sys_Staff] staff on zxzt.zxr=staff.gh and zxzt.organizeid =staff.organizeid
 where a.zt=1 and b.zt=1 and a.organizeid=@orgId
     and a.CreateTime>=@kssj and a.CreateTime<=@jssj ");
            
             zysqlstr.Append(@"SELECT  CONVERT(varchar(50),NEWID()) Id,
 	  '住院' hzlx,a.zyh mzzyh,hzxm,zyxx.sfzh zjh,a.yzlx cflx,case a.yzlx when '6' then '检验' when '7' then '检查' end cflxstr,
-        a.sqdh,'' sqdlx, kssj kdrq,a.shr,a.ysgh kdys,kdry.Name kdysmc,a.ztId,a.ztmc,'' gg,
+        a.yzh sqdh,mb.mbmc sqdlx, kssj kdrq,a.shr,a.ysgh kdys,kdry.Name kdysmc,a.ztId,a.ztmc,'' gg,
 	   '项' dw,1 sl, SUM(CONVERT(decimal(12,2),c.dj*a.sl)) dj,SUM(CONVERT(decimal(12,2),c.dj*a.sl)) je,yzh cfh
-         ,jzks.code kdks,jzks.Name kdksmc,staff.Name jzr,zxks.Code,zxks.Name,staff1.Name zxr,zxzt.zxrq
+         ,jzks.code kdks,jzks.Name kdksmc,staff.Name jzr,zxks.Code zxks,zxks.Name zxksmc,staff1.Name zxr,zxzt.zxrq
 	from [dbo].[zy_lsyz] a  with(nolock)
 	LEFT JOIN zy_brxxk zyxx with(nolock) ON zyxx.zyh=a.zyh and zyxx.OrganizeId=a.OrganizeId and zyxx.zt=1
 	LEFT JOIN [NewtouchHIS_Base].[dbo].[V_S_xt_sfxm]c with(nolock) 
 		ON c.sfxmmc=a.xmmc AND c.sfxmCode=a.xmdm AND c.OrganizeId=a.OrganizeId and c.zt='1'
-	LEFT JOIN [NewtouchHIS_Base].[dbo].[V_C_Sys_UserStaff] b with(nolock) 
-		ON a.CreatorCode=b.Account and a.OrganizeId=b.OrganizeId	  
-	LEFT JOIN [NewtouchHIS_Base].[dbo].[xt_ypyf] ypyf on a.ypyfdm = ypyf.yfCode 
-	LEFT JOIN [NewtouchHIS_Base].[dbo].[xt_yzpc] yzpc on a.pcCode = yzpc.yzpcCode
+    LEFT JOIN jyjc_mb mb on mb.mbId=a.ztmbId and mb.OrganizeId=a.OrganizeId 
     LEFT JOIN NewtouchHIS_Base.dbo.V_S_Sys_Department jzks on a.DeptCode=jzks.Code and a.organizeid=jzks.organizeid
 	LEFT JOIN NewtouchHIS_Base.dbo.V_S_Sys_Department zxks on a.zxksdm=zxks.Code and a.organizeid=zxks.organizeid
     LEFT JOIN [NewtouchHIS_Base].[dbo].[V_S_Sys_Staff] kdry on kdry.gh=a.ysgh and kdry.organizeid =a.organizeid
 	LEFT JOIN [NewtouchHIS_Base].[dbo].[V_S_Sys_Staff] staff on a.ysgh=staff.gh and a.organizeid =staff.organizeid
-    LEFT JOIN Newtouch_CIS..xt_jyjcexec zxzt with(nolock) on zxzt.sqdh=a.sqdh and zxzt.ztId=zxzt.ztId and zxzt.OrganizeId=zxzt.OrganizeId and zxzt.zt=1
+    LEFT JOIN Newtouch_CIS..xt_jyjcexec zxzt with(nolock) on zxzt.sqdh=a.yzh and zxzt.ztId=a.ztId and zxzt.OrganizeId=a.OrganizeId and zxzt.zt=1
     LEFT JOIN [NewtouchHIS_Base].[dbo].[V_S_Sys_Staff] staff1 on staff1.gh=zxzt.zxr and staff1.OrganizeId=zxzt.OrganizeId	
-    where  a.zt=1 AND  a.yzzt =1 AND  a.OrganizeId=@orgId 
+    where  a.zt=1 AND  a.OrganizeId=@orgId AND a.yzzt =2  AND  isjf=0 
 	AND a.kssj>=@kssj and a.kssj<=@jssj ");
             if (fylx != "qb")
             {
@@ -1244,37 +1224,37 @@ where a.zt=1 and b.zt=1 and a.organizeid=@orgId
 
                 zysqlstr.AppendLine("  and a.yzlx in('6','7') ");
             }
+            if (sqdlx != "qb")
+            {
+                mzsqlstr.Append(" and mb.mbId=@sqdlx");
+                parm.Add(new SqlParameter("@sqdlx", sqdlx));
+
+                zysqlstr.AppendLine(" and mb.mbId=@sqdlx1");
+                parm.Add(new SqlParameter("@sqdlx1", sqdlx));
+            }
             if (!string.IsNullOrWhiteSpace(keyword))
             {
                 mzsqlstr.Append(@" and (jzxx.xm like @keyword or jzxx.mzh like @keyword or jzxx.zjh like @keyword
                                     or a.cfh like @keyword )");
                 zysqlstr.AppendLine(@" and (zyxx.xm like @keyword or a.zyh like @keyword or zyxx.sfzh like @keyword
-                                    or a.sqdh like @keyword )");
+                                    or a.yzh like @keyword )");
             }
             if (zxzt == ((int)Enumzxzt.wzx).ToString())
             {
                 mzsqlstr.Append(@" and zxzt.zxr is null ");
                 zysqlstr.Append(@" and zxzt.zxr is null ");
-                //mzsqlstr.Append(@" and not exists(select 1 from Newtouch_CIS.dbo.xt_jyjcexec zxzt with(nolock) 
-                //            where a.cfh=zxzt.sqdh ) ");
-                //zysqlstr.Append(@" and not exists(select 1 from Newtouch_CIS.dbo.xt_jyjcexec zxzt with(nolock) 
-                //        where a.sqdh=zxzt.sqdh ) ");
             }
             else {
-                mzsqlstr.Append(@" and zxzt.zxzt='1' ");
-                zysqlstr.Append(@" and zxzt.zxzt='1' ");
-                //mzsqlstr.Append(@" and  exists(select 1 from Newtouch_CIS.dbo.xt_jyjcexec zxzt with(nolock) 
-                //            where a.cfh=zxzt.sqdh and zxzt.zxzt=1) ");
-                //zysqlstr.Append(@" and  exists(select 1 from Newtouch_CIS.dbo.xt_jyjcexec zxzt with(nolock) 
-                //        where a.sqdh=zxzt.sqdh and zxzt.zxzt=1 ) ");
+                mzsqlstr.Append(@" and zxzt.zt='1' ");
+                zysqlstr.Append(@" and zxzt.zt='1' ");
             }
             mzsqlstr.Append(@" group by 
-                        jzxx.mzh,jzxx.xm,jzxx.zjh,a.sqdh,b.ztid,a.cflx,a.cfh,a.createtime,b.ztmc,c.Code,c.name,
-                        d.name,d.gh,e.Code,e.Name,staff.Name,zxzt.zxrq,a.ys");
+                        jzxx.mzh,jzxx.xm,jzxx.zjh,b.ztid,a.cflx,a.cfh,a.createtime,b.ztmc,c.Code,c.name,
+                        d.name,d.gh,e.Code,e.Name,staff.Name,zxzt.zxrq,a.ys,mb.mbmc");
 
             zysqlstr.Append(@" GROUP BY
-		                a.zyh,hzxm,zyxx.sfzh,a.yzlx,a.sqdh, kssj,a.shr,a.ysgh,kdry.Name,a.ztId,a.ztmc,yzh,jzks.Code,jzks.Name,
-                        staff.Name,zxks.Code,zxks.Name,staff1.Name,zxzt.zxrq");
+		                a.zyh,hzxm,zyxx.sfzh,a.yzlx,a.yzh, kssj,a.shr,a.ysgh,kdry.Name,a.ztId,a.ztmc,yzh,jzks.Code,jzks.Name,
+                        staff.Name,zxks.Code,zxks.Name,staff1.Name,zxzt.zxrq,mbmc");
             if(!string.IsNullOrWhiteSpace(keyword))
                 parm.Add(new SqlParameter("@keyword", '%' + keyword.Trim() + '%'));
             parm.Add(new SqlParameter("@orgId", orgId));
@@ -1296,7 +1276,7 @@ where a.zt=1 and b.zt=1 and a.organizeid=@orgId
         {
             StringBuilder sqlstr = new StringBuilder();
             var parm = new List<SqlParameter> { };
-            sqlstr.Append(@" select mzzyh,zxjl.xm hzxm,hzlx,case hzlx when 1 then xtjz.zjh when 2 then zyxx.sfzh  end zjh
+            sqlstr.Append(@" select zxjl.Id,mzzyh,zxjl.xm hzxm,hzlx,case hzlx when 1 then xtjz.zjh when 2 then zyxx.sfzh  end zjh
 	 ,fylx,sqdh,sqdlx,ztmc,gg, dw
 	 ,sl,je,jzr.Name jzr,kdrq ,klks.Name kdksmc,kdry.Name kdysmc ,zxry.Name zxr,zxrq,zxks.Name zxksmc
 from xt_jyjcexec zxjl with(nolock)
@@ -1307,12 +1287,17 @@ left join NewtouchHIS_Base.dbo.V_S_Sys_Department zxks on zxks.Code=zxjl.zxks an
 left join [NewtouchHIS_Base].[dbo].[V_S_Sys_Staff] jzr on jzr.gh=zxjl.shr and jzr.organizeid =zxjl.organizeid
 left join [NewtouchHIS_Base].[dbo].[V_S_Sys_Staff] zxry on zxry.gh=zxjl.zxr and zxry.organizeid =zxjl.organizeid
 left join [NewtouchHIS_Base].[dbo].[V_S_Sys_Staff] kdry on kdry.gh=zxjl.kdys and kdry.organizeid =zxjl.organizeid
-where zxjl.zt=1 and zxjl.zxzt='1' and zxjl.OrganizeId=@orgId and zxjl.zxrq>=@kssj and zxjl.zxrq<=@jssj
+where zxjl.zt=1  and zxjl.OrganizeId=@orgId and zxjl.zxrq>=@kssj and zxjl.zxrq<=@jssj
  ");
             if (hzlx!="qb")
             {
                 sqlstr.Append(" and zxjl.hzlx=@hzlx");
                 parm.Add(new SqlParameter("@hzlx", hzlx == "mz" ? "1" : "2"));
+            }
+            if (sqdlx != "qb")
+            {
+                sqlstr.Append(" and zxjl.sqdlx=@sqdlx");
+                parm.Add(new SqlParameter("@sqdlx", sqdlx));
             }
             if (fylx != "qb")
             {
@@ -1320,7 +1305,6 @@ where zxjl.zt=1 and zxjl.zxzt='1' and zxjl.OrganizeId=@orgId and zxjl.zxrq>=@kss
                 parm.Add(new SqlParameter("@mzcflx", fylx == "jy" ? "4" : "5"));
                 parm.Add(new SqlParameter("@zycflx", fylx == "jy" ? "6" : "7"));
             }
-
             if (!string.IsNullOrWhiteSpace(keyword))
             {
                 sqlstr.Append(@" and (zxjl.xm like @keyword or zxjl.mzzyh like @keyword or xtjz.zjh like @keyword
@@ -1335,9 +1319,6 @@ where zxjl.zt=1 and zxjl.zxzt='1' and zxjl.OrganizeId=@orgId and zxjl.zxrq>=@kss
             return QueryWithPage<JyjcExecVo>(sqlstr.ToString(), pagination, parm.ToArray());
         }
         #endregion
-        public void insertypjfb()
-        {
 
-        }
     }
 }

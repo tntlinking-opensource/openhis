@@ -22,6 +22,7 @@ namespace Newtouch.HIS.Domain.Entity.PharmacyDrugStorage
         /// 药品编号
         /// </summary>
         public string ypCode { get; set; }
+        public string ypName { get; set; }
         /// <summary>
         /// 顺序号
         /// </summary>
@@ -55,7 +56,7 @@ namespace Newtouch.HIS.Domain.Entity.PharmacyDrugStorage
         /// </summary>
         public decimal cgdj { get; set; }
         /// <summary>
-        /// 药企编码
+        /// 药企编码/供应商
         /// </summary>
         public string yqbm { get; set; }
         /// <summary>
@@ -95,6 +96,8 @@ namespace Newtouch.HIS.Domain.Entity.PharmacyDrugStorage
         /// 
         /// </summary>
         public string zt { get; set; }
+        public string py { get; set; }
+        public decimal? zje { get; set; }
     }
     
 }

@@ -165,6 +165,7 @@ namespace Newtouch.Herp.Domain.Entity.VEntity
         /// 核算类别
         /// </summary>
         public string hslb { get; set; }
+        public int? kcyjz { get; set; }
 	}
 
     /// <summary>

@@ -152,5 +152,11 @@ namespace Newtouch.HIS.Domain.IDomainServices
         /// <param name="mzh"></param>
         /// <param name="orgId"></param>
         CqybGjbmInfoVo GetYbjzdjVo(string mzh,string orgId);
+        /// <summary>
+        /// 获取医院行政区划代码来判断是否异地医保
+        /// </summary>
+        /// <param name="orgId"></param>
+        /// <returns></returns>
+        string GetOrgXzqh(string orgId);
     }
 }

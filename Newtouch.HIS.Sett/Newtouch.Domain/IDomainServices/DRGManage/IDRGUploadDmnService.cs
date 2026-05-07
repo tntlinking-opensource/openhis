@@ -1,4 +1,4 @@
-using Newtouch.Core.Common;
+﻿using Newtouch.Core.Common;
 using Newtouch.HIS.Domain.DTO.OutputDto.DRGManage;
 using System;
 using System.Collections.Generic;

@@ -796,7 +796,7 @@ SELECT TOP 1000 x.ypId, x.zxdw,x.ypCode,x.ypmc,x.spm,x.py,x.bzdw,x.mzcls,x.mzcld
 x.djdw,Convert(decimal(18,4),x.lsj) lsj,Convert(decimal(18,4),x.pfj) pfj,x.zfbl,x.zfxz,x.dlCode,x.ycmc,x.zt,0 bgbz,x.ypbzdm,x.nbdl,x.mzzybz,x.CreateTime,d.pzwh,
 d.yptssx,d.ypflCode,d.zlff,d.jzlx,d.mrbzq,d.sjap,d.zbbz,d.yl,d.yldw,d.zjtzsj,d.ghdw,d.ypcd,d.ypgg,d.ybdm,d.xnhybdm,
 x.jx,x.jl,x.jldw,x.OrganizeId,x.bzs,x.CreatorCode, c.dlmc sfdlMc, e.jxmc jxmc, f.ypflmc ypflMc ,d.mrjl,d.mrpc,
-x.isKss,x.kssId,x.jybz,d.ybbz,x.bz,d.gjybdm,x.tsypbz,d.gjybmc,d.dcxl,d.mbxl,d.mryf,g.yfmc mryfmc,d.ybgg ybgg
+x.isKss,x.kssId,x.jybz,d.ybbz,x.bz,d.gjybdm,x.tsypbz,d.gjybmc,d.dcxl,d.mbxl,d.mryf,g.yfmc mryfmc,d.ybgg ybgg,kcyjz
 FROM xt_yp(NOLOCK) x  
 LEFT JOIN xt_ypsx(NOLOCK) d on x.ypId=d.ypId 
 LEFT JOIN xt_sfdl(NOLOCK) c ON x.dlCode = c.dlCode and c.OrganizeId = x.OrganizeId
@@ -903,29 +903,26 @@ AND x.OrganizeId=@OrganizeId
             }
             else
             {
-                model.ypId = 0;
                 //新增
-                var ypEntity = new SysMedicineEntity();
-                var ypsxEntity = new SysMedicinePropertyEntity();
                 if (model.OrganizeId.Equals("*"))
                 {
+	                model.ypId = _sysMedicineBaseRepository.GetBaseLastYpId() + 1;
+	                var ypEntity = new SysMedicineBaseEntity();
+	                var ypsxEntity = new SysMedicinePropertyBaseEntity();
 	                //在系统基础库插入插入药品
-	                UpdateEnityProperties(ypEntity, ypsxEntity, model);
-	                ypEntity.Create();
-	                var yp = Json.ToJson(ypEntity);
-	                var sysMedicineBaseEntity = yp.ToObject<SysMedicineBaseEntity>();
-	                var entity = sysMedicineBaseEntity.Clone();
-
-	                 _sysMedicineBaseRepository.Insert(entity);
+	                UpdateEnityBaseProperties(ypEntity, ypsxEntity, model);
+	                ypEntity.Create(); ;
+	                 _sysMedicineBaseRepository.Insert(ypEntity);
 	                //插入药品属性
-	                ypsxEntity.ypId = entity.ypId;
+	                ypsxEntity.ypId = ypEntity.ypId;
 	                ypsxEntity.Create();
-	                var ypsx = Json.ToJson(ypsxEntity);
-	                _sysMedicinePropertyBaseRepo.Insert(ypsx.ToObject<SysMedicinePropertyBaseEntity>());
-	                
+	                _sysMedicinePropertyBaseRepo.Insert(ypsxEntity);
                 }
                 else
                 {
+	                model.ypId = 0;
+	                var ypEntity = new SysMedicineEntity();
+	                var ypsxEntity = new SysMedicinePropertyEntity();
 	                //插入药品
 	                UpdateEnityProperties(ypEntity, ypsxEntity, model);
 	                ypEntity.Create();
@@ -1068,10 +1065,107 @@ AND x.OrganizeId=@OrganizeId
             modelypsx.mbxl = model.mbxl;
             modelypsx.mryf = model.mryf;
             modelypsx.ybgg = model.ybgg;
+            modelypsx.kcyjz = model.kcyjz;
             //modelypsx.zt = model.zt;
 
             #endregion
         }
+        
+         public void UpdateEnityBaseProperties(SysMedicineBaseEntity modelyp, SysMedicinePropertyBaseEntity modelypsx, SysMedicineVO model)
+        {
+            #region 药品信息表值
+            modelyp.bzdw = model.bzdw;
+            modelyp.bzs = model.bzs;
+            modelyp.cfdw = "";//默认
+            modelyp.cfl = decimal.Parse("0.0000");
+            //modelyp.cldw = model.cldw;
+            //modelyp.cls = model.cls;
+            modelyp.djdw = model.djdw;
+            modelyp.dlCode = model.dlCode;
+            modelyp.jl = model.jl;
+            modelyp.jldw = model.jldw; ;
+            modelyp.jx = model.jx;//( or liek ) and bgbz='0' and zt='1' 根据代码/姓名/首拼获取剂型信息获得
+            modelyp.lsj = model.lsj;
+            modelyp.medextid = 0;//默认
+            modelyp.medid = 0;//默认
+            modelyp.mzcldw = model.mzcldw;
+            modelyp.mzcls = model.mzcls;
+            modelyp.mzzybz = "1";//门诊住院标志默认1
+            modelyp.nbdl = model.nbdl;
+            modelyp.pfj = model.pfj;
+            modelyp.px = model.px;
+            modelyp.py = model.py;
+            modelyp.spm = model.spm;
+            modelyp.OrganizeId = model.OrganizeId;    //组织机构Id
+            modelyp.ycmc = model.ycmc;
+            modelyp.ypbzdm = model.ypbzdm;//药品包装代码默认3
+            modelyp.bz = model.bz;
+            modelyp.cxjje = model.cxjje;//超限价金额
+            modelyp.ypId = model.ypId;
+            modelyp.ypCode = model.ypCode;
+            modelyp.ypmc = model.ypmc;
+            modelyp.yphz = "";//默认
+            modelyp.ypqz = "";//默认
+            modelyp.zfbl = model.zfbl;
+            modelyp.zfxz = model.zfxz;
+            modelyp.zt = model.zt;
+            modelyp.zycldw = model.zycldw;
+            modelyp.zycls = model.zycls;
+            modelyp.zxdw = model.zxdw;
+            modelyp.isKss = model.isKss;
+            modelyp.kssId = model.kssId;
+            modelyp.jybz = model.jybz;
+			modelyp.tsypbz = model.tsypbz;
+			#endregion
+
+			#region 药品SX值
+			modelypsx.OrganizeId = model.OrganizeId;    //组织机构Id
+            modelypsx.dczdjl = model.dczdjl;
+            modelypsx.dczdsl = model.dczdsl;
+            modelypsx.ghdw = model.ghdw;
+            modelypsx.gzy = model.gzy;
+            modelypsx.jsbz = model.jsbz;
+            modelypsx.jzlx = model.jzlx;
+            modelypsx.ljzdjl = model.ljzdjl;
+            modelypsx.ljzdsl = model.ljzdsl;
+            modelypsx.mrbzq = model.mrbzq;
+            modelypsx.mzy = model.mzy;
+            //modelypsx.px = model.px;
+            modelypsx.pzwh = model.pzwh;
+            modelypsx.shbz = model.shbz;
+            modelypsx.sjap = model.sjap;
+            modelypsx.syts = model.syts;
+            modelypsx.tsbz = model.tsbz;
+            modelypsx.xglx = model.xglx;
+            modelypsx.ybdm = model.ybdm;
+            modelypsx.xnhybdm = model.xnhybdm;
+            modelypsx.yl = model.yl;
+            modelypsx.yldw = model.yldw;
+            modelypsx.yljsy = model.yljsy;
+            modelypsx.ypcd = model.ypcd;
+            modelypsx.ypCode = model.ypCode;
+            modelypsx.ypflCode = model.ypflCode;
+            modelypsx.ypgg = model.ypgg;
+            modelypsx.ypId = model.ypId;
+            modelypsx.yptssx = model.yptssx;
+            modelypsx.zbbz = model.zbbz;
+            modelypsx.zjtzsj = model.zjtzsj;
+            modelypsx.zlff = model.zlff;
+            modelypsx.mrjl = model.mrjl;
+            modelypsx.mrpc = model.mrpc;
+            modelypsx.ybbz = model.ybbz;
+            modelypsx.gjybdm = model.gjybdm;
+            modelypsx.gjybmc = model.gjybmc;
+            modelypsx.dcxl = model.dcxl;
+            modelypsx.mbxl = model.mbxl;
+            modelypsx.mryf = model.mryf;
+            modelypsx.ybgg = model.ybgg;
+            //modelypsx.zt = model.zt;
+
+            #endregion
+        }
+        
+        
 
 		#endregion
 
@@ -1200,6 +1294,7 @@ AND x.OrganizeId=@OrganizeId
             modelypsx.mbxl = model.mbxl;
             modelypsx.mryf = model.mryf;
             modelypsx.ybgg = model.ybgg;
+            modelypsx.kcyjz = model.kcyjz;
             //modelypsx.zt = model.zt;
 
             #endregion

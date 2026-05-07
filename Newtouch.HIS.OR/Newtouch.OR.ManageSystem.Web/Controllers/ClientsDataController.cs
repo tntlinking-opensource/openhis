@@ -40,7 +40,7 @@ namespace Newtouch.OR.ManageSystem.Web.Controllers
         [HandlerAjaxOnly]
         public ActionResult GetClientsDataJson()
         {
-            var _OperationsList = _syCommonDmnService.GetOperations("", OrganizeId);
+            var _OperationsList = _syCommonDmnService.GetOperations("", OrganizeId??"1");
             RedisHelper.Set(string.Format(CacheKey.OperationDic,OrganizeId), _OperationsList);
             var data = new
             {
@@ -59,7 +59,7 @@ namespace Newtouch.OR.ManageSystem.Web.Controllers
         {
             var opr = OperatorProvider.GetCurrent();
             object sysStaffDutyList = null, doctorInHosBookkeep = null;
-            doctorInHosBookkeep = _sysUserDmnService.GetStaffByDutyCode(opr.OrganizeId, "Doctor");//住院记账获取门诊医生
+            doctorInHosBookkeep = _sysUserDmnService.GetStaffByDutyCode(opr.OrganizeId??"1", "Doctor");//住院记账获取门诊医生
             var data = new
             {
                 itemDetails = this.GetItemDetailsList(),

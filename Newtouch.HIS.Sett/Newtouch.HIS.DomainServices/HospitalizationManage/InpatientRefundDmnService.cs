@@ -20,34 +20,41 @@ namespace Newtouch.HIS.DomainServices.HospitalizationManage
         /// </summary>
         /// <param name="xmjfbEntitylist"></param>
         /// <param name="ypjfbEntitylist"></param>
-        public void SaveRefund(List<HospItemBillingEntity> xmjfbEntitylist, List<HospDrugBillingEntity> ypjfbEntitylist, string zyh, string orgId)
+        public string SaveRefund(List<HospItemBillingEntity> xmjfbEntitylist, List<HospDrugBillingEntity> ypjfbEntitylist, string zyh, string orgId)
         {
-            using (var db = new EFDbTransaction(this._databaseFactory).BeginTrans())
-            {
-                if (xmjfbEntitylist != null && xmjfbEntitylist.Count > 0)
+            string result = "";
+            try {
+                using (var db = new EFDbTransaction(this._databaseFactory).BeginTrans())
                 {
-                    foreach (var item in xmjfbEntitylist)
+                    if (xmjfbEntitylist != null && xmjfbEntitylist.Count > 0)
                     {
-                        var ktsl=ValidTfsl(orgId,zyh, item.cxzyjfbbh);
-                        if (ktsl>Convert.ToDecimal(0.00))
+                        foreach (var item in xmjfbEntitylist)
                         {
-                            db.Insert(item);
+                            var ktsl = ValidTfsl(orgId, zyh, item.cxzyjfbbh);
+                            if (ktsl > Convert.ToDecimal(0.00))
+                            {
+                                db.Insert(item);
+                            }
                         }
                     }
-                }
-                if (ypjfbEntitylist != null && ypjfbEntitylist.Count > 0)
-                {
-                    foreach (var item in ypjfbEntitylist)
+                    if (ypjfbEntitylist != null && ypjfbEntitylist.Count > 0)
                     {
-                        var ktsl = ValidTfsl(orgId, zyh, item.cxzyjfbbh);
-                        if (ktsl> Convert.ToDecimal(0.00))
+                        foreach (var item in ypjfbEntitylist)
                         {
-                            db.Insert(item);
+                            var ktsl = ValidTfsl(orgId, zyh, item.cxzyjfbbh);
+                            if (ktsl > Convert.ToDecimal(0.00))
+                            {
+                                db.Insert(item);
+                            }
                         }
                     }
+                    db.Commit();
                 }
-                db.Commit();
+            } catch (Exception e) {
+                result ="退费失败："+ e.Message;
+                throw;
             }
+            return result;
         }
         /// <summary>
         /// 验证可退数量

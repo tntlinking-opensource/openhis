@@ -62,7 +62,8 @@
                                 data: { idList: idlist },
                                 type: "POST",
                                 loadingtext: "模板引用中，请稍后...",
-                                 success: function (resp) {
+                                success: function (resp) {
+                                    debugger
                                     $.modalClose("TemplatePresForm");
                                     if (resp && resp.length > 0) {
                                         var getActionStr, grid;
@@ -90,6 +91,10 @@
                                         if (pageFlag == '@Html.Raw(((int)EnumYzlx.ssyz).ToString())') {
                                             getActionStr = getSSActionStr();
                                             grid = "gridssyz";
+                                        }
+                                        if (pageFlag == '@Html.Raw(((int)EnumYzlx.yyhc).ToString())') {
+                                            getActionStr = getHActionStr();
+                                            grid = "gridyyhc";
                                         }
                                         var l = resp;
                                         for (var i = 0; i < l.length; i++) {

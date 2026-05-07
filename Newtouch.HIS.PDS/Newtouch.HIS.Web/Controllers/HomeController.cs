@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Newtouch.Common.Operator;
 using Newtouch.HIS.Domain.IDomainServices;
 using Newtouch.Infrastructure;
 using Newtouch.Tools;
 using System.Web.Mvc;
+using FrameworkBase.MultiOrg.Domain.IRepository;
 using Newtouch.Core.Common.Utils;
 using Newtouch.HIS.Application.Interface;
 using Newtouch.HIS.Domain.DO;
@@ -25,7 +27,7 @@ namespace Newtouch.HIS.Web.Controllers
         private readonly IPyDmnService _pyDmnService;
         private readonly IMedicineApp _medicineApp;
         private readonly IHomePageStatisticsApp _homePageStatisticsApp;
-
+        private readonly ISysConfigRepo _sysConfigRepo;
         /// <summary>
         /// Index
         /// </summary>
@@ -172,19 +174,44 @@ namespace Newtouch.HIS.Web.Controllers
             string kcyjz = SysConfigReader.String("GET_YFKCYG");//库存预警值
             int gqyjz = -SysConfigReader.Int("GET_YFGQYG");//过期预警值
             var retdata = _sysUserDmnService.MSGQuery(yfbm,this.OrganizeId, gqyjz, kcyjz);
-            int gqyjcount=0,kcyjcount=0;
+            int gqyjcount=0,kcyjcount=0,kcdryjcount=0;
 			if (retdata!=null)
 			{
                 kcyjcount=retdata.Where(p => p.typeas == "1").Count();
                 gqyjcount = retdata.Where(p => p.typeas == "2").Count();
+                kcdryjcount = retdata.Where(p => p.typeas == "3").Count();
             }
             var data =new {
                 rows = retdata,
                 kcyj = kcyjcount,
-                gqyj= gqyjcount
+                gqyj= gqyjcount,
+                drgqyj= kcdryjcount
             };
             return Content(data.ToJson());
 		}
         #endregion
+        
+        /**
+         * 同步系统配置参数
+         */
+        public ActionResult SyncSysConfigParams(string orgId)
+        {
+            //基础数据
+            var sysConfigBaseEntities = _sysConfigRepo.GetList("", "*").ToList();
+            //组织机构自带数据
+            var sysConfigEntities = _sysConfigRepo.GetList("", orgId).ToList();
+            //根据code 去重
+            var sysConfigCodes = new HashSet<string>(sysConfigEntities.Select(entity => entity.Code));
+            var filteredEntities = sysConfigBaseEntities
+                .Where(baseEntity => !sysConfigCodes.Contains(baseEntity.Code))
+                .ToList();
+            foreach (var item in filteredEntities)
+            {
+                item.Id = Guid.NewGuid().ToString();
+                item.OrganizeId = orgId;
+            }
+            var insert = _sysConfigRepo.Insert(filteredEntities);
+            return Success("",insert);
+        }
     }
 }

@@ -34,7 +34,7 @@ namespace Newtouch.DomainServices.Inpatient
         {
             string sql = @"select distinct b.zyh,b.xm hzxm,b.wardCode bqCode,c.bqmc,b.sex,b.ryrq, b.birth,cw.BedNo, 
 CONVERT(VARCHAR(25),CASE DATEDIFF(DAY, b.ryrq,GETDATE()) WHEN 0 THEN 1 else  DATEDIFF(DAY, b.ryrq,GETDATE())END ) inHosDays,
-CAST(FLOOR(DATEDIFF(DY, b.birth, GETDATE()) / 365.25) AS VARCHAR(5)) nl
+CAST(FLOOR(DATEDIFF(DY, b.birth, GETDATE()) / 365.25) AS VARCHAR(5)) nl,b.brxzmc
 from(select distinct zyh from zy_cqyz with(nolock)  where yzzt='2' and OrganizeId=@orgId  
                 union all
                 select distinct zyh from zy_lsyz with(nolock)  where yzzt='2' and OrganizeId=@orgId ) a 
@@ -283,6 +283,56 @@ group by zyh,hzxm,yzxz,clbz,yzh,zh,yznr,zxrq,shr,yzlx,ypyfdm,lyxh,shz,zxz,isjf,p
 ";
             
             return QueryWithPage<ExecReportReportRightVO>(sql, pagination, par.ToArray());
+        }
+
+        /// <summary>
+        /// 患者中心 left tree
+        /// </summary>
+        /// <param name="orgId"></param>
+        /// <param name="zyzt"></param>
+        /// <param name="keyword"></param>
+        /// <returns></returns>
+        public IList<InpWardPatTreeVO> GetPatCenterTree(string orgId, string zyzt, string keyword)
+        {
+            string sql = @"select  distinct ciszyxx.zyh,ciszyxx.xm hzxm,ciszyxx.wardCode bqCode,bq.bqmc,ciszyxx.sex,ciszyxx.ryrq, ciszyxx.birth,cw.cwmc BedNo, 
+CONVERT(VARCHAR(25),CASE DATEDIFF(DAY, ciszyxx.ryrq,GETDATE()) WHEN 0 THEN 1 else  DATEDIFF(DAY, ciszyxx.ryrq,GETDATE())END ) inHosDays,
+CAST(FLOOR(DATEDIFF(DY, ciszyxx.birth, GETDATE()) / 365.25) AS VARCHAR(5)) nl,ciszyxx.brxzmc,
+convert(varchar(50),isnull(ciszyxx.rqrq,getdate()),120) rqrq,convert(varchar(50),isnull(ciszyxx.cqrq,getdate()),120) cqrq
+from zy_brxxk ciszyxx with(nolock)
+left join [NewtouchHIS_Base].[dbo].[V_S_xt_bq] bq with(nolock) on bq.bqcode=ciszyxx.wardCode and bq.OrganizeId=ciszyxx.OrganizeId
+left join [NewtouchHIS_Base]..xt_cw cw with(nolock) on cw.cwCode=ciszyxx.BedCode and cw.OrganizeId=ciszyxx.OrganizeId and cw.zt='1'
+join NewtouchHIS_Sett..zy_brjbxx  zyxx with(nolock)  on zyxx.zyh=ciszyxx.zyh and zyxx.OrganizeId=ciszyxx.OrganizeId and zyxx.zt='1'
+where ciszyxx.OrganizeId=@orgId ";
+            var par = new List<SqlParameter>();
+            par.Add(new SqlParameter("@orgId", orgId));
+            if (!string.IsNullOrWhiteSpace(zyzt))
+            {
+                switch (zyzt)
+                {
+                    case "zy"://在院：不是已出院，不是作废记录，不是取消入院
+                        sql += " and zyxx.zybz not in (SELECT * FROM dbo.f_split(@zybz, ','))";
+                        par.Add(new SqlParameter("@zybz", (int)EnumZYBZ.Ycy + "," + (int)EnumZYBZ.Wry+","+ (int)EnumZYBZ.Djz));
+                        break;
+                    case "cq"://出区：出区未结算
+                        sql += " and zyxx.zybz = @zybz";
+                        par.Add(new SqlParameter("@zybz", (int)EnumZYBZ.Djz));
+                        break;
+                    case "cy"://出院：已出院状态
+                        sql += " and zyxx.zybz = @zybz";
+                        par.Add(new SqlParameter("@zybz", (int)EnumZYBZ.Ycy));
+                        break;
+                }
+            }
+            else
+            {
+                sql += " and zyxx.zybz<>'9'";
+            }
+            if (!string.IsNullOrWhiteSpace(keyword))
+            {
+                sql += " and (zyxx.zyh like @keyword or zyxx.xm like @keyword)";
+                par.Add(new SqlParameter("@keyword", keyword + "%"));
+            }
+            return this.FindList<InpWardPatTreeVO>(sql, par.ToArray());
         }
     }
 }

@@ -451,7 +451,7 @@ function brxzinit()
 }
 
 function submitForm(callback) {
-
+    debugger
     var result = checkNotNull();
     if (result) {
         var data = $("#form1").formSerialize();
@@ -517,7 +517,7 @@ function valiPatZjh()
         var $gridList = $("#patGridList");
         $gridList.jqGrid('setGridParam', {
             url: "/OutpatientManage/OutpatientAccounting/PatSearchInfo",
-            postData: { zjh: $("#zjh").val(), zjlx:'1'},
+            postData: { zjh: $("#zjh").val(),zjlx:'1' },
         }).trigger('reloadGrid');
     }
 }

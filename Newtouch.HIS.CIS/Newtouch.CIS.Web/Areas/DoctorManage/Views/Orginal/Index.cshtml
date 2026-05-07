@@ -84,7 +84,7 @@
                 },
 				{
 				    label: '<span class="required">*</span>执行科室', name: 'zxksmc', width: 180, editwidth: '100%', align: 'center', editable: true
-                }, 
+                },
                 {
                     label: '<span class="required">*</span>单价', name: 'dj', width: 80, editwidth: '100%', align: 'center', editable: true
                 },
@@ -301,7 +301,7 @@
         $("#" + rowid + "_ztnr").parent().next().children('select').append('<option value="1">是</option><option value="0">否</option>');
         $("#" + rowid + "_iszzffffff").parent().next().children('select').html('');
         $("#" + rowid + "_iszzffffff").parent().next().children('select').append('<option value="1">是</option><option value="0">否</option>');
-        
+
         var iszzfval = $("#" + rowid + "_iszzffffff").val();
         if (!!iszzfval) {
             $("#" + rowid + "_ztnr").parent().next().children('select').val(iszzfval).trigger("change");
@@ -325,7 +325,7 @@
                 searchType = "sfxm.dwjls";
                 sfdllx = "Rehab";
             }
-            
+
             //医嘱类别 浮动
             $("#" + rowid + "_yzlb").yzlbFloatingSelector({
                 isinputchangetriggered: false,
@@ -416,6 +416,7 @@
                 {
                     $("#" + rowid + "_ts").css('background-color', 'white').removeAttr('readonly');
                 }
+                debugger;
                 calitemsl(rowid);
                 CalculateRegularItemEachLineSlAndJe(rowid);   //计算 明细总量、明细金额和处方金额
             }
@@ -491,6 +492,7 @@
     }
 
     function calitemsl(rowid) {
+        debugger;
         //单位计量数/每次治疗量*频次
         var dwjls = $("#" + rowid + "_dwjls").val();
         var mczll = $("#" + rowid + "_ypjl").val();
@@ -541,7 +543,11 @@
     }
 
     function getItemsl(dwjls, mczll, zxcs, zxzq, zxzqdw) {
-        var qzint = Number(getpcsl(zxcs, zxzq, zxzqdw));
+        var qzint=1;
+        if(zxzq>1)
+            qzint = Number(Math.ceil(zxzq * getpcsl(zxcs, zxzq, zxzqdw)));
+        else
+            qzint = Number(getpcsl(zxcs, zxzq, zxzqdw));
         return qzint * Math.floor(mczll / dwjls);
     }
     //新医嘱 按钮
@@ -552,6 +558,7 @@
         //    return;
         //}
         if (patobjValidate()) {
+            debugger
             var dataRow = {
                 Id: Math.random().toString() + new Date().getMilliseconds(),
                 action: getIActionStr(),

@@ -52,7 +52,7 @@
         $gridList.dataGrid({
             url: "/SysMedicalOrderFrequency/GetGridJson",
             postData: getSearchPostData(),
-            height: 400,
+            height: $(window).height() - 125,
             colModel: [
             { label: "yzpcId", name: "yzpcId", width: 100, align: "left", hidden: true },
             { label: "编码", name: "yzpcCode", width: 100, align: "left" },
@@ -60,7 +60,16 @@
             { label: "名称说明", name: "yzpcmcsm", width: 100, align: "left" },
             { label: "执行次数", name: "zxcs", width: 100, align: "left" },
             { label: "执行周期", name: "zxzq", width: 100, align: "left" },
-            { label: "执行周期时间单位", name: "zxzqdw", width: 100, align: "left" },
+            {
+                label: "执行周期时间单位", name: "zxzqdw", width: 100, align: "left", formatter: function (cellvalue) {
+                    if (cellvalue == "1")
+                        return "天";
+                    else if (cellvalue == "2")
+                        return "小时";
+                    else if (cellvalue == "3")
+                        return "分钟";
+                }
+            },
             { label: "周标志", name: "zbz", width: 100, align: "left" },
             { label: "执行时间", name: "zxsj", width: 100, align: "left" },
             { label: "有效", name: "zt", width: 60, align: "center", formatter: function (cellvalue) { return cellvalue == "1" ? "<i class=\"fa fa-toggle-on\"></i>" : "<i class=\"fa fa-toggle-off\"></i>"; } },

@@ -74,7 +74,7 @@ namespace Newtouch.Herp.Application.Implementation
                 var curItem = cloneCgmx.FirstOrDefault();
                 if (curItem == null) break;
                 var subOrderNo = ReceiptNoManage.GetNewOrderNoV1();
-                var cgmxByGrooup = cloneCgmx.FindAll(p => p.productId == curItem.productId);
+                var cgmxByGrooup = cloneCgmx.FindAll(p => p.gysId == curItem.gysId);//cloneCgmx.FindAll(p => p.productId == curItem.productId);
                 Parallel.ForEach(cgmxByGrooup, p =>
                 {
                     var item = new CgOrderDetailEntity

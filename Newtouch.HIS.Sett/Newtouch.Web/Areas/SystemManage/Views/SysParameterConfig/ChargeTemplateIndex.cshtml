@@ -12,6 +12,15 @@
         <div class="btn-group">
             <a id="NF-edit" class="btn btn-primary" onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>修改</a>
         </div>
+        <div class="btn-group">
+            <a class="btn btn-primary" onclick="btn_delete()"><i class="fa fa-trash-o"></i>删除</a>
+        </div>
+        <div class="btn-group">
+            <select id="yxbz" style="height:25px">
+                <option value="1">有效</option>
+                <option value="0">无效</option>
+            </select>
+        </div>
     </div>
     <div class="search">
         <table>
@@ -39,7 +48,7 @@
     var $gridList = $("#gridList");
     $gridList.dataGrid({
         url: "/SystemManage/SysParameterConfig/ChargeTemplate_GetGridJson",
-        postData: { keyword: $("#txt_keyword").val() },
+        postData: { keyword: $("#txt_keyword").val(), yxbz: $("#yxbz").val() },
         height: $(window).height() - 146,
         colModel: [
             { label: "主键", name: "sfmbbh", hidden: true, key: true },
@@ -78,7 +87,7 @@
 
     $("#btn_search").click(function () {
         $("#gridList").jqGrid('setGridParam', {
-            postData: { keyword: $("#txt_keyword").val() },
+            postData: { keyword: $("#txt_keyword").val(), yxbz: $("#yxbz").val() },
             page: 1,
         }).trigger('reloadGrid');
     });
@@ -119,4 +128,24 @@
         });
     }
 
+    function btn_delete() {
+
+        var rowKey = $("#gridList").jqGrid('getGridParam', "selrow");
+        var rowData = $("#gridList").jqGrid("getRowData", rowKey);//根据上面的rowKey获得本行的所有数据
+
+        var keyValue = $("#gridList").jqGridRowValue().sfmbbh;
+        if (!!!keyValue) {
+            $.modalAlert("请选中一条信息", 'warning');
+            return;
+        }
+        $.deleteForm({
+            url: "/SystemManage/SysParameterConfig/deleteid",
+            param: { keyValue: keyValue },
+            success: function () {
+                $("#gridList").jqGrid('setGridParam', {
+                    postData: { keyword: $("#txt_keyword").val(), yxbz: $("#yxbz").val() },
+                }).trigger('reloadGrid');
+            }
+        })
+    }
 </script>

@@ -45,7 +45,7 @@ namespace Newtouch.DomainServices.Inpatient
         public List<PatientzbqResponseDto> GetzbqPatientList(PatientzbqRequestDto req, string OrganizeId)
         {
             string sqlText = "SELECT " +
-                            "z.id,cw.cwCode,cw.cwmc,z.xm,z.sex,z.zyh,z.ryrq,DATEDIFF(day,z.ryrq,GETDATE()) AS zyts,z.hljb,z.wzjb,ISNULL(CAST(z.sfqj AS VARCHAR(50)),'') AS brzt," +
+                            "z.id,cw.cwCode,cw.cwmc,z.xm,z.sex,z.zyh,z.deptCode,z.ryrq,DATEDIFF(day,z.ryrq,GETDATE()) AS zyts,z.hljb,z.wzjb,ISNULL(CAST(z.sfqj AS VARCHAR(50)),'') AS brzt," +
                             "z.brxzmc,z.zdmc,z.brxzdm,z.blh,s.[Name] AS ysmc," +
                             "CAST(b.nl AS int) AS age,b.nlshow,NULL AS kssj,'' AS ztnr,'none' AS display,0 AS cnt,'0' AS ps " +
                             "FROM zy_brxxk z with(nolock) " +
@@ -412,6 +412,11 @@ where zyxx.OrganizeId = @orgId";
                         xx.blh,
                         xm ,
                         sex ,
+                        xx.DeptCode ksdm,
+                        ks.name as ksmc,
+                        xx.zdmc ,
+                        xx.ysgh,
+                        ry.name as ysxm,
                         CAST(FLOOR(DATEDIFF(DY, birth, GETDATE()) / 365.25) AS INT) age ,
                         brxzmc ,
                         bq.bqmc ,
@@ -425,6 +430,11 @@ where zyxx.OrganizeId = @orgId";
                                                     AND bq.OrganizeId = xx.OrganizeId
                                                     AND bq.zt = '1'
                 LEFT JOIN NewtouchHIS_Base..V_S_xt_cw cw ON cw.cwCode = xx.BedCode
+                                                    AND cw.OrganizeId = xx.OrganizeId
+                                                    AND cw.zt = '1'
+                LEFT JOIN NewtouchHIS_Base..Sys_Department ks on xx.DeptCode = ks.Code 
+                                    and ks.OrganizeId = xx.OrganizeId
+                LEFT JOIN NewtouchHIS_Base..Sys_Staff  ry  on ry.gh = xx.ysgh 
                                                     AND cw.OrganizeId = xx.OrganizeId
                                                     AND cw.zt = '1'
             where xx.OrganizeId=@orgId and xx.zyh=@zyh and xx.zt='1'");

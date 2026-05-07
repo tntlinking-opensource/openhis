@@ -56,7 +56,7 @@ namespace Newtouch.Domain.IDomainServices
         /// <param name="sfxmCode"></param>
         /// <param name="orgId"></param>
         /// <param name="dwjls"></param>
-         void GetdwjlsBysfxmCode(string sfxmCode, string orgId, ref int? dwjls);
+         void GetdwjlsBysfxmCode(string sfxmCode, string orgId, ref int? dwjls,ref decimal? dj);
         /// <summary>
         /// 获取执行科室名称
         /// </summary>
@@ -196,6 +196,7 @@ namespace Newtouch.Domain.IDomainServices
 
         #region  医技执行
         void jyjcExec(List<jyjcExecReq> jyjclist, string orgId, string zxr);
+        void UpdatejyjcExecIsjf(List<string> jyjclist, string orgId, string czr, string status);
         void CancaljyjcExec(List<string> jyjclist, string orgId, string czr);
 
         #endregion

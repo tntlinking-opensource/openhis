@@ -30,7 +30,7 @@ namespace Newtouch.HIS.Domain.ValueObjects.TherapeutistCompleteManage
         /// <summary>
         /// 
         /// </summary>
-        public int ord { get; set; }
+        public int? ord { get; set; }
 
         /// <summary>
         /// 

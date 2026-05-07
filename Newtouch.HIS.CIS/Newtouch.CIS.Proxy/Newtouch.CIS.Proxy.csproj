@@ -59,6 +59,10 @@
     <Compile Include="CMMPlatform\DTO\AERequest\AERequestEntity.cs" />
     <Compile Include="CMMPlatform\DTO\EMRRequest\EMRRequestEntity.cs" />
     <Compile Include="CMMPlatform\DTO\HEALRequest\HEALRequestEntity.cs" />
+    <Compile Include="CMMPlatform\DTO\HLYYRequest\EngDataStatusRes.cs" />
+    <Compile Include="CMMPlatform\DTO\HLYYRequest\EngDataStatusReq.cs" />
+    <Compile Include="CMMPlatform\DTO\HLYYRequest\EngineRes.cs" />
+    <Compile Include="CMMPlatform\DTO\HLYYRequest\EngineReq.cs" />
     <Compile Include="CMMPlatform\DTO\KRequest\KRequestEntity.cs" />
     <Compile Include="CMMPlatform\DTO\RCIntegrateRequest\RCIntegrateRequestEntity.cs" />
     <Compile Include="CMMPlatform\DTO\Receive.cs" />
@@ -72,6 +76,7 @@
     <Compile Include="CMMPlatform\DTO\TCM_HIS_09\ReceiveRequestEntity.cs" />
     <Compile Include="CMMPlatform\EMRRequestProxy.cs" />
     <Compile Include="CMMPlatform\HEALRequestProxy.cs" />
+    <Compile Include="CMMPlatform\HLYY_Proxy.cs" />
     <Compile Include="CMMPlatform\KRequestProxy.cs" />
     <Compile Include="CMMPlatform\RCIntegrateRequestProxy.cs" />
     <Compile Include="CMMPlatform\TCM_HIS_02_Proxy.cs" />
@@ -79,6 +84,11 @@
     <Compile Include="CMMPlatform\TCM_HIS_08_Proxy.cs" />
     <Compile Include="CMMPlatform\TCM_HIS_09_Proxy.cs" />
     <Compile Include="CMMProxyCenter.cs" />
+    <Compile Include="Connected Services\HisApiService\HisApiService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HisApiService.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Connected Services\ServiceReferenceSqsq\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -128,6 +138,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Connected Services\HisApiService\HisApiService.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>HisApiService.cs</LastGenOutput>
+    </None>
     <None Include="Connected Services\ServiceReferenceSqsq\configuration91.svcinfo" />
   </ItemGroup>
   <ItemGroup>
@@ -151,6 +165,7 @@
     <None Include="Connected Services\TcmReceiveServiceReference\ReceiveWebServiceInterface.wsdl" />
   </ItemGroup>
   <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\HisApiService" />
     <WCFMetadataStorage Include="Connected Services\ServiceReferenceSqsq\" />
     <WCFMetadataStorage Include="Connected Services\TcmHis01ServiceReference\" />
     <WCFMetadataStorage Include="Connected Services\TcmHis02ServiceReference\" />

@@ -113,5 +113,82 @@ namespace Newtouch.Herp.Domain.Entity.VEntity
         /// 产品ID
         /// </summary>
         public string productId { get; set; }
+        /// <summary>
+        /// 发票号
+        /// </summary>
+        public string fph { get; set; }
+        /// <summary>
+        /// 订单编号
+        /// </summary>
+        public string orderNo { get; set; }
+        /// <summary>
+        /// 订单日期
+        /// </summary>
+        public DateTime orderData { get; set; }
+        /// <summary>
+        /// 进价总额
+        /// </summary>
+        public decimal? jjze { get; set; }
+    }
+    public class VCgOrderRkEntity
+    {
+        /// <summary>
+        /// 订单时间
+        /// </summary>
+        public DateTime orderDate { get; set; }
+        /// <summary>
+        /// 订单号
+        /// </summary>
+        public string orderNo { get; set; }
+        /// <summary>
+        /// 子订单号-同一订单号根据供应商分组
+        /// </summary>
+        public string subOrderNo { get; set; }
+        /// <summary>
+        /// 供应商名称
+        /// </summary>
+        public string gysmc { get; set; }
+        /// <summary>
+        /// 发票
+        /// </summary>
+        public string fp { get; set; }
+        /// <summary>
+        /// 发票
+        /// </summary>
+        public string fph { get; set; }
+        /// <summary>
+        /// 采购明细数
+        /// </summary>
+        public int cgmxs { get; set; }
+        /// <summary>
+        /// 采购金额
+        /// </summary>
+        public decimal? cgje { get; set; }
+    }
+
+    public class VCgOrderImportEntity
+    {
+        public string wzmc { get; set; }
+        public string lbmc { get; set; }
+        public string gjybdm { get; set; }
+        public int sl { get; set; }
+        public string unitId { get; set; }
+        public string unitName { get; set; }
+        public decimal jjze { get; set; }
+        public string fph { get; set; }
+        public string remark { get; set; }
+        public int kcsl { get; set; }
+        public int kykcsl { get; set; }
+        public string slStr { get; set; }
+        public string gg { get; set; }
+        public string sccj { get; set; }
+        public string gysId { get; set; }
+        public string gysmc { get; set; }
+        public decimal lsj { get; set; }
+        public decimal lsze { get; set; }
+        public int zhyz { get; set; }
+        public string productId { get; set; }
+        public decimal jj { get; set; }
+        public decimal minlsj { get; set; }
     }
 }

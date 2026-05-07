@@ -1,36 +1,36 @@
-﻿
+﻿@using Newtouch.Infrastructure
 @{
-    ViewBag.Title = "MedicalSkillQuery";
+    ViewBag.Title = "医技管理-医技执行查询";
     Layout = "~/Views/Shared/_Index.cshtml";
 }
 <style>
-        .form .formTitle {
-            position: relative;
-            left: 0px;
-            text-align: right;
-            white-space: nowrap;
-            font-weight: normal;
-            width: 60px;
-            padding-right: 10px;
-            padding-left: 5px;
-        }
-    </style>
+    .form .formTitle {
+        position: relative;
+        left: 0px;
+        text-align: right;
+        white-space: nowrap;
+        font-weight: normal;
+        width: 60px;
+        padding-right: 10px;
+        padding-left: 5px;
+    }
+</style>
 <form name="form1">
     <div class="panel panel-default">
         <table class="form">
             <tr>
-                <th class="formTitle" id="thshrq" >执行时间：</th>
-                <td class="formValue" colspan="3" style="width:340px">
-                    <input id="txtkssj" type="text" class="form-control input-wdatepicker formClearIgnore" style="width: 42%; float: left;" value="@DateTime.Now.ToString("yyyy-MM-dd 00:00:00")" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />
+                <th class="formTitle" id="thshrq">执行时间：</th>
+                <td class="formValue" colspan="2">
+                    <input id="txtkssj" type="text" class="form-control input-wdatepicker formClearIgnore" style="width: 42%; float: left;" value="@DateTime.Now.ToString("yyyy-MM-01 00:00:00")" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />
                     <span style="margin-left: 2%; float: left;">—</span>
-                    <input id="txtjssj" type="text" class="form-control input-wdatepicker formClearIgnore" style="width: 41%; float: left; margin-left: 2%;" value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />
+                    <input id="txtjssj" type="text" class="form-control input-wdatepicker formClearIgnore" style="width: 41%; float: left; margin-left: 2%;" value="@DateTime.Now.ToString("yyyy-MM-dd 23:59:59")" onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" />
                 </td>
                 <th class="formTitle">患者类型：</th>
-                <td class="formValue">
+                <td class="formValue" >
                     <select class="form-control" id="hzlx">
                         <option value="qb" selected>全部</option>
                         <option value="mz">门诊</option>
-                        <option value="zy">住院</option>
+                        <option value="zy" selected>住院</option>
                     </select>
                 </td>
                 <th class="formTitle">费用类型：</th>
@@ -47,21 +47,15 @@
                         <option value="" selected>全部</option>
                     </select>
                 </td>
-
+                <td class="formValue" colspan="2">
+                    <input id="txt_keyword" name="txt_keyword" type="text" style="width:80%;float:left" class="form-control" placeholder="请输入患者姓名/就诊号/身份证号/申请单号" />
+                </td>
             </tr>
             <tr>
-                <td class="formValue" colspan="3" >
-                    <input id="txt_keyword" name="txt_keyword" type="text" class="form-control" placeholder="请输入患者姓名/就诊号/身份证号/申请单号" />
-                </td>
-                <td class="formValue" >
+                <td class="formValue" colspan="2">
                     <input type="button" id="btn_search" class="btn btn-primary btn-md" style="margin-left: 10px; width: 40px;" value="查询" />
+                    <input type="button" id="btn_result" class="btn btn-primary btn-md" style="margin-left: 10px; width: 100px;" value="报告结果上传&查看" />
                 </td>
-                <th></th>
-                <td></td>
-                <th></th>
-                <td></td>
-                <th></th>
-                <td></td>
             </tr>
         </table>
     </div>
@@ -76,17 +70,45 @@
         $(window).resize(function () {
             initLayout("MyTabGrid");
         });
-        
+        sqdlxinit();
         gridListData();
     });
-    
+
+    //费用类型关联申请单
+    $("#fylx").change(function(){
+        sqdlxinit();
+    })
+
+    function sqdlxinit() {
+        $("#sqdlx").empty();
+        $("#sqdlx").append("<option value='qb'>全部</option>");
+        var type = $("#fylx").val()=="jy"?@((int)EnumjyjcmbLx.jy):$("#fylx").val()=="jc"?@((int)EnumjyjcmbLx.jc):0;
+        $.najax({
+            url: "/TemplateManage/InspectionTemplate/SelectGridList?type=" + type,
+            dataType: "json",
+            type: "POST",
+            success: function (resp) {
+                $.each(resp, function () {
+                    var option = "<option value='" + this.mbmc + "'>" + this.mbmc + "</option>";
+                    $("#sqdlx").append(option);
+                });
+            }
+        });
+    }
+
+    var checkTrigger = false;
+    var list = new Array();
+    var liststu = false;
+    var j = 0;
     function gridListData() {
         var $gridList = $("#gridList");
         $gridList.dataGrid({
             postData: getSearchPostData(),
-            height: $(window).height() - 160,
+            height: $(window).height() - 120,
             url: "@Url.Action("GetJyjcExecRecordJson")",
+            multiselect: true,
             colModel: [
+                { label: 'Id', name: 'Id', align: 'center', width: 50, key: true, hidden: true },
                 {
                     label: '患者类型', name: 'hzlx', width: 60, align: 'center', formatter: function (val) {
                         return val=="1"?"门诊":"住院"
@@ -103,7 +125,7 @@
                             return "检查"
                     }
                 },
-                { label: '申请单号', name: 'sqdh', align: 'center', width: 120 },
+                { label: '申请单号', name: 'sqdh', align: 'center', width: 130 },
                 { label: '申请单类型', name: 'sqdlx', align: 'center', width: 70 },
                 { label: '项目名称', name: 'ztmc', width: 90, align: 'center' },
                 { label: '规格', name: 'gg', width: 50, align: 'center' },
@@ -118,8 +140,57 @@
                 { label: '执行时间', name: 'zxrq', width: 120, align: 'center', formatter: "date", formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' } },
                 { label: '执行科室', name: 'zxksmc', width: 100, align: 'center' },
             ],
+            onSelectRow: function (rowIndex, s) {
+                if (!checkTrigger) {
+                    var len = 0;
+                    var rowData = $("#gridList").jqGrid('getRowData', rowIndex);
+                    var ids = $("#gridList").jqGrid('getRowData_AllLine');
+                    liststu = s; //同步状态
+                    if (rowData.sqdh != "") {
+                        for (var i = 0; i < ids.length; i++) {
+                            if (ids[i].sqdh === rowData.sqdh && ids[i].sqdh !== "") {
+                                if (s === true) {
+                                    if (rowIndex !== ids[i].Id) {
+                                        list[len] = ids[i].Id;
+                                        len += 1;
+                                    }
+                                }
+                                else {
+                                    if (rowIndex !== ids[i].Id) {
+                                        list[len] = ids[i].Id;
+                                        len += 1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    checkTrigger = true;
+                }
+
+                if (list.length > 0) {
+
+                    for (j; j < list.length; j++) {
+                        if (liststu) //同组选中
+                        {
+                            j = j + 1;
+                            $("#gridList").jqGrid("setSelection", list[j - 1], true);
+
+                        }
+                        else { //同组取消选中
+                            //j = j + 1;
+                            $("#gridList").jqGrid("setSelection", list[j], false);      //取消不触发onselectrow
+                        }
+
+                    }
+                }
+
+                j = 0;
+                checkTrigger = false;
+                list = new Array();
+                liststu = false;
+            },
             pager: "#gridPager",
-            sortname: " zxrq asc",
+            sortname: " zxrq asc,sqdh",
             viewrecords: true
         });
 
@@ -147,5 +218,31 @@
             keyword: keyword, kssj: kssj, jssj: jssj, hzlx: hzlx, fylx: fylx, sqdlx: sqdlx
         };
     };
+
+    //上传报告图片文件
+    $("#btn_result").click(function(){
+       
+        debugger
+        var selectedRowData = $("#gridList").jqGrid("getGridParam", "selarrrow").map(function(rowId) {
+            return $("#gridList").jqGrid("getRowData", rowId); // 获取选中行的数据
+        });
+        if (selectedRowData.length == 0) {
+            $.modalAlert("请选中需上传的申请单", 'warning');
+            return;
+        }
+        var sqdcnt=Array.from(new Set(selectedRowData.map(item => item.sqdh)));
+        if (sqdcnt.length > 1) {
+            $.modalAlert("申请单不可多选！", 'warning');
+            return;
+        }
+        $.modalOpen({
+            id: "ApplyFormUpload",
+            title: "报告上传预览",
+            url:"/NurseManage/OrderExecution/ApplyFormUpload?sqdh="+selectedRowData[0].sqdh,
+            width: "800px",
+            height: "700px",
+            btn: null
+        });
+    })
 
 </script>

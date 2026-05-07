@@ -15,6 +15,7 @@ namespace Newtouch.Domain.DTO.OutputDto
         public string yzh { get; set; }
         public int? px { get; set; }
         public string bedCode { get; set; }
+        public string DeptCode { get; set; }
     }
     
 }

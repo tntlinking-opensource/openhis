@@ -62,13 +62,15 @@ namespace Newtouch.Application.Implementation.Inpatient
             }
             var response = new DoctorServiceparentRequestDto
             {
-                patientInfo = new patientInfoDto
-                {
-                    age = patientInfo.age,
-                    brxzmc = patientInfo.brxzmc,
-                    sex = patientInfo.sex,
-                    zyh = patientInfo.zyh
-                },
+                patientInfo = patientInfo
+                // patientInfo = new patientInfoDto
+                // {
+                //     age = patientInfo.age,
+                //     brxzmc = patientInfo.brxzmc,
+                //     sex = patientInfo.sex,
+                //     zyh = patientInfo.zyh
+                // }
+                ,
                 DoctorServiceUIRequestDto = new List<DoctorServiceUIRequestDto>()
             };
             if (yzlx == "长")
@@ -110,13 +112,13 @@ namespace Newtouch.Application.Implementation.Inpatient
                         _iDoctorserviceDmnService.GetypPredata(item.pcCode, item.ypyfdm, item.xmdm,
                             item.dwlb.ToString(), orgId, ref pcmc, ref yfmc, ref redundantJldw, ref jx, ref jlzhxs,
                             ref zyzhxs, ref qzfs);
-                        int? dwjls = null;
+                        int? dwjls = null; decimal? dj = null;
                         string zxksmc = string.Empty;
-                        if (item.yzlx == (int) EnumYzlx.sfxm)
+                        if (item.yzlx == (int) EnumYzlx.sfxm|| item.yzlx == (int)EnumYzlx.yyhc|| item.yzlx == (int)EnumYzlx.rehab)
                         {
-                            _iDoctorserviceDmnService.GetdwjlsBysfxmCode(item.xmdm, orgId, ref dwjls);
+                            _iDoctorserviceDmnService.GetdwjlsBysfxmCode(item.xmdm, orgId, ref dwjls,ref dj);
                         }
-                        if (item.yzlx==(int) EnumYzlx.rehab)
+                        if (item.yzlx==(int) EnumYzlx.rehab|| item.yzlx == (int)EnumYzlx.sfxm|| item.yzlx == (int)EnumYzlx.yyhc)
                         {
                             _iDoctorserviceDmnService.Getzxksmc(item.zxksdm, orgId, ref zxksmc);
                         }
@@ -137,6 +139,7 @@ namespace Newtouch.Application.Implementation.Inpatient
                         var repentity = new DoctorServiceUIRequestDto
                         {
                             Id = item.Id,
+                            yzh = item.yzh,
                             DeptCode = item.DeptCode,
                             dwlb = item.dwlb,
                             dwwwwwww = item.dw,
@@ -180,7 +183,8 @@ namespace Newtouch.Application.Implementation.Inpatient
                             iszzffffff = item.zzfbz,
                             ispscs = item.ispscs,
                             ispscsfffff = string.IsNullOrWhiteSpace(item.ispscs) == true ? 0 : Convert.ToInt32(item.ispscs),
-                            yztag = item.yztag
+                            yztag = item.yztag,
+                            dj=dj
                         };
 
                         //膳食医嘱逻辑添加
@@ -232,11 +236,11 @@ namespace Newtouch.Application.Implementation.Inpatient
                     _iDoctorserviceDmnService.GetypPredata(item.pcCode, item.ypyfdm, item.xmdm,
                         item.dwlb.ToString(), orgId, ref pcmc, ref yfmc, ref redundantJldw, ref jx, ref jlzhxs,
                         ref zyzhxs, ref qzfs);
-                    int? dwjls = null;
+                    int? dwjls = null; decimal? dj = null;
                     string zxksmc = string.Empty;
                     if (item.yzlx == (int) EnumYzlx.sfxm)
                     {
-                        _iDoctorserviceDmnService.GetdwjlsBysfxmCode(item.xmdm, orgId, ref dwjls);
+                        _iDoctorserviceDmnService.GetdwjlsBysfxmCode(item.xmdm, orgId, ref dwjls,ref dj);
                     }
                     if (item.yzlx == (int)EnumYzlx.rehab)
                     {
@@ -245,6 +249,7 @@ namespace Newtouch.Application.Implementation.Inpatient
                     var repentity = new DoctorServiceUIRequestDto
                     {
                         Id = item.Id,
+                        yzh = item.yzh,
                         DeptCode = item.DeptCode,
                         dwlb = item.dwlb,
                         dwwwwwww = item.dw,
@@ -288,7 +293,8 @@ namespace Newtouch.Application.Implementation.Inpatient
                         iszzffffff = item.zzfbz,
                         ispscs = item.ispscs,
                         ispscsfffff=string.IsNullOrWhiteSpace(item.ispscs)==true?0:Convert.ToInt32(item.ispscs),
-                        yztag = item.yztag
+                        yztag = item.yztag,
+                        dj=dj
                     };
                     //膳食医嘱逻辑添加
                     string yslb;

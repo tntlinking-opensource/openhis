@@ -3,14 +3,12 @@
     //医嘱查询
     ViewBag.Title = "AdviceList";
     Layout = null;
-    var pacsHost = SiteUrl.GetUrl("OuterPacsServiceHost", "");
     //长期医嘱打印单是否显示签名
     var isShowSign = SysConfigReader.String("IS_ShowSigner");
-    //是否开启lis pacs报告订阅
-    var IsreportOpen = SysConfigReader.String("IsreportOpen");
     //获取打印处方配置
     var zycfdPrinturl = SysConfigReader.OrgReportLink("zycfdPrint");  //处方单
     var isopenPriorReview = (ViewBag.isopenPriorReview);
+    var isOpenRationalUse = (ViewBag.isOpenRationalUse); //是否开启合理用药审核接口
     var reportUrl = Newtouch.Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("ReportUrl");
     var ReportSystemCode = Newtouch.Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("ReportSystemCode");
     var curOpr = Newtouch.Common.Operator.OperatorProvider.GetCurrent();
@@ -44,120 +42,113 @@
 	}
 </style>
 <div id="linkyzcx" role="tabpanel" class="tab-pane">
-	<div class="topPanel" style="width: 99%; margin-top: -15px; border-radius: 5px;height:unset !important">
-		<table class="form" style="margin-left:5px;">
-			<tr>
-				<td colspan="3" id="btnKeywordTypeGourp">
-					<input type="button" id="btn_dryz" class="panelposition btn btn-default btn-md" value="当日医嘱">
-					<input type="button" id="btn_cqyz" class="panelposition btn btn-default btn-md" value="长期医嘱">
-					<input type="button" id="btn_lsyz" class="panelposition btn btn-default btn-md" value="临时医嘱">
-					<span style="margin:auto 5px">|</span>
-					<input type="button" id="btn_wsh" class="panelposition btn btn-md btn-restore active" value="未审核">
-				</td>
-				<td class="formTitle">
-					医嘱类型：
-				</td>
-				<td class="formValue formDdlSelectorTd">
-					<select id="yzlx" class="form-control required"></select>
-				</td>
-				<td class="formValue" style="width:15%;margin-left:10px">
-					@*<div id="panelposition" style="margin-left:30px">*@
-					<div id="yzztRadio" style="margin-left:30px">
-						<label><input type="radio" name="optionsRadios" class="optionsRadios formClearIgnore" checked value="qb" />全部医嘱</label>
-						<label><input type="radio" id="radioTreating" name="optionsRadios" class="optionsRadios formClearIgnore" value="yx" />有效医嘱</label>
+    <div class="topPanel" style="width: 99%; margin-top: -15px; border-radius: 5px;height:unset !important">
+        <table class="form" style="margin-left:5px;">
+            <tr>
+                <td colspan="3" id="btnKeywordTypeGourp">
+                    <input type="button" id="btn_dryz" class="panelposition btn btn-default btn-md" value="当日医嘱">
+                    <input type="button" id="btn_cqyz" class="panelposition btn btn-default btn-md" value="长期医嘱">
+                    <input type="button" id="btn_lsyz" class="panelposition btn btn-default btn-md" value="临时医嘱">
+                    <span style="margin:auto 5px">|</span>
+                    <input type="button" id="btn_wsh" class="panelposition btn btn-md btn-restore active" value="未审核">
+                </td>
+                <td class="formTitle">
+                    医嘱类型：
+                </td>
+                <td class="formValue formDdlSelectorTd">
+                    <select id="yzlx" class="form-control required"></select>
+                </td>
+                <td class="formValue" style="width:15%;margin-left:10px">
+                    @*<div id="panelposition" style="margin-left:30px">*@
+                    <div id="yzztRadio" style="margin-left:30px">
+                        <label><input type="radio" name="optionsRadios" class="optionsRadios formClearIgnore" checked value="qb" />全部医嘱</label>
+                        <label><input type="radio" id="radioTreating" name="optionsRadios" class="optionsRadios formClearIgnore" value="yx" />有效医嘱</label>
 
 
-					</div>
-				</td>
-				<th class="formTitle">开始日期：</th>
-				<td class="formValue">
-					<input id="kssj" type="text" class="form-control input-wdatepicker formClearIgnore" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd', onpicked: function () { btn_search() } })" value="@DateTime.Now.ToString("yyyy-MM-01")" />
-				</td>
-				<th class="formTitle">结束日期：</th>
-				<td class="formValue">
-					<input id="jssj" type="text" class="form-control input-wdatepicker formClearIgnore" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd', onpicked: function () { btn_search() }  })" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
-				</td>
-				<td class="formTitle">
-					<input type="button" id="btn_search" class="btn btn-md btn-primary" value="查询" onclick="btn_search()" style="margin-right:10px" />
-				</td>
-			</tr>
-		</table>
-	</div>
-	<div class="contentPanel" style="width: 99%; margin-top: 2px;">
-		<div style="background-color: #fff;width:100%;">
-			<table id="gridPatientList"></table>
-			<div id="gridPatPager"></div>
-		</div>
-	</div>
-	<table style="width:420px;height:20px; margin-top:10px;margin-left:10px; float:left; color:#274b6d">
-		<tr>
+                    </div>
+                </td>
+                <th class="formTitle">开始日期：</th>
+                <td class="formValue">
+                    <input id="kssj" type="text" class="form-control input-wdatepicker formClearIgnore" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd', onpicked: function () { btn_search() } })" value="@DateTime.Now.ToString("yyyy-MM-01")" />
+                </td>
+                <th class="formTitle">结束日期：</th>
+                <td class="formValue">
+                    <input id="jssj" type="text" class="form-control input-wdatepicker formClearIgnore" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd', onpicked: function () { btn_search() }  })" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                </td>
+                <td class="formTitle">
+                    <input type="button" id="btn_search" class="btn btn-md btn-primary" value="查询" onclick="btn_search()" style="margin-right:10px" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="contentPanel" style="width: 99%; margin-top: 2px;">
+        <div style="background-color: #fff;width:100%;">
+            <table id="gridPatientList"></table>
+            <div id="gridPatPager"></div>
+        </div>
+    </div>
+    <table style="width:420px;height:20px; margin-top:10px;margin-left:10px; float:left; color:#274b6d">
+        <tr>
             <td>
                 <label style="height: 7px; width: 25px; background-color: blue; border: 1px solid #ddd"></label>
             </td>
-			<td>执行长期/临时</td>
+            <td>执行长期/临时</td>
             <td>
                 <label style="height:7px;width:25px;background-color:red; border:1px solid #ddd"></label>
             </td>
-			<td>作废临时</td>
-			<td>
-				<label style="height:7px;width:25px;background-color:grey; border:1px solid #ddd"></label>
-			</td>
-			<td>停止长期</td>
-			<td>
-				<label style="height:7px;width:25px;background-color:black;  border:1px solid #ddd"></label>
-			</td>
-			<td>未执行长期/临时</td>
-		</tr>
-	</table>
-	<div id="floatLisReportDiv">
-		<div data-href="ynbg"><span>院内报告</span></div>
-	</div>
-	<div id="floadLisReportTree" style="display:none;z-index:1;background: white;">
-		<div class="panel-body">
-			<table class="form">
-				<tr>
-					<td class="formValue">
-						<input class="btn btn-info md" id="btn_pacs" style="width: 60px;" value="PACS报告" />
-					</td>
-				</tr>
-				<tr>
-					<td class="formValue">
-						<input class="btn btn-info md" id="btn_lis_report" style="width: 60px;" value="LIS报告" />
-					</td>
-				</tr>
-				@*<tr>
-						<td class="formValue">
-							<input class="btn btn-info md" id="btn_bc" style="width: 100px;" value="B超报告" />
-						</td>
-					</tr>
-					<tr>
-						<td class="formValue">
-							<input class="btn btn-info md" id="btn_xd" style="width: 100px;" value="心电报告" />
-						</td>
-					</tr>*@
+            <td>作废临时</td>
+            <td>
+                <label style="height:7px;width:25px;background-color:grey; border:1px solid #ddd"></label>
+            </td>
+            <td>停止长期</td>
+            <td>
+                <label style="height:7px;width:25px;background-color:black;  border:1px solid #ddd"></label>
+            </td>
+            <td>未执行长期/临时</td>
+        </tr>
+    </table>
+    @Html.Partial("~/Areas/DoctorManage/Views/Apply/ReportTree.cshtml") @* 院内报告lis pacs等*@
 
-			</table>
-		</div>
-	</div>
     @*<div id="printgoon" class="ckbox" style="float:right;padding-right:5px;margin-top:10px;margin-left:10px;">
-        <div>
-            <input id="ck_printgoon" name="ck_printgoon" type="checkbox"><label for="ck_printgoon">续打</label>
-        </div>
-    </div>*@
-	@Html.Partial("_BottomButtonsYzPrintView", new Newtouch.HIS.Web.Core.Models.BottomButtonViewModel()
-{
+            <div>
+                <input id="ck_printgoon" name="ck_printgoon" type="checkbox"><label for="ck_printgoon">续打</label>
+            </div>
+        </div>*@
+    @Html.Partial("_BottomButtonsYzPrintView", new Newtouch.HIS.Web.Core.Models.BottomButtonViewModel()
+    {
 
-    ShowKeyList = new int[] {  2, 3, 9, 6, 7 ,8},
-    //F5Text = "测试病案审核",
-    F7Text = "转区全停",
-    F6Text = "出院全停",
-    F2Text = "打印长期",
-    F3Text = "打印临时",
-    F9Text = "三测单",
-    F8Text="打印精麻"
-    ,
-    F10Text = "测试病案审核"
-})
+        ShowKeyList = new int[] {  2, 3, 9, 6, 7 ,8},
+        //F5Text = "测试病案审核",
+        F7Text = "转区全停",
+        F6Text = "出院全停",
+        F2Text = "打印长期",
+        F3Text = "打印临时",
+        F9Text = "三测单",
+        F8Text="打印精麻"
+        ,
+        F10Text = "测试病案审核"
+    })
+</div>
+@* 合理用药模块 *@
+<div class="modal fade" id="drugInfoModal" tabindex="-1" role="dialog" aria-labelledby="drugInfoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="drugInfoModalLabel">合理用药审核信息</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style=" max-height: 60vh;overflow-y: auto;">
+                <div id="hlyyauditStatus"></div>
+                <!-- Table Container -->
+                <table id="HlyydrugGrid" class="table table-bordered table-striped" ></table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div id="context-menu">
@@ -200,11 +191,6 @@
         $("#yzlx").bindSelect({
             url: "@Url.Action("GetyzlxContain")",
         });
-        if("@IsreportOpen"!="true")
-        {
-            $('#floatLisReportDiv').hide();
-        }
-
     });
 
     $('#gridPatientList').contextmenu({
@@ -240,20 +226,6 @@
         }
     });
 
-    $("#floatLisReportDiv div").on("click", function (e){
-        e.preventDefault();
-        if ($(this).hasClass('activepart')) {
-            //再点击 隐藏
-            $("#floatLisReportDiv div").removeClass("activepart");
-            $('#floadLisReportTree').hide();
-        }
-        else{
-            $("#floatLisReportDiv div").removeClass("activepart");
-            $(this).addClass("activepart");
-            $('#floadLisReportTree').show();
-        }
-    })
-
 	function gridPatientList() {
         $('#gridPatientList').dataGrid({
             url:"@Url.Action("AdviceGridView")",
@@ -262,7 +234,8 @@
             unwritten: false,
             pager: '#gridPatPager',
             //sortname: 'zh,yzlb,yzlx,kssj desc',
-			sortname: 'yzlx,kssj desc,zh,Px',
+            //sortname: 'yzlx,kssj desc,zh,Px',
+            sortname: 'yzh desc,px,kssj desc,zh',
             rowNum: 100,
 			rownumbers: true,
 			colModel: [
@@ -287,6 +260,7 @@
 				{ label: '停止医生', name: 'tzr', align: 'center', width: 50 },
 				{ label: '执行者', name: 'zxr', align: 'center', width: 50 },
 				{ label: '执行科室', name: 'deptName', align: 'center', width: 60 },
+                { label: '医嘱号', name: 'yzh', align: 'center', width: 60, hidden: true },
 				{ label: 'yztag', name: 'yztag', align: 'center', hidden: true },
                 { label: 'iszt', name: 'iszt', align: 'center', hidden: true },
                 { label: 'yfztbs', name: 'yfztbs', align: 'center', hidden: true },
@@ -346,8 +320,12 @@
         @*if (rowObject["yzlx"]==@Html.Raw(((int)EnumYzlx.jc).ToString())||rowObject["yzlx"]==@Html.Raw(((int)EnumYzlx.jy).ToString())) {*@
             return "<span style='color:red' onclick='advicedel(\"" + rowObject["Id"] + "\",\""+rowObject["yzlx"]+"\",\""+rowObject["iszt"]+"\")'' title='删除' >删除</span>";
         }
-        return "<span style='color:blue' onclick='advicemodify(\"" + rowObject["Id"] + "\",\"" + rowObject["yzlx"] + "\",\"" + rowObject["yzlb"] + "\")'' title='修改' >修改</span>| <span style='color:red' onclick='advicedel(\"" + rowObject["Id"] + "\")'' title='删除' >删除</span>"
-    } else if (rowObject["yzzt"] ==@Html.Raw(((int)EnumYzzt.DC).ToString())) {//撤DC
+                var result = "<span style='color:blue' onclick='advicemodify(\"" + rowObject["Id"] + "\",\"" + rowObject["yzlx"] + "\",\"" + rowObject["yzlb"] + "\")' title='修改'>修改</span> | " +
+                    "<span style='color:red' onclick='advicedel(\"" + rowObject["Id"] + "\")' title='删除'>删除</span>";
+
+                return result;
+
+            } else if (rowObject["yzzt"] ==@Html.Raw(((int)EnumYzzt.DC).ToString())) {//撤DC
                 return "<span style='color:red' onclick='advicedc(\"" +
                     rowObject["Id"] +
                     "\",\""+rowObject["yzlx"]+"\",\""+rowObject["iszt"]+"\")'' title='撤DC' >撤DC</span>";
@@ -593,6 +571,30 @@
                 }
             });
     }
+
+    //合理用药查询
+    function adviceuse(yzId, yzlx, yzlb) {
+        if ('@(isOpenRationalUse)' === 'ON'){
+            $.ajax({
+                url: "/DoctorManage/Medicine/GetYzHlyy",
+                dataType: "json",
+                data: { zyh: currentobj.zyh, yzid: yzId, yzlx: yzlb},
+                type: "POST",
+                cache: false,
+                async: false,
+                success: function (reqdata) {
+                    if (reqdata) {
+                        if (reqdata.message != "") {
+                            HlyyDrugInfo(reqdata.data);
+                            $('#drugInfoModal').modal('show');
+                        } else {
+                            $.modalMsg(reqdata.message, 'error');
+                        }
+                    }
+                }
+            });
+        }
+    }
     //修改
     function advicemodify(yzId, yzlx, yzlb) {
         //审核单据修改第一种应用场景
@@ -652,7 +654,7 @@
                 $('#myTab [href="#linkxmlr"').trigger('click'); //初始化显示哪个tab
                 EditIInit(currentobj.zyh, yzId, yzlb);
                 break;
-            case @Html.Raw(((int)EnumYzlx.rehab).ToString())://项目
+            case @Html.Raw(((int)EnumYzlx.rehab).ToString())://康复
             	$('#myTab [href="#linkkfyz"').trigger('click'); //初始化显示哪个tab
 	            EditRInit(currentobj.zyh, yzId, yzlb);
 	            break;
@@ -683,6 +685,10 @@
             case @Html.Raw(((int)EnumYzlx.zcy).ToString())://中草药
                 $('#myTab [href="#linkzylr"').trigger('click'); //初始化显示哪个tab
                 EditTCMInit(currentobj.zyh, yzId, yzlb);
+                break;
+            case @Html.Raw(((int)EnumYzlx.yyhc).ToString())://医用耗材
+                $('#myTab [href="#linkhclr"').trigger('click'); //初始化显示哪个tab
+                EditHInit(currentobj.zyh, yzId, yzlb);
                 break;
         }
     }
@@ -882,76 +888,73 @@
         }
 
     }
-    $('#btn_pacs').click(function () {
-       //金风易通 PACS 2024-4-28 chl
-        $.ajax({
-            type: "POST",
-            dataType: "json", //返回json格式的数据
-            url: "/DoctorsAdvice/CountLISztzy",
-            data: { "zyh": currentobj.zyh },
-            async: false,
-            success: function (data) {
-                var num = data.num;
-                if (num < 1) {
-                    $.modalAlert("当前没有已完成报告,不能查看", 'warning');
-                    return;
-                }
-                else {
-                    window.open("@pacsHost/doctor-api/api/viewer?type=2&pid=" + currentobj.blh + "&areaCode=" + "@curOpr.OrganizeId", "_blank");
 
-                }
-            }
-        });
-        //window.open("@pacsHost/doctor-api/api/viewer?pid=" + currentobj.blh + "&areaCode=" + "@curOpr.OrganizeId", "_blank");
-        //测试链接
-        //window.open("@pacsHost/doctor-api/api/viewer?pid=1034097&areaCode=6d5752a7-234a-403e-aa1c-df8b45d3469f", "_blank");
+    function HlyyDrugInfo(Data) {
+        $("#HlyydrugGrid").clearGridData();  // 清空数据
+        var $HlyydrugGrid = $("#HlyydrugGrid");
+        // 定义表格列模型
+        var drugColModel = [
+            { label: '组号', name: 'GroupNo', align: 'center', width: 100 },
+            { label: '药品名称', name: 'DrugName', align: 'center', width: 150,
+                formatter: function (cellValue, options, rowObject) {
+                    // 创建药品名称的超链接，点击时传入drugId
+                    return '<a href="javascript:void(0);" onclick="getYpsms(\'' + rowObject.DrugId + '\')">' + cellValue + '</a>';
+                }},
+            { label: '给药途径', name: 'AdminRoute', align: 'center', width: 100 },
+            { label: '给药频率', name: 'AdminFrequency', align: 'center', width: 100 },
+            { label: '错误信息', name: 'MessageText', align: 'center', width: 250 },
+            { label: '建议', name: 'Advice', align: 'center', width: 200 },
+            { label: '来源', name: 'Source', align: 'center', width: 100 },
+            { label: '错误类型', name: 'Type', align: 'center', width: 100 }
+        ];
+        const cfStateMap = {
+            "1": "审核中",
+            "0": "已审核",
+            "2": "不通过"
+        };
+        const auditStatus = cfStateMap[Data.Cfstate] || "未知状态";
+        let statusColor;
+        let fontSize = "16px";  // 默认字体大小
+        switch (Data.Cfstate) {
+            case "1": // 审核中
+                statusColor = "orange";  //
+                break;
+            case "0": // 已审核
+                statusColor = "green";
+                break;
+            case "2": //不通过
+                statusColor = "red";
+                break;
+            default:
+                statusColor = "gray";  // 未知状态
+                break;
+        }
+        $("#hlyyauditStatus").html("审核状态: <span style='color: " + statusColor + "; font-size: " + fontSize + ";'>" + auditStatus + "</span>");
+        // 创建并填充药品详情表格
+        $HlyydrugGrid.newtouchLocalDataGrid({
+            unwritten: false,
+            caption: "药品信息详情",
+            colModel: drugColModel,
+            shrinkToFit: true,
+        }, Data.Message.Infos.InfoList.length > 0 ?Data.Message.Infos.InfoList : [{/* Empty row to show column headers */ }]);
 
-        //var zyh = currentobj.zyh;
-        //$.modalOpen({
-        //    id: "medicaljyForm",
-        //    title: "检查申请单列表",
-        //    url: "/MedicalRecord/PacsSqdhQueryForm?mzzyh=" + zyh + "&type=" + "zy",
-        //    width: "800px",
-        //    height: "500px",
-        //    btn: ['', '关闭'],
-        //    btnclass: ['', 'btn btn-danger'],
-        //});
-    })
-    $('#btn_lis_report').click(function(){
-        $.ajax({
-            type: "POST",
-            dataType: "json", //返回json格式的数据
-            url: "/DoctorsAdvice/CountLISztzy",
-            data: { "zyh": currentobj.zyh },
-            async: false,
-            success: function (data) {
-                var num = data.num;
-                if (num < 1) {
-                    $.modalAlert("当前没有已完成报告,不能查看", 'warning');
-                    return;
-                }
-                else {
-                    window.open("@pacsHost/doctor-api/api/viewer?type=1&pid=" + currentobj.blh + "&areaCode=" + "@curOpr.OrganizeId", "_blank");
-
-                }
-            }
-        });
-        //$.modalOpen({
-        //    id: "medicaljyForm",
-        //    title: "检验申请单列表",
-        //    url: "/MedicalRecord/LisSqdhQueryForm?mzzyh=" + zyh+"&type="+"zy",
-        //    width: "900px",
-        //    height: "600px",
-        //    btn:['', '关闭'],
-        //    btnclass: ['', 'btn btn-danger'],
-        //});
-    })
-    function cfLeftFloatHide() {
-        $('#floadLisReportTree').hide();
     }
+    function getYpsms(drugId) {
+        // 在这里执行点击事件的逻辑
+        $.najax({
+            url: "/MedicalRecord/GetypSms",
+            data: {drugId: drugId},
+            type: "POST",
+            success: function (data) {
+                if(data.state && data.state === 'success' && !(data.data === false)){
+                    $.modalAlert(data.data, 'success')
+                }
+                else{
+                    $.modalAlert("发送失败", 'error');
+                }
+            }
+        });
 
-    $('.contentPanel').on('click', function () {
-        cfLeftFloatHide();
-    });
+    }
 </script>
 

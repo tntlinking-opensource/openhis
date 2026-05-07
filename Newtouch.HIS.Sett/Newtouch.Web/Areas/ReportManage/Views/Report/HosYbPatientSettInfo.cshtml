@@ -1,12 +1,19 @@
 ﻿@using Newtouch.Infrastructure;
 @{
-    ViewBag.Title = "";
+    ViewBag.Title = "住院结算明细";
     Layout = "~/Views/Shared/_Form.cshtml";
+    var reportUrl = Newtouch.Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("ReportUrl");
+    var ReportSystemCode = Newtouch.Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("ReportSystemCode");
+    var opr = Newtouch.Common.Operator.OperatorProvider.GetCurrent();
 }
 <div class="rows">
     <div class="panel panel-default">
         <table class="form">
             <tr>
+                <th class="formTitle">住院号：</th>
+                <td class="formValue">
+                    <input id="zyh" name="zyh" type="text" autocomplete="off" class="form-control" />
+                </td>
                 <th class="formTitle">开始日期：</th>
                 <td class="formValue">
                     <input id="kssj" type="text" class="form-control input-wdatepicker form-an"
@@ -17,26 +24,28 @@
                     <input id="jssj" type="text" class="form-control input-wdatepicker form-an"
                            onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd'})" value="@(DateTime.Now.ToString("yyyy-MM-dd"))" />
                 </td>
-                <th class="formTitle">科室：</th>
-                <td class="formValue">
-                    <select id="depa" class="form-control">
-                        <option value="">全部</option>
-                    </select>
+                <td class="formTitle">
+                    <input type="button" id="btn_search" onclick="submit();" class="btn btn-primary btn-md" value="查询" style="width:55px" />
                 </td>
-                <th class="formTitle">医保属性：</th>
-                <td class="formValue">
-                    <div class="row">
-                        <div class="col-md-9">
-                            @Html.DropDownList("sel_cblb", EnumCblb.zg.ToDescSelectList(), new { @class = "form-control form-an" })
+                <td colspan="3"></td>
+                @*<th class="formTitle">科室：</th>
+                    <td class="formValue">
+                        <select id="depa" class="form-control">
+                            <option value="">全部</option>
+                        </select>
+                    </td>
+                    <th class="formTitle">医保属性：</th>
+                    <td class="formValue">
+                        <div class="row">
+                            <div class="col-md-9">
+                                @Html.DropDownList("sel_cblb", EnumCblb.zg.ToDescSelectList(), new { @class = "form-control form-an" })
+                            </div>
+                            <div class="col-md-3" style="text-align:right;">
+                                <input type="button" id="btn_search" onclick="submit();" class="btn btn-primary btn-md" value="查询" style="width:55px" />
+                            </div>
                         </div>
-                        <div class="col-md-3" style="text-align:right;">
-                            <input type="button" id="btn_search" onclick="submit();" class="btn btn-primary btn-md" value="查询" style="width:55px" />
-                        </div>
-                    </div>
-
-
-                </td>
-                <td class="formValue"></td>
+                    </td>
+                    <td class="formValue"></td>*@
             </tr>
         </table>
     </div>
@@ -68,25 +77,22 @@
             $.modalAlert("开始时间不能大于结束时间", "error");
             return;
         }
-        var checkkssj = $('#kssj').val().substring('5', '7');
-        var checkjssj = $('#jssj').val().substring('5', '7');
-        //if (checkkssj != checkjssj) {
-        //    $.modalAlert("查询间隔不能相差一个月", "error");
-        //    return;
+        //var url = getUrl();
+        var url = '@Html.Raw(reportUrl)' + "?tempCode=1318" + "&systemCode=" + '@Html.Raw(ReportSystemCode)';
+        url += "&ksrq=" + $('#kssj').val() + ' 00:00:00';
+        url += "&jsrq=" + $('#jssj').val() + ' 23:59:59';
+        url += "&zyh=" + $('#zyh').val();
+        url += "&orgId=" + orgId;
+        //url += "&kssj=" + $('#kssj').val();
+        //url += "&jssj=" + $.getDate({ date: $('#jssj').val() }) + ' 23:59:59';
+        //url += "&ks=" + $('#depa').val();
+
+        //if ($('#sel_cblb').val() != "0") {
+        //    url += "&ybsx=" + $('#sel_cblb').val();
         //}
-
-        var url = getUrl();
-
-        url += "&kssj=" + $('#kssj').val();
-        url += "&jssj=" + $.getDate({ date: $('#jssj').val() }) + ' 23:59:59';
-        url += "&ks=" + $('#depa').val();
-
-        if ($('#sel_cblb').val() != "0") {
-            url += "&ybsx=" + $('#sel_cblb').val();
-        }
-        else {
-            url += "&ybsx=" + '';
-        }
+        //else {
+        //    url += "&ybsx=" + '';
+        //}
         setTimeout("$.loading(true, '正在请求报表页面...');", 10);
 
         $("#iframerightiframerightiframerightttt").attr('src', url);
@@ -100,7 +106,7 @@
     $(function () {
         var h = $(window).height() - 55
         $('#layout iframe').css('height', h);
-        init();
+        //init();
 
         setTimeout(function () { submit(); }, 100);
     });
@@ -146,5 +152,43 @@
             submit();
         });
     }
+    $('#zyh').newtouchBatchFloatingSelector({
+        width: 520,
+        height: 200,
+        caption: "选择患者",
+        clickautotrigger: true,
+        url: "/ReportManage/Report/GetInpatientcryrq",
+        ajaxparameters: function ($thisinput) {
+            var keyword = $thisinput.val().trim();
+            var zyh = $("#zyh").val();
+            return "zyh=" + zyh;
+        },
+        itemdbclickhandler: function ($thistr, $thisinput) {
+            if (!!$thistr.attr('data-zyh')) {
+                $('#ryrq').html($thistr.attr('data-ryrq'));
+                $('#zyh').val($thistr.attr('data-zyh'));
+            }
+        },
+        colModel: [
+            { label: '住院号', name: 'zyh', width: 100 },
+            { label: 'cyrq', name: 'cyrq', hidden: true },
+            { label: 'ryrq', name: 'ryrq', hidden: true },
+            { label: '在院标志', name: 'zybz', width: 100, align: 'Center' },
+            { label: '姓名', name: 'xm', width: 120, align: 'Center' },
+            { label: '出生年月', name: 'csny', hidden: true, width: 100, align: 'Center' },
+            {
+                label: '性别', name: 'xb', width: 50, align: 'Center', formatter: function (cellvalue) {
+                    return $.getGender(cellvalue);
+                }
+            },
+            {
+                label: '年龄', name: 'nlshow', width: 50, align: 'Center', formatter: function (cellvalue, a, b) {
+                    return getAgeFromBirthTime({ begin: b.csny }).text;
+                }
+            },
+            { label: '床号', name: 'cw', width: 50, align: 'Center' },
+            { label: '入院日期', name: 'ryrq', hidden: true, width: 100, align: 'Center' }
+        ]
+    });
 </script>
 

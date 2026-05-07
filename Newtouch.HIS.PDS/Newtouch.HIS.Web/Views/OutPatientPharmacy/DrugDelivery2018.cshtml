@@ -29,7 +29,7 @@
         }
 </style>
 <form id="form1">
-    <div id="dv_left" class="panel panel-default" style="float: left; width:29%; margin: 0; border: 0;">
+    <div id="dv_left" class="panel panel-default" style="float: left; width:20%; margin: 0; border: 0;">
         <div class="topPanel" style="height:45px;">
             <div class="search" style="width: 90%;">
                 <table style="width: 100%;">
@@ -37,9 +37,8 @@
                         <td>
                             <div class="input-group">
                                 <input id="txtINPUTCODE" type="text" class="form-control" placeholder="卡号 姓名 处方号" style="padding-left: 5px; z-index: 0;">
-                                <span class="input-group-btn" style="margin-right: 4px;">
+                                <span class="input-group-btn">
                                     <button id="btn_search" type="button" class="btn btn-primary"><i class="fa fa-search"></i></button>
-                                    <button id="btn_sftb" type="button" class="btn btn-primary" style="margin-left: 4px;">收费同步</button>
                                 </span>
                             </div>
                         </td>
@@ -52,7 +51,7 @@
             <div id="gridPatientsPager" rel="form1"></div>
         </div>
     </div>
-    <div id="dv_right" style="float: left; width: 70.5%; margin-left: 0.5%;">
+    <div id="dv_right" style="float: left; width: 79.5%; margin-left: 0.5%;">
         <div class="panel" id="dv_rightTop">
             <div class="panel-default panel-heading">
                 <span style="font-weight: bold;">处方信息</span>
@@ -107,9 +106,9 @@
         </div>
         @Html.Partial("_BottomButtonsView", new Newtouch.HIS.Web.Core.Models.BottomButtonViewModel
    {
-       ShowKeyList = new[] { 6, 7, 8, 9, 10 },
+       ShowKeyList = new[] { 6, 8, 9, 10 },
        F6Text = "发药",
-       F7Text = "全部发药",
+      // F7Text = "全部发药",
        F8Text = "雾化卡",
        F9Text = "输液卡",
        F10Text = "用法标签"
@@ -140,21 +139,6 @@
             $gridCfmx.resetSelection();
             $gridCfmx.jqGrid("clearGridData");
         });
-
-        $("#btn_sftb").click(function () {
-            $.ajax({
-                type: "POST",
-                url: "/OutPatientPharmacy/SyncPDSCfFromSett",
-                dataType: "text", // 改为 text
-                success: function (res) {
-                    $.modalMsg(res);
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.error("请求失败：", textStatus, errorThrown);
-                }
-            });
-        });
-
         $(".glyphicon").click(function () {
             if ($(this).hasClass("glyphicon-menu-up")) {
                 $(this).removeClass("glyphicon-menu-up");
@@ -282,107 +266,103 @@
             return false;
         }
         var refcfxx = "";
-        if (1==1) {
-			var cfh = "";
-			$.najax({
-				type: "get",
-				url: "/OutPatientPharmacy/GetCfXX",
-				data: { cardNo: data.CardNo, xm: data.xm },
-				dataType: "json",
-				success: function (res) {
-					if (res != null) {
-						sessionStorage.setItem('CfInfo', JSON.stringify(res));
-						//弹出处方选择界面
-						$.modalOpen({
-							id: "Form",
-							title: "处方选择",
-							url: "/OutPatientPharmacy/ChooseCf",
-							width: "690px",
-							height: "282px",
-							callBack: function (iframeId) {
-								top.frames[iframeId].submitForm(function (cflist) {
-									var listcfh = [];
-									var lisfph = [];
-									var zje = 0.00;
-									for (var i = 0; i < cflist.length; i++) {
-										listcfh.push(cflist[i].cfh);
-										lisfph.push(cflist[i].Fph)
-										zje = roundingBy4she6ru5chengshuang(parseFloat(cflist[i].je) + parseFloat(zje), 2);
-									}
-									cfh = listcfh.join(",");
-									fph = lisfph.join(",");
-                                    $("#lab_name").html(res[0].xm);
-                                    tempMzh = res[0].mzh;
-									$("#lab_cfh").html(cfh);
-									$("#lab_cfh").attr("title", cfh);
-									$("#lab_cardNo").html(res[0].CardNo);
-									$("#lab_fph").html(fph);
-									$("#lab_fph").attr("title", fph);
-									$("#lab_zje").html(zje);
-									$("#lab_brxzmc").html(res[0].brxzmc);
-									$("#lab_nl").html(res[0].nl);
-									$("#lab_ysmc").html(res[0].ysmc);
-                                    $("#lab_ksmc").html(res[0].ksmc);
-									getcfmx("1", cfh, "", "");
-								});
-							}
-						});
-					} else {
-                        $("#lab_name").html("");
-                        tempMzh = "";
-						$("#lab_cfh").html("");
-						$("#lab_cfh").attr("title", "");
-						$("#lab_cardNo").html("");
-						$("#lab_fph").html("");
-						$("#lab_fph").attr("title", "");
-						$("#lab_zje").html("");
-						$("#lab_brxzmc").html("");
-						$("#lab_nl").html("");
-						$("#lab_ysmc").html("");
-						$("#lab_ksmc").html("");
-					}
+        var cfh = "";
+        $.najax({
+            type: "get",
+            url: "/OutPatientPharmacy/GetCfXX",
+            data: { cardNo: data.CardNo, xm: data.xm },
+            dataType: "json",
+            success: function (res) {
+                if (res != null) {
+                    sessionStorage.setItem('CfInfo', JSON.stringify(res));
+                    //弹出处方选择界面
+                    $.modalOpen({
+                        id: "Form",
+                        title: "处方选择",
+                        url: "/OutPatientPharmacy/ChooseCf",
+                        width: "690px",
+                        height: "282px",
+                        callBack: function (iframeId) {
+                            top.frames[iframeId].submitForm(function (cflist) {
+                                var listcfh = [];
+                                var lisfph = [];
+                                var zje = 0.00;
+                                for (var i = 0; i < cflist.length; i++) {
+                                    listcfh.push(cflist[i].cfh);
+                                    lisfph.push(cflist[i].Fph)
+                                    zje = roundingBy4she6ru5chengshuang(parseFloat(cflist[i].je) + parseFloat(zje), 2);
+                                }
+                                cfh = listcfh.join(",");
+                                fph = lisfph.join(",");
+                                $("#lab_name").html(res[0].xm);
+                                tempMzh = res[0].mzh;
+                                $("#lab_cfh").html(cfh);
+                                $("#lab_cfh").attr("title", cfh);
+                                $("#lab_cardNo").html(res[0].CardNo);
+                                $("#lab_fph").html(fph);
+                                $("#lab_fph").attr("title", fph);
+                                $("#lab_zje").html(zje);
+                                $("#lab_brxzmc").html(res[0].brxzmc);
+                                $("#lab_nl").html(res[0].nl);
+                                $("#lab_ysmc").html(res[0].ysmc);
+                                $("#lab_ksmc").html(res[0].ksmc);
+                                getcfmx("1", cfh, "", "");
+                            });
+                        }
+                    });
+                } else {
+                    $("#lab_name").html("");
+                    tempMzh = "";
+                    $("#lab_cfh").html("");
+                    $("#lab_cfh").attr("title", "");
+                    $("#lab_cardNo").html("");
+                    $("#lab_fph").html("");
+                    $("#lab_fph").attr("title", "");
+                    $("#lab_zje").html("");
+                    $("#lab_brxzmc").html("");
+                    $("#lab_nl").html("");
+                    $("#lab_ysmc").html("");
+                    $("#lab_ksmc").html("");
+                }
 
-				}
-			});
-
-		} else {
-			$.najax({
-				type: "get",
-				url: "/OutPatientPharmacy/GetFyCfInfo",
-				data: { cardNo: data.CardNo, xm: data.xm },
-				dataType: "json",
-				success: function (res) {
-					if (res != null) {
-                        $("#lab_name").html(res.xm);
-                        tempMzh = res.mzh;
-						$("#lab_cfh").html(res.cfh);
-						$("#lab_cfh").attr("title", res.cfhComplete);
-						$("#lab_cardNo").html(res.CardNo);
-						$("#lab_fph").html(res.Fph);
-						$("#lab_fph").attr("title", res.FphComplete);
-						$("#lab_zje").html(res.Zje);
-						$("#lab_brxzmc").html(res.brxzmc);
-						$("#lab_nl").html(res.nl);
-						$("#lab_ysmc").html(res.ysmc);
-                        $("#lab_ksmc").html(res.ksmc);
-						getcfmx("2","",data.CardNo, data.xm);
-					} else {
-                        $("#lab_name").html("");
-                        tempMzh = "";
-						$("#lab_cfh").html("");
-						$("#lab_cfh").attr("title", "");
-						$("#lab_cardNo").html("");
-						$("#lab_fph").html("");
-						$("#lab_fph").attr("title", "");
-						$("#lab_zje").html("");
-						$("#lab_brxzmc").html("");
-						$("#lab_nl").html("");
-						$("#lab_ysmc").html("");
-						$("#lab_ksmc").html("");
-					}
-				}
-            });
-        }
+            }
+        });
+	    //$.najax({
+		//    type: "get",
+		//    url: "/OutPatientPharmacy/GetFyCfInfo",
+		//    data: { cardNo: data.CardNo, xm: data.xm },
+		//    dataType: "json",
+		//    success: function (res) {
+		//	    if (res != null) {
+        //            $("#lab_name").html(res.xm);
+        //            tempMzh = res.mzh;
+		//		    $("#lab_cfh").html(res.cfh);
+		//		    $("#lab_cfh").attr("title", res.cfhComplete);
+		//		    $("#lab_cardNo").html(res.CardNo);
+		//		    $("#lab_fph").html(res.Fph);
+		//		    $("#lab_fph").attr("title", res.FphComplete);
+		//		    $("#lab_zje").html(res.Zje);
+		//		    $("#lab_brxzmc").html(res.brxzmc);
+		//		    $("#lab_nl").html(res.nl);
+		//		    $("#lab_ysmc").html(res.ysmc);
+        //            $("#lab_ksmc").html(res.ksmc);
+		//		    getcfmx("2","",data.CardNo, data.xm);
+		//	    } else {
+        //            $("#lab_name").html("");
+        //            tempMzh = "";
+		//		    $("#lab_cfh").html("");
+		//		    $("#lab_cfh").attr("title", "");
+		//		    $("#lab_cardNo").html("");
+		//		    $("#lab_fph").html("");
+		//		    $("#lab_fph").attr("title", "");
+		//		    $("#lab_zje").html("");
+		//		    $("#lab_brxzmc").html("");
+		//		    $("#lab_nl").html("");
+		//		    $("#lab_ysmc").html("");
+		//		    $("#lab_ksmc").html("");
+		//	    }
+		//    }
+        //});
     }
     function getcfmx(type,cfh,carno,xm) {
 		if (type=="1") {
@@ -405,15 +385,16 @@
             caption: "处方明细",
             height: $(window).height() - $("#dv_cfInfo").height() - 160,
             colModel: [
-                { label: '发票号', name: 'fph', align: 'left', width: 75 },
+                { label: '发票号', name: 'fph', align: 'left', width: 65 },
 				{ label: 'cfnm', name: 'cfnm', hidden: true },
                 { label: '处方号', name: 'cfh', align: 'left', width: 110 },
                 { label: 'ypCode', name: 'ypCode', hidden: true },
                 { label: '药品名称', name: 'ypmc', align: 'left', width: 120 },
                 { label: '国家医保码', name: 'gjybdm', align: 'left', width: 100 },
                 { label: '规格', name: 'gg', align: 'left', width: 80 },
-                { label: '数量', name: 'sl', align: 'right', width: 40, classes: 'quantity' },
-                { label: '单位', name: 'dw', align: 'left', width: 50 },
+                { label: '数量', name: 'sl', align: 'right', width: 40, hidden: true, classes: 'quantity' },
+                { label: '单位', name: 'dw', align: 'left', width: 50 , hidden: true},
+                { label: '数量', name: 'slStr', align: 'right', width: 80, classes: 'quantity' },
                 {
                     label: '<span class="required">*</span>追溯码', name: 'zsm', width: 80, align: 'center',
                     formatter: function (cellvalue, options) {
@@ -423,7 +404,7 @@
                 {
                     label: '<span class="required">*</span>是否拆零', name: 'sfcl', width: 80, align: 'center',
                     formatter: function (cellvalue, options) {
-                        return "<select name=\"sfcl\" id=\"sel_sfcl_" + options.rowId + "\" rowid=" + options.rowId + " class=\"sfcl editable inline-edit-cell form-control\" style=\"padding:0; border-radius: 0px; border: 0px;\" ><option value=\"1\">是</option><option value=\"2\">否</option></select>";
+                        return "<select name=\"sfcl\" id=\"sel_sfcl_" + options.rowId + "\" rowid=" + options.rowId + " class=\"sfcl editable inline-edit-cell form-control\" style=\"padding:0; border-radius: 0px; border: 0px;\" ><option value=\"2\">否</option><option value=\"1\">是</option></select>";
                     }
                 },
                 {
@@ -432,6 +413,8 @@
                         return cellvalue ? parseFloat(cellvalue).toFixed(4) : "0.0000";
                     }
                 },
+                   { label: '批号', name: 'ph', align: 'left', width: 80 },
+                { label: '批次', name: 'pc', align: 'left', width: 92 },
                 { label: '生产厂家', name: 'ycmc', align: 'left', width: 120 },
                 {
                     label: '金额', name: 'je', align: 'right', width: 60,
@@ -480,7 +463,7 @@
                     maxZsmLength = parseInt(rowdata.sl)
                 }
                 if (zsmLength != 0 && zsmLength != maxZsmLength) {
-                    $.modalMsg("条目" + rowdata.ypmc + "数量与追溯码数量不一致！", "warning", 1500);
+                    $.modalAlert("条目" + rowdata.ypmc + "数量与追溯码数量不一致！", 'warning');
                     return false;
                 }
 
@@ -489,9 +472,9 @@
                     "xm": $gridPatients.jqGrid('getRowData', id).xm,
                     "cfh": rowdata.cfh,
                     "cfnm": rowdata.cfnm,
-                    "zsm": zsm,
-                    "sfcl": sfclValue,
-                    "ypdm": rowdata.ypCode
+                    "zsm": rowdata.ypCode + '/' + zsm +'/'+ sfclValue + '/' + rowdata.pc + '/' + rowdata.ph
+                    //"sfcl": sfclValue,
+                    //"ypdm": rowdata.ypCode
                 });
             }
             if (patient.length <= 0) {
@@ -604,7 +587,7 @@
         if (cfhs.length > 0) {
             var newcfh = $.unique(cfhs);//去重
             var cfh = newcfh.join(","); //数组转字符串逗号分割
-            var uri = '@reportUrl' + "?tempCode=1311&systemCode=PDS" + "&orgId=" + '@ViewBag.OrganizeId' + "&cfh=" + cfh + "&mzh=" + tempMzh + "&UserCode=" + opeator.UserCode;
+            var uri = '@reportUrl' + "?tempCode=1309&systemCode=PDS" + "&orgId=" + '@ViewBag.OrganizeId' + "&cfh=" + cfh + "&mzh=" + tempMzh + "&UserCode=" + opeator.UserCode;
             window.open(uri);
         }
         else { if (type1 == 1) $.modalAlert("无雾化处方，不能打印雾化卡！", 'warning'); }

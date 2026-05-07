@@ -1392,7 +1392,7 @@ gh.kh kh , gh.CardType, gh.CardTypeName,
 --A.nl,
 CAST( FLOOR(datediff(DY,a.csny,getdate())/365.25) as int) nl,
 xz.brxz,
-xz.brxzmc,
+xz.brxzmc,xz.brxzlb,
 A.dh,
 gh.mzh,
 gh.ghnm,
@@ -3032,29 +3032,33 @@ and xm.cfnm in ({0})", cfnm);
             if (flagstr == "true")
             {
                 strSql = @"select * from( 
-                select cfh,cfnm,sfxmmc,sfxmCode,sum(dj) dj,sum(sl) sl,sum(zje) zje,dw,yzlx,ks,ys,ysmc,ztId,ztmc,cflx from( 
+                select cfh,cfnm,sfxmmc,sfxmCode,sum(dj) dj,sum(sl) sl,sum(zje) zje,dw,yzlx,ks,ys,ysmc,ztId,ztmc,cflx,yybz from( 
                 SELECT  cf.cfh ,cf.cfnm ,yp.ypmc sfxmmc ,mx.yp sfxmCode, 
 	                sum(ISNULL(mx.dj, 0.00)) dj , sum(ISNULL(CAST(mx.sl AS INT), 0)) sl , sum(ISNULL(mx.je, 0.00)) zje , 
 	                mx.dw, '1' yzlx, 
-	                cf.ks, cf.ys, cf.ysmc,null ztId,null ztmc,cf.cflx  
+	                cf.ks, cf.ys, cf.ysmc,null ztId,null ztmc,cf.cflx,
+                    ybyp.NAT_HI_DRUGLIST_MEMO AS yybz
 	                FROM mz_cf(NOLOCK) cf  
 	                INNER JOIN mz_cfmx(NOLOCK) mx ON cf.cfnm = mx.cfnm AND mx.OrganizeId=cf.OrganizeId AND mx.zt = '1' 
 	                INNER JOIN dbo.mz_gh(NOLOCK) gh ON gh.ghnm=cf.ghnm AND gh.zt='1' AND gh.OrganizeId=cf.OrganizeId 
 	                LEFT JOIN NewtouchHIS_Base.dbo.V_C_xt_yp yp ON yp.ypCode=mx.yp AND yp.OrganizeId=cf.OrganizeId AND yp.zt='1' 
+	                 INNER JOIN  NewtouchHIS_Base.dbo.xt_ypsx ypsx ON yp.ypId=ypsx.ypId and yp.organizeid=ypsx.organizeid
+	                LEFT JOIN   NewtouchHIS_Base.dbo.[G_yb_wm_tcmpat_info_b] ybyp on ypsx.gjybdm =  ybyp.MED_LIST_CODG
 	                LEFT JOIN NewtouchHIS_Base.dbo.xt_sfdl(NOLOCK) dl ON dl.dlCode=mx.dl AND dl.OrganizeId=cf.OrganizeId AND dl.zt='1' 
 	                WHERE cf.OrganizeId = @orgId		 
 	                AND cf.zt= '1' AND cf.cfzt = '0' --处方有效且未收费 
 	                AND gh.mzh=@mzh 
                     AND cf.cfnm IN (SELECT * FROM dbo.f_split(@cfnms, ',')) --选择的处方内码 
-	                group by cf.cfh,cf.cfnm,yp.ypmc,mx.yp,mx.dw,cf.ks,cf.ys,cf.ysmc,cf.cflx 
+	                group by cf.cfh,cf.cfnm,yp.ypmc,mx.yp,mx.dw,cf.ks,cf.ys,cf.ysmc,cf.cflx,ybyp.NAT_HI_DRUGLIST_MEMO
                 ) b 
-                group by cfh ,cfnm,ztmc,ztId,ks,ys, ysmc,sfxmmc,sfxmCode,dw,yzlx,cflx 
+                group by cfh ,cfnm,ztmc,ztId,ks,ys, ysmc,sfxmmc,sfxmCode,dw,yzlx,cflx ,yybz
                  union all 
-                select cfh,cfnm,sfxmmc,sfxmCode,sum(dj) dj,case when ztId is not null then 1 else  sum(sl) end sl,sum(zje) zje,dw,yzlx,ks,ys,ysmc,ztId,ztmc,cflx from( 
+                select cfh,cfnm,sfxmmc,sfxmCode,sum(case when LEN(ztId)>0 then CONVERT(decimal(18,2),dj*sl) else dj end ) dj,case when LEN(ztId)>0 then 1 else  sum(sl) end sl,sum(zje) zje,dw,yzlx,ks,ys,ysmc,ztId,ztmc,cflx,'' yybz from( 
                 SELECT cf.cfh ,cf.cfnm , (case when xm.ztmc is not null then xm.ztmc else sfxm.sfxmmc end) sfxmmc , (case when xm.ztId is not null then xm.ztId else sfxm.sfxmCode end) sfxmCode , 
-	                sum(ISNULL(xm.dj, 0.00)) dj , sum(ISNULL(CAST(xm.sl AS INT), 0)) sl , sum(ISNULL(xm.je, 0.00)) zje ,(case when xm.ztId is not null then '组套' else xm.dw end) dw, 
+	                convert(decimal(18,4),sum(ISNULL(xm.dj, 0.00))) dj , sum(ISNULL(CAST(xm.sl AS INT), 0)) sl , sum(ISNULL(xm.je, 0.00)) zje ,(case when xm.ztId is not null then '组套' else xm.dw end) dw, 
 	                '2' yzlx, 
-	                xm.ks, xm.ys, xm.ysmc,xm.ztId,xm.ztmc,cf.cflx   
+	                xm.ks, xm.ys, xm.ysmc,xm.ztId,xm.ztmc,cf.cflx, 
+                    '' yybz
 	                FROM dbo.mz_xm(NOLOCK) xm 
 	                INNER JOIN dbo.mz_gh(NOLOCK) gh ON gh.ghnm=xm.ghnm and gh.OrganizeId=xm.OrganizeId AND gh.zt='1' 
 	                LEFT JOIN dbo.mz_cf(NOLOCK) cf ON cf.cfnm = xm.cfnm AND cf.OrganizeId = xm.OrganizeId 
@@ -3065,9 +3069,9 @@ and xm.cfnm in ({0})", cfnm);
 	                and (cf.zt is null or (cf.zt= '1' and cf.cfzt = '0')) --未关联处方 或 处方有效且未收费 
 	                AND gh.mzh=@mzh 
                     AND cf.cfnm IN  (SELECT * FROM dbo.f_split(@cfnms, ',')) --选择的处方内码 
-	                group by cf.cfh ,cf.cfnm,xm.ztmc,xm.ztId,xm.ks, xm.ys, xm.ysmc,sfxm.sfxmmc,sfxm.sfxmCode,xm.dw,cf.cflx 
-	                )  a 
-	                group by cfh ,cfnm,ztmc,ztId,ks,ys, ysmc,sfxmmc,sfxmCode,dw,yzlx,cflx 
+	                group by cf.cfh ,cf.cfnm,xm.ztmc,xm.ztId,xm.ks, xm.ys, xm.ysmc,sfxm.sfxmmc,sfxm.sfxmCode,xm.dw,cf.cflx
+	                ) a                                                                                                                                       
+	                group by cfh ,cfnm,ztmc,ztId,ks,ys, ysmc,sfxmmc,sfxmCode,dw,yzlx,cflx,yybz
                 ) z 
                 ORDER by isnull(cfh, 'ZZZZ') ";
             }
@@ -3078,11 +3082,14 @@ and xm.cfnm in ({0})", cfnm);
                 	SELECT  cf.cfh ,cf.cfnm ,mx.dl sfdlCode,dl.dlmc sfdlmc,	yp.ypmc sfxmmc ,mx.yp sfxmCode,
                 	ISNULL(mx.dj, 0.00) dj , ISNULL(CAST(mx.sl AS INT), 0) sl , ISNULL(mx.je, 0.00) zje ,
                 	mx.dw, mx.zfbl, mx.zfxz,null dczll, null zxcs,null xmnm, mx.cfmxId cfmxId, mx.CreateTime klsj,'1' yzlx,
-                	cf.ks, cf.ys, cf.ysmc, yp.ybdm ybdm,yp.ybbz, mx.cfmxId mxId, yp.ypgg gg, ISNULL(yp.gjybdm,'') xnhybdm
+                	cf.ks, cf.ys, cf.ysmc, yp.ybdm ybdm,yp.ybbz, mx.cfmxId mxId, yp.ypgg gg, ISNULL(yp.gjybdm,'') xnhybdm,
+                	ybyp.NAT_HI_DRUGLIST_MEMO AS yybz
                 	FROM mz_cf(NOLOCK) cf 
                 	INNER JOIN mz_cfmx(NOLOCK) mx ON cf.cfnm = mx.cfnm AND mx.OrganizeId=cf.OrganizeId AND mx.zt = '1'
                 	INNER JOIN dbo.mz_gh(NOLOCK) gh ON gh.ghnm=cf.ghnm AND gh.zt='1' AND gh.OrganizeId=cf.OrganizeId
                 	LEFT JOIN NewtouchHIS_Base.dbo.V_C_xt_yp yp ON yp.ypCode=mx.yp AND yp.OrganizeId=cf.OrganizeId AND yp.zt='1'
+                	 INNER JOIN  NewtouchHIS_Base.dbo.xt_ypsx ypsx ON yp.ypId=ypsx.ypId and yp.organizeid=ypsx.organizeid
+	                LEFT JOIN   NewtouchHIS_Base.dbo.[G_yb_wm_tcmpat_info_b] ybyp on ypsx.gjybdm =  ybyp.MED_LIST_CODG
                 	LEFT JOIN NewtouchHIS_Base.dbo.xt_sfdl(NOLOCK) dl ON dl.dlCode=mx.dl AND dl.OrganizeId=cf.OrganizeId AND dl.zt='1'
                 	WHERE cf.OrganizeId = @orgId		
                 	AND cf.zt= '1' AND cf.cfzt = '0' --处方有效且未收费
@@ -3094,7 +3101,8 @@ and xm.cfnm in ({0})", cfnm);
                 	SELECT cf.cfh ,cf.cfnm ,xm.dl sfdlCode ,dl.dlmc sfdlmc ,sfxm.sfxmmc sfxmmc , sfxm.sfxmCode sfxmCode ,
                 	ISNULL(xm.dj, 0.00) dj , ISNULL(CAST(xm.sl AS INT), 0) sl , ISNULL(xm.je, 0.00) zje ,xm.dw, xm.zfbl, xm.zfxz,
                 	xm.dczll,xm.zxcs,xm.xmnm xmnm, null cfmxId, xm.CreateTime klsj,	'2' yzlx,
-                	xm.ks, xm.ys, xm.ysmc, sfxm.ybdm ybdm,sfxm.ybbz, xm.xmnm mxId, ISNULL(sfxm.gg,'') gg, ISNULL(sfxm.gjybdm,'') xnhybdm
+                	xm.ks, xm.ys, xm.ysmc, sfxm.ybdm ybdm,sfxm.ybbz, xm.xmnm mxId, ISNULL(sfxm.gg,'') gg, ISNULL(sfxm.gjybdm,'') xnhybdm,
+                	 '' yybz   
                 	FROM dbo.mz_xm(NOLOCK) xm
                 	INNER JOIN dbo.mz_gh(NOLOCK) gh ON gh.ghnm=xm.ghnm and gh.OrganizeId=xm.OrganizeId AND gh.zt='1'
                 	LEFT JOIN dbo.mz_cf(NOLOCK) cf ON cf.cfnm = xm.cfnm AND cf.OrganizeId = xm.OrganizeId

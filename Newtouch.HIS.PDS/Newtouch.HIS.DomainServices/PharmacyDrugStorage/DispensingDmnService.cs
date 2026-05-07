@@ -53,6 +53,7 @@ namespace Newtouch.HIS.DomainServices
                 new SqlParameter("@zxdwsl", bookItemDo.Sl),
                 new SqlParameter("@yfbmCode", bookItemDo.Yfbm),
                 new SqlParameter("@cfh", bookItemDo.Cfh),
+                new SqlParameter("@cfmxId", bookItemDo.CfmxId),
                 new SqlParameter("@czh", bookItemDo.czh??""),
                 new SqlParameter("@OrganizeId", bookItemDo.OrganizeId),
                 new SqlParameter("@CreatorCode", bookItemDo.CreatorCode)

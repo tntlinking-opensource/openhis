@@ -127,6 +127,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Queue\QueueDmnService.cs" />
+    <Compile Include="DeptStorageManage\KcKcjzDmnService.cs" />
+    <Compile Include="DeptStorageManage\KcSyxxDmnService.cs" />
+    <Compile Include="DeptStorageManage\KfKcxxDmnService.cs" />
+    <Compile Include="DeptStorageManage\StockInventoryDmnService.cs" />
     <Compile Include="SysBespeakRegisterDmnService.cs" />
     <Compile Include="SysUsageLinkageDmnService.cs" />
     <Compile Include="TreatmentDmnService.cs" />

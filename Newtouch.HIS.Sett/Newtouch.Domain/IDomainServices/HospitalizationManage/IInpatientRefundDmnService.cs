@@ -12,6 +12,6 @@ namespace Newtouch.HIS.Domain.IDomainServices.HospitalizationManage
         /// <summary>
         /// 保存退费
         /// </summary>
-        void SaveRefund(List<HospItemBillingEntity> xmjfbEntitylist, List<HospDrugBillingEntity> ypjfbEntitylist, string zyh, string orgId);
+        string SaveRefund(List<HospItemBillingEntity> xmjfbEntitylist, List<HospDrugBillingEntity> ypjfbEntitylist, string zyh, string orgId);
     }
 }

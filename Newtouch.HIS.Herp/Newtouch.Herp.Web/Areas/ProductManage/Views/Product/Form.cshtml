@@ -177,6 +177,10 @@
                         <td class="formValue">
                             <input id="hslb" name="hslb" type="text" class="form-control" />
                         </td>
+                        <th class="formTitle">库存预警值：</th>
+                        <td class="formValue">
+                            <input id="kcyjz" name="kcyjz" type="text" class="form-control" />
+                        </td>
                     </tr>
                     <tr>
                         <th class="formTitle" style="height: 35px;">选项：</th>
@@ -297,6 +301,7 @@
         $("#ybdm").val(data.ybdm);
         $("#zblb").val(data.zblb);
         $("#hslb").val(data.hslb);
+        $("#kcyjz").val(data.kcyjz);
         if (data.imageUrl !== "") {
             $("#imageUrl").attr("src", data.imageUrl);
         }
@@ -396,11 +401,14 @@
             ybdm: $("#ybdm").val(),
             zblb: $("#zblb").val(),
             hslb: $("#hslb").val(),
+            kcyjz:$("#kcyjz").val(),
         };
         var options = {
             url: '/ProductManage/Product/SubmitForm?keyValue=' + keyWord,
             type: 'post',
-            data: postData,            dataType:'json',            beforeSubmit: function () {
+            data: postData,            
+            dataType:'json',            
+            beforeSubmit: function () {
                 if (!DataValidate()) {
                     return false;
                 }

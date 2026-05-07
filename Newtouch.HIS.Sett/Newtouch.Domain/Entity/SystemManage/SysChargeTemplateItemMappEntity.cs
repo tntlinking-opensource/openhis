@@ -90,7 +90,7 @@ namespace Newtouch.HIS.Domain.Entity
         /// </summary>
         public string bw { get; set; }
 
-        public decimal dj { get; set; }
+        public decimal? dj { get; set; }
 
     }
 }

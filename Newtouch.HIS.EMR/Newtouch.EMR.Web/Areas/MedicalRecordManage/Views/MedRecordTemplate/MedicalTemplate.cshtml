@@ -2963,6 +2963,7 @@
     //保存病历模板
     function FileSavev5()
     {
+    debugger
         var ctl = document.getElementById("myWriterControl");
         var xmldata = ctl.SaveDocumentToBase64String("xml");
         $.ajax({
@@ -3001,7 +3002,7 @@
             callBack: function (iframeId) {
                 debugger;
                 top.frames[iframeId].submitForm();
-                TemplateSave();
+                //TemplateSave();
             }
         });
     }

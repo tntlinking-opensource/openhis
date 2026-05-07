@@ -95,7 +95,7 @@ namespace Newtouch.HIS.Domain.IDomainServices
         /// <param name="userCode"></param>
         /// <param name="organizeId"></param>
         /// <returns></returns>
-        string ExecOutpatientDispensingDrugV2(string cfh, string yfbmCode, string userCode, string organizeId, string ypdm,string zsm, int? sfcl);
+        string ExecOutpatientDispensingDrugV2(string cfh, string yfbmCode, string userCode, string organizeId,string zsm);
 
         /// <summary>
         /// 门诊发药
@@ -222,11 +222,6 @@ namespace Newtouch.HIS.Domain.IDomainServices
         /// <param name="orgId"></param>
         /// <returns></returns>
         IList<YpdlDTO> getYpdl(string orgId);
-
-        /// <summary>
-        /// 同步所有收费但是没有同步到PDS的处方
-        /// </summary>
-        string SyncPDSCfFromSett(string organizeId);
 
 
         #region 药品 、耗材使用情况

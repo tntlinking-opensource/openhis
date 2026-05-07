@@ -19,8 +19,8 @@
                     <td class="formValue formDdlSelectorTd" style="width: 90px;">
                         @Html.DropDownList("orderType", EnumOrderTypeHrp.TempOrder.ToDescSelectList(), "全部", new { @class = "form-control" })
                     </td>
-                    <td class="formTitle">处理状态：</td>
-                    <td class="formValue formDdlSelectorTd" style="width: 90px;">
+                    <td class="formTitle" style="display:none">处理状态：</td>
+                    <td class="formValue formDdlSelectorTd" style="width: 90px;display:none">
                         @Html.DropDownList("orderProcess", EnumOrderProcess.Waiting.ToDescSelectList(), "全部", new { @class = "form-control" })
                     </td>
                     <th class="formTitle"><span class="required">*</span>提交时间：</th>
@@ -94,7 +94,7 @@
                     }
                 },
                 {
-                    label: '处理状态', name: 'orderProcess', width: 80, formatter: function (val) {
+                    label: '处理状态', name: 'orderProcess', width: 80, hidden:true, formatter: function (val) {
                         switch (val) {
                         case @((int)EnumOrderProcess.Refusal):
                             return "@EnumOrderProcess.Refusal.GetDescription()";

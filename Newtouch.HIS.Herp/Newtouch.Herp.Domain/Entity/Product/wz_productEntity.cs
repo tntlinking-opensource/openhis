@@ -170,5 +170,9 @@ namespace Newtouch.Herp.Domain.Entity
         /// 核算类别
         /// </summary>
         public string hslb { get; set; }
+        /// <summary>
+        /// 库存预警值
+        /// </summary>
+        public int? kcyjz { get; set; }
 	}
 }

@@ -130,11 +130,11 @@
             $.modalAlert("开始日期不能大于结束日期", 'warning');
             return;
         }
-        ajaxLoadDataResult();
+        ajaxLoadDataResult($.trim($("#zyh").val()));
     });
     //回车查询
     $('#zyh').keydownEnterEvent(function () {
-        ajaxLoadDataResult();
+        ajaxLoadDataResult($.trim($("#zyh").val()));
     });
 
     //住院病人查询
@@ -157,15 +157,16 @@
     //选择的病人
     function getPatInfoAjax(selePatInfo) {
         $('#zyh').val(selePatInfo.zyh);
-        $("#btn_search").trigger('click');
+        ajaxLoadDataResult(selePatInfo.zyh);
+        //$("#btn_search").trigger('click');
     }
     //var arraylist = new Array();
     //ajax加载数据
-    function ajaxLoadDataResult() {
+    function ajaxLoadDataResult(zyh) {
         //清空Grid
         $('#gridList').jqGrid("clearGridData");
 
-        var zyh = $.trim($("#zyh").val());
+        //var zyh = $.trim($("#zyh").val());
         if (zyh == '') {
             $.modalAlert("请输入住院号。", 'warning');
             return false;
@@ -184,6 +185,7 @@
                     $.modalAlert("未查询到该病人信息,请确认。", 'warning');
                     return;
                 }
+                debugger;
                 //住院病人信息
                 $('#divPatInfo').formSerialize(ajaxresp.data.InpatientSettPatInfo, true);
                 $('#nlshow').html(getAgeFromBirthTime({ begin: ajaxresp.data.InpatientSettPatInfo.csny }).text);
@@ -228,13 +230,15 @@
     //计费明细
     $('#gridList').newtouchLocalDataGrid({
         caption: '计费明细',
-        height: $(window).height() - 280,
+        height: $(window).height() - 310,
         unwritten: false,
         editurl: "clientArray",
         //rownumbers: true,
         colModel: [
             
             { label: "isYP", name: "isYP", width: 100, align: "left", hidden: true },
+            { label: "项目代码", name: "sfxm", width: 130, align: "left", hidden: true },
+            { label: "yzwym", name: "yzwym", width: 130, align: "left", hidden: true },
             { label: "计费编码", name: "jfbbh", width: 100, align: "center", hidden: true },
             { label: "jfbbhs", name: "jfbbhs", width: 100, align: "center", hidden: true },
             { label: "dcztbs", name: "dcztbs", width: 100, align: "center", hidden: true },
@@ -271,7 +275,7 @@
             { label: "ztsl", name: "ztsl", width: 25, align: "left", hidden: true },
             {
                 label: "记账日期", name: "tdrq", width: 100, align: "left",
-                formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d' }
+                formatter: "date", formatoptions: { srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s' }
             }
         ],
         multiselect: true,

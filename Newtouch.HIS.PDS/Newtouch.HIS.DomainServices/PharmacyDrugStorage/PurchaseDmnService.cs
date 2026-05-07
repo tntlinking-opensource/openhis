@@ -42,7 +42,7 @@ select * from xt_yp_cg a
 
             var strSql = new StringBuilder(@"
 
-select cgmx.*,yp.ypmc ,gys.gysmc yqmc ,
+select cgmx.*,yp.ypmc,yp.ycmc sccj,gys.gysmc yqmc ,
 case cglx when 1 then '医保范围招标' when 2 then '医保范围未招标' end cglxmc,
 case splx when 1 then '药品类' when 2 then '医用耗材器械类' when 9 then '其他' end splxmc,
 case cgjldw when 1 then '计价单位' when 2 then '最小使用单位'  end cgjldwmc,
@@ -54,6 +54,7 @@ left join [NewtouchHIS_Base].[dbo].[xt_ypgys] gys on cgmx.yqbm=gys.gysCode and c
   where cgmx.zt = '1'
   and cgmx.OrganizeId=@orgId
   and cgmx.cgId=@cgId
+order by sxh 
 ");
 
 
@@ -176,7 +177,7 @@ left join [NewtouchHIS_Base].[dbo].[xt_ypgys] gys on cgmx.yqbm=gys.gysCode and c
 
 
         /// <summary>
-        /// 获取采购明细及药品信息
+        /// 获取采购明细及药品信息(药品入库-采购单引用)
         /// </summary>
         /// <param name="cgId"></param>
         /// <param name="orgId"></param>
@@ -185,46 +186,29 @@ left join [NewtouchHIS_Base].[dbo].[xt_ypgys] gys on cgmx.yqbm=gys.gysCode and c
         public List<PurchaseStoreDTO> QueryPurchaseStorebyId(string cgId, string orgId,string yfbmCode)
         {
 
-            var strSql = new StringBuilder(@"
-
-select * from 
-(
-select cgmx.*,yp.ypmc ,gys.gysmc yqmc ,
-case cglx when 1 then '医保范围招标' when 2 then '医保范围未招标' end cglxmc,
-case splx when 1 then '药品类' when 2 then '医用耗材器械类' when 9 then '其他' end splxmc,
-case cgjldw when 1 then '计价单位' when 2 then '最小使用单位'  end cgjldwmc,
-case dcpsbs when 0 then '不允许' when 1 then '允许' end dcpsbsmc
-from xt_yp_cgmx cgmx
-left join [NewtouchHIS_Base].dbo.xt_yp yp on cgmx.ypCode =yp.ypCode and cgmx.OrganizeId=yp.OrganizeId and cgmx.zt=yp.zt
-left join [NewtouchHIS_Base].[dbo].[xt_ypgys] gys on cgmx.yqbm=gys.gysCode and cgmx.OrganizeId=gys.OrganizeId and cgmx.zt=gys.zt
-
-  where cgmx.zt = '1'
-  and cgmx.OrganizeId=@orgId
-  and cgmx.cgId=@cgId
-  ) a
-  left join (
-SELECT  s.dlmc,s.ypmc,s.ypCode ypdm,s.ypgg gg,SUM(s.kykc) kykc, dbo.f_getComplexYpSlandDw(SUM(s.kykc),s.zhyz,s.bmdw,s.zxdw) slStr,s.bmdw dw,CONVERT(INT,s.zhyz) zhyz,CONVERT(INT,s.bzs) bzs
-,s.bzdw,s.zxdw,s.pzwh,CONVERT(NUMERIC(11,4),s.zxdwlsj) zxdwlsj,CONVERT(NUMERIC(11,4),s.zxdwlsj*s.zhyz) lsj,CONVERT(NUMERIC(11,4),s.zxdwpfj*s.zhyz) pfj,s.ycmc sccj,s.yklsj,s.ykpfj
-,(CONVERT(VARCHAR(11),CONVERT(NUMERIC(11,2),s.zxdwlsj*s.zhyz))+'元/'+s.bmdw) lsjdjdw
-FROM 
-(
-	SELECT sfdl.dlmc, yp.ypmc, bmypxx.Ypdm ypCode, ypsx.ypgg, (kcxx.kcsl-kcxx.djsl) kykc, dbo.f_getyfbmDw(@yfbmCode, bmypxx.Ypdm, @orgId) bmdw
-	, dbo.f_getyfbmZhyz(@YfbmCode, bmypxx.Ypdm, bmypxx.OrganizeId) zhyz, yp.bzs, yp.bzdw, yp.zxdw, ISNULL(ypsx.pzwh,'') pzwh,yp.ycmc
-	,yp.lsj/yp.bzs zxdwlsj,yp.pfj/yp.bzs zxdwpfj,yp.lsj yklsj,yp.pfj ykpfj
-	FROM dbo.xt_yp_bmypxx(NOLOCK) bmypxx
-	INNER JOIN NewtouchHIS_Base.dbo.V_S_xt_yp yp ON yp.ypCode=bmypxx.Ypdm AND yp.OrganizeId=bmypxx.OrganizeId 
-	INNER JOIN NewtouchHIS_Base.dbo.V_S_xt_ypsx ypsx ON ypsx.ypId=yp.ypId AND ypsx.OrganizeId=bmypxx.OrganizeId
-	LEFT JOIN dbo.xt_yp_kcxx(NOLOCK) kcxx ON kcxx.ypdm=bmypxx.Ypdm AND kcxx.yfbmCode=bmypxx.yfbmCode AND kcxx.OrganizeId=bmypxx.OrganizeId AND kcxx.zt='1'
+            var strSql = new StringBuilder(@" SELECT  cgmxId,ypCode,ypName ypmc,sxh,cglx,splx,zxspbm,cgjldw,ggbz,cgsl,cgdj,zje,dw,yqbm,yqmc,dlmc,SUM(kykc) kykc, 
+dbo.f_getComplexYpSlandDw(SUM(kykc),zhyz,bmdw,zxdw) slStr,bmdw,zhyz,bzs,bzdw,zxdw,pzwh,ycmc sccj,CONVERT(NUMERIC(11,4),zxdwlsj) zxdwlsj,
+CONVERT(NUMERIC(11,4),zxdwpfj) zxdwpfj,yklsj,ykpfj,(CONVERT(VARCHAR(11),CONVERT(NUMERIC(11,2),zxdwlsj*zhyz))+'元/'+bmdw) lsjdjdw 
+FROM (
+	SELECT cgmx.cgmxId,cgmx.ypCode,cgmx.ypName,cgmx.sxh,cgmx.cglx,cgmx.splx,cgmx.zxspbm,cgmx.cgjldw,cgmx.ggbz,cgmx.cgsl,cgmx.cgdj,
+		cgmx.dcpsbs,cgmx.bzsm,cgmx.dw,cgmx.zje,cgmx.yqbm,gys.gysmc yqmc,
+		sfdl.dlmc, (kcxx.kcsl-kcxx.djsl) kykc,
+		dbo.f_getyfbmDw(@yfbmCode, bmypxx.Ypdm, @orgId) bmdw
+		,dbo.f_getyfbmZhyz(@yfbmCode, bmypxx.Ypdm, bmypxx.OrganizeId) zhyz, yp.bzs, yp.bzdw, yp.zxdw, ISNULL(yp.pzwh,'') pzwh,yp.ycmc
+		,yp.lsj/yp.bzs zxdwlsj,yp.pfj/yp.bzs zxdwpfj,yp.lsj yklsj,yp.pfj ykpfj
+	FROM xt_yp_cgmx cgmx (nolock)
+	INNER JOIN xt_yp_bmypxx(NOLOCK) bmypxx ON cgmx.ypCode=bmypxx.Ypdm AND cgmx.OrganizeId=bmypxx.OrganizeId and  bmypxx.yfbmCode=@yfbmCode
+	LEFT JOIN dbo.xt_yp_kcxx(NOLOCK) kcxx ON kcxx.ypdm=cgmx.ypCode  AND kcxx.OrganizeId=cgmx.OrganizeId AND kcxx.zt='1' AND kcxx.yfbmCode=@yfbmCode
+	LEFT JOIN [NewtouchHIS_Base].dbo.V_S_xt_yp yp (nolock) on cgmx.ypCode =yp.ypCode and cgmx.OrganizeId=yp.OrganizeId and cgmx.zt=yp.zt
+	LEFT JOIN [NewtouchHIS_Base].[dbo].[xt_ypgys] gys (nolock) on cgmx.yqbm=gys.gysCode and cgmx.OrganizeId=gys.OrganizeId and cgmx.zt=gys.zt
 	LEFT JOIN NewtouchHIS_Base.dbo.V_S_xt_sfdl sfdl ON sfdl.dlCode=yp.dlCode AND sfdl.OrganizeId=bmypxx.OrganizeId AND sfdl.zt='1'
-	WHERE bmypxx.yfbmCode=@yfbmCode
-	AND bmypxx.zt='1'
-	AND bmypxx.OrganizeId=@orgId
-	--AND (yp.ypCode LIKE '%'+@keyWord+'%' OR yp.ypmc LIKE '%'+@keyWord+'%' OR yp.py LIKE '%'+@keyWord+'%')
-) s
-GROUP BY s.dlmc,s.ypmc,s.ypCode,s.ypgg,s.bmdw,s.zhyz,s.bzs,s.bzdw,s.zxdw,s.pzwh,s.zxdwlsj,s.zxdwpfj,s.ycmc,s.yklsj,s.ykpfj
-
-) b on a.ypCode=b.ypdm
-");
+	WHERE cgmx.zt = '1'
+	  and cgmx.OrganizeId=@orgId
+	  and cgmx.cgId=@cgId
+  ) a
+ GROUP BY cgmxId,ypCode,ypName,sxh,cglx,splx,zxspbm,cgjldw,ggbz,cgsl,cgdj,yqbm,yqmc,dlmc,bmdw,zhyz,bzs,bzdw,zxdw
+ ,pzwh,ycmc,zxdwlsj,zxdwpfj,yklsj,ykpfj,dw,zje
+ order by sxh");
 
 
             var param = new List<SqlParameter>
@@ -240,7 +224,7 @@ GROUP BY s.dlmc,s.ypmc,s.ypCode,s.ypgg,s.bmdw,s.zhyz,s.bzs,s.bzdw,s.zxdw,s.pzwh,
 
 
         /// <summary>
-        /// 获取发票明细及药品信息 (药品入库)
+        /// 获取发票明细及药品信息 (药品入库-采购单引用)
         /// </summary>
         /// <param name="cgId"></param>
         /// <param name="orgId"></param>

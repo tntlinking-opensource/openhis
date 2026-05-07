@@ -75,7 +75,7 @@
             <a id="0" class="btn  quanxian"><i class="fa "></i>全院</a>
         
         </div>
-        <div class="dv-right-tree" id="BqTreeList" style="background-color:#eee;"></div>
+        <div class="dv-right-tree" id="BqTreeList" style="background-color:white;"></div>
     </div>
 
 </div>
@@ -108,9 +108,10 @@
             },
             onnodedbclick: function (item) {
                 if (item.value != 'parent') {
-                    document.getElementById('myWriterControl').DCExecuteCommand('Spechars', true, item.value);
-        
-          
+                    if ($.request('doctype') == '.html')
+                        insertDataAtCursor(item.value);
+                    else
+                        document.getElementById('myWriterControl').DCExecuteCommand('Spechars', true, item.value);
                 }
             }
         });
@@ -118,7 +119,6 @@
     }
 
     function btn_add() {
-
         var PartCTID = $("#ctglDiv").find(".bbit-tree-selected").find(".bbit-tree-node-text").attr("data-id");
         var Isparent = $("#ctglDiv").find(".bbit-tree-selected").find(".bbit-tree-node-text").attr("data-value");
         if (PartCTID == null ||Isparent!= "parent") {
@@ -141,7 +141,9 @@
                         }
                     });
         } else {
-            var SelectionText = document.getElementById('myWriterControl').SelectionText();
+            var SelectionText = "";
+            if ($.request('doctype') != '.html')
+                SelectionText = document.getElementById('myWriterControl').SelectionText();
             var qx = $(".dv-right-title").find(".selected").attr("id");
             if (SelectionText == null) {
                 SelectionText = "";

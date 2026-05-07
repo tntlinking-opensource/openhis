@@ -217,6 +217,7 @@
     <Content Include="Areas\ReportManage\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\ReportManage\Views\InHospitalReport\CyvrkyKs.cshtml" />
     <Content Include="Areas\ReportManage\Views\InHospitalReport\CyvrkyQy.cshtml" />
+    <Content Include="Areas\RecordManage\Views\Record\PreViewV2.cshtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>

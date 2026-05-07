@@ -267,7 +267,7 @@ namespace Newtouch.EMR.DomainServices
                     }
 
                     break;
-                case "6":
+                case "6": //康复
                     bl_patrecordsEntity bl_kf = new bl_patrecordsEntity();
                     bl_kf.Id = medicalRecord.ID;
                     bl_kf.CreatorCode = medicalRecord.CreatorCode;
@@ -374,7 +374,7 @@ namespace Newtouch.EMR.DomainServices
         /// <param name="zyh"></param>
         /// <param name="mzh"></param>
         /// <returns></returns>
-        public string BL_Save(string orgId, string bllx, string mbbh, string path, string BLMC, OperatorModel user, string zyh, string mzh = null)
+        public string BL_Save(string orgId, string bllx, string mbbh, string path, string BLMC, OperatorModel user, string zyh, string mzh = null, string doctype = null)
         {
             var medicalRecord = new medicalRecordVO();
             medicalRecord.ID = Guid.NewGuid().ToString();
@@ -409,6 +409,7 @@ namespace Newtouch.EMR.DomainServices
                 zyEty.ysgh = user.rygh;
                 zyEty.CreateTime = DateTime.Now;
                 zyEty.zt = "1";
+                zyEty.doctype = doctype;
                 MedicalRecordSave(medicalRecord, zyEty);
             }
             else if (!string.IsNullOrWhiteSpace(mzh))
@@ -429,6 +430,7 @@ namespace Newtouch.EMR.DomainServices
                 Entity.ysgh = user.rygh;
                 Entity.CreateTime = DateTime.Now;
                 Entity.zt = "1";
+                Entity.doctype = doctype;
                 MedicalRecordSaveMz(medicalRecord, Entity);
             }
 
@@ -718,7 +720,7 @@ select CONVERT(varchar(10),'临') yzlb,yz.yzlx,yz.yzzt, yz.kssj kssj ,ry.Name ys
         }
 
         //获取住院病人基本信息元素
-        public blzybrjbxxVO GetBlZybrjbxx(string OrgId, string zyh, string user)
+        public blzybrjbxxVO GetBlZybrjbxx(string OrgId, string zyh, string user, bool newbz = false)
         {
             try
             {
@@ -727,8 +729,11 @@ select CONVERT(varchar(10),'临') yzlb,yz.yzlx,yz.yzzt, yz.kssj kssj ,ry.Name ys
                             new SqlParameter("@organizeId", OrgId),
                             new SqlParameter("@user", user)
                 };
-
-                string sql = "exec  usp_bl_zybrjbxx @zyh=@zyh ,@organizeId=@organizeId,@user=@user";
+                string sql = "";
+                if(newbz)
+                     sql = "exec  usp_bl_zybrjbxxV2 @zyh=@zyh ,@organizeId=@organizeId";
+                else
+                     sql = "exec  usp_bl_zybrjbxx @zyh=@zyh ,@organizeId=@organizeId,@user=@user";
 
                 return this.FirstOrDefault<blzybrjbxxVO>(sql, para.ToArray());
 

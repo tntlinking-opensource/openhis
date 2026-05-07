@@ -299,8 +299,8 @@ where a.OrganizeId=@orgId and a.zt='1'";
 		public int GetPermissions(string orgid, string gh, string tsypzl, string dlcode, string kssqxjb)
 		{
 			var code = 1;
-			string sqls = @"select count(*) from [Newtouch_CIS]..[Sys_Config] where code = 'DocPresAuthCtrl' and Value = '1'";//查看是否具有开药的权限,此表的value 0为未开启此权限，1为开启
-			var tt = this.FirstOrDefault<int>(sqls);
+			string sqls = @"select count(*) from [Newtouch_CIS]..[Sys_Config] where OrganizeId=@orgId and code = 'DocPresAuthCtrl' and Value = '1'";//查看是否具有开药的权限,此表的value 0为未开启此权限，1为开启
+			var tt = this.FirstOrDefault<int>(sqls, new SqlParameter[] { new SqlParameter("@orgId", orgid) });
 			if (tt == 0) //如未在医生站开启开药权限，则所有药品均可开立
 			{
 				return code;

@@ -4,6 +4,7 @@
     Layout = "~/Views/Shared/_Index.cshtml";
     //分诊叫号自动刷新时间
     var ConsultCallRefreshTime = SysConfigReader.String("ConsultCallRefreshTime");
+    var opr = Newtouch.Common.Operator.OperatorProvider.GetCurrent();
 }
 <style>
     html, body {
@@ -85,7 +86,7 @@
 <div id="content" style="width:100%;float:left;">
     <div class="topPanel back" style="height:20%;">
         <div>
-            <span style="font-size:30px;color:red;margin-left:20px;">上海明德五官科医院排队叫号系统</span>
+            <span style="font-size:30px;color:red;margin-left:20px;">@(ViewBag.orgName)排队叫号系统</span>
             <span id="dateTime" style="font-size:30px;color:#F4F897;float:right;margin-right:20px;"></span>
         </div>
     </div>
@@ -103,17 +104,18 @@
     <div id="fade" class="black_overlay"></div>
 
     <div id="word" style="font-size:28px;color:red;position:absolute;left:125px;bottom:0px;height:10%;">
-        欢迎来到上海明德五官科医院就诊
+        欢迎来到@(ViewBag.orgName)就诊
     </div>
 </div>
 <script>
-        var ksCode = $.request("ksCode");//接收科室编号
+    var ksCode = $.request("ksCode") ? $.request("ksCode"):"@(opr.DepartmentCode)";//接收科室编号
+    debugger;
         $(function () {
-            //initControl();
-            //gridList();
+        //initControl();
+        //gridList();
             getDateTime();
             getConsultCall();
-        })
+    })
         function scrollTable() {
             var tableHeight = document.getElementById("pretb").offsetHeight;
             var tbodyHeight = document.getElementById("tbody").offsetHeight;

@@ -481,6 +481,7 @@
             editurl: "clientArray",
             colModel: [
                 { label: '组套ID', name: 'ztId', width: 60, align: 'left', key: true, editable: true, hidden: true },
+                { label: 'mbId', name: 'mbId', width: 60, align: 'left', hidden: true },
                 { label: '组套名称', name: 'ztmc', width: 150, align: 'left' },
                 { label: '部位', name: 'bw', editable: true, editwidth: '97%', width: 150, align: 'center' },
                 {
@@ -582,11 +583,11 @@
                 EnableExaIInlineEditBoxZT();    //重启启用编辑 否则下次Save时会返回false
                     return;   //保存失败，则return
                 }
-
         }
+        var jcmbId = $("#alreadyJCAppliedGroupList").getRowData(rowIds[0]).mbId;
         $.najax({
             url: "/TemplateManage/InspectionTemplate/GetGPackageDetailByZtIdArray",
-            data: { ztId: rowIds },
+            data: { ztId: rowIds,mbId:jcmbId },
             dataType: "json",
             type: "POST",
             async: false,
@@ -610,6 +611,8 @@
                     this.yzlb = "临";
                     this.kssj = $.getTime();
                     this.zxksdm = this.zxks;
+                    this.ztmbId=jcmbId;
+                    this.isjffffff='@ViewBag.openYjzxSwitch'=="ON" ? 0:1 //医技科室执行开关开启状态医嘱执行不入计费 医技执行后算入计费
                 });
             }
         });

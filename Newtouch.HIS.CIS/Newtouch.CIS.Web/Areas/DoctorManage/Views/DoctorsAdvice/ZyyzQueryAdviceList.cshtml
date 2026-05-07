@@ -104,36 +104,7 @@
             <td>未执行长期/临时</td>
         </tr>
     </table>
-    <div id="floatLisReportDiv">
-        <div data-href="ynbg"><span>院内报告</span></div>
-    </div>
-    <div id="floadLisReportTree" style="display:none;z-index:1;background: white;">
-        <div class="panel-body">
-            <table class="form">
-                <tr>
-                    <td class="formValue">
-                        <input class="btn btn-info md" id="btn_pacs" style="width: 60px;" value="PACS报告" />
-                    </td>
-                </tr>
-                <tr>
-                    <td class="formValue">
-                        <input class="btn btn-info md" id="btn_lis_report" style="width: 60px;" value="LIS报告" />
-                    </td>
-                </tr>
-                @*<tr>
-                        <td class="formValue">
-                            <input class="btn btn-info md" id="btn_bc" style="width: 100px;" value="B超报告" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="formValue">
-                            <input class="btn btn-info md" id="btn_xd" style="width: 100px;" value="心电报告" />
-                        </td>
-                    </tr>*@
-
-            </table>
-        </div>
-    </div>
+    @Html.Partial("~/Areas/DoctorManage/Views/Apply/ReportTree.cshtml")
     <input type="button" id="btn_BindingFee" style="position:relative;top:10px;" class="btn btn-primary" value="附属医嘱" onclick="BindingFee()" />
     @Html.Partial("_BottomButtonsYzPrintView", new Newtouch.HIS.Web.Core.Models.BottomButtonViewModel()
 {
@@ -184,24 +155,8 @@
         $("#yzlx").bindSelect({
             url: "@Url.Action("GetyzlxContain")"
         });
-        if("@IsreportOpen"!="true")
-        {
-            $('#floatLisReportDiv').hide();
-        }
     });
-    $("#floatLisReportDiv div").on("click", function (e){
-        e.preventDefault();
-        if ($(this).hasClass('activepart')) {
-            //再点击 隐藏
-            $("#floatLisReportDiv div").removeClass("activepart");
-            $('#floadLisReportTree').hide();
-        }
-        else{
-            $("#floatLisReportDiv div").removeClass("activepart");
-            $(this).addClass("activepart");
-            $('#floadLisReportTree').show();
-        }
-    })
+
     function BindingFee() {
         var keyValue = $("#gridPatientList").jqGridRowValue().Id;
         if (!!!keyValue) {
@@ -333,7 +288,8 @@
             unwritten: false,
             pager: '#gridPatPager',
             //sortname: 'zh,yzlb,yzlx,kssj desc',
-            sortname: 'yzlx,kssj desc,zh,Px',
+            //sortname: 'yzlx,kssj desc,zh,Px',
+            sortname: 'yzh desc,px,kssj desc,zh',
             rownumbers: true,
             rowNum: 100, //每页显示记录数
             colModel: [
@@ -372,6 +328,7 @@
                 { label: 'iszt', name: 'iszt', align: 'center', hidden: true },
                 { label: 'yfztbs', name: 'yfztbs', align: 'center', hidden: true },
                 { label: '精麻', name: 'yztagName', align: 'center', width: 30 },
+                { label: '医嘱号', name: 'yzh', align: 'center', width: 60 , hidden: true},
                 {
                     label: '药品总量', name: 'zycldw', align: 'center', width: 50
                 },
@@ -630,46 +587,5 @@
         }
 
     }
-    $('#btn_pacs').click(function () {
-        //金风易通 PACS 2024-4-28 chl
-        window.open("@pacsHost/doctor-api/api/viewer?pid=" + currentobj.blh + "&areaCode=" + "@curOpr.OrganizeId", "_blank");
-        //测试链接
-        //window.open("@pacsHost/doctor-api/api/viewer?pid=1034097&areaCode=6d5752a7-234a-403e-aa1c-df8b45d3469f", "_blank");
-
-        //var zyh = currentobj.zyh;
-        //$.modalOpen({
-        //    id: "medicaljyForm",
-        //    title: "检查申请单列表",
-        //    url: "/MedicalRecord/PacsSqdhQueryForm?mzzyh=" + zyh + "&type=" + "zy",
-        //    width: "800px",
-        //    height: "500px",
-        //    btn: ['', '关闭'],
-        //    btnclass: ['', 'btn btn-danger'],
-        //});
-    })
-    $('#btn_lis_report').click(function(){
-        //金风易通 LIS 2024-4-28 chl
-        window.open("@pacsHost/doctor-api/api/viewer?type=1&pid=" + currentobj.blh + "&areaCode=" + "@curOpr.OrganizeId", "_blank");
-        //测试链接
-        //window.open("@pacsHost/doctor-api/api/viewer?type=1&pid=JF566&areaCode=6d5752a7-234a-403e-aa1c-df8b45d3469f", "_blank");
-
-        //var zyh = currentobj.zyh;
-        //$.modalOpen({
-        //    id: "medicaljyForm",
-        //    title: "检验申请单列表",
-        //    url: "/MedicalRecord/LisSqdhQueryForm?mzzyh=" + zyh+"&type="+"zy",
-        //    width: "900px",
-        //    height: "600px",
-        //    btn:['', '关闭'],
-        //    btnclass: ['', 'btn btn-danger'],
-        //});
-    })
-    function cfLeftFloatHide() {
-        $('#floadLisReportTree').hide();
-    }
-
-    $('.contentPanel').on('click', function () {
-        cfLeftFloatHide();
-    });
 </script>
 

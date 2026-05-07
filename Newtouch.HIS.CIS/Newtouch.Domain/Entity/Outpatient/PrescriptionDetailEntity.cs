@@ -170,6 +170,10 @@ namespace Newtouch.Domain.Entity
         /// </summary>
         public decimal? ts { get; set; }
         /// <summary>
+        /// 组套所属模板
+        /// </summary>
+        public string ztmbId { get; set; }
+        /// <summary>
         /// 组套id
         /// </summary>
         public string ztId { get; set; }

@@ -2,7 +2,7 @@
 @using Newtouch.Infrastructure;
 @using Newtouch.Common.Operator;
 @{
-    ViewBag.Title = "过期药品查询";
+    ViewBag.Title = "过期药品查询(消息提醒)";
     Layout = "~/Views/Shared/_Index.cshtml";
 
     var reportUrl = Newtouch.Core.Common.Utils.ConfigurationHelper.GetAppConfigValue("ReportUrl");
@@ -54,14 +54,15 @@
 						<input id="txtINPUTCODE" type="text" class="form-control" placeholder="药品名称" />
 					</td>
 					<th class="formValue" style="width: 120px;">
-						<select class="form-control" id="sel_gqrq">
-							<option value="0">已过期</option>
-							<option value="1">1个月内过期</option>
-							<option value="2">2个月内过期</option>
-							<option value="3">3个月内过期</option>
-							<option value="4">3月后过期</option>
-							<option value="6">6月后过期</option>
-						</select>
+                        <select class="form-control" id="sel_gqrq">
+                            <option value="0">已过期</option>
+                            <option value="7">今日到期</option>
+                            <option value="1">1个月内过期</option>
+                            <option value="2">2个月内过期</option>
+                            <option value="3">3个月内过期</option>
+                            <option value="4">3月后过期</option>
+                            <option value="6">6月后过期</option>
+                        </select>
 					</th>
 					<td colspan="3"></td>
 					<td class="formTitle" style="width: 140px;">
@@ -100,6 +101,9 @@
         $(window).resize(function () {//浏览器窗口调整大小时重新加载jqGrid的宽
             window.initLayout("MyTabGrid");
         });
+        if ($.request("type")) {
+            $("#sel_gqrq").val($.request("type"));
+        }
         gridYPZLData();
 
         $("#btn_search").click(function () {search();});
@@ -153,27 +157,27 @@
             postData: getSearchPostData(),
             url: "/StorageManage/DrugStockSearch/ExpiredDrugsQuery?r=" + Math.random(),
 			colModel: [
-				{ label: '药品代码', name: 'ypdm', width: 150, align: 'left' },
-                { label: '药品名称', name: 'ypmc', width: 150, align: 'left' },
-                { label: '规格', name: 'gg', width: 100, align: 'left' },
+				{ label: '药品代码', name: 'ypdm', width: 70, align: 'left' },
+                { label: '药品名称', name: 'ypmc', width: 120, align: 'left' },
+                { label: '规格', name: 'gg', width: 80, align: 'left' },
                 { label: '拼音', name: 'py', width: 80, align: 'left' },
 				{ label: '生产厂商', name: 'sccj', width: 150, align: 'left' },
 				{ label: '供应商名称', name: 'gysmc', width: 150, align: 'left' },
                 { label: '有效期', name: 'yxq', width: 70, align: 'center', formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d' } },
-                { label: '批号', name: 'ph', width: 120, align: 'center' },
-                { label: '批次', name: 'pc', width: 120, align: 'center' },
-                { label: '库存数量', name: 'kcslStr', width: 80, align: 'right' },
-                { label: '冻结数量', name: 'djslStr', width: 80, align: 'right' },
-                { label: '进价单位', name: 'jjdjdw', width: 120, align: 'right' },
+                { label: '批号', name: 'ph', width: 94, align: 'center' },
+                { label: '批次', name: 'pc', width: 100, align: 'center' },
+                { label: '库存数量', name: 'kcslStr', width: 80, align: 'center' },
+                { label: '冻结数量', name: 'djslStr', width: 80, align: 'center' },
+                { label: '进价单位', name: 'jjdjdw', width: 100, align: 'center' },
                 {
-                    label: '进价总额', name: 'jjze', width: 80, align: 'right',
+                    label: '进价总额', name: 'jjze', width: 80, align: 'center',
                     formatter: function (cellvalue) {
                         return cellvalue ? parseFloat(cellvalue).toFixed(2) : "0.00";
                     }
                 },
-                { label: '零售单价', name: 'lsjdjdw', width: 120, align: 'right' },
+                { label: '零售单价', name: 'lsjdjdw', width: 100, align: 'center' },
                 {
-                    label: '零价总额', name: 'lsze', width: 80, align: 'right',
+                    label: '零价总额', name: 'lsze', width: 80, align: 'center',
                     formatter: function (cellvalue) {
                         return cellvalue ? parseFloat(cellvalue).toFixed(2) : "0.00";
                     }
@@ -208,45 +212,45 @@
     }
 
     //药品明细
-    $gridkcmxData.dataGrid({
-        url: "",
-        postData: "",
-        height: $(window).height() - document.getElementById('gridYPZL').offsetTop - 90,
-        colModel: [
-            { label: '库存数量', name: 'kcslStr', width: 80, align: 'right' },
-            { label: '冻结数量', name: 'djslStr', width: 80, align: 'right' },
-            { label: '进价单位', name: 'jjdjdw', width: 120, align: 'right' },
-            {
-                label: '进价总额', name: 'jjze', width: 80, align: 'right',
-                formatter: function (cellvalue) {
-                    return cellvalue ? parseFloat(cellvalue).toFixed(2) : "0.00";
-                }
-            },
-            { label: '零售单价', name: 'lsjdjdw', width: 120, align: 'right' },
-            {
-                label: '零价总额', name: 'lsze', width: 80, align: 'right',
-                formatter: function (cellvalue) {
-                    return cellvalue ? parseFloat(cellvalue).toFixed(2) : "0.00";
-                }
-            },
-            { label: '批号', name: 'ph', width: 120, align: 'center' },
-            { label: '批次', name: 'pc', width: 120, align: 'center' },
-            { label: '有效期', name: 'yxq', width: 70, align: 'center', formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d' } },
-            {
-                label: '状态', name: 'kczt', width: 50, align: 'center', formatter: function (val, options) {
-                    return val === "1" ? "<i rowId=" + options.rowId + " onclick='operateZt(this)' class=\"fa fa-toggle-on\"></i>" : "<i rowId=" + options.rowId + " onclick='operateZt(this)' class=\"fa fa-toggle-off\"></i>";
-                }
-            },
-            { label: '冻结数量', name: 'djsl', hidden: true },
-            { label: 'ypdm', name: 'ypdm', hidden: true },
-            { label: '转化因子', name: 'zhyz', hidden: true},
-            { label: '库位', name: 'ypkw', hidden: true }
-        ],
-        multiselect: false,
-        pager: "#gridMxPager",
-        viewrecords: true,
-        sortname: 'yxq asc'
-    });
+    //$gridkcmxData.dataGrid({
+    //    url: "",
+    //    postData: "",
+    //    height: $(window).height() - document.getElementById('gridYPZL').offsetTop - 90,
+    //    colModel: [
+    //        { label: '库存数量', name: 'kcslStr', width: 80, align: 'right' },
+    //        { label: '冻结数量', name: 'djslStr', width: 80, align: 'right' },
+    //        { label: '进价单位', name: 'jjdjdw', width: 120, align: 'right' },
+    //        {
+    //            label: '进价总额', name: 'jjze', width: 80, align: 'right',
+    //            formatter: function (cellvalue) {
+    //                return cellvalue ? parseFloat(cellvalue).toFixed(2) : "0.00";
+    //            }
+    //        },
+    //        { label: '零售单价', name: 'lsjdjdw', width: 120, align: 'right' },
+    //        {
+    //            label: '零价总额', name: 'lsze', width: 80, align: 'right',
+    //            formatter: function (cellvalue) {
+    //                return cellvalue ? parseFloat(cellvalue).toFixed(2) : "0.00";
+    //            }
+    //        },
+    //        { label: '批号', name: 'ph', width: 120, align: 'center' },
+    //        { label: '批次', name: 'pc', width: 120, align: 'center' },
+    //        { label: '有效期', name: 'yxq', width: 70, align: 'center', formatter: "date", formatoptions: { srcformat: 'Y-m-d', newformat: 'Y-m-d' } },
+    //        {
+    //            label: '状态', name: 'kczt', width: 50, align: 'center', formatter: function (val, options) {
+    //                return val === "1" ? "<i rowId=" + options.rowId + " onclick='operateZt(this)' class=\"fa fa-toggle-on\"></i>" : "<i rowId=" + options.rowId + " onclick='operateZt(this)' class=\"fa fa-toggle-off\"></i>";
+    //            }
+    //        },
+    //        { label: '冻结数量', name: 'djsl', hidden: true },
+    //        { label: 'ypdm', name: 'ypdm', hidden: true },
+    //        { label: '转化因子', name: 'zhyz', hidden: true},
+    //        { label: '库位', name: 'ypkw', hidden: true }
+    //    ],
+    //    multiselect: false,
+    //    pager: "#gridMxPager",
+    //    viewrecords: true,
+    //    sortname: 'yxq asc'
+    //});
 	function newtouch_event_f3() {
 		var key = $("#txtINPUTCODE").val();
         var gpyf = $("#sel_gqrq").val();

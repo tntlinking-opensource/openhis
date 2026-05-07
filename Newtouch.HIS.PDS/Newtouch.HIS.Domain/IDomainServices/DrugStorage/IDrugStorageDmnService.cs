@@ -221,7 +221,7 @@ namespace Newtouch.HIS.Domain.IDomainServices
         /// <param name="show0kc">是否展示零库存  0-不展示 1-展示</param>
         /// <param name="organizeid"></param>
         /// <returns></returns>
-        IList<DrugStockInfoVEntity> GetDrugAndStock(Pagination pagination, string yfbmCode, string keyWord, string tybz, string kczt, string show0kc, string organizeid,string kcyjcode);
+        IList<DrugStockInfoVEntity> GetDrugAndStock(Pagination pagination, string yfbmCode, string keyWord, string tybz, string kczt, string show0kc, string organizeid,string kcyjcode,string iskcyjz=null);
 
         /// <summary>
         /// 库存查询
@@ -241,14 +241,14 @@ namespace Newtouch.HIS.Domain.IDomainServices
         /// <param name="yfbmCode"></param>
         /// <param name="organizeId"></param>
         /// <returns></returns>
-        IList<DrugStockInfoVEntity> SelectExpiredDrugs(Pagination pagination, string keyword, int gpyf, string yfbmCode, string organizeId, string gqyjcode, int? gqyyjts);
+        IList<DrugStockInfoVEntity> SelectExpiredDrugs(Pagination pagination, string keyword, int gpyf, string yfbmCode, string organizeId, string gqyjcode, int? gqyyjts, string noShow0Kc = null);
 
 		/// <summary>
 		///获取单据全部数据
 		/// </summary>
 		/// <param name="crkId"></param>
 		/// <returns></returns>
-		IList<CrkMxAll> GetCrkMxAll(string crkId);
+		IList<CrkMxAll> GetCrkMxAll(string crkId,string orgId);
 
 		/// <summary>
 		/// 删除单据

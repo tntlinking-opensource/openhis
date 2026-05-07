@@ -123,10 +123,10 @@
       <HintPath>..\..\his-dll-common\dlls\StackExchange.Redis.dll</HintPath>
     </Reference>
     <Reference Include="StackExchange.Redis.Extensions.Core">
-      <HintPath>C:\Users\mohaijiang\Documents\新致开源医疗源码V1.7\bin文件更新包\StackExchange.Redis.Extensions.Core.dll</HintPath>
+      <HintPath>..\..\his-dll-common\dlls\StackExchange.Redis.Extensions.Core.dll</HintPath>
     </Reference>
     <Reference Include="StackExchange.Redis.Extensions.MsgPack">
-      <HintPath>C:\Users\mohaijiang\Documents\新致开源医疗源码V1.7\bin文件更新包\StackExchange.Redis.Extensions.MsgPack.dll</HintPath>
+      <HintPath>..\..\his-dll-common\dlls\StackExchange.Redis.Extensions.MsgPack.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Cors, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.3\lib\net45\System.Web.Cors.dll</HintPath>

@@ -696,13 +696,8 @@ function btn_Save() {
 
         if (openYbSett && $("#brxzmc").attr("data-brxzlb") === "1") //启用医保,医保性质
         {
-            console.log("启用医保,医保性质判断", cqPatInfo)
-            if (!cqPatInfo || (typeof cqPatInfo === "object" && Object.keys(cqPatInfo).length === 0)) {
-                $.modalAlert("报销政策为【医保病人】，请先读卡！", 'warning');
-                return;
-            }
             if (cqPatInfo.ybVer != "shanghaiV5") {
-                if (cqPatInfo.ybVer == undefined || cqPatInfo.ybVer == '') {
+                if (cqPatInfo.ybVer == undefined) {
                     $.modalAlert("报销政策为【医保病人】，请先读卡！", 'warning');
                     return;
                 }
@@ -1016,10 +1011,12 @@ function PrintWDInfo() {
 }
 
 function Cancel() {
+    debugger;
     if (!$("#patid").val()) {
         $.modalAlert("病人基本信息不全，无法打印取消入院", 'error');
         return;
     }
+
     var IsSuccess = true;//异常标示,false标示有异常
     var errorMsg = "";//存放出错信息
     var jylsh = "";//存放交易流水号
@@ -1157,7 +1154,25 @@ function newtouch_globalevent_f8() {
 }
 
 function newtouch_globalevent_f9() {
-    Cancel();
+    var yjj = 0;
+    $.najax({
+        url: "/SystemManage/InpatientAccountManage/GetZyAccount?zyh=" + $("#zyh").val() + "&zhxz=3",
+        cache: false,
+        async: false,
+        alertbierror: false,
+        success: function (zhyeData) {
+            if (zhyeData && zhyeData.data) {
+                yjj = zhyeData.data.zhye;
+            }
+        }
+    });
+    if (yjj > 0) {
+        $.modalAlert("预交金为：" + yjj + "，请先退预交金在取消住院", 'error');
+        return;
+    } else {
+        Cancel();
+    }
+   
 }
 
 function newtouch_event_f4() {

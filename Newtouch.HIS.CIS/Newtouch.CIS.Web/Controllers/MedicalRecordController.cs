@@ -31,7 +31,10 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web.Mvc;
+using Newtouch.CIS.Proxy.CMMPlatform;
+using Newtouch.CIS.Proxy.CMMPlatform.DTO.HLYYRequest;
 using Newtouch.Infrastructure.Log;
 using Newtouch.Domain.ViewModels;
 using Newtouch.Domain.ViewModels.Outpatient;
@@ -460,10 +463,20 @@ namespace Newtouch.CIS.Web.Controllers
         /// </summary>
         /// <param name="jzId"></param>
         /// <returns></returns>
-        public ActionResult SelectNodeContent(string jzId)
+        public ActionResult SelectNodeContent(string jzId,string ex2)
         {
-            var data = _medicalRecordDmnService.SelectNodeContent(jzId);
-            return Content(data.ToJson());
+            if ("mrtemplate".Equals(ex2))
+            {
+                var data = _medicalRecordDmnService.SelectNodeContentByBlmb(jzId,this.OrganizeId);
+                //病历模板
+                return Content(data.ToJson());
+            }
+            else
+            {
+                var data = _medicalRecordDmnService.SelectNodeContent(jzId);
+                return Content(data.ToJson());
+            }
+            
         }
 
         /// <summary>
@@ -517,7 +530,7 @@ namespace Newtouch.CIS.Web.Controllers
             {
                 foreach (var cfitem in item.cfHtml)
                 {
-                    cfitem.cflx = item.cflx == "kfcf" ? (int)EnumCflx.RehabPres : item.cflx == "cgxmcf" ? (int)EnumCflx.RegularItemPres : item.cflx == "xycf" ? (int)EnumCflx.WMPres : item.cflx == "zycf" ? cfitem.cflx = (int)EnumCflx.TCMPres : item.cflx == "jycf" ? (int)EnumCflx.InspectionPres : item.cflx == "jccf" ? (int)EnumCflx.ExaminationPres : item.cflx == "dzcf"? (int)EnumCflx.Dzcf:0;
+                    cfitem.cflx = item.cflx == "kfcf" ? (int)EnumCflx.RehabPres : item.cflx=="wzhccf" ? (int)EnumCflx.Yyhc: item.cflx == "cgxmcf" ? (int)EnumCflx.RegularItemPres : item.cflx == "xycf" ? (int)EnumCflx.WMPres : item.cflx == "zycf" ? cfitem.cflx = (int)EnumCflx.TCMPres : item.cflx == "jycf" ? (int)EnumCflx.InspectionPres : item.cflx == "jccf" ? (int)EnumCflx.ExaminationPres : item.cflx == "dzcf"? (int)EnumCflx.Dzcf:0;
                     var ztsl2 = cfitem.ztsl != null ? cfitem.ztsl : cfitem.sl;
                     switch (cfitem.cflx)
                     {
@@ -591,31 +604,6 @@ namespace Newtouch.CIS.Web.Controllers
                         {
                             matchCf.cfmxList.Add(cfmx);
                         }
-                        if (!string.IsNullOrWhiteSpace(cfitem.ypCode2))
-                        {
-                            if (cfitem.sl2 == null)
-                            {
-                                throw new FailedException("错误：处方" + matchCf.cfh + "数量不能为空");
-                            }
-                            int sl = cfitem.sl2 ?? 0;
-                            decimal dj = cfitem.dj2 ?? 0;
-                            decimal je = cfitem.je2 ?? 0;
-                            var cfmx2 = new PrescriptionDetailVO
-                            {
-                                dj = dj,
-                                ypCode = cfitem.ypCode2,
-                                ypmc = cfitem.ypmc2,
-                                mcjl = cfitem.mcjl2,
-                                mcjldw = cfitem.mcjldw2,
-                                sl = sl,
-                                dw = cfitem.dw2,
-                                je = je,
-                                Remark = cfitem.Remark2,
-                                zxks = cfitem.zxks2,
-                                zzfbz = cfitem.zzfbz2
-                            };
-                            matchCf.cfmxList.Add(cfmx2);
-                        }
                     }
                     else
                     {
@@ -680,39 +668,13 @@ namespace Newtouch.CIS.Web.Controllers
                                     results[i].syncfbz = guid;
                                     ztcf.cfmxList.Add(results[i]);
                                 }
+                                ztcf.cflx= (int)EnumCflx.RegularItemPres;
                                 ztcf.zje = ztcf.cfmxList.Sum(p=>p.je);
                                 cfmx.syncfbz = guid;
                                 cfList.Add(ztcf);
                             }
                         }
-                       
-                        if (!string.IsNullOrWhiteSpace(cfitem.ypCode2))
-                        {
-                            if (cfitem.sl2 == null)
-                            {
-                                throw new FailedException("错误：处方" + cf.cfh + "数量不能为空");
-                            }
-                            int sl = cfitem.sl2 ?? 0;
-                            decimal dj = cfitem.dj2 ?? 0;
-                            decimal je = cfitem.je2 ?? 0;
-                            var cfmx2 = new PrescriptionDetailVO
-                            {
-                                dj = dj,
-                                ypCode = cfitem.ypCode2,
-                                ypmc = cfitem.ypmc2,
-                                mcjl = cfitem.mcjl2,
-                                mcjldw = cfitem.mcjldw2,
-                                sl = sl,
-                                dw = cfitem.dw2,
-                                je = je,
-                                Remark = cfitem.Remark2,
-                                zxks = cfitem.zxks2,
-                                zzfbz = cfitem.zzfbz2,
-                                zysm = cfitem.zysm2
-                            };
-                            cf.cfmxList.Add(cfmx2);
-                        }
-                        if (cfitem.djbz == true)
+                        if (cfitem.djbz == true&&!string.IsNullOrWhiteSpace(cfitem.djts))
                         {
                             var data = _medicalRecordDmnService.GetBindTCMDj(this.OrganizeId);
                             if (data != null)
@@ -822,7 +784,6 @@ namespace Newtouch.CIS.Web.Controllers
                 LogCore.Error("SaveMedicalRecord error", ex);
                 return Success("开立成功，但同步失败，请手动同步处方信息！", jzObject.jzId);
             }
-
             //返回jzId
             return Success(null, jzObject.jzId);
         }
@@ -1982,6 +1943,7 @@ namespace Newtouch.CIS.Web.Controllers
 			pagination.page = 1;
 			pagination.rows = 1000;
 			pagination.sidx = "operatingTime";
+
             var cxsx = _sysConfigRepo.GetValueByCode("YXZ_CIS_1101", this.OrganizeId);
             var ysgh = "";
             if (cxsx == "1")
@@ -2007,7 +1969,7 @@ namespace Newtouch.CIS.Web.Controllers
 			var RespList = new List<TreatEntityObj>();
 			foreach (var item in data)
 			{
-				var ghrq = Convert.ToDateTime(item.ghsj);
+                var ghrq = Convert.ToDateTime(item.ghsj).Date;
 				var newghrq = ghrq.AddDays(1);
 				if (ghrq.AddDays(1) < DateTime.Now)
 				{
@@ -2358,5 +2320,141 @@ namespace Newtouch.CIS.Web.Controllers
             };
             return Content(data.ToJson());
         }
+
+
+        [HttpPost]
+        [HandlerAjaxOnly]
+        public ActionResult GetMzHlyy(string jzId,string cfId)
+        {
+            //获取当前用户病历信息
+            var data = _medicalRecordDmnService.SelectNodeContent(jzId);
+            var orgId = XMLSerializer.GenerateShortUUIDFromString(UserIdentity.OrganizeId);
+            //构造合理用药参数
+            var request = new EngineReq
+            {
+                Type = "prescription",
+                Patient = new PatientRecord
+                {  
+                    DepartID =  data.jzks, 
+                    Department = data.ghksmc,
+                    BedNo = "",
+                    PresType = "处方",
+                    PresSource = data.mjzbz == 1 ? "门诊" : data.mjzbz == 2 ? "急诊" : "门诊",
+                    PresDatetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                    PayType = "",
+                    PatientNo = data.mzh,
+                    PresNo = data.cfBoList.Count>0? data.cfBoList[0].presEntity.cfId:null,
+                    Name = data.xm,
+                    DiagnoseID = "",
+                    //默认西医
+                    Diagnose =string.Join("|", data.xyzdList.Select(item => item.zdmc)),
+                    IDCard = "",
+                    Address = "",
+                    PhoneNo = "",
+                    Age =data.nlshow+"0月" ,
+                    Sex = data.xb,
+                    Height = Regex.Match(data.ct == null ? "身高：170cm" : data.ct, @"身高：(\d+cm)").Groups[1].Value,
+                    Weight = Regex.Match(data.ct == null ? "体重：60kg" : data.ct, @"体重：(\d+kg)").Groups[1].Value,
+                    BirthWeight = "",
+                    PreviousHistory = "",
+                    NowMedicalHistory = "",
+                    Ccr = "",
+                    Anaphylactogen = data.gms == null? "":data.gms,
+                    AllergicHistory = "",
+                    Pregnancy = "",
+                    TimeOfPreg = "",
+                    Disease = "2",
+                    BreastFeeding = "",
+                    Dialysis = "",
+                    ProxName = "",
+                    ProxIDCard = "",
+                    DocID =data.jzys,
+                    DocName = data.jzysmc,
+                    TotalAmount = "",
+                },
+                Operation = new Operation
+                {
+                    OperationCode = "",
+                    OperationName = "",
+                    OperationStartTime = "" ,
+                    OperationEndTime = "",
+                    IncisionType = "",
+                    IncisionStatus = "",
+                    Inplant = "false"
+                },
+            };
+            var prescriptions = new List<Prescription>();
+            var dataList = new List<EngineRes>();
+            data.cfBoList.ForEach(item =>
+            {
+                if (item.presEntity.cflx != 1 )
+                {
+                    return;
+                }
+               
+                item.presDetailList.ForEach(val =>
+                {
+                    var ypjx = _medicalRecordDmnService.GetYpjx(val.ypCode, UserIdentity.OrganizeId);
+                    var pres = new Prescription
+                    {
+                        Drug = val.ypCode+'_'+orgId,
+                        DrugName = val.ypmc,
+                        RegName = val.ypmc,
+                        Specification = val.mcjl+val.mcjldw,
+                        Package = val.ypgg,
+                        Quantity = val.sl,
+                        PackUnit = val.dw,
+                        UnitPrice = "",
+                        Amount = "",
+                        GroupNo = val.zh,
+                        FirstUse = "",
+                        PrepForm = ypjx == null?"":ypjx,
+                        AdminRoute = val.yfmc,
+                        AdminArea = "无",
+                        AdminFrequency = val.pcmc,
+                        AdminDose = val.mcjl+val.mcjldw,
+                        AdminMethod = "",
+                        Type = "",
+                        AdminGoal = "",
+                        DocID = "",
+                        DocName = data.jzysmc,
+                        DocTitle = "",
+                        DepartID = "",
+                        Department = data.jzks,
+                        NurseName = "",
+                        StartTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                        EndTime = DateTime.Now.AddDays(val.ts.ToDouble()).ToString("yyyy-MM-dd HH:mm:ss"),
+                        SpecialPromote = "",
+                        ContinueDays = val.ts.ToString()
+                    
+                    };
+                    prescriptions.Add(pres);
+                    
+                });
+                request.Prescriptions = prescriptions;
+                var hlyyProxy = new HlyyProxy();
+                var engineRes = hlyyProxy.engine(request);
+                prescriptions.Clear();
+                engineRes.cfh = item.presEntity.cfh;
+                dataList.Add(engineRes);
+            });
+            
+            return Success("查询成功", dataList);
+        }
+        
+        [HttpPost]
+        [HandlerAjaxOnly]
+        public ActionResult GetypSms(string drugId)
+        {
+            var hlyyProxy = new HlyyProxy();
+            var hisSmsJson = hlyyProxy.GetHisSmsJson(drugId);
+            
+            return Success("查询成功", hisSmsJson);;
+        }
+        
+        
     }
+    
+    
+    
 }

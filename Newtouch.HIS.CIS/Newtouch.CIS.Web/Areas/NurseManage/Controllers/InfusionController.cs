@@ -67,7 +67,14 @@ namespace Newtouch.CIS.Web.Areas.NurseManage.Controllers
         {
             return View();
         }
-
+        /// <summary>
+        /// 不良反应药品管理
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult DrugReactManage()
+        {
+            return View();
+        }
         #endregion
 
         #region 获取数据

@@ -23,7 +23,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using System.Web.Services.Description;
 using static Newtouch.Common.Web.APIRequestHelper;
 
 namespace Newtouch.HIS.Web.Controllers
@@ -648,6 +647,14 @@ namespace Newtouch.HIS.Web.Controllers
             }
             return string.IsNullOrWhiteSpace(result) ? Success("操作成功") : Error(result);
         }
+        /// <summary>
+        /// 门诊排药
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult DrugArrangement2018()
+        {
+            return View();
+        }
 
         /// <summary>
         /// 门诊排药
@@ -851,19 +858,6 @@ namespace Newtouch.HIS.Web.Controllers
                 records = pagination.records
             };
             return Content(data.ToJson());
-        }
-
-        /// <summary>
-        /// 同步所有收费但是没有同步到PDS的处方
-        /// </summary>
-        /// <param name="cardNo"></param>
-        /// <param name="xm"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public ActionResult SyncPDSCfFromSett()
-        {
-            string message = _fyDmnService.SyncPDSCfFromSett(OrganizeId);
-            return Content(message);
         }
 
         /// <summary>
@@ -1095,7 +1089,7 @@ namespace Newtouch.HIS.Web.Controllers
             var cfhls = new List<string>();
             var eq = new OutpatienDrugDeliveryInfo
             {
-                PatientInfo = patients.ToList(),
+                PatientInfo = patients.ToList().GroupBy(p => new { p.cfh, p.cfnm, p.CardNo, p.xm }).Select(v => new patientInfoVO { cfh = v.Key.cfh, cfnm = v.Key.cfnm, CardNo = v.Key.CardNo, xm = v.Key.xm, zsm = string.Join("|", v.Select(f => f.zsm.Trim())) }).ToList(),
                 yfbmCode = Constants.CurrentYfbm.yfbmCode,
                 userCode = OperatorProvider.GetCurrent().UserCode,
                 organizeId = OrganizeId

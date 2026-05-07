@@ -16,7 +16,7 @@
 </style>
 <div class="rows" style="margin-bottom: 1%;">
     <div class="panel panel-default" style="margin-bottom:0;">
-        <div class="panel-heading navb-bg">
+        <div class="panel-heading navb-bg" id="pane1">
             住院患者信息
         </div>
         <table class="form" style="width:96%;">
@@ -47,7 +47,7 @@
                     </td>
                 </tr>
             </tbody>
-            <tbody class="dispTbody" style="display:none;">
+            <tbody class="dispTbody">
                 <tr>
                     <th class="formTitle">入院诊断：</th>
                     <td class="formValue" colspan="2">
@@ -71,10 +71,10 @@
                 </tr>
             </tbody>
         </table>
-        <div class="fa_icontoggle"><i class="fa fa-angle-double-down icontoggle" style="color:rgb(0, 160, 233);cursor:pointer;"></i></div>
+        @*<div class="fa_icontoggle"><i class="fa fa-angle-double-down icontoggle" style="color:rgb(0, 160, 233);cursor:pointer;"></i></div>*@
     </div>
 </div>
-<div id="BookKeep" class="rows" style="margin-bottom:1%;">
+<div id="BookKeep" class="rows" style="margin-bottom:0px;">
     <div class="panel panel-default" style="margin-bottom: 0;">
         <div class="panel-heading navb-bg">
             <table class="form">
@@ -96,7 +96,7 @@
                     <span class="napan">*</span>记账日期：
                 </td>
                 <td class="formValue">
-                    <input id="jzrq" type="text" class="form-control input-wdatepicker formClearIgnore" onfocus="WdatePicker({ dateFmt:'yyyy-MM-dd' })" />
+                    <input id="jzrq" type="text" class="form-control input-wdatepicker formClearIgnore" onfocus="WdatePicker({ dateFmt:'yyyy-MM-dd HH:mm:ss' })" />
                 </td>
                 <td class="formTitle">
                     <span class="napan">*</span>医生：
@@ -263,10 +263,11 @@
     function gridListData() {
         var $gridList = $("#gridList");
         $gridList.newtouchLocalDataGrid({
-            height: $(window).height() - 340,
+            height: $(window).height() - 360,
             unwritten: false,
             colModel: [
                 { label: "主键", name: "newid", hidden: true, key: true },
+                { label: '编码', name: 'sfxm', width: 70, align: 'left', editor: "text" },
                 { label: '收费项目', name: 'sfxmmc', width: 250, align: 'left', editor: "text" },
                 { label: '费用类别', name: 'dlmc', width: 100, align: 'left', editor: "text" },
                 { label: '单位', name: 'dw', width: 100, align: 'left', editor: "text" },
@@ -278,12 +279,12 @@
                 { label: '金额', name: 'je', width: 100, align: 'left', editor: "text" },
                 { label: '科室', name: 'ksmc', width: 100, align: 'left', editor: "text" },
                 { label: '医生', name: 'ysmc', width: 100, align: 'left', editor: "text" },
+                { label: '费用日期', name: 'tdrq', width: 100, align: 'left', editor: "text" },
                 { label: 'ks', name: 'ks', hidden: true },
                 { label: 'ys', name: 'ys', hidden: true },
                 { label: 'dl', name: 'dl', hidden: true },
                 { label: '自负性质', name: 'zfxz', width: 100, align: 'left', editor: "text", hidden: true },
                 { label: '自付比例', name: 'zfbl', width: 100, align: 'left', editor: "text", hidden: true },
-                { label: 'sfxm', name: 'sfxm', hidden: true },
                 { label: 'yzlx', name: 'yzlx', hidden: true },
                 { label: 'yfdm', name: 'yfdm', hidden: true },
                 { label: 'cls', name: 'cls', hidden: true }
@@ -328,28 +329,28 @@
             }
         });
     }
-    $("#sfxmmc").sfxmFloatingSelector({
-            djDecimalPlaces: 4,
-            searchType:"sfxm,yp.kc",
-            ajaxparameters: function ($thisinput) {
-                 //收费项目 浮层
 
+    //加载收费项目，医生下拉框的值
+    function initControl() {
+        //收费项目 浮层
+        @*var searchType = "sfxm";
         var dllb = '2';
-                var parameters = "";
+        if ('@(isacountingPageMayMedicine ? "true" : "")' == 'true') {
+            searchType += ',yp';
+            dllb += ",1";
+            if ('@(isMedicineSearchRelatedKC ? "true" : "")' == 'true') {
+                searchType += '.kc';
+            }
+        }*@
+        $("#sfxmmc").sfxmFloatingSelector({
+            djDecimalPlaces: 4,
+            searchType: "sfxm,yp.kc",//searchType,
+            ajaxparameters: function ($thisinput) {
+                var dllb = '2'; //项目
                 if ($("#cl").prop("checked") == true) {
-          if ('@(isacountingPageMayMedicine ? "true" : "")' == 'true') {
-             dllb += ",1";
-             parameters += "mzzybz=2" + "&dlCode=18&sfdllx=WM";
-             parameters += "&dllb=" + dllb
-             }
+                    return "mzzybz=2&sfdllx=cl&dllb=" + dllb + "&ypyfbmCode=" + $("#jzks").attr("data-label") + "&keyword=" + $thisinput.val();
                 };
-            @*if ('@(isMedicineSearchRelatedKC ? "true" : "")' == 'true') {
-
-            }*@
-        if (parameters=="") {
-            parameters += "mzzybz=2" + "&dllb=" + dllb;
-        }
-                return parameters+"&keyword=" + $thisinput.val();
+                return "mzzybz=2&dllb=" + dllb + "&keyword=" + $thisinput.val();
             },
             itemdbclickhandler: function ($thistr) {
                 if (!selectedZyh) {
@@ -362,7 +363,7 @@
                 $('#sfxmCode').val($thistr.attr('data-sfxmCode'));
                 $('#sfdlCode').val($thistr.attr('data-sfdlCode'));
                 $('#sfdlmc').val($thistr.attr('data-sfdlmc'));
-                $('#yzlx').val($thistr.attr('data-yzlx'));
+                $('#yzlx').val($thistr.attr('data-yzlx')=='3'? '2':$thistr.attr('data-yzlx'));
                 $('#zfxz').val($thistr.attr('data-zfxz'));
                 $('#zfbl').val($thistr.attr('data-zfbl'));
                 $('#yfdm').val($thistr.attr('data-yfbmCode'));
@@ -375,11 +376,8 @@
                 return;
             }
         });
-    //加载收费项目，医生下拉框的值
-    function initControl() {
-        $("#jzrq").val($.getDate());
 
-
+        $("#jzrq").val($.getTime());
         $('#jzks').newtouchFloatingSelector({
             width: 400,
             height: 180,
@@ -401,6 +399,7 @@
             { label: '拼音', name: 'py', widthratio: 30 }
             ]
         });
+        $("#jzks").prop('disabled', 'disabled');
         ///医生
         $("#doctor").newtouchFloatingSelector({
             height: 240,
@@ -734,7 +733,7 @@
         var data = {
             sl: $('#sl').val(),
             je: '',
-            tdrq: $('#jzrq').val() +" "+ new Date().toLocaleTimeString('chinese', { hour12: false }),
+            tdrq: $('#jzrq').val() ,//+" "+ new Date().toLocaleTimeString('chinese', { hour12: false }),
             ksmc: $('#jzks').val(),
             ysmc: $('#doctor').val(),
             ys: $('#doctor').attr("data-label"),

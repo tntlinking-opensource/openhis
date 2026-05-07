@@ -41,7 +41,7 @@ namespace Newtouch.HIS.Domain.Entity
         /// <summary>
         /// 
         /// </summary>
-        public int ord { get; set; }
+        public int? ord { get; set; }
 
         /// <summary>
         /// 

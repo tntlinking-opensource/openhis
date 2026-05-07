@@ -106,6 +106,14 @@ namespace Newtouch.Herp.Domain.Entity.VEntity
         /// 可用库存
         /// </summary>
         public int kykcsl { get; set; }
+        /// <summary>
+        /// 库存预警值
+        /// </summary>
+        public int? kcyjz { get; set; }
+        //物资最小单位进价
+        public decimal? wzjj { get; set; }
+        //物资最小单位零售价
+        public decimal? wzlsj { get; set; }
 
     }
 }

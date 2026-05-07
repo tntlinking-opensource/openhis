@@ -586,10 +586,10 @@
             if (differenceInMilliseconds % (1000 * 86400) !== 0) {
                 days += 1;
             }
-            if (para.SJZYTS != days) {
-                $.modalAlert('患者信息 入院时间和出院时间计算的天数【' + days + '】跟实际住院天数【' + para.SJZYTS + '】不等', 'warning');
-                return false
-            }
+            //if (para.SJZYTS != days) {
+            //    $.modalAlert('患者信息 入院时间和出院时间计算的天数【' + days + '】跟实际住院天数【' + para.SJZYTS + '】不等', 'warning');
+            //    return false
+            //}
             //var date = parseInt((Date.parse(para.CYSJ) - Date.parse(para.RYSJ)) / 1000 / 86400);
         }
         if (para.QJCS != "" && para.QJCGCS == "") {
@@ -769,12 +769,12 @@
             return false;
         }
         if (para.RYQ_T == "" || para.RYQ_XS == "" || para.RYQ_F=="") {
-            $.modalAlert('住院信息 颅脑损伤患者昏迷（入院前）时间必填', 'warning');
-            return false;
+            //$.modalAlert('住院信息 颅脑损伤患者昏迷（入院前）时间必填', 'warning');
+            //return false;
         }
         if (para.RYH_T == "" || para.RYH_XS == "" || para.RYH_F == "") {
-            $.modalAlert('住院信息 颅脑损伤患者昏迷（入院后）时间必填', 'warning');
-            return false;
+            //$.modalAlert('住院信息 颅脑损伤患者昏迷（入院后）时间必填', 'warning');
+            //return false;
         }
         if (para.YYGRQK == 1 && para.YYGRSSXG != "") {
             $.modalAlert('副页信息 医院感染情况无，不能填写医院感染相关操作', 'warning');

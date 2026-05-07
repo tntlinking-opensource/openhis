@@ -4,6 +4,7 @@
 @import url('wmgridmenu.css');
 @import url('inspgridmenu.css');
 @import url('examgridmenu.css');
+@import url('Consumablesgridmenu.css');
 
 input::-ms-clear{display:none;}
 
@@ -92,8 +93,8 @@ ul.nav > li:after {
 }
 
 /*隐藏分页控件*/
-#gridkfcfPager_center,#gridcgxmcfPager_center,#gridxycfPager_center,#gridzycfPager_center {
-    display: none; 
+#gridkfcfPager_center, #gridcgxmcfPager_center, #gridxycfPager_center, #gridzycfPager_center, #gridwzhccfPager_center {
+    display: none;
 }
 
 .ui-pg-table.ui-common-table.ui-pager-table.table .ui-pg-table.navtable.ui-common-table td.ui-pg-button .ui-pg-div {

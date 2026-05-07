@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
+using FrameworkBase.MultiOrg.Domain.IRepository;
 using Newtouch.Herp.Application.Interface;
 using Newtouch.Herp.Domain.DTO.OutputDto;
 using Newtouch.Herp.Domain.Entity.VEntity;
@@ -16,6 +19,7 @@ namespace Newtouch.Herp.Web.Controllers
     {
         private readonly IHomeApp _homeApp;
         private readonly IStorageManageDmnService _storageManageDmnService;
+        private readonly ISysConfigRepo _sysConfigRepo;
 
         /// <summary>
         /// about
@@ -102,6 +106,50 @@ namespace Newtouch.Herp.Web.Controllers
             var result = _storageManageDmnService.GetRkCountByLx(Constants.CurrentKf.currentKfId, OrganizeId) ?? new List<ClassificationStatisticsEntity>();
             _homeApp.TransformRkCount(result);
             return Content(result.ToJson());
+        }
+        #endregion
+
+        #region 消息提醒
+        public ActionResult getmesquery()
+        {
+            string yfbm = Constants.CurrentKf.currentKfId;
+            int gqyjz = -SysConfigReader.Int("GET_YFGQYG");//过期预警值
+            var retdata = _storageManageDmnService.MSGQuery(yfbm, this.OrganizeId, gqyjz);
+            int gqyjcount = 0, kcyjcount = 0;
+            if (retdata != null)
+            {
+                kcyjcount = retdata.Where(p => p.typeas == "1").Count();
+                gqyjcount = retdata.Where(p => p.typeas == "2").Count();
+            }
+            var data = new
+            {
+                rows = retdata,
+                kcyj = kcyjcount,
+                gqyj = gqyjcount
+            };
+            return Content(data.ToJson());
+        }
+        #endregion
+
+        #region 同步系统参数配置
+        public ActionResult SyncSysConfigParams(string orgId)
+        {
+            //基础数据
+            var sysConfigBaseEntities = _sysConfigRepo.GetList("", "*").ToList();
+            //组织机构自带数据
+            var sysConfigEntities = _sysConfigRepo.GetList("", orgId).ToList();
+            //根据code 去重
+            var sysConfigCodes = new HashSet<string>(sysConfigEntities.Select(entity => entity.Code));
+            var filteredEntities = sysConfigBaseEntities
+                .Where(baseEntity => !sysConfigCodes.Contains(baseEntity.Code))
+                .ToList();
+            foreach (var item in filteredEntities)
+            {
+                item.Id = Guid.NewGuid().ToString();
+                item.OrganizeId = orgId;
+            }
+            var insert = _sysConfigRepo.Insert(filteredEntities);
+            return Success("",insert);
         }
         #endregion
     }

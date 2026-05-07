@@ -89,10 +89,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\..\..\his-dll-common\dlls\MsgPack.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\his-dll-common\dlls\Newtonsoft.Json.dll</HintPath>
-    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed" />
     <Reference Include="Newtouch.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\..\..\his-dll-common\hiscommondlls\Newtouch.Common.dll</HintPath>
@@ -263,6 +260,10 @@
     <Content Include="Areas\ReportManage\Views\yf\PharmacyMonthlyQuery.cshtml" />
     <Content Include="Areas\OutOrInStoredManage\Views\Purchase\Delivery.cshtml" />
     <Content Include="Areas\ReportManage\Views\YpckQuery\YprkQuery.cshtml" />
+    <Content Include="Areas\OutOrInStoredManage\Views\DeliveryDirect\From.cshtml" />
+    <Content Include="Areas\OutOrInStoredManage\Views\Purchase\PurchasePlan.cshtml" />
+    <Content Include="Areas\OutOrInStoredManage\Views\Purchase\PurchaseApproval.cshtml" />
+    <Content Include="Areas\OutOrInStoredManage\Views\Purchase\PurchasePlanFrom.cshtml" />
     <None Include="Properties\PublishProfiles\publish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

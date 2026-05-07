@@ -32,5 +32,11 @@ namespace Newtouch.HIS.Domain.IRepository
         IList<GzybNameCodeVO> GetYbName(string OrganizeId ,string lx, string keyword=null);
 
         IList<GzxnhybItemCodeVO> GetYbXNHMedicineList(string keyword = null);
+
+        /// <summary>
+        /// 查询基础表最后一个id
+        /// </summary>
+        /// <returns></returns>
+        int GetBaseLastYpId();
     }
 }

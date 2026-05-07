@@ -40,7 +40,7 @@ namespace Newtouch.CIS.Web.Areas.NurseManage.Controllers
         /// </summary>
         /// <returns></returns>
         public ActionResult ConsultCall() {
-
+            ViewBag.orgName = _outpatientConsultDmnService.GetOrgName(this.OrganizeId);
             ViewBag.ConsultCallRefreshTime = _sysConfigRepo.GetValueByCode("ConsultCallRefreshTime", OrganizeId);
             return View();
         }
